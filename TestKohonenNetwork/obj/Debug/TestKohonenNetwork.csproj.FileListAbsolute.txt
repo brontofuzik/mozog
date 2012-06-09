@@ -1,0 +1,13 @@
+C:\Users\hp\Desktop\Mozog\TestKohonenNetwork\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hp\Desktop\Mozog\TestKohonenNetwork\bin\Debug\TestKohonenNetwork.exe
+C:\Users\hp\Desktop\Mozog\TestKohonenNetwork\bin\Debug\TestKohonenNetwork.pdb
+C:\Users\hp\Desktop\Mozog\TestKohonenNetwork\bin\Debug\NeuralNetwork.dll
+C:\Users\hp\Desktop\Mozog\TestKohonenNetwork\bin\Debug\AntColonyOptimization.dll
+C:\Users\hp\Desktop\Mozog\TestKohonenNetwork\bin\Debug\SimulatedAnnealing.dll
+C:\Users\hp\Desktop\Mozog\TestKohonenNetwork\bin\Debug\GeneticAlgorithm.dll
+C:\Users\hp\Desktop\Mozog\TestKohonenNetwork\bin\Debug\NeuralNetwork.pdb
+C:\Users\hp\Desktop\Mozog\TestKohonenNetwork\bin\Debug\AntColonyOptimization.pdb
+C:\Users\hp\Desktop\Mozog\TestKohonenNetwork\bin\Debug\SimulatedAnnealing.pdb
+C:\Users\hp\Desktop\Mozog\TestKohonenNetwork\bin\Debug\GeneticAlgorithm.pdb
+C:\Users\hp\Desktop\Mozog\TestKohonenNetwork\obj\Debug\TestKohonenNetwork.exe
+C:\Users\hp\Desktop\Mozog\TestKohonenNetwork\obj\Debug\TestKohonenNetwork.pdb

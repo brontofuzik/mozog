@@ -1,0 +1,13 @@
+C:\Users\hp\Desktop\Mozog\INS03\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hp\Desktop\Mozog\INS03\bin\Debug\INS03.exe
+C:\Users\hp\Desktop\Mozog\INS03\bin\Debug\INS03.pdb
+C:\Users\hp\Desktop\Mozog\INS03\bin\Debug\NeuralNetwork.dll
+C:\Users\hp\Desktop\Mozog\INS03\bin\Debug\AntColonyOptimization.dll
+C:\Users\hp\Desktop\Mozog\INS03\bin\Debug\SimulatedAnnealing.dll
+C:\Users\hp\Desktop\Mozog\INS03\bin\Debug\GeneticAlgorithm.dll
+C:\Users\hp\Desktop\Mozog\INS03\bin\Debug\NeuralNetwork.pdb
+C:\Users\hp\Desktop\Mozog\INS03\bin\Debug\AntColonyOptimization.pdb
+C:\Users\hp\Desktop\Mozog\INS03\bin\Debug\SimulatedAnnealing.pdb
+C:\Users\hp\Desktop\Mozog\INS03\bin\Debug\GeneticAlgorithm.pdb
+C:\Users\hp\Desktop\Mozog\INS03\obj\Debug\INS03.exe
+C:\Users\hp\Desktop\Mozog\INS03\obj\Debug\INS03.pdb

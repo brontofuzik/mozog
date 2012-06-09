@@ -1,0 +1,91 @@
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.exe
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.dll
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.exe
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.pdb
+G:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.exe
+G:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.pdb
+G:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.dll
+G:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.pdb
+G:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\ResolveAssemblyReference.cache
+G:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.exe
+G:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.pdb
+F:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.exe
+F:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.pdb
+F:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.dll
+F:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.pdb
+F:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\ResolveAssemblyReference.cache
+F:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.exe
+F:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.pdb
+C:\Documents and Settings\lukaskudela\Plocha\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.exe
+C:\Documents and Settings\lukaskudela\Plocha\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.pdb
+C:\Documents and Settings\lukaskudela\Plocha\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.dll
+C:\Documents and Settings\lukaskudela\Plocha\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.pdb
+C:\Documents and Settings\lukaskudela\Plocha\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\lukaskudela\Plocha\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.exe
+C:\Documents and Settings\lukaskudela\Plocha\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.pdb
+G:\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.exe
+G:\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.pdb
+G:\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.dll
+G:\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.pdb
+G:\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\ResolveAssemblyReference.cache
+G:\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.exe
+G:\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.001\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.001\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.001\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.dll
+C:\Documents and Settings\kudel6am.ROT-346-A.001\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.001\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\kudel6am.ROT-346-A.001\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.001\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.002\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.002\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.002\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.dll
+C:\Documents and Settings\kudel6am.ROT-346-A.002\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.002\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\kudel6am.ROT-346-A.002\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.002\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.pdb
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.exe
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.pdb
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.dll
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.pdb
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.exe
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.003\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.003\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.003\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.dll
+C:\Documents and Settings\kudel6am.ROT-346-A.003\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.003\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\kudel6am.ROT-346-A.003\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.003\Desktop\MarketForecasterDotNet\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.dll
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\SimulatedAnnealingTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.exe
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.dll
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\SimulatedAnnealingTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.exe
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.dll
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\SimulatedAnnealingTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.pdb
+C:\Users\hp\Desktop\Mozog\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.exe
+C:\Users\hp\Desktop\Mozog\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealingTest.pdb
+C:\Users\hp\Desktop\Mozog\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.dll
+C:\Users\hp\Desktop\Mozog\SimulatedAnnealingTest\bin\Debug\SimulatedAnnealing.pdb
+C:\Users\hp\Desktop\Mozog\SimulatedAnnealingTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hp\Desktop\Mozog\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.exe
+C:\Users\hp\Desktop\Mozog\SimulatedAnnealingTest\obj\Debug\SimulatedAnnealingTest.pdb

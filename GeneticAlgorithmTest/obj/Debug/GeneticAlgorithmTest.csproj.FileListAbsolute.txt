@@ -1,0 +1,94 @@
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\KnapsackProblem\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\KnapsackProblem\bin\Debug\GeneticAlgorithm.dll
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\KnapsackProblem\bin\Debug\GeneticAlgorithm.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\KnapsackProblem\bin\Debug\GeneticAlgorithmTest.exe
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\KnapsackProblem\bin\Debug\GeneticAlgorithmTest.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\KnapsackProblem\obj\Debug\GeneticAlgorithmTest.exe
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\KnapsackProblem\obj\Debug\GeneticAlgorithmTest.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.exe
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.dll
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.exe
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.pdb
+G:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.exe
+G:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.pdb
+G:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.exe
+G:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.pdb
+G:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.dll
+G:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.pdb
+G:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\ResolveAssemblyReference.cache
+F:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.exe
+F:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.pdb
+F:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.dll
+F:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.pdb
+F:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\ResolveAssemblyReference.cache
+F:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.exe
+F:\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.pdb
+C:\Documents and Settings\lukaskudela\Plocha\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.exe
+C:\Documents and Settings\lukaskudela\Plocha\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.pdb
+C:\Documents and Settings\lukaskudela\Plocha\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.dll
+C:\Documents and Settings\lukaskudela\Plocha\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.pdb
+C:\Documents and Settings\lukaskudela\Plocha\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\lukaskudela\Plocha\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.exe
+C:\Documents and Settings\lukaskudela\Plocha\Forecasting Markets using Artificial Neual Networks\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.pdb
+G:\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\ResolveAssemblyReference.cache
+G:\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.exe
+G:\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.001\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\kudel6am.ROT-346-A.001\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.001\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.001\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.001\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.dll
+C:\Documents and Settings\kudel6am.ROT-346-A.001\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.001\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.002\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.002\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.002\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.dll
+C:\Documents and Settings\kudel6am.ROT-346-A.002\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.002\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\kudel6am.ROT-346-A.002\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.002\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.pdb
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.exe
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.pdb
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.dll
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.pdb
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.exe
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.003\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.003\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.003\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.dll
+C:\Documents and Settings\kudel6am.ROT-346-A.003\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.003\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\kudel6am.ROT-346-A.003\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.003\Desktop\MarketForecasterDotNet\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.dll
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\GeneticAlgorithmTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.exe
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.dll
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\GeneticAlgorithmTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.exe
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.dll
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\GeneticAlgorithmTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.pdb
+C:\Users\hp\Desktop\Mozog\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.exe
+C:\Users\hp\Desktop\Mozog\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithmTest.pdb
+C:\Users\hp\Desktop\Mozog\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.dll
+C:\Users\hp\Desktop\Mozog\GeneticAlgorithmTest\bin\Debug\GeneticAlgorithm.pdb
+C:\Users\hp\Desktop\Mozog\GeneticAlgorithmTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hp\Desktop\Mozog\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.exe
+C:\Users\hp\Desktop\Mozog\GeneticAlgorithmTest\obj\Debug\GeneticAlgorithmTest.pdb

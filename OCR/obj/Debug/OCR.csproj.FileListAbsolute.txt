@@ -1,0 +1,13 @@
+C:\Users\hp\Desktop\Mozog\OCR\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hp\Desktop\Mozog\OCR\bin\Debug\OCR.exe
+C:\Users\hp\Desktop\Mozog\OCR\bin\Debug\OCR.pdb
+C:\Users\hp\Desktop\Mozog\OCR\bin\Debug\NeuralNetwork.dll
+C:\Users\hp\Desktop\Mozog\OCR\bin\Debug\AntColonyOptimization.dll
+C:\Users\hp\Desktop\Mozog\OCR\bin\Debug\SimulatedAnnealing.dll
+C:\Users\hp\Desktop\Mozog\OCR\bin\Debug\GeneticAlgorithm.dll
+C:\Users\hp\Desktop\Mozog\OCR\bin\Debug\NeuralNetwork.pdb
+C:\Users\hp\Desktop\Mozog\OCR\bin\Debug\AntColonyOptimization.pdb
+C:\Users\hp\Desktop\Mozog\OCR\bin\Debug\SimulatedAnnealing.pdb
+C:\Users\hp\Desktop\Mozog\OCR\bin\Debug\GeneticAlgorithm.pdb
+C:\Users\hp\Desktop\Mozog\OCR\obj\Debug\OCR.exe
+C:\Users\hp\Desktop\Mozog\OCR\obj\Debug\OCR.pdb

@@ -1,0 +1,35 @@
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\AntColonyOptimizationTest\bin\Release\AntColonyOptimizationTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\AntColonyOptimizationTest\bin\Release\AntColonyOptimizationTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\AntColonyOptimizationTest\bin\Release\AntColonyOptimization.dll
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\AntColonyOptimizationTest\bin\Release\AntColonyOptimization.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\AntColonyOptimizationTest\obj\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\AntColonyOptimizationTest\obj\Release\AntColonyOptimizationTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\AntColonyOptimizationTest\obj\Release\AntColonyOptimizationTest.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\AntColonyOptimizationTest\bin\Release\AntColonyOptimizationTest.exe
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\AntColonyOptimizationTest\bin\Release\AntColonyOptimizationTest.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\AntColonyOptimizationTest\bin\Release\AntColonyOptimization.dll
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\AntColonyOptimizationTest\bin\Release\AntColonyOptimization.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\AntColonyOptimizationTest\obj\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\AntColonyOptimizationTest\obj\Release\AntColonyOptimizationTest.exe
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\AntColonyOptimizationTest\obj\Release\AntColonyOptimizationTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\AntColonyOptimizationTest\bin\Release\AntColonyOptimizationTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\AntColonyOptimizationTest\bin\Release\AntColonyOptimizationTest.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\AntColonyOptimizationTest\bin\Release\AntColonyOptimization.dll
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\AntColonyOptimizationTest\bin\Release\AntColonyOptimization.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\AntColonyOptimizationTest\obj\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\AntColonyOptimizationTest\obj\Release\AntColonyOptimizationTest.exe
+C:\Documents and Settings\kudel6am.ROT-346-A.006\Desktop\MarketForecaster\AntColonyOptimizationTest\obj\Release\AntColonyOptimizationTest.pdb
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-2009-08-02-23-15\MarketForecaster\AntColonyOptimizationTest\bin\Release\AntColonyOptimizationTest.exe
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-2009-08-02-23-15\MarketForecaster\AntColonyOptimizationTest\bin\Release\AntColonyOptimizationTest.pdb
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-2009-08-02-23-15\MarketForecaster\AntColonyOptimizationTest\bin\Release\AntColonyOptimization.dll
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-2009-08-02-23-15\MarketForecaster\AntColonyOptimizationTest\bin\Release\AntColonyOptimization.pdb
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-2009-08-02-23-15\MarketForecaster\AntColonyOptimizationTest\obj\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-2009-08-02-23-15\MarketForecaster\AntColonyOptimizationTest\obj\Release\AntColonyOptimizationTest.exe
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-2009-08-02-23-15\MarketForecaster\AntColonyOptimizationTest\obj\Release\AntColonyOptimizationTest.pdb
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-Range-removed\MarketForecaster-2009-08-02-23-15\MarketForecaster\AntColonyOptimizationTest\bin\Release\AntColonyOptimizationTest.exe
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-Range-removed\MarketForecaster-2009-08-02-23-15\MarketForecaster\AntColonyOptimizationTest\bin\Release\AntColonyOptimizationTest.pdb
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-Range-removed\MarketForecaster-2009-08-02-23-15\MarketForecaster\AntColonyOptimizationTest\bin\Release\AntColonyOptimization.dll
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-Range-removed\MarketForecaster-2009-08-02-23-15\MarketForecaster\AntColonyOptimizationTest\bin\Release\AntColonyOptimization.pdb
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-Range-removed\MarketForecaster-2009-08-02-23-15\MarketForecaster\AntColonyOptimizationTest\obj\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-Range-removed\MarketForecaster-2009-08-02-23-15\MarketForecaster\AntColonyOptimizationTest\obj\Release\AntColonyOptimizationTest.exe
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-Range-removed\MarketForecaster-2009-08-02-23-15\MarketForecaster\AntColonyOptimizationTest\obj\Release\AntColonyOptimizationTest.pdb

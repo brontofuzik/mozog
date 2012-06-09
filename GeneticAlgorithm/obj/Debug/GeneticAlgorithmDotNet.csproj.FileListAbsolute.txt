@@ -1,0 +1,5 @@
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\GeneticAlgorithmDotNet\bin\Debug\GeneticAlgorithmDotNet.dll
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\GeneticAlgorithmDotNet\bin\Debug\GeneticAlgorithmDotNet.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\GeneticAlgorithmDotNet\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\GeneticAlgorithmDotNet\obj\Debug\GeneticAlgorithmDotNet.dll
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\GeneticAlgorithmDotNet\obj\Debug\GeneticAlgorithmDotNet.pdb

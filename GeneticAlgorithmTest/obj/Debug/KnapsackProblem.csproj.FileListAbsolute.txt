@@ -1,0 +1,7 @@
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\KnapsackProblem\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\KnapsackProblem\bin\Debug\KnapsackProblem.exe
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\KnapsackProblem\bin\Debug\KnapsackProblem.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\KnapsackProblem\bin\Debug\GeneticAlgorithmDotNet.dll
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\KnapsackProblem\bin\Debug\GeneticAlgorithmDotNet.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\KnapsackProblem\obj\Debug\KnapsackProblem.exe
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecasterDotNet\KnapsackProblem\obj\Debug\KnapsackProblem.pdb

@@ -1,0 +1,20 @@
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\SimulatedAnnealing\bin\Release\SimulatedAnnealing.dll
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\SimulatedAnnealing\bin\Release\SimulatedAnnealing.pdb
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\SimulatedAnnealing\obj\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\SimulatedAnnealing\obj\Release\SimulatedAnnealing.dll
+C:\Documents and Settings\kudel6am.ROT-346-A.005\Desktop\MarketForecaster\SimulatedAnnealing\obj\Release\SimulatedAnnealing.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\SimulatedAnnealing\bin\Release\SimulatedAnnealing.dll
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\SimulatedAnnealing\bin\Release\SimulatedAnnealing.pdb
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\SimulatedAnnealing\obj\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\SimulatedAnnealing\obj\Release\SimulatedAnnealing.dll
+C:\Documents and Settings\lukaskudela\Dokumenty\Visual Studio 2008\Projects\MarketForecaster\SimulatedAnnealing\obj\Release\SimulatedAnnealing.pdb
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-2009-08-02-23-15\MarketForecaster\SimulatedAnnealing\bin\Release\SimulatedAnnealing.dll
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-2009-08-02-23-15\MarketForecaster\SimulatedAnnealing\bin\Release\SimulatedAnnealing.pdb
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-2009-08-02-23-15\MarketForecaster\SimulatedAnnealing\obj\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-2009-08-02-23-15\MarketForecaster\SimulatedAnnealing\obj\Release\SimulatedAnnealing.dll
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-2009-08-02-23-15\MarketForecaster\SimulatedAnnealing\obj\Release\SimulatedAnnealing.pdb
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-Range-removed\MarketForecaster-2009-08-02-23-15\MarketForecaster\SimulatedAnnealing\bin\Release\SimulatedAnnealing.dll
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-Range-removed\MarketForecaster-2009-08-02-23-15\MarketForecaster\SimulatedAnnealing\bin\Release\SimulatedAnnealing.pdb
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-Range-removed\MarketForecaster-2009-08-02-23-15\MarketForecaster\SimulatedAnnealing\obj\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-Range-removed\MarketForecaster-2009-08-02-23-15\MarketForecaster\SimulatedAnnealing\obj\Release\SimulatedAnnealing.dll
+C:\Documents and Settings\lukaskudela\Plocha\MarketForecaster-Range-removed\MarketForecaster-2009-08-02-23-15\MarketForecaster\SimulatedAnnealing\obj\Release\SimulatedAnnealing.pdb
