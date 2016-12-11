@@ -8,8 +8,8 @@
     <ProjectGuid>{61205A5B-1BDC-49F3-A1F5-981CA6DE7D0E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AntColonyOptimizationTest</RootNamespace>
-    <AssemblyName>AntColonyOptimizationTest</AssemblyName>
+    <RootNamespace>AntColonyOptimization.Examples</RootNamespace>
+    <AssemblyName>AntColonyOptimization.Examples</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -52,10 +52,6 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AntColonyOptimization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\AntColonyOptimization\bin\Debug\AntColonyOptimization.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -94,6 +90,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AntColonyOptimization\AntColonyOptimization.csproj">
+      <Project>{b9e7eb39-f473-4b70-b3d1-ce574baed120}</Project>
+      <Name>AntColonyOptimization</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

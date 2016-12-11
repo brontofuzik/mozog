@@ -2,7 +2,7 @@
 
 using AntColonyOptimization;
 
-namespace AntColonyOptimizationTest.ObjectiveFunctions
+namespace AntColonyOptimization.Examples.ObjectiveFunctions
 {
     /// <summary>
     /// A Zakharov (Z) function.

@@ -2,10 +2,10 @@
 using System.Text;
 
 using AntColonyOptimization;
-using AntColonyOptimizationTest.AntColonyOptimizations;
-using AntColonyOptimizationTest.ObjectiveFunctions;
+using AntColonyOptimization.Examples.AntColonyOptimizations;
+using AntColonyOptimization.Examples.ObjectiveFunctions;
 
-namespace AntColonyOptimizationTest
+namespace AntColonyOptimization.Examples
 {
     /// <summary>
     /// The ant colony optimization test suite.
@@ -65,7 +65,7 @@ namespace AntColonyOptimizationTest
         /// <param name="antCount">The number of ants.</param>
         /// <param name="normalPDFCount">The number of PDFs in each pheromone distribution.</param>
         /// <param name="requiredAccuracy">The required accuracy.</param>
-        private static void Test( int testNumber, string testDescription, AntColonyOptimization.AntColonyOptimization antColonyOptimization, ObjectiveFunction objectiveFunction,
+        private static void Test( int testNumber, string testDescription, AntColonyOptimization antColonyOptimization, ObjectiveFunction objectiveFunction,
             int maxIterationCount, double acceptableEvaluation,
             int antCount, int normalPDFCount, double requiredAccuracy
         )
