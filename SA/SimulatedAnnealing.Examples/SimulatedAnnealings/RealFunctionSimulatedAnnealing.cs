@@ -5,8 +5,6 @@ namespace SimulatedAnnealing.Examples.SimulatedAnnealings
     internal class RealFunctionSimulatedAnnealing
         : SimulatedAnnealing< double >
     {
-        #region Protected instance methods
-
         protected override double[] GeneratorFunction()
         {
             double[] state = new double[ Dimension ];
@@ -27,7 +25,5 @@ namespace SimulatedAnnealing.Examples.SimulatedAnnealings
 
             return newState;
         }
-
-        #endregion // Protected instance methods
     }
 }

@@ -6,15 +6,15 @@
     /// <typeparam name="T">The type of the state.</typeparam>
     public abstract class ObjectiveFunction< T >
     {
-        #region Private instance fields
-
         int dimension;
 
         Objective objective;
 
-        #endregion // Private insatnce fields
-
-        #region Public insatnce properties
+        protected ObjectiveFunction( int dimension, Objective objective )
+        {
+            this.dimension = dimension;
+            this.objective = objective;
+        }
 
         public int Dimension
         {
@@ -32,20 +32,6 @@
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Protected instance constructors
-
-        protected ObjectiveFunction( int dimension, Objective objective )
-        {
-            this.dimension = dimension;
-            this.objective = objective;
-        }
-
-        #endregion // Protected instance constructors
-
-        #region Public instance methods
-
         /// <summary>
         /// Evaluates the objective function.
         /// </summary>
@@ -54,8 +40,6 @@
         /// The evaluation of the state.
         /// </returns>
         public abstract double Evaluate( T[] state );
-
-        #endregion // Public instance methods
     }
 
     /// <summary>

@@ -8,8 +8,6 @@ namespace SimulatedAnnealing.Examples.ObjectiveFunctions
     internal class OneDimensionalFunction
         : ObjectiveFunction< double >
     {
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new one-dimensional (1D) function.
         /// </summary>
@@ -17,10 +15,6 @@ namespace SimulatedAnnealing.Examples.ObjectiveFunctions
             : base( 1, Objective.MINIMIZE )
         {
         }
-
-        #endregion // Public insatnce constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Evalautes the objective function.
@@ -33,7 +27,5 @@ namespace SimulatedAnnealing.Examples.ObjectiveFunctions
         {
             return 1 - (Math.Sin( state[ 0 ] ) / state[ 0 ]);
         }
-
-        #endregion // Public instance methods
     }
 }

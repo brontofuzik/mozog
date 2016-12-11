@@ -9,16 +9,10 @@ namespace SimulatedAnnealing
     /// <typeparam name="TAtom">The type of the atom.</typeparam>
     public abstract class SimulatedAnnealing< T >
     {
-        #region Protected instance fields
-
         /// <summary>
         /// The pseudo-random number generator.
         /// </summary>
         protected Random random;
-
-        #endregion // Protected instance fields
-
-        #region Private instance fields
 
         /// <summary>
         /// The objective function.
@@ -35,9 +29,16 @@ namespace SimulatedAnnealing
         /// </summary>
         private double bestEnergy;
 
-        #endregion // Private instance fields
-
-        #region Public instance properties
+        /// <summary>
+        /// Creates a new simulated annealing.
+        /// </summary>
+        protected SimulatedAnnealing()
+        {
+            random = new Random();
+            objectiveFunction = null;
+            bestState = null;
+            bestEnergy = Double.MaxValue;
+        }
 
         /// <summary>
         /// Gets the dimension.
@@ -66,25 +67,6 @@ namespace SimulatedAnnealing
                 return objectiveFunction.Objective;
             }
         }
-
-        #endregion // Public instance properties
-
-        #region Protected instance constructors
-
-        /// <summary>
-        /// Creates a new simulated annealing.
-        /// </summary>
-        protected SimulatedAnnealing()
-        {
-            random = new Random();
-            objectiveFunction = null;
-            bestState = null;
-            bestEnergy = Double.MaxValue;
-        }
-
-        #endregion // Protected instance constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Runs the simulated annealing.
@@ -159,8 +141,6 @@ namespace SimulatedAnnealing
             achievedEnergy = (objectiveFunction.Objective == Objective.MINIMIZE) ? bestEnergy : (1 / bestEnergy);
             return bestState;
         }
-
-        #region Unused RunUsingMetropolisAlgorithm() + overloads
 
         ///// <summary>
         ///// <para>
@@ -251,12 +231,6 @@ namespace SimulatedAnnealing
         //    return RunUsingMetropolisAlgorithm( initialTemperature, finalTemperature, kMax, coolingCoefficient, elitism );
         //}
 
-        #endregion // Unused RunWithMetropolis()  + overloads
-
-        #endregion // Public instance methods
-
-        #region Protected instance methods
-
         /// <summary>
         /// <para>
         /// The generator function.
@@ -315,10 +289,6 @@ namespace SimulatedAnnealing
         {
             return Math.Min( 1, Math.Exp( - (newEnergy - currentEnergy) / temperature ) );
         }
-
-        #endregion // Protected instance methods
-
-        #region Private instance methods
 
         /// <summary>
         /// Runs the Metropolis algorithm.
@@ -381,7 +351,5 @@ namespace SimulatedAnnealing
         {
             return (Objective == Objective.MINIMIZE) ? (bestEnergy <= acceptableEnergy) : ((1 / bestEnergy) >= acceptableEnergy);
         }
-
-        #endregion // Private instance methods
     }
 }

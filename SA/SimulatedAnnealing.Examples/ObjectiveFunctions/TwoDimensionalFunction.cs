@@ -8,8 +8,6 @@ namespace SimulatedAnnealing.Examples.ObjectiveFunctions
     internal class TwoDimensionalFunction
         : ObjectiveFunction< double >
     {
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new two-dimensional (2D) function.
         /// </summary>
@@ -17,10 +15,6 @@ namespace SimulatedAnnealing.Examples.ObjectiveFunctions
             : base( 2, Objective.MINIMIZE )
         {
         }
-
-        #endregion // Public insatnce constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Evalautes the objective function.
@@ -38,7 +32,5 @@ namespace SimulatedAnnealing.Examples.ObjectiveFunctions
             double exponent3 = - Math.Pow( (x + 1), 2 ) - Math.Pow( y, 2 );
             return 8 - 3 * Math.Pow( (1 - x), 2 ) * Math.Exp( exponent1 ) - 10 * ((1 / 5.0) * x - Math.Pow( x, 3 ) - Math.Pow( y, 5 )) * Math.Exp( exponent2 ) - (1 / 3.0) * Math.Exp( exponent3 );
         }
-
-        #endregion // Public instance methods
     }
 }
