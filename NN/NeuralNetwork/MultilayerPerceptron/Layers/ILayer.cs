@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using NeuralNetwork.MultilayerPerceptron.Connectors;
 using NeuralNetwork.MultilayerPerceptron.Networks;

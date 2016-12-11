@@ -1,7 +1,4 @@
-﻿using System;
-
-using GeneticAlgorithm;
-using NeuralNetwork.MultilayerPerceptron.Networks;
+﻿using NeuralNetwork.MultilayerPerceptron.Networks;
 
 
 namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmTeacher

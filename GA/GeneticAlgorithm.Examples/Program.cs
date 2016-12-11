@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Text;
-
-using GeneticAlgorithm;
 using GeneticAlgorithm.Examples.Problems;
 using GeneticAlgorithm.Examples.ObjectiveFunctions;
 

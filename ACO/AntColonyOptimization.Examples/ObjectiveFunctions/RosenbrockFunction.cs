@@ -1,7 +1,5 @@
 ﻿using System;
 
-using AntColonyOptimization;
-
 namespace AntColonyOptimization.Examples.ObjectiveFunctions
 {
     /// <summary>

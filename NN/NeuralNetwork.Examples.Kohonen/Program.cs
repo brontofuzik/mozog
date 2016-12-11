@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-
-using NeuralNetwork;
-using NeuralNetwork.KohonenNetwork;
 using NeuralNetwork.MultilayerPerceptron.Training;
 
 namespace NeuralNetwork.Examples.Kohonen

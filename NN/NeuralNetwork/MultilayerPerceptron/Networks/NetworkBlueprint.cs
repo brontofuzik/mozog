@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Text;
-
-using System.Collections.Generic;
-
 using NeuralNetwork.MultilayerPerceptron.Connectors;
 using NeuralNetwork.MultilayerPerceptron.Layers;
 

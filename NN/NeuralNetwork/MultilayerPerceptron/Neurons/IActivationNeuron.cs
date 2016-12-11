@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-
-using NeuralNetwork.MultilayerPerceptron.Layers;
 using NeuralNetwork.MultilayerPerceptron.Synapses;
 
 namespace NeuralNetwork.MultilayerPerceptron.Neurons

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-
 using NeuralNetwork.MultilayerPerceptron.Networks;
 using NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher.Decorators;
 

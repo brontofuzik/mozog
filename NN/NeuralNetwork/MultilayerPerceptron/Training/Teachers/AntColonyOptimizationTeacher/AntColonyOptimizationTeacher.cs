@@ -1,8 +1,4 @@
-﻿using System;
-
-using NeuralNetwork.MultilayerPerceptron.Networks;
-
-using AntColonyOptimization;
+﻿using NeuralNetwork.MultilayerPerceptron.Networks;
 
 namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.AntColonyOptimizationTeacher
 {

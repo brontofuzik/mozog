@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using GeneticAlgorithm;
+﻿using System.Collections.Generic;
 
 namespace GeneticAlgorithm.Examples.Problems
 {

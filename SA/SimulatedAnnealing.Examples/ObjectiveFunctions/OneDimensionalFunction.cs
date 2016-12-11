@@ -1,7 +1,5 @@
 ﻿using System;
 
-using SimulatedAnnealing;
-
 namespace SimulatedAnnealing.Examples.ObjectiveFunctions
 {
     /// <summary>

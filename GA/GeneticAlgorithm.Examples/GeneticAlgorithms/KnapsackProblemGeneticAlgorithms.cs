@@ -1,8 +1,4 @@
-﻿using System;
-
-using GeneticAlgorithm;
-
-namespace GeneticAlgorithm.Examples.Problems
+﻿namespace GeneticAlgorithm.Examples.Problems
 {
     /// <summary>
     /// A knapsack problem (KP) genetic algorithm.

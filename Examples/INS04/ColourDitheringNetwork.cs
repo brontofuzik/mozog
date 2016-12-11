@@ -4,7 +4,6 @@ using System.Drawing;
 
 using NeuralNetwork.HopfieldNetwork;
 using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp;
-using System.IO;
 
 namespace INS04
 {

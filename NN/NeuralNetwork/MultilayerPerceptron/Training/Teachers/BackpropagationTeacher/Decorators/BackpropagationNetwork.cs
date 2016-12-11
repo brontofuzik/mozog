@@ -1,10 +1,5 @@
 ﻿using System;
-
-using NeuralNetwork.MultilayerPerceptron.Connectors;
-using NeuralNetwork.MultilayerPerceptron.Layers;
 using NeuralNetwork.MultilayerPerceptron.Networks;
-using NeuralNetwork.MultilayerPerceptron.Neurons;
-using NeuralNetwork.MultilayerPerceptron.Synapses;
 
 namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher.Decorators
 {

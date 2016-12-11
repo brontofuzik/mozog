@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps
+﻿namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps
 {
     public interface IHopfieldNetworkImp
     {

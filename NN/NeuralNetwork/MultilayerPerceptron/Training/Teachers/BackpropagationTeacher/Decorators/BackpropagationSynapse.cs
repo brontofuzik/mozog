@@ -1,6 +1,4 @@
 ﻿using NeuralNetwork.MultilayerPerceptron.Connectors;
-using NeuralNetwork.MultilayerPerceptron.Layers;
-using NeuralNetwork.MultilayerPerceptron.Neurons;
 using NeuralNetwork.MultilayerPerceptron.Synapses;
 
 namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher.Decorators

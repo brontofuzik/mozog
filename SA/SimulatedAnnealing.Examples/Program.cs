@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Text;
-
-using SimulatedAnnealing;
 using SimulatedAnnealing.Examples.ObjectiveFunctions;
 using SimulatedAnnealing.Examples.SimulatedAnnealings;
 

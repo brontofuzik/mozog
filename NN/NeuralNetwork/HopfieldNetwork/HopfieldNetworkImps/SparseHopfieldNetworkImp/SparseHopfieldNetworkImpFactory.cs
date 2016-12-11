@@ -1,6 +1,4 @@
-﻿using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps;
-
-namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp
+﻿namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp
 {
     public class SparseHopfieldNetworkImpFactory
         : IHopfieldNetworkImpFactory

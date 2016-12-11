@@ -1,6 +1,4 @@
-﻿using GeneticAlgorithm;
-
-namespace GeneticAlgorithm.Examples.ObjectiveFunctions
+﻿namespace GeneticAlgorithm.Examples.ObjectiveFunctions
 {
     internal class KnapsackProblemObjectiveFunction
         : ObjectiveFunction< int >

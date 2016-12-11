@@ -1,6 +1,4 @@
-﻿using System;
-
-using NeuralNetwork.MultilayerPerceptron.Layers;
+﻿using NeuralNetwork.MultilayerPerceptron.Layers;
 using NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions;
 using NeuralNetwork.MultilayerPerceptron.Neurons;
 

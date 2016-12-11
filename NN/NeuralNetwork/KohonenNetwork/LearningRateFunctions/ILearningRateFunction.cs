@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NeuralNetwork.KohonenNetwork.LearningRateFunctions
+﻿namespace NeuralNetwork.KohonenNetwork.LearningRateFunctions
 {
     public interface ILearningRateFunction
     {

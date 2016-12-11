@@ -6,7 +6,6 @@ using NeuralNetwork.MultilayerPerceptron.Connectors;
 using NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions;
 using NeuralNetwork.MultilayerPerceptron.Networks;
 using NeuralNetwork.MultilayerPerceptron.Neurons;
-using NeuralNetwork.MultilayerPerceptron.Synapses;
 
 
 namespace NeuralNetwork.MultilayerPerceptron.Layers

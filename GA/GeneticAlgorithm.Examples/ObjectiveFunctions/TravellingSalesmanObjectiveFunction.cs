@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 
-using GeneticAlgorithm;
-
 namespace GeneticAlgorithm.Examples.ObjectiveFunctions
 {
     internal class TravellingSalesmanObjectiveFunction

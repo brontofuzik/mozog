@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Text;
-
-using AntColonyOptimization;
 using AntColonyOptimization.Examples.AntColonyOptimizations;
 using AntColonyOptimization.Examples.ObjectiveFunctions;
 

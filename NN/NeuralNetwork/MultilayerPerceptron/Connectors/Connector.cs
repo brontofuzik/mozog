@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using NeuralNetwork.MultilayerPerceptron.Layers;
 using NeuralNetwork.MultilayerPerceptron.Networks;
-using NeuralNetwork.MultilayerPerceptron.Neurons;
 using NeuralNetwork.MultilayerPerceptron.Synapses;
 
 
