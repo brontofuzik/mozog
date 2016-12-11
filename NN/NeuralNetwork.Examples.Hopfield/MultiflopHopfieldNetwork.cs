@@ -1,6 +1,6 @@
 ﻿using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkImp;
 
-namespace NeuralNetwork.HopfieldTest
+namespace NeuralNetwork.Examples.Hopfield
 {
     class MultiflopHopfieldNetwork
     {

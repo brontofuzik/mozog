@@ -1,19 +1,19 @@
 ﻿using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp;
 
-namespace NeuralNetwork.HopfieldTest
+namespace NeuralNetwork.Examples.Hopfield
 {
-    class EightRooksHopfieldNetwork
+    class EightQueensHopfieldNetwork
     {
         #region Public members
 
         #region Instance constructors
 
         /// <summary>
-        /// Initializes a new instance of the EightRooksNetwork class.
+        /// Initializes a new instance of the EightQueensNetwork class.
         /// </summary>
-        public EightRooksHopfieldNetwork()
+        public EightQueensHopfieldNetwork()
         {
-            _hopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(64, eightRooksNetworkActivationFunction, new SparseHopfieldNetworkImpFactory());
+            _hopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(64, eightQueensNetworkActivationFunction, new SparseHopfieldNetworkImpFactory());
         }
 
         #endregion // Instance constructors
@@ -21,7 +21,7 @@ namespace NeuralNetwork.HopfieldTest
         #region Instance methods
 
         /// <summary>
-        /// Trains the eight-rooks network.
+        /// Trains the eight-queens network.
         /// </summary>
         public void Train()
         {
@@ -36,7 +36,7 @@ namespace NeuralNetwork.HopfieldTest
         }
 
         /// <summary>
-        /// Evaluates the eight-rooks network.
+        /// Evaluates the eight-queens network.
         /// </summary>
         /// <param name="evaluationIterationCount">The number of evaluation iterations.</param>
         /// <returns>The recalled pattern.</returns>
@@ -57,19 +57,19 @@ namespace NeuralNetwork.HopfieldTest
         #region Static methods
 
         /// <summary>
-        /// The activation function of the eight-rooks network.
+        /// The activation function of the eight-queens network.
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        private static double eightRooksNetworkActivationFunction(double input, double evaluationProgressRatio)
+        private static double eightQueensNetworkActivationFunction(double input, double evaluationProgressRatio)
         {
             return (input > 0) ? 1.0 : 0.0;
         }
 
-        #endregion // Sttaic methods
+        #endregion // Static methods
 
         #region Instance methods
-    
+
         /// <summary>
         /// Trains a neuron.
         /// </summary>
@@ -103,6 +103,30 @@ namespace NeuralNetwork.HopfieldTest
             }
             // Down
             for (int sourceNeuronXCoordinate = neuronXCoordinate, sourceNeuronYCoordinate = neuronYCoordinate + 1; sourceNeuronYCoordinate < 8; ++sourceNeuronYCoordinate)
+            {
+                trainSynapse(neuronXCoordinate, neuronYCoordinate, sourceNeuronXCoordinate, sourceNeuronYCoordinate);
+            }
+
+            // The source neurons in the same primary diagonal.
+            // Left & Up
+            for (int sourceNeuronXCoordinate = neuronXCoordinate - 1, sourceNeuronYCoordinate = neuronYCoordinate - 1; 0 <= sourceNeuronXCoordinate && 0 <= sourceNeuronYCoordinate; --sourceNeuronXCoordinate, --sourceNeuronYCoordinate)
+            {
+                trainSynapse(neuronXCoordinate, neuronYCoordinate, sourceNeuronXCoordinate, sourceNeuronYCoordinate);
+            }
+            // Right & Down
+            for (int sourceNeuronXCoordinate = neuronXCoordinate + 1, sourceNeuronYCoordinate = neuronYCoordinate + 1; sourceNeuronXCoordinate < 8 && sourceNeuronYCoordinate < 8; ++sourceNeuronXCoordinate, ++sourceNeuronYCoordinate)
+            {
+                trainSynapse(neuronXCoordinate, neuronYCoordinate, sourceNeuronXCoordinate, sourceNeuronYCoordinate);
+            }
+
+            // The source neurons in the same secondary diagonal.
+            // Left & Down
+            for (int sourceNeuronXCoordinate = neuronXCoordinate - 1, sourceNeuronYCoordinate = neuronYCoordinate + 1; 0 <= sourceNeuronXCoordinate && sourceNeuronYCoordinate < 8; --sourceNeuronXCoordinate, ++sourceNeuronYCoordinate)
+            {
+                trainSynapse(neuronXCoordinate, neuronYCoordinate, sourceNeuronXCoordinate, sourceNeuronYCoordinate);
+            }
+            // Right & Up
+            for (int sourceNeuronXCoordinate = neuronXCoordinate + 1, sourceNeuronYCoordinate = neuronYCoordinate - 1; sourceNeuronXCoordinate < 8 && 0 <= sourceNeuronYCoordinate; ++sourceNeuronXCoordinate, --sourceNeuronYCoordinate)
             {
                 trainSynapse(neuronXCoordinate, neuronYCoordinate, sourceNeuronXCoordinate, sourceNeuronYCoordinate);
             }
@@ -169,7 +193,7 @@ namespace NeuralNetwork.HopfieldTest
         {
             // Calculate the x coordinate of the neuron.
             neuronXCoordinate = neuronIndex % 8;
-
+            
             // Calculate the y coordinate of the neuron.
             neuronYCoordinate = neuronIndex / 8;
         }

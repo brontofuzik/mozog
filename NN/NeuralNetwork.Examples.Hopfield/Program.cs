@@ -3,7 +3,7 @@ using NeuralNetwork.MultilayerPerceptron.Training;
 using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkImp;
 using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps;
 
-namespace NeuralNetwork.HopfieldTest
+namespace NeuralNetwork.Examples.Hopfield
 {
     class Program
     {

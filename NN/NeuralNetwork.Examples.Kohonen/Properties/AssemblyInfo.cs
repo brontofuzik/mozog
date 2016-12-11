@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TestKohonenNetwork")]
+[assembly: AssemblyTitle("NeuralNetwork.Examples.Kohonen")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MFF UK")]
-[assembly: AssemblyProduct("TestKohonenNetwork")]
+[assembly: AssemblyProduct("NeuralNetwork.Examples.Kohonen")]
 [assembly: AssemblyCopyright("Copyright © MFF UK 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

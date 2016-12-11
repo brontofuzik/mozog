@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("INS03Test")]
+[assembly: AssemblyTitle("NeuralNetwork.Examples.Perceptron")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Sisal")]
-[assembly: AssemblyProduct("INS03Test")]
-[assembly: AssemblyCopyright("Copyright © Sisal 2010")]
+[assembly: AssemblyProduct("NeuralNetwork.Examples.Perceptron")]
+[assembly: AssemblyCopyright("Copyright © Sisal 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("6bb05a00-65d0-4320-aa1f-36c0291935a3")]
+[assembly: Guid("e1ce7aab-80db-4a6e-9c8e-ad4bb916890d")]
 
 // Version information for an assembly consists of the following four values:
 //

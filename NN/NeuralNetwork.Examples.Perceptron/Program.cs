@@ -8,7 +8,7 @@ using NeuralNetwork.MultilayerPerceptron.Training;
 using NeuralNetwork.MultilayerPerceptron.Training.Teachers;
 using NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher;
 
-namespace NeuralNetwork.PerceptronTest
+namespace NeuralNetwork.Examples.Perceptron
 {
     class Program
     {

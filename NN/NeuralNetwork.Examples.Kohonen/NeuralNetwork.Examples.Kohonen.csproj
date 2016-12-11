@@ -8,8 +8,8 @@
     <ProjectGuid>{9ABD9C6D-46AF-41E5-B40A-C1C7AA951976}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NeuralNetwork.KohonenTest</RootNamespace>
-    <AssemblyName>NeuralNetwork.KohonenTest</AssemblyName>
+    <RootNamespace>NeuralNetwork.Examples.Kohonen</RootNamespace>
+    <AssemblyName>NeuralNetwork.Examples.Kohonen</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>

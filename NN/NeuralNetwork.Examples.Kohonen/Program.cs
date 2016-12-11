@@ -6,7 +6,7 @@ using NeuralNetwork;
 using NeuralNetwork.KohonenNetwork;
 using NeuralNetwork.MultilayerPerceptron.Training;
 
-namespace NeuralNetwork.KohonenTest
+namespace NeuralNetwork.Examples.Kohonen
 {
     class Program
     {
