@@ -2,10 +2,10 @@
 using System.Text;
 
 using SimulatedAnnealing;
-using SimulatedAnnealingTest.ObjectiveFunctions;
-using SimulatedAnnealingTest.SimulatedAnnealings;
+using SimulatedAnnealing.Examples.ObjectiveFunctions;
+using SimulatedAnnealing.Examples.SimulatedAnnealings;
 
-namespace SimulatedAnnealingTest
+namespace SimulatedAnnealing.Examples
 {
     /// <remarks>
     /// The simulated annealing test suite.

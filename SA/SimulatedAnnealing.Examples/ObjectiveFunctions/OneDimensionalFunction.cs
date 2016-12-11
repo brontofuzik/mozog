@@ -2,7 +2,7 @@
 
 using SimulatedAnnealing;
 
-namespace SimulatedAnnealingTest.ObjectiveFunctions
+namespace SimulatedAnnealing.Examples.ObjectiveFunctions
 {
     /// <summary>
     /// A one dimensional (1D) function.

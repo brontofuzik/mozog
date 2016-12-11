@@ -2,7 +2,7 @@
 
 using SimulatedAnnealing;
 
-namespace SimulatedAnnealingTest.SimulatedAnnealings
+namespace SimulatedAnnealing.Examples.SimulatedAnnealings
 {
     internal class RealFunctionSimulatedAnnealing
         : SimulatedAnnealing< double >
