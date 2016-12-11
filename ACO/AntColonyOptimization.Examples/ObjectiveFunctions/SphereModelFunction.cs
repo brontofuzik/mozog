@@ -6,11 +6,8 @@ namespace AntColonyOptimization.Examples.ObjectiveFunctions
     /// A sphere model (SM) function.
     /// http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page1113.htm
     /// </summary>
-    internal class SphereModelFunction
-        : ObjectiveFunction
+    internal class SphereModelFunction : ObjectiveFunction
     {
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a sphere model (SM) function.
         /// </summary>
@@ -19,10 +16,6 @@ namespace AntColonyOptimization.Examples.ObjectiveFunctions
             : base( dimension, Objective.MINIMIZE )
         {
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
 
         public override double Evaluate( double[] steps )
         {
@@ -33,7 +26,5 @@ namespace AntColonyOptimization.Examples.ObjectiveFunctions
             }
             return output;
         }
-
-        #endregion // Public instance methods
     }
 }

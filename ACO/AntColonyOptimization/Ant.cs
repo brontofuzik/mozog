@@ -4,15 +4,14 @@ namespace AntColonyOptimization
 {
     internal class Ant
     {
-        #region Private instance fields
-
         private double[] steps;
 
         private double evaluation;
 
-        #endregion // Private instance fields
-
-        #region Public instance properties
+        public Ant( int dimension )
+        {
+            steps = new double[ dimension ]; 
+        }
 
         public double[] Steps
         {
@@ -38,19 +37,6 @@ namespace AntColonyOptimization
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Public instance constructors
-
-        public Ant( int dimension )
-        {
-            steps = new double[ dimension ]; 
-        }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
-
         public void ConstructSolution( List< PheromoneDistribution > pheromoneTrail )
         {
             for (int i = 0; i < steps.Length; i++)
@@ -58,7 +44,5 @@ namespace AntColonyOptimization
                 steps[ i ] = pheromoneTrail[ i ].GetSolutionComponent();
             }
         }
-
-        #endregion // Public instance methods
     }
 }

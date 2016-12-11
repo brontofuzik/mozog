@@ -9,13 +9,7 @@ namespace AntColonyOptimization
     /// </summary>
     public class AntColonyOptimization
     {
-        #region Protected instance fields
-
         protected Random random;
-
-        #endregion // Protected instance fields
-
-        #region Private instance fields
 
         private ObjectiveFunction objectiveFunction;
 
@@ -25,9 +19,17 @@ namespace AntColonyOptimization
 
         private Ant globalBestAnt;
 
-        #endregion // Private instance fields
-
-        #region Public instance properties
+        /// <summary>
+        /// Creates a new ant colony optimization.
+        /// </summary>
+        public AntColonyOptimization()
+        {
+            random = new Random();
+            objectiveFunction = null;
+            pheromoneTrail = new List< PheromoneDistribution >();
+            antColony = new List< Ant >();
+            globalBestAnt = null;
+        }
 
         /// <summary>
         /// Gets the dimension.
@@ -56,26 +58,6 @@ namespace AntColonyOptimization
                 return objectiveFunction.Objective;
             }
         }
-
-        #endregion // Public instance properties
-
-        #region Public instance constructors
-
-        /// <summary>
-        /// Creates a new ant colony optimization.
-        /// </summary>
-        public AntColonyOptimization()
-        {
-            random = new Random();
-            objectiveFunction = null;
-            pheromoneTrail = new List< PheromoneDistribution >();
-            antColony = new List< Ant >();
-            globalBestAnt = null;
-        }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
 
         public double[] Run( ObjectiveFunction objectiveFunction,
             int maxIterationCount, out int usedIterationCount, double acceptableEvaluation, out double achievedEvalation,
@@ -115,8 +97,6 @@ namespace AntColonyOptimization
             achievedEvalation = (objectiveFunction.Objective == Objective.MINIMIZE) ? globalBestAnt.Evaluation : (1 / globalBestAnt.Evaluation);
             return globalBestAnt.Steps;
         }
-
-        #region Unused Run() overloads
 
         ///// <summary>
         ///// Runs the ant colony optimization.
@@ -166,12 +146,6 @@ namespace AntColonyOptimization
 
         //    return Run( iterationCount, antCount, normalPDFCount, requiredAccuracy, elitism );
         //}
-
-        #endregion // Unused Run() overloads
-
-        #endregion // Public instance methods
-
-        #region Private instance methods
 
         /// <summary>
         /// Creates the pheromone trail.
@@ -285,7 +259,5 @@ namespace AntColonyOptimization
         {
             return (Objective == Objective.MINIMIZE) ? (globalBestAnt.Evaluation <= acceptableEvaluation) : ((1 / globalBestAnt.Evaluation) >= acceptableEvaluation);
         }
-
-        #endregion // Private instance methods
     }
 }

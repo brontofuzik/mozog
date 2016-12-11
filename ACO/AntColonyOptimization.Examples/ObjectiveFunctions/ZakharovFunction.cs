@@ -6,11 +6,8 @@ namespace AntColonyOptimization.Examples.ObjectiveFunctions
     /// A Zakharov (Z) function.
     /// http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page3088.htm
     /// </summary>
-    internal class ZakharovFunction
-        : ObjectiveFunction
+    internal class ZakharovFunction : ObjectiveFunction
     {
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a Zakharov (Z) function.
         /// </summary>
@@ -19,10 +16,6 @@ namespace AntColonyOptimization.Examples.ObjectiveFunctions
             : base( dimension, Objective.MINIMIZE )
         {
         }
-
-        #endregion // Public instance constructors
-
-        #region Public insatnce methods
 
         public override double Evaluate( double[] steps )
         {
@@ -36,7 +29,5 @@ namespace AntColonyOptimization.Examples.ObjectiveFunctions
             }
             return sum1 + Math.Pow( sum2,2 ) + Math.Pow( sum2,4 );
         }
-
-        #endregion // Public instance methods
     }
 }

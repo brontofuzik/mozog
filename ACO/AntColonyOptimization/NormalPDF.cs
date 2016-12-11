@@ -4,13 +4,7 @@ namespace AntColonyOptimization
 {
     internal class NormalPDF
     {
-        #region Private static fields
-
         private static Random random;
-
-        #endregion // Private static fields
-
-        #region Private instance fields
 
         double mean;
 
@@ -18,9 +12,17 @@ namespace AntColonyOptimization
 
         int age;
 
-        #endregion // Private instance fields
+        static NormalPDF()
+        {
+            random = new Random();
+        }
 
-        #region Public instance properties
+        public NormalPDF( double mean, double standardDeviation )
+        {
+            this.mean = mean;
+            this.standardDeviation = standardDeviation;
+            age = 0;
+        }
 
         public double Mean
         {
@@ -46,30 +48,6 @@ namespace AntColonyOptimization
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Static constructor
-
-        static NormalPDF()
-        {
-            random = new Random();
-        }
-
-        #endregion // Static constructor
-
-        #region Public instance constructors
-
-        public NormalPDF( double mean, double standardDeviation )
-        {
-            this.mean = mean;
-            this.standardDeviation = standardDeviation;
-            age = 0;
-        }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
-
         public double NextDouble()
         {
             double u1 = random.NextDouble();
@@ -84,7 +62,5 @@ namespace AntColonyOptimization
         {
             age++;
         }
-
-        #endregion // Public instance methods
     }
 }

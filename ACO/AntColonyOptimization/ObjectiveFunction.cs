@@ -2,15 +2,15 @@
 {
     public abstract class ObjectiveFunction
     {
-        #region Private instance fields
-
         int dimension;
 
         Objective objective;
 
-        #endregion // Private insatnce fields
-
-        #region Public insatnce properties
+        protected ObjectiveFunction( int dimension, Objective objective )
+        {
+            this.dimension = dimension;
+            this.objective = objective;
+        }
 
         public int Dimension
         {
@@ -28,23 +28,7 @@
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Protected instance constructors
-
-        protected ObjectiveFunction( int dimension, Objective objective )
-        {
-            this.dimension = dimension;
-            this.objective = objective;
-        }
-
-        #endregion // Protected instance constructors
-
-        #region Public instance methods
-
         public abstract double Evaluate( double[] steps );
-
-        #endregion // Public instance methods
     }
 
     /// <summary>

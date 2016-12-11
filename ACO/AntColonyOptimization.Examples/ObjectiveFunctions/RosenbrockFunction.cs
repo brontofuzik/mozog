@@ -7,11 +7,8 @@ namespace AntColonyOptimization.Examples.ObjectiveFunctions
     /// http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page2537.htm
     // Also known as Rosenbrock's valley or Rosenbrock's banana.
     /// </summary>
-    internal class RosenbrockFunction
-        : ObjectiveFunction
+    internal class RosenbrockFunction : ObjectiveFunction
     {
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a Rosenbrock (R) function.
         /// </summary>
@@ -20,10 +17,6 @@ namespace AntColonyOptimization.Examples.ObjectiveFunctions
             : base( dimension, Objective.MINIMIZE )
         {
         }
-
-        #endregion // Public instance constructors
-
-        #region Public insatnce methods
 
         public override double Evaluate( double[] steps )
         {
@@ -36,7 +29,5 @@ namespace AntColonyOptimization.Examples.ObjectiveFunctions
             }
             return output;
         }
-
-        #endregion // Public instance methods
     }
 }

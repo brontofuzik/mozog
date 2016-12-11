@@ -5,30 +5,16 @@ namespace AntColonyOptimization
 {
     internal class PheromoneDistribution
     {
-        #region Private static fields
-
         private static Random random;
-
-        #endregion // Private static fields
-
-        #region Private instance fields
 
         private double[] weights;
 
         private List< NormalPDF > normalPDFs;
-        
-        #endregion // Private instance fields
-
-        #region Static constructor
 
         static PheromoneDistribution()
         {
             random = new Random();
         }
-
-        #endregion // Static constructor
-
-        #region Public instance constructors
 
         /// <summary>
         /// Creates a new pheromone distribution.
@@ -59,10 +45,6 @@ namespace AntColonyOptimization
                 normalPDFs.Add( new NormalPDF( mean, standardDeviation ) );
             }
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
 
         public double GetSolutionComponent()
         {
@@ -110,10 +92,6 @@ namespace AntColonyOptimization
             NegativeUpdate();
         }
 
-        #endregion // Public instance methods
-
-        #region Private instance methods
-
         private void PositiveUpdate( double mean, double standardDeviation )
         {
             normalPDFs.Add( new NormalPDF( mean, standardDeviation ) );
@@ -131,7 +109,5 @@ namespace AntColonyOptimization
             }
             normalPDFs.Remove( oldestNormalPDF );
         }
-
-        #endregion // Private insatnce methods
     }
 }
