@@ -8,8 +8,8 @@
     <ProjectGuid>{8ACB1738-5DEC-4804-84FD-E39E498E3BB8}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GeneticAlgorithmTest</RootNamespace>
-    <AssemblyName>GeneticAlgorithmTest</AssemblyName>
+    <RootNamespace>GeneticAlgorithm.Examples</RootNamespace>
+    <AssemblyName>GeneticAlgorithm.Examples</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>

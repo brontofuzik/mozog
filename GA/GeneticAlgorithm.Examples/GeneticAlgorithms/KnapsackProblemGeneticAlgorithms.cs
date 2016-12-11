@@ -2,7 +2,7 @@
 
 using GeneticAlgorithm;
 
-namespace GeneticAlgorithmTest.Problems
+namespace GeneticAlgorithm.Examples.Problems
 {
     /// <summary>
     /// A knapsack problem (KP) genetic algorithm.

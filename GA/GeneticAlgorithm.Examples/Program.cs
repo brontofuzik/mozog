@@ -2,10 +2,10 @@
 using System.Text;
 
 using GeneticAlgorithm;
-using GeneticAlgorithmTest.Problems;
-using GeneticAlgorithmTest.ObjectiveFunctions;
+using GeneticAlgorithm.Examples.Problems;
+using GeneticAlgorithm.Examples.ObjectiveFunctions;
 
-namespace GeneticAlgorithmTest
+namespace GeneticAlgorithm.Examples
 {
     /// <remarks>
     /// The genetic algorithm test suite.

@@ -2,7 +2,7 @@
 
 using GeneticAlgorithm;
 
-namespace GeneticAlgorithmTest.ObjectiveFunctions
+namespace GeneticAlgorithm.Examples.ObjectiveFunctions
 {
     internal class TravellingSalesmanObjectiveFunction
         : ObjectiveFunction< char >

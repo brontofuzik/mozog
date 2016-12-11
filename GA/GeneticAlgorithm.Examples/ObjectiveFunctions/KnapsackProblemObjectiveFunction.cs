@@ -1,6 +1,6 @@
 ﻿using GeneticAlgorithm;
 
-namespace GeneticAlgorithmTest.ObjectiveFunctions
+namespace GeneticAlgorithm.Examples.ObjectiveFunctions
 {
     internal class KnapsackProblemObjectiveFunction
         : ObjectiveFunction< int >

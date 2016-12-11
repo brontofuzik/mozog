@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using GeneticAlgorithm;
 
-namespace GeneticAlgorithmTest.Problems
+namespace GeneticAlgorithm.Examples.Problems
 {
     /// <summary>
     /// A travelling salesman problem (TSP) genetic algorithm.
