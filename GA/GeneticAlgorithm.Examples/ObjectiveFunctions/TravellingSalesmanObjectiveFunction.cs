@@ -5,16 +5,10 @@ namespace GeneticAlgorithm.Examples.ObjectiveFunctions
     internal class TravellingSalesmanObjectiveFunction
         : ObjectiveFunction< char >
     {
-        #region Public instance constructors
-
         public TravellingSalesmanObjectiveFunction()
             :base( 4, Objective.MINIMIZE )
         {
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
 
         public override double Evaluate( char[] genes )
         {
@@ -44,7 +38,5 @@ namespace GeneticAlgorithm.Examples.ObjectiveFunctions
 
             return totalDistance;
         }
-
-        #endregion // Public instance methods
     }
 }

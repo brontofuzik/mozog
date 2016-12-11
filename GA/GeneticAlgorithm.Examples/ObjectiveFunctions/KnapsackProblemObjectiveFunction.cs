@@ -3,16 +3,10 @@
     internal class KnapsackProblemObjectiveFunction
         : ObjectiveFunction< int >
     {
-        #region Public instance constructors
-
         public KnapsackProblemObjectiveFunction()
             : base( 5, Objective.MAXIMIZE )
         {
         }
-
-        #endregion // Public insatnce constructors
-
-        #region Public instance methods
 
         public override double Evaluate( int[] genes )
         {
@@ -33,7 +27,5 @@
 
             return (totalWeight <= 15.0) ? totalValue : 0.0;
         }
-
-        #endregion // Public instance methods
     }
 }

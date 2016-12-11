@@ -10,16 +10,10 @@ namespace GeneticAlgorithm
     /// <typeparam name="TGene">The type of the gene.</typeparam>
     public abstract class GeneticAlgorithm< TGene >
     {
-        #region Protected instance fields
-
         /// <summary>
         /// The psuedo-random number generator.
         /// </summary>
         protected Random random;
-
-        #endregion // Protected instance fields
-
-        #region Private instance fields
 
         /// <summary>
         /// The objective function.
@@ -51,9 +45,18 @@ namespace GeneticAlgorithm
         /// </summary>
         private double maxObjectiveFunctionValue;
 
-        #endregion // Private instance fields
-
-        #region Public instance properties
+        /// <summary>
+        /// Creates a new genetic algorithm.
+        /// </summary>
+        protected GeneticAlgorithm()
+        {
+            random = new Random();
+            objectiveFunction = null;
+            currentPopulation = new List< Chromosome< TGene > >();
+            intermediatePopulation = new List< Chromosome< TGene > >();
+            nextPopulation = new List< Chromosome< TGene > >();
+            globalBestChromosome = null;
+        }
 
         /// <summary>
         /// Gets the dimension.
@@ -82,27 +85,6 @@ namespace GeneticAlgorithm
                 return objectiveFunction.Objective;
             }
         }
-
-        #endregion // Public instance properties
-
-        #region Protected instance constructors
-
-        /// <summary>
-        /// Creates a new genetic algorithm.
-        /// </summary>
-        protected GeneticAlgorithm()
-        {
-            random = new Random();
-            objectiveFunction = null;
-            currentPopulation = new List< Chromosome< TGene > >();
-            intermediatePopulation = new List< Chromosome< TGene > >();
-            nextPopulation = new List< Chromosome< TGene > >();
-            globalBestChromosome = null;
-        }
-
-        #endregion // Protected instance constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Runs the genetic algorithm.
@@ -170,10 +152,6 @@ namespace GeneticAlgorithm
             achievedEvalaution = (objectiveFunction.Objective == Objective.MAXIMIZE) ? globalBestChromosome.Evaluation : ( maxObjectiveFunctionValue / globalBestChromosome.Evaluation);
             return globalBestChromosome.Genes;
         }
-
-        #endregion // Public instance methods
-
-        #region Protected instance methods
 
         /// <summary>
         /// <para>
@@ -247,10 +225,6 @@ namespace GeneticAlgorithm
         /// <param name="chromosome">The chromosome to mutate.</param>
         /// <param name="mutationRate">The rate of mutation.</param>
         protected abstract void MutationFunction( Chromosome< TGene > chromosome, double mutationRate );
-
-        #endregion // Protected instance methods
-
-        #region Private instance methods
 
         /// <summary>
         /// Creates the initial population.
@@ -450,7 +424,5 @@ namespace GeneticAlgorithm
                 (globalBestChromosome.Evaluation >= acceptableEvaluation) :
                 ((maxObjectiveFunctionValue / globalBestChromosome.Evaluation) <= acceptableEvaluation);
         }
-
-        #endregion // Private insatnce methods
     }
 }

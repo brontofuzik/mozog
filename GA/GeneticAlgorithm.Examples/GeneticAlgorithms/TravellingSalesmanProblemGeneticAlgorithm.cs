@@ -9,8 +9,6 @@ namespace GeneticAlgorithm.Examples.Problems
     internal class TravellingSalesmanProblemGeneticAlgorithm
         : GeneticAlgorithm< char >
     {
-        #region Protected instance methods
-
         /// <summary>
         /// <para>
         /// The initialization function.
@@ -151,7 +149,5 @@ namespace GeneticAlgorithm.Examples.Problems
                 chromosome.Genes[ destinationCityIndex ] = tmpCity;
             }
         }
-
-        #endregion // Protected instance methods
     }
 }

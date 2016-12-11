@@ -15,15 +15,15 @@
     /// <typeparam name="TGene">The type of the gene.</typeparam>
     public abstract class ObjectiveFunction< TGene >
     {
-        #region Private instance fields
-
         int dimension;
 
         Objective objective;
 
-        #endregion // Private insatnce fields
-
-        #region Public insatnce properties
+        protected ObjectiveFunction( int dimension, Objective objective )
+        {
+            this.dimension = dimension;
+            this.objective = objective;
+        }
 
         public int Dimension
         {
@@ -41,20 +41,6 @@
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Protected instance constructors
-
-        protected ObjectiveFunction( int dimension, Objective objective )
-        {
-            this.dimension = dimension;
-            this.objective = objective;
-        }
-
-        #endregion // Protected instance constructors
-
-        #region Public instance methods
-
         /// <summary>
         /// Evaluates the objective function.
         /// </summary>
@@ -63,8 +49,6 @@
         /// The evaluation of the chromosome.
         /// </returns>
         public abstract double Evaluate( TGene[] genes );
-
-        #endregion // Public instance methods
     }
 
     /// <summary>

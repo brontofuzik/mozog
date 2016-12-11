@@ -7,8 +7,6 @@
     internal class KnapsackProblemGeneticAlgorithm
         : GeneticAlgorithm< int >
     {
-        #region Protected instance methods
-
         /// <summary>
         /// <para>
         /// The initialization function.
@@ -88,10 +86,6 @@
             }
         }
 
-        #endregion // Protected instance methods
-
-        #region Unused code repository
-
         //private static void KnapsackUniformCrossoverFunction( int[] parent1Genes, int[] parent2Genes, out int[] offspring1Genes, out int[] offspring2Genes, double crossoverRate )
         //{
         //    int chromosomeSize = parent1Genes.Length;
@@ -120,7 +114,5 @@
         //        }
         //    }
         //}
-
-        #endregion // Unused code repository
     }
 }

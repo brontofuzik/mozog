@@ -10,8 +10,6 @@ namespace GeneticAlgorithm
     public class Chromosome< TGene >
         : IComparable< Chromosome< TGene > >
     {
-        #region Private instance fields
-
         /// <summary>
         /// The genes of the chromosome.
         /// </summary>
@@ -27,9 +25,14 @@ namespace GeneticAlgorithm
         /// </summary>
         private double fitness;
 
-        #endregion // Private instance fields
-
-        #region Public instance properties
+        /// <summary>
+        /// Creates a new chromosome.
+        /// </summary>
+        /// <param name="chromosomeSize">The size of the chromosome (i.e. the numebr of genes in the chromosome).</param>
+        public Chromosome( int chromosomeSize )
+        {
+            genes = new TGene[ chromosomeSize ];
+        }
 
         /// <summary>
         /// Gets or sets the genes.
@@ -99,23 +102,6 @@ namespace GeneticAlgorithm
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Public instance constructors
-
-        /// <summary>
-        /// Creates a new chromosome.
-        /// </summary>
-        /// <param name="chromosomeSize">The size of the chromosome (i.e. the numebr of genes in the chromosome).</param>
-        public Chromosome( int chromosomeSize )
-        {
-            genes = new TGene[ chromosomeSize ];
-        }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
-
         /// <summary>
         /// Clones the chromosome.
         /// </summary>
@@ -164,7 +150,5 @@ namespace GeneticAlgorithm
 
             return chromosomeSB.ToString();
         }
-
-        #endregion // Public instance methods
     }
 }
