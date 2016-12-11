@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AntColonyOptimizationTest")]
+[assembly: AssemblyTitle("AntColonyOptimization.Examples")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MFF UK")]
-[assembly: AssemblyProduct("AntColonyOptimizationTest")]
+[assembly: AssemblyProduct("AntColonyOptimization.Examples")]
 [assembly: AssemblyCopyright("Copyright © MFF UK 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
