@@ -1,0 +1,559 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="NeuralNetwork.HopfieldNetwork.HopfieldNetwork" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAwAACAAAAAAAAEAAEEghAAAAAAAAACAABACCQAAAA=</HashCode>
+      <FileName>HopfieldNetwork\HopfieldNetwork.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkImp.FullHopfieldNetworkImp" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="21.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAARAAAAAEEAoAAAAAABCACAABAKAQAAMg=</HashCode>
+      <FileName>HopfieldNetwork\HopfieldNetworkImps\FullHopfieldNetworkImp\FullHopfieldNetworkImp.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkImp.FullHopfieldNetworkImpFactory" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>HopfieldNetwork\HopfieldNetworkImps\FullHopfieldNetworkImp\FullHopfieldNetworkImpFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp.HopfieldNeuron" Collapsed="true">
+    <Position X="16.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAQIAAQAAAAAoAgAAABAAAAAAACEAAAIAAIA=</HashCode>
+      <FileName>HopfieldNetwork\HopfieldNetworkImps\SparseHopfieldNetworkImp\HopfieldNeuron.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp.HopfieldSynapse" Collapsed="true">
+    <Position X="18.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAQAAAABIAAgAACAAAgAAAAAAAQAAAAA=</HashCode>
+      <FileName>HopfieldNetwork\HopfieldNetworkImps\SparseHopfieldNetworkImp\HopfieldSynapse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp.SparseHopfieldNetworkImp" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAQAAAQAAAAAAAEEAoAAGACAABECACBACAYIAEA=</HashCode>
+      <FileName>HopfieldNetwork\HopfieldNetworkImps\SparseHopfieldNetworkImp\SparseHopfieldNetworkImp.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp.SparseHopfieldNetworkImpFactory" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>HopfieldNetwork\HopfieldNetworkImps\SparseHopfieldNetworkImp\SparseHopfieldNetworkImpFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NeuralNetwork.KohonenNetwork.KohonenNetwork" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAGCAACCQQEGAAAgQhEgAAQAgYBACAAAgEAAAUA=</HashCode>
+      <FileName>KohonenNetwork\KohonenNetwork.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NeuralNetwork.KohonenNetwork.TrainingPatternEventArgs" Collapsed="true">
+    <Position X="21.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAABAAAAAAAAAAAAAAABAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>KohonenNetwork\TrainingPatternEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.KohonenNetwork.TrainingSetEventArgs" Collapsed="true">
+    <Position X="14.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAABAAAAgAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KohonenNetwork\TrainingSetEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.KohonenNetwork.LearningRateFunctions.AbstractLearningRateFunction" Collapsed="true">
+    <Position X="6.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAiAAAAQABACAAAgAAAAAAAAAAAAAAAAAAAEAACA=</HashCode>
+      <FileName>KohonenNetwork\LearningRateFunctions\AbstractLearningRateFunction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NeuralNetwork.KohonenNetwork.LearningRateFunctions.ExponentialLearningRateFunction" Collapsed="true">
+    <Position X="5.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>KohonenNetwork\LearningRateFunctions\ExponentialLearningRateFunction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.KohonenNetwork.LearningRateFunctions.LinearLearningRateFunction" Collapsed="true">
+    <Position X="7.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>KohonenNetwork\LearningRateFunctions\LinearLearningRateFunction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.KohonenNetwork.NeighbourhoodFunctions.AbstractNeighbourhoodFunction" Collapsed="true">
+    <Position X="1.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>KohonenNetwork\NeighbourhoodFunctions\AbstractNeighbourhoodFunction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NeuralNetwork.KohonenNetwork.NeighbourhoodFunctions.DiscreteNeighbourhoodFunction" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>KohonenNetwork\NeighbourhoodFunctions\DiscreteNeighbourhoodFunction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.KohonenNetwork.NeighbourhoodFunctions.GaussianNeighbourhoodFunction" Collapsed="true">
+    <Position X="2.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>KohonenNetwork\NeighbourhoodFunctions\GaussianNeighbourhoodFunction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Connectors.Connector" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="18.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQAQAAAAIAAQAABAAAAIAAAAIEIAAABCACAAAAAgA=</HashCode>
+      <FileName>MultilayerPerceptron\Connectors\Connector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Connectors.ConnectorBlueprint" Collapsed="true">
+    <Position X="20" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAEAAAAgAAAAAIAAAAAAgAAAEAAAAAAAAAAgAA=</HashCode>
+      <FileName>MultilayerPerceptron\Connectors\ConnectorBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Connectors.ConnectorDecorator" Collapsed="true">
+    <Position X="3.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQAQAAAAIAAQAkAAAAAIAAgAAEAAAABCACAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Connectors\ConnectorDecorator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions.HyperbolicTangentActivationFunction" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Layers\ActivationFunctions\HyperbolicTangentActivationFunction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions.LinearActivationFunction" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="16.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Layers\ActivationFunctions\LinearActivationFunction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions.LogisticActivationFunction" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="18.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAABAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Layers\ActivationFunctions\LogisticActivationFunction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Layers.ActivationLayer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIRhAACAIAAAAQAkDAEAAgAAAQAAgAAABAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Layers\ActivationLayer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Layers.ActivationLayerBlueprint" Collapsed="true">
+    <Position X="9.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Layers\ActivationLayerBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Layers.ActivationLayerDecorator" Collapsed="true">
+    <Position X="0.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIQBAAAAIAAAAQAkAAEAAgAAAAAAgAAABAAAAAAAAAI=</HashCode>
+      <FileName>MultilayerPerceptron\Layers\ActivationLayerDecorator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Layers.InputLayer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="21.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIhAAAAIAAAAQAkBAEAAAAAAQAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Layers\InputLayer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Layers.LayerBlueprint" Collapsed="true">
+    <Position X="9.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAEAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Layers\LayerBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Networks.Network" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RAYyA0AAAABBAQEEAgAAQoAAAAAEgAAASAGAAACFAEA=</HashCode>
+      <FileName>MultilayerPerceptron\Networks\Network.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Networks.NetworkBlueprint" Collapsed="true">
+    <Position X="13" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QABAgAAAAABBAQAEAACABAIAIAACAAAMAgQADAAJAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Networks\NetworkBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Networks.NetworkDecorator" Collapsed="true">
+    <Position X="6.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>wAQSAkAAAABAAQAEBgAAQoAAAAAEAAAACAEAAACFAEA=</HashCode>
+      <FileName>MultilayerPerceptron\Networks\NetworkDecorator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Neurons.ActivationNeuron" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAEAAQAEAAAIAgAAWAEAABAAAEAAAABAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Neurons\ActivationNeuron.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Neurons.ActivationNeuronDecorator" Collapsed="true">
+    <Position X="3.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAFAAQAEAAAIAgAAEAAAQAAAAAAAAABAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Neurons\ActivationNeuronDecorator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Neurons.InputNeuron" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAEAAQAEAAAIAAAASAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Neurons\InputNeuron.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Synapses.Synapse" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="16.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQAQAAAACAAQAEgAAQgIAAACAEAAAgBAAAgAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Synapses\Synapse.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Synapses.SynapseBlueprint" Collapsed="true">
+    <Position X="18.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgCA=</HashCode>
+      <FileName>MultilayerPerceptron\Synapses\SynapseBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Synapses.SynapseDecorator" Collapsed="true">
+    <Position X="0.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAQAAAAAIAQAEgAAQAIAAACAEAAIAAAAAgAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Synapses\SynapseDecorator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.SupervisedTrainingPattern" Collapsed="true">
+    <Position X="9.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAIAAECABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Training\SupervisedTrainingPattern.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.TrainingLog" Collapsed="true">
+    <Position X="20" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EQAMAAAAAQAQAQACJAgEAAACAAAAIAAgACAAEIABACA=</HashCode>
+      <FileName>MultilayerPerceptron\Training\TrainingLog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.TrainingSet" Collapsed="true">
+    <Position X="13" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIQhIBgAAAghBAECAAABAAAAAAAAAAAAAIAAEhQAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Training\TrainingSet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.UnsupervisedTrainingPattern" Collapsed="true">
+    <Position X="9.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAABABAAgAAAGgAAAAAAAAAAAAAAAAAAAAAAAABI=</HashCode>
+      <FileName>MultilayerPerceptron\Training\UnsupervisedTrainingPattern.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.Teachers.AntColonyOptimizationTeacher.AntColonyOptimizationTeacher" Collapsed="true">
+    <Position X="3" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAgAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Training\Teachers\AntColonyOptimizationTeacher\AntColonyOptimizationTeacher.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.Teachers.AntColonyOptimizationTeacher.NetworkAntColonyOptimization" Collapsed="true">
+    <Position X="21.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Training\Teachers\AntColonyOptimizationTeacher\NetworkAntColonyOptimization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.Teachers.AntColonyOptimizationTeacher.NetworkObjectiveFunction" Collapsed="true">
+    <Position X="16.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAgAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Training\Teachers\AntColonyOptimizationTeacher\NetworkObjectiveFunction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher.BackpropagationTeacher" Collapsed="true">
+    <Position X="7.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAQAAAAAAAAQAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Training\Teachers\BackpropagationTeacher\BackpropagationTeacher.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher.BackpropagationTrainingStrategy" Collapsed="true">
+    <Position X="16.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IQACAAAAAAAgAAAUAgABwAEAAAAAEAAiCAAAABAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Training\Teachers\BackpropagationTeacher\BackpropagationTrainingStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher.Decorators.BackpropagationConnector" Collapsed="true">
+    <Position X="3.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAoAAIAAAACQEIAAgAIAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Training\Teachers\BackpropagationTeacher\Decorators\BackpropagationConnector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher.Decorators.BackpropagationLayer" Collapsed="true">
+    <Position X="0.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Training\Teachers\BackpropagationTeacher\Decorators\BackpropagationLayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher.Decorators.BackpropagationNetwork" Collapsed="true">
+    <Position X="6.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAIABAASQEAAAgAAAAAQAAIAAAAQAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Training\Teachers\BackpropagationTeacher\Decorators\BackpropagationNetwork.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher.Decorators.BackpropagationNeuron" Collapsed="true">
+    <Position X="3.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABgAQAEAAAAIgAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Training\Teachers\BackpropagationTeacher\Decorators\BackpropagationNeuron.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher.Decorators.BackpropagationSynapse" Collapsed="true">
+    <Position X="0.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgQCAAAAAAgoAwAEAACAAIAAACAgAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Training\Teachers\BackpropagationTeacher\Decorators\BackpropagationSynapse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmTeacher.GeneticAlgorithmTeacher" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>MultilayerPerceptron\Training\Teachers\GeneticAlgorithmTeacher\GeneticAlgorithmTeacher.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmTeacher.NetworkGeneticAlgorithm" Collapsed="true">
+    <Position X="14.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAIAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Training\Teachers\GeneticAlgorithmTeacher\NetworkGeneticAlgorithm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmTeacher.NetworkObjectiveFunction" Collapsed="true">
+    <Position X="20" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAgAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Training\Teachers\GeneticAlgorithmTeacher\NetworkObjectiveFunction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealingTeacher.NetworkObjectiveFunction" Collapsed="true">
+    <Position X="18.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAgAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Training\Teachers\SimulatedAnnealingTeacher\NetworkObjectiveFunction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealingTeacher.NetworkSimlatedAnnealing" Collapsed="true">
+    <Position X="21.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Training\Teachers\SimulatedAnnealingTeacher\NetworkSimlatedAnnealing.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealingTeacher.SimulatedAnnealingTeacher" Collapsed="true">
+    <Position X="0.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>MultilayerPerceptron\Training\Teachers\SimulatedAnnealingTeacher\SimulatedAnnealingTeacher.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.MultilayerPerceptron.Training.Teachers.TeacherBase" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAgAEAAIAAAAAQAQQAAAEEAAAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Training\Teachers\TeacherBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork.Utilities" Collapsed="true">
+    <Position X="16.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAgAIAUAIAAAAQAiACgIAAAIAAAAAAAAAAGAE=</HashCode>
+      <FileName>Utilities.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="NeuralNetwork.HopfieldNetwork.IHopfieldNetwork" Collapsed="true">
+    <Position X="14.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAwAAAAAAAAAAAEAAEEAgAAAAAAAAACAABACAQAAAA=</HashCode>
+      <FileName>HopfieldNetwork\IHopfieldNetwork.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.IHopfieldNetworkImp" Collapsed="true">
+    <Position X="16.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAEEAoAAAAAAAAACAABACAQAAEA=</HashCode>
+      <FileName>HopfieldNetwork\HopfieldNetworkImps\IHopfieldNetworkImp.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.IHopfieldNetworkImpFactory" Collapsed="true">
+    <Position X="18.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>HopfieldNetwork\HopfieldNetworkImps\IHopfieldNetworkImpFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NeuralNetwork.KohonenNetwork.IKohonenNetwork" Collapsed="true">
+    <Position X="20" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAEAAACAAAAAAAAgAgAAAAAAgAAACAAAgEAAAEA=</HashCode>
+      <FileName>KohonenNetwork\IKohonenNetwork.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NeuralNetwork.KohonenNetwork.LearningRateFunctions.ILearningRateFunction" Collapsed="true">
+    <Position X="21.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KohonenNetwork\LearningRateFunctions\ILearningRateFunction.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NeuralNetwork.KohonenNetwork.NeighbourhoodFunctions.INeighbourhoodFunction" Collapsed="true">
+    <Position X="13" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>KohonenNetwork\NeighbourhoodFunctions\INeighbourhoodFunction.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NeuralNetwork.MultilayerPerceptron.Connectors.IConnector" Collapsed="true">
+    <Position X="13" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQAQAAAAIAAQAAAAAAAIAAAAAEAAAABCACAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Connectors\IConnector.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions.IActivationFunction" Collapsed="true">
+    <Position X="0.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Layers\ActivationFunctions\IActivationFunction.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions.IDerivableActivationFunction" Collapsed="true">
+    <Position X="0.5" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Layers\ActivationFunctions\IDerivableActivationFunction.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NeuralNetwork.MultilayerPerceptron.Layers.IActivationLayer" Collapsed="true">
+    <Position X="10.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIQAAAAAIAAAAAAAAAAAAgAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Layers\IActivationLayer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NeuralNetwork.MultilayerPerceptron.Layers.ILayer" Collapsed="true">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAIAAAAQAgAAEAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Layers\ILayer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NeuralNetwork.MultilayerPerceptron.Networks.INetwork" Collapsed="true">
+    <Position X="14.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAQSAkAAAABAAQAAAgAAQoAAAAAEAAAACAEAAACFAEA=</HashCode>
+      <FileName>MultilayerPerceptron\Networks\INetwork.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NeuralNetwork.MultilayerPerceptron.Neurons.IActivationNeuron" Collapsed="true">
+    <Position X="6.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAEAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Neurons\IActivationNeuron.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NeuralNetwork.MultilayerPerceptron.Neurons.INeuron" Collapsed="true">
+    <Position X="6.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAEAAQAAAAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Neurons\INeuron.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NeuralNetwork.MultilayerPerceptron.Synapses.ISynapse" Collapsed="true">
+    <Position X="16.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAQAAAAAAAQAAgAAQAIAAACAEAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>MultilayerPerceptron\Synapses\ISynapse.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Delegate Name="NeuralNetwork.HopfieldNetwork.ActivationFunction" Collapsed="true">
+    <Position X="13" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAQAAAA=</HashCode>
+      <FileName>HopfieldNetwork\ActivationFunction.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="NeuralNetwork.KohonenNetwork.TrainingPatternEventhandler" Collapsed="true">
+    <Position X="14.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KohonenNetwork\TrainingPatternEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="NeuralNetwork.KohonenNetwork.TrainingSetEventHandler" Collapsed="true">
+    <Position X="16.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KohonenNetwork\TrainingSetEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>
