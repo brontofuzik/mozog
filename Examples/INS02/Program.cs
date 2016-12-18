@@ -205,7 +205,7 @@ namespace INS02
             double[] vector = new double[inputVectorString.Length];
             for (int i = 0; i < vector.Length; i++)
             {
-                vector[i] = (inputVectorString[i] == '1') ? 1.0 : 0.0; 
+                vector[i] = inputVectorString[i] == '1' ? 1.0 : 0.0; 
             }
             return vector;
         }
@@ -221,7 +221,7 @@ namespace INS02
 
             for (int i = 0; i < keywordCount; i++)
             {
-                vector[i] = (i == keywordIndex) ? 1.0 : 0.0;
+                vector[i] = i == keywordIndex ? 1.0 : 0.0;
             }
 
             return vector;
@@ -246,7 +246,7 @@ namespace INS02
                 }
             }
 
-            return (activeNeuronCount == 1) ? keywordIndex : -1; 
+            return activeNeuronCount == 1 ? keywordIndex : -1; 
         }
 
         /// <summary>

@@ -39,7 +39,7 @@
         /// <returns>The source neuron.</returns>
         public HopfieldNeuron GetSourceNeuron(HopfieldNeuron neuron)
         {
-            return (neuron == _neuron1) ? _neuron2 : _neuron1;
+            return neuron == _neuron1 ? _neuron2 : _neuron1;
         }
 
         /// <summary>

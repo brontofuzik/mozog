@@ -207,7 +207,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             Utilities.RequireObjectNotNull(trainingSet, "trainingSet");
 
             // Validate the input vector length and the output vector length.
-            if ((_inputVectorLength != trainingSet.InputVectorLength) || (_outputVectorLength != trainingSet.OutputVectorLength))
+            if (_inputVectorLength != trainingSet.InputVectorLength || _outputVectorLength != trainingSet.OutputVectorLength)
             {
                 // TODO: Incompatible sets.
                 throw new ArgumentException();

@@ -124,7 +124,7 @@ namespace GeneticAlgorithm
 
             // Repeat while the computational budget is not spend and an acceptable solution is not found.
             int generationIndex = 0;
-            while ((generationIndex < maxGenerationCount) && !IsAcceptableSolutionFound(acceptableEvaluation))
+            while (generationIndex < maxGenerationCount && !IsAcceptableSolutionFound(acceptableEvaluation))
             {
                 // 2. After creating an initial population, each string is then evaluated, ...
                 EvaluateCurrentPopulation(scaling);
@@ -149,7 +149,7 @@ namespace GeneticAlgorithm
 
             // Return the (global-best) solution.
             usedGenerationCount = generationIndex;
-            achievedEvalaution = (objectiveFunction.Objective == Objective.MAXIMIZE) ? globalBestChromosome.Evaluation : (maxObjectiveFunctionValue / globalBestChromosome.Evaluation);
+            achievedEvalaution = objectiveFunction.Objective == Objective.MAXIMIZE ? globalBestChromosome.Evaluation : maxObjectiveFunctionValue / globalBestChromosome.Evaluation;
             return globalBestChromosome.Genes;
         }
 
@@ -190,7 +190,7 @@ namespace GeneticAlgorithm
         /// <param name="averageEvaluation">The average evaluation of all chromosomes in the (current) population.</param>
         protected virtual double FitnessFunction(Chromosome<TGene > chromosome, double averageEvaluation)
         {
-            return (averageEvaluation != 0) ? (chromosome.Evaluation / averageEvaluation) : 1.0;
+            return averageEvaluation != 0 ? chromosome.Evaluation / averageEvaluation : 1.0;
         }
 
         /// <summary>
@@ -406,9 +406,9 @@ namespace GeneticAlgorithm
         /// </returns>
         public void EvaluateChromosome(Chromosome<TGene > chromosome)
         {
-            chromosome.Evaluation = (Objective == Objective.MAXIMIZE) ?
+            chromosome.Evaluation = Objective == Objective.MAXIMIZE ?
                 objectiveFunction.Evaluate(chromosome.Genes) :
-                (maxObjectiveFunctionValue / objectiveFunction.Evaluate(chromosome.Genes));
+                maxObjectiveFunctionValue / objectiveFunction.Evaluate(chromosome.Genes);
         }
 
         /// <summary>
@@ -420,9 +420,9 @@ namespace GeneticAlgorithm
         /// </returns>
         public bool IsAcceptableSolutionFound(double acceptableEvaluation)
         {
-            return (Objective == Objective.MAXIMIZE) ?
-                (globalBestChromosome.Evaluation >= acceptableEvaluation) :
-                ((maxObjectiveFunctionValue / globalBestChromosome.Evaluation) <= acceptableEvaluation);
+            return Objective == Objective.MAXIMIZE ?
+                globalBestChromosome.Evaluation >= acceptableEvaluation :
+                maxObjectiveFunctionValue / globalBestChromosome.Evaluation <= acceptableEvaluation;
         }
     }
 }

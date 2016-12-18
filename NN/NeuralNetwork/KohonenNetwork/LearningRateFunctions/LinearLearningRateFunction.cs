@@ -7,7 +7,7 @@
         public LinearLearningRateFunction(int trainingIterationCount, double initialLearningRate, double finalLearningRate)
             : base(trainingIterationCount, initialLearningRate, finalLearningRate)
         {
-            _learningRateParameter = ((finalLearningRate - initialLearningRate) / trainingIterationCount);
+            _learningRateParameter = (finalLearningRate - initialLearningRate) / trainingIterationCount;
         }
 
         public LinearLearningRateFunction(int trainingIterationCount)

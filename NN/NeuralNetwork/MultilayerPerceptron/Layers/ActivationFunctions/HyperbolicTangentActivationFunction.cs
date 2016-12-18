@@ -27,7 +27,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions
         public double EvaluateDerivative(double x)
         {
             double y = Evaluate(x);
-            return (1 - Math.Pow(y, 2));
+            return 1 - Math.Pow(y, 2);
         }
     }
 }

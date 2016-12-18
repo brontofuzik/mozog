@@ -35,7 +35,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         // Replaces three steps - (b), (c) and (d) - with one.
         public void Backpropagate(double desiredOutput)
         {
-            _partialDerivative = (Output - desiredOutput);
+            _partialDerivative = Output - desiredOutput;
             _error =  _partialDerivative * ActivationFunctionDerivative;
         }
 

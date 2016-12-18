@@ -40,7 +40,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             _aic = n * Math.Log(_rss_trainingSet / (double)n) + 2 * p;
 
             // Calcuolate (and log) the bias-corrected Akaike information criterion.
-            _aicc = _aic + (2 * (p + 1) * (p + 2)) / (n - p - 2);
+            _aicc = _aic + 2 * (p + 1) * (p + 2) / (n - p - 2);
 
             // Calculate (and log) the Bayesian information criterion.
             _bic = n * Math.Log(_rss_trainingSet / (double)n) + p + p * Math.Log(n);
@@ -230,7 +230,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
                 double[] outputVector = network.Evaluate(trainingPattern.InputVector);
                 double[] desiredOutputVector = trainingPattern.OutputVector;
 
-                rss += Math.Pow((outputVector[0] - desiredOutputVector[0]), 2);
+                rss += Math.Pow(outputVector[0] - desiredOutputVector[0], 2);
             }
             return rss;
         }

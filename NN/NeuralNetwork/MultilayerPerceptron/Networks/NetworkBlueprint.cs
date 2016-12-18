@@ -307,7 +307,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
             {
                 return InputLayerNeuronCount;
             }
-            else if ((0 < layerIndex) && (layerIndex < LayerCount - 1))
+            else if (0 < layerIndex && layerIndex < LayerCount - 1)
             {
                 return hiddenLayerBlueprints[layerIndex - 1].NeuronCount;
             }

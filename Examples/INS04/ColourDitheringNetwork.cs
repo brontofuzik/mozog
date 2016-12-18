@@ -455,7 +455,7 @@ namespace INS04
         /// <returns>The index of the neuron.</returns>
         private int neuronCoordinatesToIndex(NeuronCoordinates neuronCoordinates)
         {
-            return neuronCoordinates.Z * (_height * _width) + neuronCoordinates.Y * (_width) + neuronCoordinates.X * (1);
+            return neuronCoordinates.Z * _height * _width + neuronCoordinates.Y * _width + neuronCoordinates.X * 1;
         }
 
         /// <summary>
@@ -568,7 +568,7 @@ namespace INS04
                     for (int z = 0; z < _depth; ++z)
                     {
                         int neuronIndex = neuronCoordinatesToIndex(new NeuronCoordinates(x, y, z));
-                        pattern[neuronIndex] = (z == colorIndex) ? 1.0 : 0.0; 
+                        pattern[neuronIndex] = z == colorIndex ? 1.0 : 0.0; 
                     }
                 }
             }

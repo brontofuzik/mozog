@@ -132,7 +132,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         /// <returns></returns>
         public virtual bool IsStoppingCriterionMet(int iterationCount, double networkError)
         {
-            return (iterationCount >= _maxIterationCount) || (networkError <= _maxNetworkError);
+            return iterationCount >= _maxIterationCount || networkError <= _maxNetworkError;
         }
 
         /// <summary>

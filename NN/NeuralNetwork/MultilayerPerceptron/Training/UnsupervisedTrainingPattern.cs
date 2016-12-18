@@ -74,7 +74,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             }
 
             // Calculate the normalization neighbourhoodRadiusParameter.
-            double factor = (sumOfSquares != 0) ? Math.Sqrt(magnitude / sumOfSquares) : 0;
+            double factor = sumOfSquares != 0 ? Math.Sqrt(magnitude / sumOfSquares) : 0;
 
             // Calculate the normalized vector 
             double[] normalizedVector = new double[vector.Length];

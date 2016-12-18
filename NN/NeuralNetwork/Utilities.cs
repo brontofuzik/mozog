@@ -217,7 +217,7 @@ namespace NeuralNetwork
 
             #endregion // Preconditions
 
-            return (minValue + (maxValue - minValue) * _random.NextDouble());
+            return minValue + (maxValue - minValue) * _random.NextDouble();
         }
 
         // http://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle

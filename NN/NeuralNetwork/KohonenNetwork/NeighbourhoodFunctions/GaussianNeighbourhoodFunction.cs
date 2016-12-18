@@ -6,7 +6,7 @@ namespace NeuralNetwork.KohonenNetwork.NeighbourhoodFunctions
     {
         public override double CalculateNeighbourhood(double distanceBetweenOutputNeurons, double neighbourhoodRadius)
         {
-            return 1 * Math.Exp(-((distanceBetweenOutputNeurons * distanceBetweenOutputNeurons) / (2 * neighbourhoodRadius * neighbourhoodRadius)));
+            return 1 * Math.Exp(-(distanceBetweenOutputNeurons * distanceBetweenOutputNeurons / (2 * neighbourhoodRadius * neighbourhoodRadius)));
         }
     }
 }

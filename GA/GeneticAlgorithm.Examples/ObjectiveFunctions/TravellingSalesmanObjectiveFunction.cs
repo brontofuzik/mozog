@@ -12,15 +12,32 @@ namespace GeneticAlgorithm.Examples.ObjectiveFunctions
 
         public override double Evaluate(char[] genes)
         {
-            Dictionary<char, Dictionary<char, double> > distances = new Dictionary<char, Dictionary<char, double>>();
+            // TODO Make the graph undirected.
+            Dictionary<char, Dictionary<char, double>> distances = new Dictionary<char, Dictionary<char, double>>();
+
             distances['A'] = new Dictionary<char, double>();
-            distances['A']['A'] = 0.0;                     distances['A']['B'] = 20.0;                    distances['A']['C'] = 42.0;                    distances['A']['D'] = 35.0;
+            distances['A']['A'] = 0.0;
+            distances['A']['B'] = 20.0;
+            distances['A']['C'] = 42.0;
+            distances['A']['D'] = 35.0;
+
             distances['B'] = new Dictionary<char, double>();
-            distances['B']['A'] = distances['A']['B']; distances['B']['B'] =  0.0;                    distances['B']['C'] = 30.0;                    distances['B']['D'] = 34.0;
+            distances['B']['A'] = distances['A']['B'];
+            distances['B']['B'] =  0.0;
+            distances['B']['C'] = 30.0;
+            distances['B']['D'] = 34.0;
+
             distances['C'] = new Dictionary<char, double>();
-            distances['C']['A'] = distances['A']['C']; distances['C']['B'] = distances['B']['C']; distances['C']['C'] =  0.0;                    distances['C']['D'] = 12.0;
+            distances['C']['A'] = distances['A']['C'];
+            distances['C']['B'] = distances['B']['C'];
+            distances['C']['C'] =  0.0;
+            distances['C']['D'] = 12.0;
+
             distances['D'] = new Dictionary<char, double>();
-            distances['D']['A'] = distances['A']['D']; distances['D']['B'] = distances['B']['D']; distances['D']['C'] = distances['C']['D']; distances['D']['D'] =  0.0;
+            distances['D']['A'] = distances['A']['D'];
+            distances['D']['B'] = distances['B']['D'];
+            distances['D']['C'] = distances['C']['D'];
+            distances['D']['D'] =  0.0;
 
             double totalDistance = 0.0;
             for (int i = 0; i < 4; i++)
@@ -29,7 +46,7 @@ namespace GeneticAlgorithm.Examples.ObjectiveFunctions
                 char originCity = genes[i];
 
                 // The destination city.
-                int destinationCityIndex = ((i + 1) < Dimension) ? (i + 1) : 0;
+                int destinationCityIndex = i + 1 < Dimension ? i + 1 : 0;
                 char destinationCity = genes [destinationCityIndex];
 
                 // Add the distance from the origin to the destination city to the total distance.

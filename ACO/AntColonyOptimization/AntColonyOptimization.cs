@@ -81,7 +81,7 @@ namespace AntColonyOptimization
 
             // Repeat while the computational budget is not spend and an acceptable solution is not found.
             int iterationIndex = 0;
-            while ((iterationIndex < maxIterationCount) && !IsAcceptableSolutionFound(acceptableEvaluation))
+            while (iterationIndex < maxIterationCount && !IsAcceptableSolutionFound(acceptableEvaluation))
             {
                 // Solution Construction
                 EvaluateAntColony();
@@ -94,7 +94,7 @@ namespace AntColonyOptimization
 
             // Return the (global-best) solution.
             usedIterationCount = iterationIndex;
-            achievedEvalation = (objectiveFunction.Objective == Objective.Minimize) ? globalBestAnt.Evaluation : (1 / globalBestAnt.Evaluation);
+            achievedEvalation = objectiveFunction.Objective == Objective.Minimize ? globalBestAnt.Evaluation : 1 / globalBestAnt.Evaluation;
             return globalBestAnt.Steps;
         }
 
@@ -234,7 +234,7 @@ namespace AntColonyOptimization
                     max = Math.Max(max, ant.Steps[i]);
                     min = Math.Min(min, ant.Steps[i]);
                 }
-                double standardDeviation = Math.Max(((max - min) / Math.Sqrt(iterationCount)), requiredAccuracy);
+                double standardDeviation = Math.Max((max - min) / Math.Sqrt(iterationCount), requiredAccuracy);
                 pheromoneTrail[i].Update(mean, standardDeviation);
             }
         }
@@ -245,7 +245,7 @@ namespace AntColonyOptimization
         /// <param name="ant">The ant to evalaute.</param>
         private void EvaluateAnt(Ant ant)
         {
-            ant.Evaluation = (Objective == Objective.Minimize) ? objectiveFunction.Evaluate(ant.Steps) : (1 / objectiveFunction.Evaluate(ant.Steps));
+            ant.Evaluation = Objective == Objective.Minimize ? objectiveFunction.Evaluate(ant.Steps) : 1 / objectiveFunction.Evaluate(ant.Steps);
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace AntColonyOptimization
         /// </returns>
         private bool IsAcceptableSolutionFound(double acceptableEvaluation)
         {
-            return (Objective == Objective.Minimize) ? (globalBestAnt.Evaluation <= acceptableEvaluation) : ((1 / globalBestAnt.Evaluation) >= acceptableEvaluation);
+            return Objective == Objective.Minimize ? globalBestAnt.Evaluation <= acceptableEvaluation : 1 / globalBestAnt.Evaluation >= acceptableEvaluation;
         }
     }
 }

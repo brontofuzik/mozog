@@ -9,7 +9,7 @@ namespace NeuralNetwork.KohonenNetwork.LearningRateFunctions
         public ExponentialLearningRateFunction(int trainingIterationCount, double initialLearningRate, double finalLearningRate)
             : base(trainingIterationCount, initialLearningRate, finalLearningRate)
         {
-            _learningRateParameter = Math.Pow((finalLearningRate / initialLearningRate), 1 / (double)trainingIterationCount);
+            _learningRateParameter = Math.Pow(finalLearningRate / initialLearningRate, 1 / (double)trainingIterationCount);
         }
 
         public ExponentialLearningRateFunction(int trainingIterationCount)

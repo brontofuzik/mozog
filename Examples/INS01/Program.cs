@@ -254,7 +254,7 @@ namespace INS01
             {
                 for (int x = 0; x < tileWidth; x++)
                 {
-                    vector[i++] = (tile.GetPixel(x, y).GetBrightness() > 0.5) ? 1.0 : 0.0;
+                    vector[i++] = tile.GetPixel(x, y).GetBrightness() > 0.5 ? 1.0 : 0.0;
                 }
             }
 
@@ -275,7 +275,7 @@ namespace INS01
             {
                 for (int x = 0; x < tileWidth; x++)
                 {
-                    tile.SetPixel(x, y, (vector[i++] >= 0.5) ? Color.White : Color.Black);
+                    tile.SetPixel(x, y, vector[i++] >= 0.5 ? Color.White : Color.Black);
                 }
             }
 

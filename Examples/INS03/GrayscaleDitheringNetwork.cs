@@ -323,7 +323,7 @@ namespace INS03
         /// <returns>The index of the neuron.</returns>
         private int neuronCoordinatesToIndex(int neuronXCoordinate, int neuronYCoordinate)
         {
-            return neuronYCoordinate * (_width) + neuronXCoordinate * (1);
+            return neuronYCoordinate * _width + neuronXCoordinate * 1;
         }
 
         /// <summary>
@@ -411,7 +411,7 @@ namespace INS03
                 for (int x = 0; x < _width; ++x)
                 {
                     int neuronIndex = neuronCoordinatesToIndex(x, y);
-                    Color color = (pattern[neuronIndex] >= 0.5) ? Color.White : Color.Black;
+                    Color color = pattern[neuronIndex] >= 0.5 ? Color.White : Color.Black;
                     image.SetPixel(x, y, color);
                 }
             }

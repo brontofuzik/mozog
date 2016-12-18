@@ -46,7 +46,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
         /// <returns></returns>
         private static double eightQueensNetworkActivationFunction(double input, double evaluationProgressRatio)
         {
-            return (input > 0) ? 1.0 : 0.0;
+            return input > 0 ? 1.0 : 0.0;
         }
 
         /// <summary>

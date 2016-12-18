@@ -21,11 +21,11 @@
             double totalWeight = 0.0;
             for (int i = 0; i < 5; i++)
             {
-                totalValue += (genes[i] == 1) ? itemValuesAndWeights[i, 0] : 0.0;
-                totalWeight += (genes[i] == 1) ? itemValuesAndWeights[i, 1] : 0.0;
+                totalValue += genes[i] == 1 ? itemValuesAndWeights[i, 0] : 0.0;
+                totalWeight += genes[i] == 1 ? itemValuesAndWeights[i, 1] : 0.0;
             }
 
-            return (totalWeight <= 15.0) ? totalValue : 0.0;
+            return totalWeight <= 15.0 ? totalValue : 0.0;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace SimulatedAnnealing.Examples.ObjectiveFunctions
         /// </returns>
         public override double Evaluate(double[] state)
         {
-            return 1 - (Math.Sin(state[0]) / state[0]);
+            return 1 - Math.Sin(state[0]) / state[0];
         }
     }
 }

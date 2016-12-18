@@ -17,7 +17,7 @@ namespace AntColonyOptimization.Examples
         public static void Main(string[] args)
         {
             // Best solution : [0, 0, 0, 0, 0, 0]
-            // best solution's evaluation : 0
+            // Best solution's evaluation : 0
             Test(1, "Ant colony optimization (ACO) : The sphere model (SM) function", new RealFunctionAntColonyOptimization(), new SphereModelFunction(6),
                 10000, Double.MinValue,
                 8, 3, 0.0001
@@ -25,7 +25,7 @@ namespace AntColonyOptimization.Examples
             Console.WriteLine();
 
             // Best solution : [0, -1]
-            // best solution's evaluation : 3
+            // Best solution's evaluation : 3
             Test(2, "Ant colony optimization (ACO) : The Goldstein and Price (GP) function", new RealFunctionAntColonyOptimization(), new GoldsteinPriceFunction(2),
                 10000, Double.MinValue,
                 6, 4, 0.0001
@@ -33,7 +33,7 @@ namespace AntColonyOptimization.Examples
             Console.WriteLine();
 
             // Best solution : [1, 1]
-            // best solution's evaluation : 0
+            // Best solution's evaluation : 0
             Test(3, "Ant colony optimization (ACO) : The Rosenbrock (R2) function", new RealFunctionAntColonyOptimization(), new RosenbrockFunction(2),
                 10000, Double.MinValue,
                 30, 8, 0.003
@@ -41,7 +41,7 @@ namespace AntColonyOptimization.Examples
             Console.WriteLine();
 
             // Best solution : [0, 0]
-            // best solution's evaluation : 0
+            // Best solution's evaluation : 0
             Test(4, "Ant colony optimization (ACO) : The Zakharov (Z2) function", new RealFunctionAntColonyOptimization(), new ZakharovFunction(2),
                 10000, Double.MinValue,
                 8, 4, 0.0001

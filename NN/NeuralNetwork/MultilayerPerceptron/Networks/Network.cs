@@ -186,7 +186,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
             double networkError = 0.0;
             for (int i = 0; i < outputVector.Length; i++)
             {
-                networkError += Math.Pow((outputVector[i] - desiredOutputVector[i]), 2);
+                networkError += Math.Pow(outputVector[i] - desiredOutputVector[i], 2);
             }
 
             return networkError;

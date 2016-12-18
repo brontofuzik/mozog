@@ -81,7 +81,7 @@
             {
                 if (random.NextDouble() < mutationRate)
                 {
-                    chromosome.Genes[i] = (chromosome.Genes[i] == 0) ? 1 : 0;
+                    chromosome.Genes[i] = chromosome.Genes[i] == 0 ? 1 : 0;
                 }
             }
         }

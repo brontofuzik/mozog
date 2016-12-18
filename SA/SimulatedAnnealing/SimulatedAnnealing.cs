@@ -107,7 +107,7 @@ namespace SimulatedAnnealing
             int iterationIndex = 0;
 
             // while k < kmax and e > emax ... While time left & not good enough:
-            while ((iterationIndex < maxIterationCount) && !IsAcceptableSolutionFound(acceptableEnergy))
+            while (iterationIndex < maxIterationCount && !IsAcceptableSolutionFound(acceptableEnergy))
             {
                 // snew ← neighbour(s) ... Pick some neighbour.
                 T[] newState = PerturbationFunction(currentState);
@@ -124,7 +124,7 @@ namespace SimulatedAnnealing
                 }
 
                 // if P(e, enew, temp(k/kmax)) > random() then ... Should we move to it?
-                double temperature = TemperatureFunction(initialTemperature, finalTemperature, (iterationIndex / (double)maxIterationCount));
+                double temperature = TemperatureFunction(initialTemperature, finalTemperature, iterationIndex / (double)maxIterationCount);
                 if (AcceptanceProbabilityFunction(currentEnergy, newEnergy, temperature) > random.NextDouble())
                 {
                     // s ← snew; e ← enew ... Yes, change state.
@@ -138,7 +138,7 @@ namespace SimulatedAnnealing
 
             // return sbest ... Return the best solution found.
             usedIterationCount = iterationIndex;
-            achievedEnergy = (objectiveFunction.Objective == Objective.MINIMIZE) ? bestEnergy : (1 / bestEnergy);
+            achievedEnergy = objectiveFunction.Objective == Objective.MINIMIZE ? bestEnergy : 1 / bestEnergy;
             return bestState;
         }
 
@@ -268,7 +268,7 @@ namespace SimulatedAnnealing
         /// </returns>
         protected virtual double TemperatureFunction(double initialTemperature, double finalTemperature, double r)
         {
-            return initialTemperature * Math.Pow((finalTemperature / initialTemperature), r);
+            return initialTemperature * Math.Pow(finalTemperature / initialTemperature, r);
         }
 
         /// <summary>
@@ -337,7 +337,7 @@ namespace SimulatedAnnealing
         /// </returns>
         private double EvaluateState(T[] state)
         {
-            return (Objective == Objective.MINIMIZE) ? objectiveFunction.Evaluate(state) : (1 / objectiveFunction.Evaluate(state));
+            return Objective == Objective.MINIMIZE ? objectiveFunction.Evaluate(state) : 1 / objectiveFunction.Evaluate(state);
         }
 
         /// <summary>
@@ -349,7 +349,7 @@ namespace SimulatedAnnealing
         /// </returns>
         public bool IsAcceptableSolutionFound(double acceptableEnergy)
         {
-            return (Objective == Objective.MINIMIZE) ? (bestEnergy <= acceptableEnergy) : ((1 / bestEnergy) >= acceptableEnergy);
+            return Objective == Objective.MINIMIZE ? bestEnergy <= acceptableEnergy : 1 / bestEnergy >= acceptableEnergy;
         }
     }
 }

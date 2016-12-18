@@ -95,7 +95,7 @@ namespace GeneticAlgorithm.Examples.Problems
                 // 4. Legalize proto-offspring with the mapping relationship.
                 for (int i = 0; i < Dimension; i++)
                 {
-                    if ((point1 <= i) && (i < point2))
+                    if (point1 <= i && i < point2)
                     {
                         continue;
                     }
@@ -111,7 +111,7 @@ namespace GeneticAlgorithm.Examples.Problems
                     {
                         for (int j = 0; j < Dimension; j++)
                         {
-                            if ((point1 <= j) && (j < point2))
+                            if (point1 <= j && j < point2)
                             {
                                 continue;
                             }
@@ -142,7 +142,7 @@ namespace GeneticAlgorithm.Examples.Problems
             {
                 // Swap two consecutive (tour-wisely) cities.
                 int originCityIndex = random.Next(0, Dimension);
-                int destinationCityIndex = ((originCityIndex + 1) < Dimension) ? originCityIndex + 1 : 0;
+                int destinationCityIndex = originCityIndex + 1 < Dimension ? originCityIndex + 1 : 0;
                 
                 char tmpCity = chromosome.Genes[originCityIndex];
                 chromosome.Genes[originCityIndex] = chromosome.Genes[destinationCityIndex];
