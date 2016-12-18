@@ -9,10 +9,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
     class BackpropagationSynapse
         : SynapseDecorator
     {
-        #region Public members
- 
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new backpropagation synapse by decorating a synapse.
         /// </summary>
@@ -22,10 +18,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         {
             _k = 1.01;
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Connects the (backpropagation) synapse.
@@ -132,14 +124,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
             return "BP" + base.ToString();
         }
 
-        #endregion // Public instance methods
-
-        #endregion // Public members
-
-        #region Private members
-
-        #region Private instance fields
-
         /// <summary>
         /// The partial derivative of the error function with respect to the synapse.
         /// </summary>
@@ -164,9 +148,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         /// 
         /// </summary>
         private double _k;
-
-        #endregion // Private instance fields
-
-        #endregion // Private members
     }
 }

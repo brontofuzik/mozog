@@ -13,8 +13,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
     public class Connector
         : IConnector
     {
-        #region Private instance fields
-
         /// <summary>
         /// The blueprint of the connector.
         /// </summary>
@@ -39,10 +37,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
         /// The parent network of the connector.
         /// </summary>
         private INetwork parentNetwork;
-
-        #endregion // Private Instance Fields
-
-        #region Public instance properties
 
         /// <summary>
         /// Gets the blueprint of the connector.
@@ -146,10 +140,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new connector (from a blueprint).
         /// </summary>
@@ -177,10 +167,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
             Utilities.RequireObjectNotNull(parentNetwork, "parentNetwork");
             this.parentNetwork = parentNetwork;
         }
-
-        #endregion // Public instance constructors  
-
-        #region Public instance methods
 
         /// <summary>
         /// Connects the connector.
@@ -277,7 +263,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
                 synapse.Jitter( jitterNoiseLimit );
             }
         }
-
-        #endregion // Public Instance Methods
     }
 }

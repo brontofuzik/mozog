@@ -10,10 +10,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
     public class BackpropagationTeacher
         : TeacherBase
     {
-        #region Public members
-
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new backpropagation teacher.
         /// </summary>
@@ -24,11 +20,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
             : base( trainingSet, validationSet, testSet )
         {
         }
-
-        #endregion // Public instance constructors
-      
-        #region Public instance properties
-
+     
         /// <summary>
         /// Gets the name of the teacher.
         /// </summary>
@@ -42,10 +34,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
                 return "BackpropagationTeacher";
             }
         }
-
-        #endregion // Public instance properties
-
-        #region Public instance methods
 
         /// <summary>
         /// Trains a network using the specified training strategy.
@@ -130,14 +118,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
             return Train( network, trainingStrategy );
         }
 
-        #endregion // Public instance methods
-
-        #endregion // Public members
-
-        #region Private memebers
-
-        #region Private instance methods
-
         /// <summary>
         /// Trains the backpropagation network on the training set using the specified training strategy.
         /// </summary>
@@ -189,9 +169,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
                 backpropagationNetwork.UpdateSynapseWeights();
             }
         }
-
-        #endregion // Private instance methods
-
-        #endregion // Private members
     }
 }

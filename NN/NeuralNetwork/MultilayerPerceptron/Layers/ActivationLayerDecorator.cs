@@ -14,16 +14,10 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
     public abstract class ActivationLayerDecorator
         : IActivationLayer
     {
-        #region Protected instance fields
-
         /// <summary>
         /// 
         /// </summary>
         protected IActivationLayer decoratedActivationLayer;
-
-        #endregion // Protected instance fields
-
-        #region Public instance properties
 
         /// <summary>
         /// 
@@ -126,10 +120,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Public instance constructors
-
         /// <summary>
         /// 
         /// </summary>
@@ -140,10 +130,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
             this.decoratedActivationLayer = activationLayer;
             ParentNetwork = parentNetwork;
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Returns the decorated activation layer.
@@ -211,7 +197,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
         {
             return decoratedActivationLayer.ToString();
         }
-
-        #endregion // Public instance methods
     }
 }

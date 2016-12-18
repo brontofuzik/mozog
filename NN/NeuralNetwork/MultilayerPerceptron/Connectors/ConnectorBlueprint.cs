@@ -7,8 +7,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
     /// </remarks>
     public class ConnectorBlueprint
     {
-        #region Private instance fields
-
         /// <summary>
         /// The index of the source layer (within the network).
         /// </summary>
@@ -23,10 +21,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
         /// The blueprints of the synapses.
         /// </summary>
         private SynapseBlueprint[] synapseBlueprints;
-
-        #endregion // Private instance fields
-
-        #region Public instance properties
 
         /// <summary>
         /// Gets the index of the source layer (within the network).
@@ -86,10 +80,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new connector blueprint.
         /// </summary>
@@ -116,7 +106,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
                 }
             }
         }
-
-        #endregion // Public instance constructors
     }
 }

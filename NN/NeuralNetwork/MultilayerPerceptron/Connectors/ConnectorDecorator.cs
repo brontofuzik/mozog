@@ -13,16 +13,10 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
     public abstract class ConnectorDecorator
         : IConnector
     {
-        #region Protected instance fields
-
         /// <summary>
         /// 
         /// </summary>
         protected IConnector decoratedConnector;
-
-        #endregion // Protected instance fields
-
-        #region Public instance properties
 
         /// <summary>
         /// Gets the blueprint of the connector.
@@ -126,10 +120,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new connector decorator.
         /// </summary>
@@ -140,10 +130,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
             this.decoratedConnector = decoratedConnector;
             ParentNetwork = parentNetwork;
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Connects the connector.
@@ -229,7 +215,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
         {
             return decoratedConnector.ToString();
         }
-
-        #endregion // Public instance methods
     }
 }

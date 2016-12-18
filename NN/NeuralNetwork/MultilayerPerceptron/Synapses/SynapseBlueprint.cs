@@ -5,8 +5,6 @@
     /// </summary>
     public class SynapseBlueprint
     {
-        #region Private instance fields
-
         /// <summary>
         /// The index of the source neuron (within the source layer).
         /// </summary>
@@ -16,10 +14,6 @@
         /// The index of the target neuron (within the target layer).
         /// </summary>
         private int targetNeuronIndex;
-
-        #endregion // Private instance fields
-
-        #region Public instance properties
 
         /// <summary>
         /// Gets the index of the source neuron (within the source layer).
@@ -49,10 +43,6 @@
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new synapse blueprint.
         /// </summary>
@@ -64,7 +54,5 @@
             this.sourceNeuronIndex = sourceNeuronIndex;
             this.targetNeuronIndex = targetNeuronIndex;
         }
-
-        #endregion // Public instance constructors
     }
 }

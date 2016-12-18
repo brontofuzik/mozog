@@ -13,10 +13,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
     /// </remarks>
     public class UnsupervisedTrainingPattern
     {
-        #region Public members
-
-        #region Instance constructs
-
         /// <summary>
         /// Initializes a new instance of the UnsupervisedTrainingPattern class.
         /// </summary>
@@ -45,10 +41,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             : this(inputVector, null)
         {
         }
-
-        #endregion // Instance constructors
-
-        #region Static methods
 
         /// <summary>
         /// Normalizes a vector of numbers to the given magnitude.
@@ -142,10 +134,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             return vectorStringBuilder.ToString();
         }
 
-        #endregion // Static methods
-
-        #region Instance methods
-
         /// <summary>
         /// Converts the training pattern to its string representation.
         /// </summary>
@@ -159,10 +147,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             // alternatively:
             // return (base.ToString() + "(" + VectorToString( inputVector ) + "," + VectorToString( outputVector ) + ")");
         }
-
-        #endregion // Insatnce methods
-
-        #region Instance properties
 
         /// <summary>
         /// Gets the input vector.
@@ -209,15 +193,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
                 _tag = value;
             }
         }
-
-        #endregion // Instance properties
-
-        #endregion // Public members
-
-
-        #region Private members
-
-        #region Instance fields
         
         /// <summary>
         /// The input vector.
@@ -233,9 +208,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// The tag.
         /// </summary>
         private object _tag;
-
-        #endregion // Instance fields
-
-        #endregion // Private members
     }
 }

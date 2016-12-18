@@ -9,19 +9,10 @@ namespace INS04
 {
     class ColourDitheringNetwork
     {
-        #region Static constructors
-
         static ColourDitheringNetwork()
         {
             _random = new Random();
         }
-
-        #endregion // Static constructors
-
-
-        #region Public members
-
-        #region Static methods
 
         /// <summary>
         /// Dithers a (colour) image.
@@ -81,15 +72,6 @@ namespace INS04
             return ditheredImage;
         }
 
-        #endregion // Static methods
-
-        #endregion // Public members
-
-
-        #region Private members
-
-        #region Instance constructors
-
         /// <summary>
         /// Initializes a new instance of the ColourDitheringNetwork class.
         /// </summary>
@@ -126,10 +108,6 @@ namespace INS04
             _depth = depth;
         }
 
-        #endregion // Instance constructors
-
-        #region Static methods
-
         /// <summary>
         /// The activation function of the colour dithering network.
         /// </summary>
@@ -163,10 +141,6 @@ namespace INS04
 
             return paletteImage;
         }
-
-        #endregion // Static methods
-
-        #region Instance methods
 
         /// <summary>
         /// Trains the colour dithering network.
@@ -632,10 +606,6 @@ namespace INS04
             return image;
         }
 
-        #endregion // Instance methods
-
-        #region Instance properties
-
         private int neuronCount
         {
             get
@@ -643,10 +613,6 @@ namespace INS04
                 return _underlyingHopfieldNetwork.NeuronCount;
             }
         }
-
-        #endregion // Instance properties
-
-        #region Static fields
 
         /// <summary>
         /// The pseudo-random number generator.
@@ -657,10 +623,6 @@ namespace INS04
         /// The number of evaluation iterations.
         /// </summary>
         private static int _evaluationIterationCount = 20;
-
-        #endregion // Static fields
-
-        #region Instance fields
 
         /// <summary>
         /// The underlying Hopfield network.
@@ -691,28 +653,16 @@ namespace INS04
         /// The palette.
         /// </summary>
         private Color[] _palette;
-
-        #endregion // Instance fields
-
-        #endregion // Private members
     }
 
     struct NeuronCoordinates
     {
-        #region Public members
-
-        #region Instance constructors
-
         public NeuronCoordinates(int x, int y, int z)
         {
             _x = x;
             _y = y;
             _z = z;
         }
-
-        #endregion // Instance constructors
-
-        #region Instance properties
 
         public int X
         {
@@ -738,33 +688,16 @@ namespace INS04
             }
         }
 
-        #endregion // Instance properties
-
-        #region Instance methods
-
         public override string ToString()
         {
             return String.Format("({0}, {1}, {2})", _x, _y, _z);
         }
-
-        #endregion // Instance methods
-
-        #endregion // Public members
-
-
-        #region Private members
-
-        #region Instance fields
 
         private int _x;
 
         private int _y;
 
         private int _z;
-
-        #endregion // Instance fields
-
-        #endregion // Private members
     }
 
     enum ColorComponent

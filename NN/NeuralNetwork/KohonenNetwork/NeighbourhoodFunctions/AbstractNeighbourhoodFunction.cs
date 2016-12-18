@@ -3,19 +3,10 @@
     public abstract class AbstractNeighbourhoodFunction
         : INeighbourhoodFunction
     {
-        #region Public members
-
-        public abstract double CalculateNeighbourhood(double distanceBetweenOutputNeurons, double neighbourhoodRadius);
-
-        #endregion // Public members
-
-        
-        #region Protected members
+        public abstract double CalculateNeighbourhood(double distanceBetweenOutputNeurons, double neighbourhoodRadius);    
 
         protected AbstractNeighbourhoodFunction()
         {
         }
-
-        #endregion // Protected members
     }
 }

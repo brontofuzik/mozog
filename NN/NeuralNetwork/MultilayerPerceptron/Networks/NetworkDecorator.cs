@@ -13,10 +13,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
     public abstract class NetworkDecorator
         : INetwork
     {
-        #region Public members
-
-        #region Public instance constructors
-
         /// <summary>
         /// 
         /// </summary>
@@ -25,10 +21,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         {
             this._decoratedNetwork = decoratedNetwork;
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Connects the network.
@@ -202,10 +194,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
             return _decoratedNetwork.ToString();
         }
 
-        #endregion // Public instance methods
-
-        #region Public insatnce properties
-
         /// <summary>
         /// Gets the network blueprint.
         /// </summary>
@@ -356,21 +344,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
             }
         }
 
-        #endregion // Public instance properties
-
-        #endregion // Public members
-
-        #region Protected members
-
-        #region Protected instance fields
-
         /// <summary>
         /// The decorated network.
         /// </summary>
         protected INetwork _decoratedNetwork;
-
-        #endregion // Protected instance fields
-
-        #endregion // Protected members
     }
 }

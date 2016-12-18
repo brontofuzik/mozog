@@ -5,19 +5,11 @@ namespace NeuralNetwork.KohonenNetwork
 
     public class TrainingPatternEventArgs
     {
-        #region Public members
-
-        #region Instance constructors
-
         public TrainingPatternEventArgs(SupervisedTrainingPattern trainingPattern, int trainingIterationIndex)
         {
             _trainingPattern = trainingPattern;
             _trainingIterationIndex = trainingIterationIndex;
         }
-
-        #endregion // Instance constructors
-
-        #region Instance properties
 
         public SupervisedTrainingPattern TrianingPattern
         {
@@ -35,21 +27,8 @@ namespace NeuralNetwork.KohonenNetwork
             }
         }
 
-        #endregion // Instance properties
-
-        #endregion // Public members
-
-
-        #region Private members
-
-        #region Instance fields
-
         private SupervisedTrainingPattern _trainingPattern;
 
         private int _trainingIterationIndex;
-
-        #endregion // Instance fields
-
-        #endregion // Private members
     }
 }

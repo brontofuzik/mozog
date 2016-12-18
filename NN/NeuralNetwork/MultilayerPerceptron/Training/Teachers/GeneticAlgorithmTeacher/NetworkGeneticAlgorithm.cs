@@ -10,8 +10,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmT
     internal class NetworkGeneticAlgorithm
         : GeneticAlgorithm< double >
     {
-        #region Protected instance methods
-
         /// <summary>
         /// The generator function.
         /// </summary>
@@ -96,7 +94,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmT
                 }
             }
         }
-
-        #endregion // Protected istance methods
     }
 }

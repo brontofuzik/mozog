@@ -3,10 +3,6 @@
     public class FullHopfieldNetworkImpFactory
         : IHopfieldNetworkImpFactory
     {
-        #region Public members
-
-        #region Instance methods
-
         public IHopfieldNetworkImp CreateHopfieldNetworkImp(int neuronCount, ActivationFunction activationFunction)
         {
             #region Preconditions
@@ -21,9 +17,5 @@
 
             return new FullHopfieldNetworkImp(neuronCount, activationFunction);
         }
-
-        #endregion // Instance methods
-
-        #endregion // Public members
     }
 }

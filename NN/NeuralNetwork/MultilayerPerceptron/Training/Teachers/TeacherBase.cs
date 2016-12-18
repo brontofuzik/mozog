@@ -1,5 +1,4 @@
 ﻿using System;
-
 using NeuralNetwork.MultilayerPerceptron.Networks;
 
 namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers
@@ -9,10 +8,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers
     /// </summary>
     public abstract class TeacherBase
     {
-        #region Public members
-
-        #region Public instance properties
-
         /// <summary>
         /// Gets the name of the teacher.
         /// </summary>
@@ -65,10 +60,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers
                 return testSet;
             }
         }
-
-        #endregion // Public instance properties
-
-        #region Public instance methods
 
         /// <summary>
         /// Trains a network.
@@ -124,14 +115,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers
             }
         }
 
-        #endregion // Public instance methods
-
-        #endregion // Public members
-
-        #region Protected members
-
-        #region Protected instance constructors
-
         /// <summary>
         /// Creates a new teacher.
         /// </summary>
@@ -149,10 +132,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers
             this.testSet = testSet;
         }
 
-        #endregion // Protected instance constructors
-
-        #region Protected instance fields
-
         /// <summary>
         /// The training set.
         /// </summary>
@@ -167,9 +146,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers
         /// The test set.
         /// </summary>
         protected TrainingSet testSet;
-
-        #endregion // Protected instance fields
-
-        #endregion // Protected members   
     }
 }

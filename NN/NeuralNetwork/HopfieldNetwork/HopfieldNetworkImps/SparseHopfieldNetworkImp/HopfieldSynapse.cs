@@ -2,10 +2,6 @@
 {
     class HopfieldSynapse
     {
-        #region Public members
-
-        #region Instance constructors
-
         /// <summary>
         /// Initializes a new instance of the Synapse class.
         /// </summary>
@@ -28,10 +24,6 @@
             _weight = 0.0;
         }
 
-        #endregion // Instance constructors
-
-        #region Instance methods
-
         /// <summary>
         /// Initializes the synapse.
         /// </summary>
@@ -49,10 +41,6 @@
         {
             return (neuron == _neuron1) ? _neuron2 : _neuron1;
         }
-
-        #endregion // Instance methods
-
-        #region Instance properties
 
         /// <summary>
         /// Gets or sets the first neuron.
@@ -108,15 +96,6 @@
             }
         }
 
-        #endregion // Instance properties
-
-        #endregion // Public members
-
-
-        #region Private members
-
-        #region Instance fields
-
         /// <summary>
         /// The first neuron of the synapse.
         /// </summary>
@@ -131,9 +110,5 @@
         /// The weight of the synapse.
         /// </summary>
         double _weight;
-
-        #endregion // Instance fields
-
-        #endregion // Private members
     }
 }

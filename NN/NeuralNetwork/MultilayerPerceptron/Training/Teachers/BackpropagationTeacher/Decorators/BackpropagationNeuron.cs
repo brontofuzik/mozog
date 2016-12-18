@@ -11,10 +11,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
     class BackpropagationNeuron
         : ActivationNeuronDecorator
     {
-        #region Public members
-
-        #region Public instance constructors
-
         /// <summary>
         /// 
         /// </summary>
@@ -24,10 +20,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
             : base(activationNeuron, parentLayer)
         {
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Initializes the neuron.
@@ -71,10 +63,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
             return "BP" + base.ToString();
         }
 
-        #endregion // Public instance methods
-
-        #region Public instance properties
-
         /// <summary>
         /// Gets the partial derivative of the neuron.
         /// </summary>
@@ -108,14 +96,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
             }
         }
 
-        #endregion // Public instance properties
-
-        #endregion // Public members
-
-        #region Private members
-
-        #region Private instance fields
-
         /// <summary>
         /// The partial derivative of the network error function with respect to the neuron.
         /// </summary>
@@ -125,9 +105,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         /// The error of the neuron.
         /// </summary>
         private double _error;
-
-        #endregion // Private instance fields
-
-        #endregion // Private members
     }
 }

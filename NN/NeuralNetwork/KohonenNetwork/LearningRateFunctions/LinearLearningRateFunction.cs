@@ -4,10 +4,6 @@
     public class LinearLearningRateFunction
         : AbstractLearningRateFunction
     {
-        #region Public members
-
-        #region Instance constructors
-
         public LinearLearningRateFunction(int trainingIterationCount, double initialLearningRate, double finalLearningRate)
             : base(trainingIterationCount, initialLearningRate, finalLearningRate)
         {
@@ -19,10 +15,6 @@
         {
         }
 
-        #endregion // Instance constructors
-
-        #region Instance methods
-
         /// <summary>
         /// Calculates the learning rate for the specified trianing iteration.
         /// </summary>
@@ -33,19 +25,6 @@
             return InitialLearningRate + _learningRateParameter * trainingIterationIndex;
         }
 
-        #endregion // Instance methods
-
-        #endregion // Public members
-
-
-        #region Private members
-
-        #region Instance fields
-
         private double _learningRateParameter;
-
-        #endregion // Instance fields
-
-        #endregion // Private members
     }
 }

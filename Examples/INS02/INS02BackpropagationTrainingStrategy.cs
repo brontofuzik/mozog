@@ -12,10 +12,6 @@ namespace INS02
     class INS02BackpropagationTrainingStrategy
         : BackpropagationTrainingStrategy
     {
-        #region Public members
-
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new INS02 backpropagation training strategy.
         /// </summary>
@@ -29,10 +25,6 @@ namespace INS02
         {
             random = new Random();
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance properties
 
         /// <summary>
         /// 
@@ -48,14 +40,6 @@ namespace INS02
                 }
             }
         }
-
-        #endregion // Public instance constructors
-
-        #endregion // Public members
-
-        #region Private members
-
-        #region Private instance methods
 
         /// <summary>
         /// Mutates a training pattern.
@@ -79,19 +63,11 @@ namespace INS02
             double[] inputVector = Program.KeywordToVector( mutatedKeyword );
             double[] outputVector = Program.KeywordIndexToVector( -1 );
             return new SupervisedTrainingPattern( inputVector, outputVector, mutatedKeyword );
-        }
-        
-        #endregion // Private instance methods
-
-        #region Private instance fields
+        }       
 
         /// <summary>
         /// The pseudo-random number generator.
         /// </summary>
         Random random;
-
-        #endregion // Private instance fields
-
-        #endregion // Private members
     }
 }

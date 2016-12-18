@@ -9,10 +9,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
     public class BackpropagationNetwork
         : NetworkDecorator
     {
-        #region Public members
-
-        #region Public insatnce constructors
-
         /// <summary>
         /// 
         /// </summary>
@@ -49,10 +45,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
             // 3. Connect the network.
             Connect();
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Sets the learning rates of all synapses in the network.
@@ -169,10 +161,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
             return "BP" + base.ToString();
         }
 
-        #endregion // Public insatnce methods
-
-        #region Public insatnce properties
-
         /// <summary>
         /// Gets the error.
         /// </summary>
@@ -187,22 +175,10 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
             }
         }
 
-        #endregion // Public instance properties
-
-        #endregion // Public members
-
-        #region Private members
-
-        #region Private instance fields
-
         /// <summary>
         /// The error of the network.
         /// </summary>
         private double _error;
-        
-        #endregion // Private instance fields
-
-        #endregion // Private members
     }
 }
 

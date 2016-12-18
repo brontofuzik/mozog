@@ -31,16 +31,10 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions
     public class LogisticActivationFunction
         : IDerivableActivationFunction
     {
-        #region Private instance fields
-
         /// <summary>
         /// The gain.
         /// </summary>
         private double gain;
-
-        #endregion // Private instance fields
-
-        #region Public instance properties
 
         /// <summary>
         /// Gets the gain.
@@ -55,10 +49,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions
                 return gain;
             }
         }
-
-        #endregion // Public instance properties
-
-        #region Public instance constructors
         
         /// <summary>
         /// Creates a new logistic sigmoid activation function.
@@ -84,10 +74,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions
         {
         }
 
-        #endregion // Public instance constructors
-
-        #region Public instance methods
-
         /// <summary>
         /// Evaluates the activation fuction for the input (or inner potential) of a neuron.
         /// </summary>
@@ -108,7 +94,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions
             double y = Evaluate( x );
             return gain * y * (1 - y);
         }
-
-        #endregion // Public instance methods
     }
 }

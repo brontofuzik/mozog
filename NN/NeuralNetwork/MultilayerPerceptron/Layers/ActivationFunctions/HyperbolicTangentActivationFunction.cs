@@ -9,8 +9,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions
     public class HyperbolicTangentActivationFunction :
         IDerivableActivationFunction
     {
-        #region Public instance methods
-
         /// <summary>
         /// Evaluates the activation fuction for the input (or inner potential) of a neuron.
         /// </summary>
@@ -31,7 +29,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions
             double y = Evaluate( x );
             return (1 - Math.Pow( y, 2 ));
         }
-
-        #endregion // Public instance methods
     }
 }

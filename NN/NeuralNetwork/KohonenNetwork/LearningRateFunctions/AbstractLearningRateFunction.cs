@@ -4,21 +4,12 @@ namespace NeuralNetwork.KohonenNetwork.LearningRateFunctions
     public abstract class AbstractLearningRateFunction
         : ILearningRateFunction
     {
-        #region Public members
-
         /// <summary>
         /// Calculates the learning rate for the specified trianing iteration.
         /// </summary>
         /// <param name="trainingIterationIndex">The trianing iteration.</param>
         /// <returns>The learning rate.</returns>
         public abstract double CalculateLearningRate(int trainingIterationIndex);
-
-        #endregion // Public members
-
-
-        #region Protected members
-
-        #region Instance constructors
 
         /// <summary>
         /// Creates a new instance of the AbstractLearningRateFunction class.
@@ -61,10 +52,6 @@ namespace NeuralNetwork.KohonenNetwork.LearningRateFunctions
         {
         }
 
-        #endregion // Instance constructors
-
-        #region Instance properties
-
         /// <summary>
         /// Gets the initial learning rate.
         /// </summary>
@@ -93,10 +80,6 @@ namespace NeuralNetwork.KohonenNetwork.LearningRateFunctions
             }
         }
 
-        #endregion // Instance properties
-
-        #region Static fields
-
         /// <summary>
         /// The minimum learning rate.
         /// </summary>
@@ -106,15 +89,6 @@ namespace NeuralNetwork.KohonenNetwork.LearningRateFunctions
         /// The maximum learning rate.
         /// </summary>
         protected static double MaxLearningRate = Double.MaxValue;
-
-        #endregion // Static fields
-
-        #endregion // Protected members
-
-
-        #region Private members
-
-        #region Instance fields
 
         /// <summary>
         /// The number of trianing iterations.
@@ -130,9 +104,5 @@ namespace NeuralNetwork.KohonenNetwork.LearningRateFunctions
         /// The final learning rate.
         /// </summary>
         private double _finalLearningRate;
-
-        #endregion // Instance fields
-
-        #endregion // Private members
     }
 }

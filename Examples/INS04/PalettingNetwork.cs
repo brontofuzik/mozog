@@ -8,10 +8,6 @@ namespace INS04
 {
     class PalettingNetwork
     {
-        #region Public members
-
-        #region Intstance constructors
-
         /// <summary>
         /// Initializes a new instance of the PalettingNetwork class.
         /// </summary>
@@ -20,10 +16,6 @@ namespace INS04
         {
             _underlyingKohonenNetwork = new KohonenNetwork(3, new int[] { paletteSize });
         }
-
-        #endregion // Instance constructors
-
-        #region Static methods
 
         /// <summary>
         /// Palettes an image.
@@ -126,10 +118,6 @@ namespace INS04
 
             return palette;
         }
-
-        #endregion // Static methods
-
-        #region Instance methods
 
         /// <summary>
         /// Trains the paletting network.
@@ -237,12 +225,6 @@ namespace INS04
             return palette;
         }
 
-
-
-        #endregion // Instance methods
-
-        #region Instance properties
-
         public int InputNeuronCount
         {
             get
@@ -258,15 +240,6 @@ namespace INS04
                 return _underlyingKohonenNetwork.OutputNeuronCount;
             }
         }
-
-        #endregion // Instance properties
-
-        #endregion // Public members
-
-
-        #region Private members
-
-        #region Static methods
 
         /// <summary>
         /// Builds a training set from the given training image.
@@ -330,26 +303,14 @@ namespace INS04
             return color;
         }
 
-        #endregion // Static methods
-
-        #region Static fields
-
         /// <summary>
         /// The number of training iterations.
         /// </summary>
         private static int _trainingIterationCount = 100;
 
-        #endregion // Static fields
-
-        #region Instance fields
-
         /// <summary>
         /// The underlying Kohonen network.
         /// </summary>
         private KohonenNetwork _underlyingKohonenNetwork;
-
-        #endregion // Instance fields
-
-        #endregion // Private members
     }
 }

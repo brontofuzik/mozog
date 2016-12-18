@@ -15,10 +15,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
     /// </remarks>
     public class TrainingSet
     {
-        #region Public members
-
-        #region Instance constructors
-
         /// <summary>
         /// Creates a new (labeled) training set.
         /// </summary>
@@ -71,10 +67,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             : this(vectorLength, 0, null)
         {
         }
-
-        #endregion // Instance constructors
-
-        #region Static methods
 
         /// <summary>
         /// Loads a training set from a file.
@@ -143,10 +135,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             textReader.Close();
             return trainingSet;
         }
-
-        #endregion // Static methods
-
-        #region Instance methods
 
         /// <summary>
         /// 
@@ -342,10 +330,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             return trainingSetStringBuilder.ToString();
         }
 
-        #endregion // Instance methods
-
-        #region Instance properties
-
         /// <summary>
         /// Gets the length of the input vector.
         /// </summary>
@@ -436,14 +420,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             }
         }
 
-        #endregion // Instance properties
-
-        #endregion // Public members
-
-        #region Private members
-
-        #region Instance fields
-
         /// <summary>
         /// The input vector length.
         /// </summary>
@@ -463,9 +439,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// The tag.
         /// </summary>
         private object _tag;
-
-        #endregion // Instacne fields
-
-        #endregion // Private members
     }
 }

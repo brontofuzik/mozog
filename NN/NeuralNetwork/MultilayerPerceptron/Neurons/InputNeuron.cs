@@ -13,8 +13,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Neurons
     public class InputNeuron
         : INeuron
     {
-        #region Private instance fields
-
         /// <summary>
         /// 
         /// </summary>
@@ -29,10 +27,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Neurons
         /// 
         /// </summary>
         private InputLayer parentLayer;
-
-        #endregion // Private instance fields
-
-        #region Public instance properties
 
         /// <summary>
         /// Gets or sets the output of the neuron.
@@ -79,10 +73,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Neurons
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new input neuron.
         /// </summary>
@@ -95,10 +85,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Neurons
             Utilities.RequireObjectNotNull(parentLayer, "parentLayer");
             this.parentLayer = parentLayer;
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Initializes the neuron.
@@ -118,7 +104,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Neurons
         {
             return String.Format( "IN(" + output.ToString( "F2" )+ ")" );
         }
-
-        #endregion // Public instance methods
     }
 }

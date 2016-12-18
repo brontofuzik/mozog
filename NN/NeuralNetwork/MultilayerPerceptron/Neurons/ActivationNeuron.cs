@@ -13,8 +13,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Neurons
     public class ActivationNeuron
         : IActivationNeuron
     {
-        #region Private instance fields
-
         /// <summary>
         /// The input (or inner potential).
         /// </summary>
@@ -39,10 +37,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Neurons
         /// The parent layer.
         /// </summary>
         private IActivationLayer parentLayer;
-
-        #endregion // Private instance fields
-
-        #region Public instance properties
 
         /// <summary>
         /// Gets the input.
@@ -123,10 +117,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Neurons
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new hidden neuron.
         /// </summary>
@@ -140,10 +130,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Neurons
             Utilities.RequireObjectNotNull(parentLayer, "parentLayer");
             this.parentLayer = parentLayer;
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Initializes the neuron.
@@ -192,7 +178,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Neurons
 
             return activationNeuronSB.ToString();
         }
-
-        #endregion // Public instance methods
     }
 }

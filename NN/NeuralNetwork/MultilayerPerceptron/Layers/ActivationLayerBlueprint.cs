@@ -8,13 +8,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
     public class ActivationLayerBlueprint
         : LayerBlueprint
     {
-        #region Private instance fields
-
         private IActivationFunction activationFunction;
-
-        #endregion // Private instance fields
-
-        #region Public instance properties
 
         public IActivationFunction ActivationFunction
         {
@@ -23,10 +17,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
                 return activationFunction;
             }
         }
-
-        #endregion // Public instance properties
-
-        #region Public instance constructors
 
         public ActivationLayerBlueprint( int neuronCount, IActivationFunction activationFunction )
             : base( neuronCount )
@@ -38,7 +28,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
             : this( neuronCount, new LogisticActivationFunction() )
         {
         }
-
-        #endregion // Public instance constructors
     }
 }

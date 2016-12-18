@@ -10,10 +10,6 @@ namespace NeuralNetwork.HopfieldNetwork
     public class HopfieldNetwork
         : IHopfieldNetwork
     {
-        #region Public members
-
-        #region Instance constructors
-
         /// <summary>
         /// Initializes a new HopfieldNetwork class.
         /// </summary>
@@ -54,18 +50,12 @@ namespace NeuralNetwork.HopfieldNetwork
         {
         }
 
-        #endregion // Instance constructors
-
-        #region Instance methods
-
         /// <summary>
         /// Trains the network.
         /// </summary>
         /// <param name="trainingSet">The training set.</param>
         public void Train(TrainingSet trainingSet)
         {
-            #region Preconditions
-
             // The training set mmust be provided.
             Utilities.RequireObjectNotNull(trainingSet, "trainingSet");
 
@@ -74,8 +64,6 @@ namespace NeuralNetwork.HopfieldNetwork
             {
                 throw new ArgumentException("The training set is not compatible with the network.", "trainingSet");
             }
-
-            #endregion // Preconditions
 
             // Train the neurons.
             for (int neuronIndex = 0; neuronIndex < NeuronCount; ++neuronIndex)
@@ -228,10 +216,6 @@ namespace NeuralNetwork.HopfieldNetwork
             return sb.ToString();
         }
 
-        #endregion // Instance methods
-
-        #region Instance properties
-
         /// <summary>
         /// Gets the number of neurons in the Hopfield network.
         /// </summary>
@@ -274,23 +258,10 @@ namespace NeuralNetwork.HopfieldNetwork
             }
         }
 
-        #endregion // Insatnce properties
-
-        #endregion // Public members
-
-
-        #region Private members
-
-        #region Static methods
-
         private static double activationFunction(double input, double evalautionProgressRatio)
         {
             return Math.Sign(input);
         }
-
-        #endregion // Static methods
-
-        #region Instance methods
 
         /// <summary>
         /// Trains a neuron.
@@ -334,17 +305,9 @@ namespace NeuralNetwork.HopfieldNetwork
             SetSynapseWeight(neuronIndex, sourceNeuronIndex, synapseWeight);
         }
 
-        #endregion // Instance methods
-
-        #region Instance fields
-
         /// <summary>
         /// The Hopfield network implementation.
         /// </summary>
         private IHopfieldNetworkImp _hopfieldNetworkImp;
-
-        #endregion // Instance fields
-
-        #endregion // Private members
     }
 }

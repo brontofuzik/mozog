@@ -17,10 +17,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
     public class Network
         : INetwork
     {
-        #region Public members
-
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new neural network (from its blueprint).
         /// </summary>
@@ -63,10 +59,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
             // 2. Connect the network.
             Connect();
         }
-
-        #endregion // Public Instance Constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Connects the network.
@@ -420,10 +412,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
             return networkSB.ToString();
         }
 
-        #endregion // Public instance methods
-
-        #region Public instance properties
-
         /// <summary>
         /// Gets the network blueprint.
         /// </summary>
@@ -583,14 +571,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
             }
         }
 
-        #endregion // Public instance properties
-
-        #endregion // Public members
-
-        #region Private members
-
-        #region Private instance fields
-
         /// <summary>
         /// The blueprint of the network.
         /// </summary>
@@ -620,10 +600,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// The connectors of the network.
         /// </summary>
         private List<IConnector> _connectors;
-
-        #endregion // Private instance fields
-
-        #region  Private instance methods
 
         /// <summary>
         /// 
@@ -669,9 +645,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
                 connector.Jitter(jitterNoiseLimit);
             }
         }
-
-        #endregion // Private instance methods
-
-        #endregion // Private members
     }
 }

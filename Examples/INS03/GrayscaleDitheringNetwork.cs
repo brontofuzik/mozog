@@ -9,10 +9,6 @@ namespace INS03
 {
     class GrayscaleDitheringNetwork
     {
-        #region Public members
-
-        #region Static methods
-
         /// <summary>
         /// Dithers a (grayscale) image.
         /// </summary>
@@ -84,15 +80,6 @@ namespace INS03
             return ditheredImage;
         }
 
-        #endregion // Static methods
-
-        #endregion // Public members
-
-
-        #region Private members
-
-        #region Instance constructors
-
         /// <summary>
         /// Initializes a new instance of the GrayscaleDitheringNetwork class.
         /// </summary>
@@ -121,10 +108,6 @@ namespace INS03
             _height = height;
         }
 
-        #endregion // Instance constructors
-
-        #region Static methods
-
         /// <summary>
         /// The activation function of the grayscale dithering network.
         /// </summary>
@@ -139,10 +122,6 @@ namespace INS03
             double lambda = initialLambda + (finalLambda - initialLambda) * evaluationProgressRatio; 
             return 1 / (1 + Math.Exp(-lambda * input));
         }
-
-        #endregion // Static methods
-
-        #region Instance methods
 
         /// <summary>
         /// Trains the grayscale dithering network.
@@ -439,10 +418,6 @@ namespace INS03
             return image;
         }
 
-        #endregion // Instance methods
-
-        #region Instance properties
-
         private int neuronCount
         {
             get
@@ -451,18 +426,10 @@ namespace INS03
             }
         }
 
-        #endregion // Instance properties
-
-        #region Static fields
-
         /// <summary>
         /// The number of evaluation iterations.
         /// </summary>
         private static int _evaluationIterationCount = 20;
-
-        #endregion // Static fields
-
-        #region Instance fields
 
         /// <summary>
         /// The underlying Hopfield network.
@@ -478,9 +445,5 @@ namespace INS03
         /// The height of the dithering network.
         /// </summary>
         private int _height;
-
-        #endregion // Instance fields
-
-        #endregion // Private members
     }
 }

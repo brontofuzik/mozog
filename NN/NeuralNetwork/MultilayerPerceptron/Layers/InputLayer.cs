@@ -15,8 +15,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
     public class InputLayer
         : ILayer
     {
-        #region Private instance fields
-
         /// <summary>
         /// 
         /// </summary>
@@ -31,10 +29,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
         /// The parent network of the layer.
         /// </summary>
         private INetwork parentNetwork;
-
-        #endregion // Private instance fields
-
-        #region Public instance properties
 
         /// <summary>
         /// 
@@ -89,10 +83,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new input layer.
         /// </summary>
@@ -115,10 +105,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
             Utilities.RequireObjectNotNull( parentNetwork, "parentNetwork" );
             this.parentNetwork = parentNetwork;
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Gets a neuron (specified by its index within the layer).
@@ -189,7 +175,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
             
             return inputLayerSB.ToString();
         }
-
-        #endregion // Public instance methods
     }
 }

@@ -6,10 +6,6 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
     class SparseHopfieldNetworkImp
         : IHopfieldNetworkImp
     {
-        #region Public members
-
-        #region Instance methods
-
         /// <summary>
         /// Gets the bias of the neuron.
         /// </summary>
@@ -141,10 +137,6 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
             return recalledPattern;
         }
 
-        #endregion // Instance methods
-
-        #region Instance properties
-
         /// <summary>
         /// Gets the number of neurons.
         /// </summary>
@@ -201,15 +193,6 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
             }
         }
 
-        #endregion // Instance properties
-
-        #endregion // Public members
-
-
-        #region Internal members
-
-        #region Instance constructors
-
         /// <summary>
         /// Initializes a new instance of the HeavyweightNetworkImp class.
         /// </summary>
@@ -222,15 +205,6 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
             }
             _synapses = new HashSet<HopfieldSynapse>();
         }
-
-        #endregion // Instance constructors
-
-        #endregion // Internal members
-
-
-        #region Internal members
-
-        #region Instance properties
 
         /// <summary>
         /// Gets the neurons in the network.
@@ -263,15 +237,6 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
                 return _synapses;
             }
         }
-
-        #endregion // Instance properties
-
-        #endregion // Internal members
-
-
-        #region Private members
-
-        #region Instance methods
 
         /// <summary>
         /// Gets the neuron with a given index.
@@ -324,10 +289,6 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
             getNeuron(neuronIndex).Output = neuronOutput;
         }
 
-        #endregion // Insatnce methods
-
-        #region Instance properties
-
         /// <summary>
         /// Gets the neurons in random order.
         /// </summary>
@@ -359,10 +320,6 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
             }
         }
 
-        #endregion // Instacne properties
-
-        #region Instance fields
-
         /// <summary>
         /// The neurons in the network.
         /// </summary>
@@ -372,9 +329,5 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
         /// The synapses in the network.
         /// </summary>
         private ICollection<HopfieldSynapse> _synapses;
-
-        #endregion // Insatnce fields
-
-        #endregion // Private members
     }
 }

@@ -14,10 +14,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
     public class SupervisedTrainingPattern
         : UnsupervisedTrainingPattern
     {
-        #region Public members
-
-        #region Instance constructors
-
         /// <summary>
         /// Initializes a new instance of the SupervisedTrainingPattern class.
         /// </summary>
@@ -48,10 +44,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         {
         }
 
-        #endregion // Instance constructors   
-        
-        #region Instance methods
-
         /// <summary>
         /// Converts the training pattern to its string representation.
         /// </summary>
@@ -66,10 +58,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             // alternatively:
             // return (base.ToString() + "(" + VectorToString( inputVector ) + "," + VectorToString( outputVector ) + ")");
         }
-
-        #endregion // Insatnce methods
-
-        #region Instance properties
 
 		/// <summary>
 		/// Gets the output vector.
@@ -99,15 +87,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             }
         }
 
-        #endregion // Instance properties
-
-        #endregion // Public members
-
-
-        #region Private members
-
-        #region Private instance fields
-
         /// <summary>
         /// The output vector.
         /// </summary>
@@ -117,9 +96,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// The normalized output vector.
         /// </summary>
         private double[] _normalizedOutputVector;
-
-        #endregion // Private instance fields
-
-        #endregion // Private members
     }
 }

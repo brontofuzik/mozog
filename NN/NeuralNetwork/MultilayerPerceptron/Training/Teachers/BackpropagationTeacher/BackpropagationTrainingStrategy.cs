@@ -9,10 +9,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
     /// </summary>
     public class BackpropagationTrainingStrategy
     {
-        #region Public members
-
-        #region Public instance constructors
-
         /// <summary>
         /// 
         /// </summary>
@@ -28,10 +24,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
             _synapseLearningRate = synapseLearningRate;
             _connectorMomentum = connectorMomentum;
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance properties
 
         /// <summary>
         /// 
@@ -132,10 +124,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Public instance methods
-
         /// <summary>
         /// 
         /// </summary>
@@ -146,14 +134,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         {
             return (iterationCount >= _maxIterationCount) || (networkError <= _maxNetworkError);
         }
-
-        #endregion // Public instance methods
-
-        #endregion // Public members
-
-        #region Private members
-
-        #region Private instance fields
 
         /// <summary>
         /// The maximal number of iterations.
@@ -189,9 +169,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         /// The training set.
         /// </summary>
         private TrainingSet _trainingSet;
-
-        #endregion // Private instance fields
-
-        #endregion // Private members
     }
 }

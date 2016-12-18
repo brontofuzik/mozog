@@ -9,10 +9,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
     /// </summary>
     public class TrainingLog
     {
-        #region Public members
-
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new training log.
         /// </summary>
@@ -23,10 +19,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             this._iterationCount = iterationCount;
             this._networkError = networkError;
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Calculates (and logs) the network's measures of fit.
@@ -73,10 +65,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             // Calculate the residual standard deviation (out-of-sample).
             rsd_testSet = Math.Sqrt( rss_testSet / (double)n );
         }
-
-        #endregion // Public instance methods
-
-        #region Public instance properties
 
         /// <summary>
         /// Gets or sets the number of iterations used.
@@ -226,14 +214,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             }
         }
 
-        #endregion // Public instance properties
-
-        #endregion // Public members
-
-        #region Private members
-
-        #region Private instance methods
-
         /// <summary>
         /// Calculates the residual sum of squares (RSS) of a given network WRT a given training set.
         /// </summary>
@@ -254,10 +234,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             }
             return rss;
         }
-
-        #endregion // Private insatnce methods
-
-        #region Private instance fields
 
         /// <summary>
         /// The number of iterations used.
@@ -308,9 +284,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// The residual standard deviation (out-of-sample).
         /// </summary>
         private double rsd_testSet;
-
-        #endregion // Private instance fields
-
-        #endregion // Private members
     }
 }

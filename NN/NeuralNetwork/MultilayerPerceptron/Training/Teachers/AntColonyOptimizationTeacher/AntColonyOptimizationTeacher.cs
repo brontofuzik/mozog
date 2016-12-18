@@ -8,16 +8,10 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.AntColonyOptimiza
     public class AntColonyOptimizationTeacher
         : TeacherBase
     {
-        #region Private instance fields
-
         /// <summary>
         /// The ant colony optimization;
         /// </summary>
         private NetworkAntColonyOptimization networkAntColonyOptimization;
-
-        #endregion // private instance fields
-
-        #region Public instance properties
 
         /// <summary>
         /// Gets the name of the teacher.
@@ -33,10 +27,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.AntColonyOptimiza
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new ant colony teacher.
         /// </summary>
@@ -48,10 +38,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.AntColonyOptimiza
         {
             networkAntColonyOptimization = new NetworkAntColonyOptimization();
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Trains a network.
@@ -87,7 +73,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.AntColonyOptimiza
 
             return trainingLog;
         }
-
-        #endregion // Public instance methods
     }
 }

@@ -6,10 +6,6 @@ namespace NeuralNetwork.KohonenNetwork.LearningRateFunctions
     public class ExponentialLearningRateFunction
         : AbstractLearningRateFunction
     {
-        #region Public members
-
-        #region Instance constructors
-
         public ExponentialLearningRateFunction(int trainingIterationCount, double initialLearningRate, double finalLearningRate)
             : base(trainingIterationCount, initialLearningRate, finalLearningRate)
         {
@@ -21,10 +17,6 @@ namespace NeuralNetwork.KohonenNetwork.LearningRateFunctions
         {
         }
 
-        #endregion // Instance constructors
-
-        #region Instance methods
-
         /// <summary>
         /// Calculates the learning rate for the specified trianing iteration.
         /// </summary>
@@ -35,19 +27,6 @@ namespace NeuralNetwork.KohonenNetwork.LearningRateFunctions
             return InitialLearningRate * Math.Pow(_learningRateParameter, trainingIterationIndex);
         }
 
-        #endregion // Instance methods
-
-        #endregion // Public members
-
-
-        #region Private members
-
-        #region Instance fields
-
         private double _learningRateParameter;
-
-        #endregion // Instance fields
-
-        #endregion // Private members
     }
 }

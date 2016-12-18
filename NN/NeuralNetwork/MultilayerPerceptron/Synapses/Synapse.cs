@@ -11,8 +11,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
     public class Synapse
         : ISynapse
     {
-        #region Private instance fields
-
         /// <summary>
         /// The blueprint of the synapse.
         /// </summary>
@@ -37,10 +35,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
         /// The parent conenctor.
         /// </summary>
         private IConnector parentConnector;
-
-        #endregion // Private Instance Fields
-
-        #region Public instance properties
 
         /// <summary>
         /// Gets the blueprint of the synapse.
@@ -132,10 +126,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new synapse (from a blueprint).
         /// </summary>
@@ -155,10 +145,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
             Utilities.RequireObjectNotNull(parentConnector, "parentConnector");
             this.parentConnector = parentConnector;
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Connects the synapse.
@@ -250,7 +236,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
         {
             return weight.ToString( "F2" );
         }
-
-        #endregion // Public Instance Methods
     }
 }

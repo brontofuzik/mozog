@@ -11,10 +11,6 @@ namespace NeuralNetwork.KohonenNetwork
     public class KohonenNetwork
         : IKohonenNetwork
     {
-        #region Public members
-
-        #region Instance constructors
-
         /// <summary>
         /// Initializes a new instance of the KohonenNetwork class.
         /// </summary>
@@ -81,10 +77,6 @@ namespace NeuralNetwork.KohonenNetwork
             }
             _outputLayerDiameter = Math.Sqrt(tmp);
         }
-
-        #endregion // Instance constructors
-
-        #region Instance methods
 
         /// <summary>
         /// Trains the Kohonen network with a training set for a number of iterations.
@@ -246,10 +238,6 @@ namespace NeuralNetwork.KohonenNetwork
             return bitmap;
         }
 
-        #endregion // Instance methods
-
-        #region Instance properties
-
         public int InputNeuronCount
         {
             get
@@ -265,8 +253,6 @@ namespace NeuralNetwork.KohonenNetwork
                 return _outputLayerNeuronCount;
             }
         }
-
-        #endregion // Instance properties
 
         #region Events
 
@@ -291,13 +277,6 @@ namespace NeuralNetwork.KohonenNetwork
         public event TrainingPatternEventhandler EndTrainingPatternEvent;
 
         #endregion // Events
-
-        #endregion // Public members
-
-
-        #region Private members
-
-        #region Instance methods
 
         /// <summary>
         /// Initializes the network.
@@ -558,10 +537,6 @@ namespace NeuralNetwork.KohonenNetwork
 
         #endregion Event invokers
 
-        #endregion // Instance methods
-
-        #region Instance fields
-
         #region Input layer
 
         /// <summary>
@@ -628,9 +603,5 @@ namespace NeuralNetwork.KohonenNetwork
         private INeighbourhoodFunction _neighbourhoodFunction;
 
         #endregion // Training
-
-        #endregion // Instance fields
-
-        #endregion // Private members
     }
 }

@@ -5,10 +5,6 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkI
     class FullHopfieldNetworkImp
         : IHopfieldNetworkImp
     {
-        #region Public members
-
-        #region Instance methods
-
         /// <summary>
         /// Gets the bias of the neuron.
         /// </summary>
@@ -82,10 +78,6 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkI
             return recalledPattern;
         }
 
-        #endregion // Instance methods
-
-        #region Instance properties
-
         /// <summary>
         /// Gets the number of neurons.
         /// </summary>
@@ -145,15 +137,6 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkI
             }
         }
 
-        #endregion // Instance properties
-
-        #endregion // Public members
-
-
-        #region Internal members
-
-        #region Instance constructors
-
         internal FullHopfieldNetworkImp(int neuronCount, ActivationFunction activationFunction)
         {
             _neuronIndices = new int[neuronCount];
@@ -166,15 +149,6 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkI
             _activationFunction = activationFunction;
             _neuronOutputs = new double[neuronCount];
         }
-
-        #endregion // Instance constructors
-
-        #endregion // Internal members
-
-
-        #region Private members
-
-        #region Instance methods
 
         private void evaluateNeuron(int neuronIndex, double evaluationProgressRatio)
         {
@@ -189,10 +163,6 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkI
             // Calculate the output of the neuron.
             _neuronOutputs[neuronIndex] = _activationFunction(neuronInput, evaluationProgressRatio);
         }
-
-        #endregion // Instance methods
-
-        #region Instance properties
 
         /// <summary>
         /// Gets the indices of the neurons in random order.
@@ -225,10 +195,6 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkI
             }
         }
 
-        #endregion // Instance properties
-
-        #region Instance fields
-
         /// <summary>
         /// The indices of the neurons.
         /// </summary>
@@ -250,9 +216,5 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkI
         /// The outputs of the neurons.
         /// </summary>
         private double[] _neuronOutputs;
-
-        #endregion // Instance fields
-
-        #endregion // Private members
     }
 }

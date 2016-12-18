@@ -7,8 +7,6 @@ namespace NeuralNetwork
     /// </summary>
     static class Utilities
     {
-        #region Static constructor
-
         /// <summary>
         /// 
         /// </summary>
@@ -16,13 +14,6 @@ namespace NeuralNetwork
         {
             _random = new Random();
         }
-
-        #endregion // Static constructor
-
-
-        #region Internal members
-
-        #region Static methods
 
         #region Require methods
 
@@ -240,23 +231,10 @@ namespace NeuralNetwork
                 array[i - 1] = tmp;
             }
         }
-    
-        #endregion Static methods
-
-        #endregion // Internal members
-
-
-        #region Private members
-
-        #region Static fields
 
         /// <summary>
         /// The pseudo-random number generator.
         /// </summary>
         private static Random _random;
-
-        #endregion // Static fields
-
-        #endregion // Private members
     }
 }

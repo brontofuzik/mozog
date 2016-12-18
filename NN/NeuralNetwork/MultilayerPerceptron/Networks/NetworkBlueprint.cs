@@ -11,8 +11,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
     /// </remarks>
     public class NetworkBlueprint
     {
-        #region Private instance fields
-
         /// <summary>
         /// The blueprint of the bias layer.
         /// </summary>
@@ -37,10 +35,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// The blueprints of the connectors (as an array).
         /// </summary>
         private ConnectorBlueprint[] connectorBlueprints;
-
-        #endregion // Private instance fields
-
-        #region Public instance properties
 
         /// <summary>
         /// Gets the number of (input, hidden, and output) layers comprising the network.
@@ -196,10 +190,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new network blueprint.
         /// </summary>
@@ -298,10 +288,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
             }
         }
 
-        #endregion // Public instance constructors
-
-        #region Public instance methods
-
         /// <summary>
         /// Gets the number of neurons comprising a layer (specified by its index).
         /// </summary>
@@ -363,7 +349,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
 
             return networkBlueprintSB.ToString();
         }
-
-        #endregion // Public instance methods
     }
 }

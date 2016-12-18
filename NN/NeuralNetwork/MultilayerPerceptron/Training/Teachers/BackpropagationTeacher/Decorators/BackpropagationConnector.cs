@@ -10,10 +10,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
     class BackpropagationConnector
         : ConnectorDecorator
     {
-        #region Public members
-
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new backpropagation connector by decorating a connector.
         /// </summary>
@@ -28,10 +24,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
                 Synapses[i] = new BackpropagationSynapse(Synapses[i],this);
             }
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Connects the (backpropagation) connector.
@@ -136,10 +128,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
             return "BP" + base.ToString();
         }
 
-        #endregion // Public instance methods
-
-        #region Public instance properties
-
         /// <summary>
         /// 
         /// </summary>
@@ -151,22 +139,10 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
             }
         }
 
-        #endregion // Public instance properties
-
-        #endregion // Public members
-
-        #region Private memberes
-
-        #region Private instance fields
-
         /// <summary>
         /// 
         /// </summary>
         private double _momentum;
-
-        #endregion // Private instance fields
-
-        #endregion // Private members
     }
 }
 

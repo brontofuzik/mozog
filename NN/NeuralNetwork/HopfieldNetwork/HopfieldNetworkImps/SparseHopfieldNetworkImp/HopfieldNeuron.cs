@@ -4,10 +4,6 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
 {
     class HopfieldNeuron
     {
-        #region Public members
-
-        #region Instance constructors
-
         /// <summary>
         /// Initializes a new instance of the Neuron class.
         /// </summary>
@@ -32,10 +28,6 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
             _activationFunction = activationFunction;
             _output = 0.0;
         }
-
-        #endregion // Instance constructors
-
-        #region Instance methods
 
         /// <summary>
         /// Initializes the neuron.
@@ -63,10 +55,6 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
             // Calculate the output of the neuron.
             _output = _activationFunction(_input, evaluationProgressRatio);
         }
-
-        #endregion // Instance methods
-
-        #region Instance properties
 
         /// <summary>
         /// Gets the index.
@@ -129,15 +117,6 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
             }
         }
 
-        #endregion // Instance properties
-
-        #endregion // Public members
-
-
-        #region Private members
-
-        #region Instance fields
-
         /// <summary>
         /// The index of the neuron.
         /// (IMMUTABLE)
@@ -169,9 +148,5 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
         /// The output of the neuron.
         /// </summary>
         private double _output;
-
-        #endregion // Instance fields
-
-        #endregion // Private members
     }
 }

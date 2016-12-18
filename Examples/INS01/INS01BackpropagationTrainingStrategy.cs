@@ -12,10 +12,6 @@ namespace INS01
     class INS01BackpropagationTrainingStrategy
         : BackpropagationTrainingStrategy
     {
-        #region Public members
-
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new INS01 backpropagation learning strategy.
         /// </summary>
@@ -28,10 +24,6 @@ namespace INS01
             : base( maxIterationCount, maxNetworkError, batchLearning, synapseLearningRate, connectorMomentum )
         {
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance properties
 
         /// <summary>
         /// 
@@ -63,9 +55,5 @@ namespace INS01
                 }
             }
         }
-
-        #endregion // Public instance properties
-
-        #endregion // Public members
     }
 }

@@ -9,19 +9,11 @@ namespace NeuralNetwork.KohonenNetwork
     public class TrainingSetEventArgs
         : EventArgs
     {
-        #region Public members
-
-        #region Instance constructors
-
         public TrainingSetEventArgs(TrainingSet trainingSet, int trainingIterationIndex)
         {
             _trainingSet = trainingSet;
             _trainingIterationIndex = trainingIterationIndex;
         }
-
-        #endregion // Instance constructors
-
-        #region Instance properties
 
         public TrainingSet TrainingSet
         {
@@ -39,21 +31,8 @@ namespace NeuralNetwork.KohonenNetwork
             }
         }
 
-        #endregion // Instance properties
-
-        #endregion // Public members
-
-
-        #region Private members
-
-        #region Instance fields
-
         private TrainingSet _trainingSet;
 
         private int _trainingIterationIndex;
-
-        #endregion // Instance fields 
-
-        #endregion // Private members
     }
 }

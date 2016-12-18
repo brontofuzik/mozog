@@ -3,8 +3,6 @@
     public class LinearActivationFunction
         : IDerivableActivationFunction
     {
-        #region Public instance methods
-
         /// <summary>
         /// Evaluates the activation fuction for the input (the inner potential) of a neuron.
         /// </summary>
@@ -17,7 +15,6 @@
             return x;
         }
 
-
         /// <summary>
         /// Evaluates the activation function's derivative for the input (the inner potential) of a neuron. 
         /// </summary>
@@ -28,7 +25,5 @@
         {
             return 1.0;
         }
-
-        #endregion // Public instance methods
     }
 }

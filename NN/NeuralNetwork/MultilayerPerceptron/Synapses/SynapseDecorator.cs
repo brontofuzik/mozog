@@ -10,16 +10,10 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
     public abstract class SynapseDecorator
         : ISynapse
     {
-        #region Protected instance fields
-
         /// <summary>
         /// 
         /// </summary>
         protected ISynapse decoratedSynapse;
-
-        #endregion // Protected instance fields
-
-        #region Public insatnce properties
 
         /// <summary>
         /// Gets the blueprint of the synapse.
@@ -111,10 +105,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Public instance constructors
-
         /// <summary>
         /// 
         /// </summary>
@@ -125,10 +115,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
             this.decoratedSynapse = decoratedSynapse;
             ParentConnector = parentConnector;
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Connects the synapse.
@@ -206,7 +192,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
         {
             return decoratedSynapse.ToString();
         }
-
-        #endregion // Public instance methods
     }
 }

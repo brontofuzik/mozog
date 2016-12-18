@@ -1,9 +1,7 @@
 ﻿using System;
-
 using NeuralNetwork.MultilayerPerceptron.Layers;
 using NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions;
 using NeuralNetwork.MultilayerPerceptron.Networks;
-
 
 namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher.Decorators
 {
@@ -13,10 +11,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
     internal class BackpropagationLayer
         : ActivationLayerDecorator
     {
-        #region Public members
-
-        #region Public instance constructors
-
         /// <summary>
         /// 
         /// </summary>
@@ -40,10 +34,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
                 Neurons[ i ] = new BackpropagationNeuron(Neurons[i],this);
             }
         }
-
-        #endregion // Public instance constructors
-
-        #region Public insatnce methods
 
         // Replaces three steps - (b), (c) and (d) - with one.
         public void Backpropagate( double[] desiredOutputVector )
@@ -86,9 +76,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         {
             return "BP" + base.ToString();
         }
-
-        #endregion // Public insatnce methods
-
-        #endregion // Public members
     }
 }

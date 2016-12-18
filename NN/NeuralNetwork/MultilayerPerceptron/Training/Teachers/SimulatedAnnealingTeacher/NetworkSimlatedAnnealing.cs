@@ -10,8 +10,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealin
     internal class NetworkSimlatedAnnealing
         : SimulatedAnnealing< double >
     {
-        #region Protected instance methods
-
         /// <summary>
         /// The generator function.
         /// (= The random weights generator function.)
@@ -48,7 +46,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealin
             
             return newWeights;
         }
-
-        #endregion // Protected instance methods
     }
 }

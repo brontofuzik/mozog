@@ -9,16 +9,10 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmT
     public class GeneticAlgorithmTeacher
         : TeacherBase
     {
-        #region Private instance fields
-
         /// <summary>
         /// The network genetic algorithm.
         /// </summary>
         private NetworkGeneticAlgorithm networkGeneticAlgorithm;
-
-        #endregion // Private insatnce fields
-
-        #region Public instance properties
 
         /// <summary>
         /// Gets the name of the teacher.
@@ -34,10 +28,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmT
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new genetic teacher.
         /// </summary>
@@ -49,10 +39,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmT
         {
             networkGeneticAlgorithm = new NetworkGeneticAlgorithm();
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Trains a network.
@@ -89,7 +75,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmT
 
             return trainingLog;
         }
-
-        #endregion // Public instance methods
     }
 }

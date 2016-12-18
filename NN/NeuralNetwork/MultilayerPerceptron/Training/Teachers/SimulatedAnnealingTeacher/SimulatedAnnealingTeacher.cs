@@ -8,16 +8,10 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealin
     public class SimulatedAnnealingTeacher
         : TeacherBase
     {
-        #region Private instance fields
-
         /// <summary>
         /// The network simulated annealing.
         /// </summary>
         private NetworkSimlatedAnnealing networkSimulatedAnnealing;
-
-        #endregion // Private instance methods
-
-        #region Public instance properties
 
         /// <summary>
         /// Gets the name of the teacher.
@@ -33,10 +27,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealin
             }
         }
 
-        #endregion // Public instance properties
-
-        #region Public instance constructors
-
         /// <summary>
         /// Creates a new simulated annealing teacher.
         /// </summary>
@@ -48,10 +38,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealin
         {
             networkSimulatedAnnealing = new NetworkSimlatedAnnealing();
         }
-
-        #endregion // Public instance constructors
-
-        #region Public instance methods
 
         /// <summary>
         /// Trains a network.
@@ -86,7 +72,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealin
 
             return trainingLog;
         }
-
-        #endregion // Public instance methods
     }
 }
