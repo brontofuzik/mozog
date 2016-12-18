@@ -13,7 +13,7 @@ namespace NeuralNetwork.KohonenNetwork.LearningRateFunctions
         }
 
         public ExponentialLearningRateFunction(int trainingIterationCount)
-            : base(trainingIterationCount, AbstractLearningRateFunction.MinLearningRate, AbstractLearningRateFunction.MaxLearningRate)
+            : base(trainingIterationCount, MinLearningRate, MaxLearningRate)
         {
         }
 

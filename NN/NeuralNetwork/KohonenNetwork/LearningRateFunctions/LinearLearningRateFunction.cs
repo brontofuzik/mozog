@@ -11,7 +11,7 @@
         }
 
         public LinearLearningRateFunction(int trainingIterationCount)
-            : base(trainingIterationCount, AbstractLearningRateFunction.MinLearningRate, AbstractLearningRateFunction.MaxLearningRate)
+            : base(trainingIterationCount, MinLearningRate, MaxLearningRate)
         {
         }
 

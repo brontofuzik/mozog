@@ -154,7 +154,7 @@ namespace NeuralNetwork
         /// <returns>The magnitude of the vector.</returns>
         internal static double IntVectorMagnitude(int[] vector)
         {
-            return Math.Sqrt(Utilities.IntVectorDotProduct(vector, vector));
+            return Math.Sqrt(IntVectorDotProduct(vector, vector));
         }
 
         /// <summary>
@@ -164,17 +164,17 @@ namespace NeuralNetwork
         /// <returns>The magnitude of the vector.</returns>
         internal static double DoubleVectorMagnitude(double[] vector)
         {
-            return Math.Sqrt(Utilities.DoubleVectorDotProduct(vector, vector));
+            return Math.Sqrt(DoubleVectorDotProduct(vector, vector));
         }
 
         internal static double DistanceBetweenIntVectors(int[] vector1, int[] vector2)
         {
-            return Utilities.IntVectorMagnitude(Utilities.IntVectorDifference(vector1, vector2));
+            return IntVectorMagnitude(IntVectorDifference(vector1, vector2));
         }
 
         internal static double DistanceBetweenDoubleVectors(double[] vector1, double[] vector2)
         {
-            return Utilities.DoubleVectorMagnitude(Utilities.DoubleVectorDifference(vector1, vector2));
+            return DoubleVectorMagnitude(DoubleVectorDifference(vector1, vector2));
         }
 
         #endregion // Vector algebra methods

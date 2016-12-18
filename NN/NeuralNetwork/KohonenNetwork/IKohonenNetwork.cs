@@ -27,7 +27,7 @@ namespace NeuralNetwork.KohonenNetwork
         /// </summary>
         /// <param name="trainingSet">The training set.</param>
         /// <param name="trainingIterationCount">The number of training iterations.</param>
-        void Train(NeuralNetwork.MultilayerPerceptron.Training.TrainingSet trainingSet, int trainingIterationCount);
+        void Train(MultilayerPerceptron.Training.TrainingSet trainingSet, int trainingIterationCount);
 
         /// <summary>
         /// Evaluates the network.

@@ -136,7 +136,7 @@ namespace INS04
             #endregion // Preconditions
 
             // Build the training set.
-            TrainingSet trainingSet = PalettingNetwork.buildTrainingSet(trainingImage);
+            TrainingSet trainingSet = buildTrainingSet(trainingImage);
 
             // Train the underlying Kohonen network.
             _underlyingKohonenNetwork.Train(trainingSet, _trainingIterationCount);

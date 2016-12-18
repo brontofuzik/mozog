@@ -190,7 +190,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
 
             // Validate the activation function.
             Utilities.RequireObjectNotNull(blueprint.ActivationFunction, "activationFunction");
-            this.activationFunction = blueprint.ActivationFunction;
+            activationFunction = blueprint.ActivationFunction;
 
             // Validate the parent network.
             Utilities.RequireObjectNotNull(parentNetwork, "parentNetwork");

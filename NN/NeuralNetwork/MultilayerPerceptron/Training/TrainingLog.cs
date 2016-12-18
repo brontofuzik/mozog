@@ -16,8 +16,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// <param name="networkError">The minim network error achieved (in the best case).</param>
         public TrainingLog(int iterationCount, double networkError)
         {
-            this._iterationCount = iterationCount;
-            this._networkError = networkError;
+            _iterationCount = iterationCount;
+            _networkError = networkError;
         }
 
         /// <summary>

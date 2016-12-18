@@ -127,7 +127,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
         /// <param name="parentNetwork">The parent network.</param>
         public ActivationLayerDecorator(IActivationLayer activationLayer, INetwork parentNetwork)
         {
-            this.decoratedActivationLayer = activationLayer;
+            decoratedActivationLayer = activationLayer;
             ParentNetwork = parentNetwork;
         }
 

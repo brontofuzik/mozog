@@ -253,7 +253,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         {
             // 1. Create the layer blueprints.
 
-            this.biasLayerBlueprint = new LayerBlueprint(1);
+            biasLayerBlueprint = new LayerBlueprint(1);
 
             Utilities.RequireObjectNotNull(inputLayerBlueprint, "inputLayerBlueprint");
             this.inputLayerBlueprint = inputLayerBlueprint;

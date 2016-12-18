@@ -100,7 +100,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron
             {
                 double[] inputVector = tp.InputVector;
                 double[] outputVector = network.Evaluate(inputVector);
-                Console.WriteLine(tp.ToString() + " -> " + SupervisedTrainingPattern.VectorToString(outputVector));
+                Console.WriteLine(tp.ToString() + " -> " + UnsupervisedTrainingPattern.VectorToString(outputVector));
             }
 
             #endregion // Step 4 : Test the network.

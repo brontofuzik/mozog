@@ -19,7 +19,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// <param name="decoratedNetwork"></param>
         public NetworkDecorator(INetwork decoratedNetwork)
         {
-            this._decoratedNetwork = decoratedNetwork;
+            _decoratedNetwork = decoratedNetwork;
         }
 
         /// <summary>

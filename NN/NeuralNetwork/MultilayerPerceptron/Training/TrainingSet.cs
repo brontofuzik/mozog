@@ -250,8 +250,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         {
             TrainingSet testSet = new TrainingSet(_inputVectorLength, _outputVectorLength);
 
-            testSet._trainingPatterns.AddRange(this._trainingPatterns.GetRange(index, size));
-            this._trainingPatterns.RemoveRange(index, size);
+            testSet._trainingPatterns.AddRange(_trainingPatterns.GetRange(index, size));
+            _trainingPatterns.RemoveRange(index, size);
 
             return testSet;
         }

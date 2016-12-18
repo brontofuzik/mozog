@@ -26,31 +26,31 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         {
             // 0. Validate the blueprint.
             Utilities.RequireObjectNotNull(blueprint, "blueprint");
-            this._blueprint = blueprint;
+            _blueprint = blueprint;
 
             // 1. Create the network components.
             // 1.1. Create the layers.
             // 1.1.1. Create the bias layer.
-            _biasLayer = new InputLayer(this._blueprint.BiasLayerBlueprint, this);
+            _biasLayer = new InputLayer(_blueprint.BiasLayerBlueprint, this);
             _biasLayer.SetInputVector(new double[] { 1.0 });
 
             // 1.1.2. Create the input layer.
-            _inputLayer = new InputLayer(this._blueprint.InputLayerBlueprint, this);
+            _inputLayer = new InputLayer(_blueprint.InputLayerBlueprint, this);
 
             // 1.1.3. Create the hidden layers.
-            _hiddenLayers = new List< IActivationLayer >(this._blueprint.HiddenLayerCount);
-            foreach (ActivationLayerBlueprint hiddenLayerBlueprint in this._blueprint.HiddenLayerBlueprints)
+            _hiddenLayers = new List< IActivationLayer >(_blueprint.HiddenLayerCount);
+            foreach (ActivationLayerBlueprint hiddenLayerBlueprint in _blueprint.HiddenLayerBlueprints)
             {
                 IActivationLayer hiddenLayer = new ActivationLayer(hiddenLayerBlueprint, this);
                 _hiddenLayers.Add(hiddenLayer);
             }
 
             // 1.1.4. Create the output layer.
-            _outputLayer = new ActivationLayer(this._blueprint.OutputLayerBlueprint, this);
+            _outputLayer = new ActivationLayer(_blueprint.OutputLayerBlueprint, this);
 
             // 1.2 Create the connectors.
-            _connectors = new List< IConnector >(this._blueprint.ConnectorCount);
-            foreach (ConnectorBlueprint connectorBlueprint in this._blueprint.ConnectorBlueprints)
+            _connectors = new List< IConnector >(_blueprint.ConnectorCount);
+            foreach (ConnectorBlueprint connectorBlueprint in _blueprint.ConnectorBlueprints)
             {
                 IConnector connector = new Connector(connectorBlueprint, this);
                 _connectors.Add(connector);
