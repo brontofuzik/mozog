@@ -4,10 +4,6 @@ namespace NeuralNetwork.Examples.Hopfield
 {
     class EightQueensHopfieldNetwork
     {
-        #region Public members
-
-        #region Instance constructors
-
         /// <summary>
         /// Initializes a new instance of the EightQueensNetwork class.
         /// </summary>
@@ -15,10 +11,6 @@ namespace NeuralNetwork.Examples.Hopfield
         {
             _hopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(64, eightQueensNetworkActivationFunction, new SparseHopfieldNetworkImpFactory());
         }
-
-        #endregion // Instance constructors
-
-        #region Instance methods
 
         /// <summary>
         /// Trains the eight-queens network.
@@ -47,15 +39,6 @@ namespace NeuralNetwork.Examples.Hopfield
             return recalledPatter;
         }
 
-        #endregion // Instance methods
-
-        #endregion // Public members
-
-
-        #region Private members
-
-        #region Static methods
-
         /// <summary>
         /// The activation function of the eight-queens network.
         /// </summary>
@@ -65,10 +48,6 @@ namespace NeuralNetwork.Examples.Hopfield
         {
             return (input > 0) ? 1.0 : 0.0;
         }
-
-        #endregion // Static methods
-
-        #region Instance methods
 
         /// <summary>
         /// Trains a neuron.
@@ -209,10 +188,6 @@ namespace NeuralNetwork.Examples.Hopfield
             return neuronYCoordinate * 8 + neuronXCoordinate;
         }
 
-        #endregion // Instance methods
-
-        #region Instance properties
-
         private int NeuronCount
         {
             get
@@ -221,17 +196,9 @@ namespace NeuralNetwork.Examples.Hopfield
             }
         }
 
-        #endregion // Instance properties
-
-        #region Instance fields
-
         /// <summary>
         /// The underlying Hopfield network.
         /// </summary>
         private NeuralNetwork.HopfieldNetwork.HopfieldNetwork _hopfieldNetwork;
-
-        #endregion // Instance fields
-
-        #endregion // Private members
     }
 }

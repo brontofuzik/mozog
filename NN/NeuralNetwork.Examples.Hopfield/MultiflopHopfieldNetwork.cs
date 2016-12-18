@@ -4,10 +4,6 @@ namespace NeuralNetwork.Examples.Hopfield
 {
     class MultiflopHopfieldNetwork
     {
-        #region Public members
-
-        #region Instance constructors
-
         /// <summary>
         /// Initializes a new instance of the MultiflopHopfieldNetwork class.
         /// </summary>
@@ -16,10 +12,6 @@ namespace NeuralNetwork.Examples.Hopfield
         {
             _hopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(neuronCount, multiflopNetworkActivationFunction, new FullHopfieldNetworkImpFactory());
         }
-
-        #endregion // Instance constructors
-
-        #region Instance methods
 
         /// <summary>
         /// Trains the multiflop network.
@@ -46,15 +38,6 @@ namespace NeuralNetwork.Examples.Hopfield
             return recalledPatter;
         }
 
-        #endregion // Instance methods
-
-        #endregion // Public members
-
-
-        #region Private members
-
-        #region Static methods
-
         /// <summary>
         /// The activation function of the multiflop network.
         /// </summary>
@@ -64,10 +47,6 @@ namespace NeuralNetwork.Examples.Hopfield
         {
             return (input > 0) ? 1.0 : 0.0;
         }
-
-        #endregion // Static methods
-
-        #region Instance methods
 
         /// <summary>
         /// Trains a neuron.
@@ -105,10 +84,6 @@ namespace NeuralNetwork.Examples.Hopfield
             _hopfieldNetwork.SetSynapseWeight(neuronIndex, sourceNeuronIndex, synapseWeight);
         }
 
-        #endregion // Instance methods
-
-        #region Instance properties
-
         private int NeuronCount
         {
             get
@@ -117,17 +92,9 @@ namespace NeuralNetwork.Examples.Hopfield
             }
         }
 
-        #endregion // Instance properties
-
-        #region Instance fields
-
         /// <summary>
         /// The underlying Hopfield network.
         /// </summary>
         private NeuralNetwork.HopfieldNetwork.HopfieldNetwork _hopfieldNetwork;
-
-        #endregion // Instance fields
-
-        #endregion // Private members
     }
 }
