@@ -125,7 +125,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
         /// </summary>
         /// <param name="decoratedActivationLayer">The (activation) layer to be decorated.</param>
         /// <param name="parentNetwork">The parent network.</param>
-        public ActivationLayerDecorator( IActivationLayer activationLayer, INetwork parentNetwork )
+        public ActivationLayerDecorator(IActivationLayer activationLayer, INetwork parentNetwork)
         {
             this.decoratedActivationLayer = activationLayer;
             ParentNetwork = parentNetwork;
@@ -143,7 +143,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
             // Undecorate the neurons.
             for (int i = 0; i < NeuronCount; i++)
             {
-                Neurons[ i ] = (Neurons[ i ] as ActivationNeuronDecorator).GetDecoratedActivationNeuron(decoratedActivationLayer);
+                Neurons[i] = (Neurons[i] as ActivationNeuronDecorator).GetDecoratedActivationNeuron(decoratedActivationLayer);
             }
 
             // Reintegrate.

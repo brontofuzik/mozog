@@ -74,27 +74,27 @@ namespace AntColonyOptimization
             }
 
             // 2. Generates a random number according to the chosen PDF.
-            return normalPDFs[ normalPDFIndex ].NextDouble();
+            return normalPDFs[normalPDFIndex].NextDouble();
         }
 
-        public void Update( double mean, double standardDeviation )
+        public void Update(double mean, double standardDeviation)
         {
             foreach (NormalPDF normalPDF in normalPDFs)
             {
                 normalPDF.Mature();
             }
-            PositiveUpdate( mean, standardDeviation );
+            PositiveUpdate(mean, standardDeviation);
             NegativeUpdate();
         }
 
-        private void PositiveUpdate( double mean, double standardDeviation )
+        private void PositiveUpdate(double mean, double standardDeviation)
         {
-            normalPDFs.Add( new NormalPDF( mean, standardDeviation ) );
+            normalPDFs.Add(new NormalPDF(mean, standardDeviation));
         }
 
         private void NegativeUpdate()
         {
-            NormalPDF oldestNormalPDF = normalPDFs[ 0 ];
+            NormalPDF oldestNormalPDF = normalPDFs[0];
             foreach (NormalPDF normalPDF in normalPDFs)
             {
                 if (normalPDF.Age > oldestNormalPDF.Age)
@@ -102,7 +102,7 @@ namespace AntColonyOptimization
                     oldestNormalPDF = normalPDF;
                 }
             }
-            normalPDFs.Remove( oldestNormalPDF );
+            normalPDFs.Remove(oldestNormalPDF);
         }
     }
 }

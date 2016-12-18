@@ -20,8 +20,8 @@ namespace INS02
         /// <param name="batchLearning">Bacth vs. incremental learning.</param>
         /// <param name="synapseLearningRate">The learning rate of the synapses.</param>
         /// <param name="connectorMomentum">The momentum of the connectors. </param>
-        public INS02BackpropagationTrainingStrategy( int maxIterationCount, double maxNetworkError, bool batchLearning, double synapseLearningRate, double connectorMomentum )
-            : base( maxIterationCount, maxNetworkError, batchLearning, synapseLearningRate, connectorMomentum )
+        public INS02BackpropagationTrainingStrategy(int maxIterationCount, double maxNetworkError, bool batchLearning, double synapseLearningRate, double connectorMomentum)
+            : base(maxIterationCount, maxNetworkError, batchLearning, synapseLearningRate, connectorMomentum)
         {
             random = new Random();
         }
@@ -36,7 +36,7 @@ namespace INS02
                 foreach (SupervisedTrainingPattern trainingPattern in TrainingSet)
                 {
                     yield return trainingPattern;
-                    yield return MutateTrainingPattern( trainingPattern );
+                    yield return MutateTrainingPattern(trainingPattern);
                 }
             }
         }
@@ -48,21 +48,21 @@ namespace INS02
         /// <returns>
         /// The mutated training pattern.
         /// </returns>
-        private SupervisedTrainingPattern MutateTrainingPattern( SupervisedTrainingPattern trainigPattern )
+        private SupervisedTrainingPattern MutateTrainingPattern(SupervisedTrainingPattern trainigPattern)
         {
             // Modify the keyword.
             string keyword = (string)trainigPattern.Tag;
             string mutatedKeyword;
             do
             {
-                mutatedKeyword = Program.MutateKeyword( keyword );
+                mutatedKeyword = Program.MutateKeyword(keyword);
             }
-            while (((StringCollection)TrainingSet.Tag).Contains( mutatedKeyword ));
+            while (((StringCollection)TrainingSet.Tag).Contains(mutatedKeyword));
 
             // Create a new training pattern.
-            double[] inputVector = Program.KeywordToVector( mutatedKeyword );
-            double[] outputVector = Program.KeywordIndexToVector( -1 );
-            return new SupervisedTrainingPattern( inputVector, outputVector, mutatedKeyword );
+            double[] inputVector = Program.KeywordToVector(mutatedKeyword);
+            double[] outputVector = Program.KeywordIndexToVector(-1);
+            return new SupervisedTrainingPattern(inputVector, outputVector, mutatedKeyword);
         }       
 
         /// <summary>

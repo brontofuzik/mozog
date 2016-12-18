@@ -87,7 +87,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
         /// <param name="sourceLayerNeuronCount">The number of neurons comprising the source layer.</param>
         /// <param name="targetLayerIndex">The index of the target layer (within the network).</param>
         /// <param name="targetLayerNeuronCount">The number of neurons comprising the target layer.</param>
-        public ConnectorBlueprint( int sourceLayerIndex, int sourceLayerNeuronCount, int targetLayerIndex, int targetLayerNeuronCount)
+        public ConnectorBlueprint(int sourceLayerIndex, int sourceLayerNeuronCount, int targetLayerIndex, int targetLayerNeuronCount)
         {
             // 1.
             this.sourceLayerIndex = sourceLayerIndex;

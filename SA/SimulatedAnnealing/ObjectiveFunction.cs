@@ -4,13 +4,13 @@
     /// The objective function.
     /// </remarks>
     /// <typeparam name="T">The type of the state.</typeparam>
-    public abstract class ObjectiveFunction< T >
+    public abstract class ObjectiveFunction<T >
     {
         int dimension;
 
         Objective objective;
 
-        protected ObjectiveFunction( int dimension, Objective objective )
+        protected ObjectiveFunction(int dimension, Objective objective)
         {
             this.dimension = dimension;
             this.objective = objective;
@@ -39,7 +39,7 @@
         /// <returns>
         /// The evaluation of the state.
         /// </returns>
-        public abstract double Evaluate( T[] state );
+        public abstract double Evaluate(T[] state);
     }
 
     /// <summary>

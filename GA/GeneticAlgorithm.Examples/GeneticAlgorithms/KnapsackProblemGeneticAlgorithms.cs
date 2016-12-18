@@ -5,7 +5,7 @@
     /// http://en.wikipedia.org/wiki/Knapsack_problem
     /// </summary>
     internal class KnapsackProblemGeneticAlgorithm
-        : GeneticAlgorithm< int >
+        : GeneticAlgorithm<int>
     {
         /// <summary>
         /// <para>
@@ -13,12 +13,12 @@
         /// </para>
         /// </summary>
         /// <param name="chromosome">The chromosome to initialize.</param>
-        protected override Chromosome< int > GeneratorFunction()
+        protected override Chromosome<int> GeneratorFunction()
         {
-            Chromosome< int > chromosome = new Chromosome< int >( Dimension );
+            Chromosome<int> chromosome = new Chromosome<int >(Dimension);
             for (int i = 0; i < Dimension; i++)
             {
-                chromosome.Genes[ i ] = random.Next( 0, 2 );
+                chromosome.Genes[i] = random.Next(0, 2);
             }
             return chromosome;
         }
@@ -40,7 +40,7 @@
         /// <param name="offspring1">The first offpsring.</param>
         /// <param name="offspring2">The second offspring.</param>
         /// <param name="crossoverRate">The rate of crossover.</param>
-        protected override void CrossoverFunction( Chromosome< int > parent1, Chromosome< int > parent2, out Chromosome< int > offspring1, out Chromosome< int > offspring2, double crossoverRate )
+        protected override void CrossoverFunction(Chromosome<int> parent1, Chromosome<int> parent2, out Chromosome<int> offspring1, out Chromosome<int> offspring2, double crossoverRate)
         {
             // Breed the first offspring from the first parent.
             offspring1 = parent1.Clone();
@@ -53,14 +53,14 @@
             {
                 // Choose a point randomly.
                 // The point must be located after the first and before the last gene; the point is from the interval [1, chromosomeSize). 
-                int point = random.Next( 1, Dimension );
+                int point = random.Next(1, Dimension);
 
                 // Crossover all genes from the point (including) to the end.
                 for (int i = point; i < Dimension; i++)
                 {
-                    int tmpGene = offspring1.Genes[ i ];
-                    offspring1.Genes[ i ] = offspring2.Genes[ i ];
-                    offspring2.Genes[ i ] = tmpGene;
+                    int tmpGene = offspring1.Genes[i];
+                    offspring1.Genes[i] = offspring2.Genes[i];
+                    offspring2.Genes[i] = tmpGene;
                 }
             }
         }
@@ -75,26 +75,26 @@
         /// </summary>
         /// <param name="chromosome">The chromosome to mutate.</param>
         /// <param name="mutationRate">The rate of mutation.</param>
-        protected override void MutationFunction( Chromosome< int > chromosome, double mutationRate )
+        protected override void MutationFunction(Chromosome<int> chromosome, double mutationRate)
         {
             for (int i = 0; i < chromosome.Size; i++)
             {
                 if (random.NextDouble() < mutationRate)
                 {
-                    chromosome.Genes[ i ] = (chromosome.Genes[ i ] == 0) ? 1 : 0;
+                    chromosome.Genes[i] = (chromosome.Genes[i] == 0) ? 1 : 0;
                 }
             }
         }
 
-        //private static void KnapsackUniformCrossoverFunction( int[] parent1Genes, int[] parent2Genes, out int[] offspring1Genes, out int[] offspring2Genes, double crossoverRate )
+        //private static void KnapsackUniformCrossoverFunction(int[] parent1Genes, int[] parent2Genes, out int[] offspring1Genes, out int[] offspring2Genes, double crossoverRate)
         //{
         //    int chromosomeSize = parent1Genes.Length;
 
         //    // Breed the first offspring from the first parent.
-        //    offspring1Genes = new int[ chromosomeSize ];
+        //    offspring1Genes = new int[chromosomeSize];
 
         //    // Breed the second offspring from the second parent.
-        //    offspring2Genes = new int[ chromosomeSize ];
+        //    offspring2Genes = new int[chromosomeSize];
 
         //    // Perform a uniform crossover.
         //    if (random.NextDouble() < crossoverRate)
@@ -103,13 +103,13 @@
         //        {
         //            if (random.NextDouble() < 0.5)
         //            {
-        //                offspring1Genes[ i ] = parent1Genes[ i ];
-        //                offspring2Genes[ i ] = parent2Genes[ i ];
+        //                offspring1Genes[i] = parent1Genes[i];
+        //                offspring2Genes[i] = parent2Genes[i];
         //            }
         //            else
         //            {
-        //                offspring1Genes[ i ] = parent2Genes[ i ];
-        //                offspring2Genes[ i ] = parent1Genes[ i ];
+        //                offspring1Genes[i] = parent2Genes[i];
+        //                offspring2Genes[i] = parent1Genes[i];
         //            }
         //        }
         //    }

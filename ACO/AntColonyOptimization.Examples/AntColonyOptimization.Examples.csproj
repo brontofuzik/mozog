@@ -70,7 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AntColonyOptimizations\RealFunctionAntColonyOptimization.cs" />
-    <Compile Include="ObjectiveFunctions\GoldsteinAndPriceFunction.cs" />
+    <Compile Include="ObjectiveFunctions\GoldsteinPriceFunction.cs" />
     <Compile Include="ObjectiveFunctions\RosenbrockFunction.cs" />
     <Compile Include="ObjectiveFunctions\SphereModelFunction.cs" />
     <Compile Include="ObjectiveFunctions\ZakharovFunction.cs" />

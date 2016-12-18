@@ -14,9 +14,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions
         /// </summary>
         /// <param name="x">The input (or inner potential) of a neuron.</param>
         /// <returns></returns>
-        public double Evaluate( double x )
+        public double Evaluate(double x)
         {
-            return Math.Tanh( x );
+            return Math.Tanh(x);
         }
 
         /// <summary>
@@ -24,10 +24,10 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions
         /// </summary>
         /// <param name="x">The input (or inner potential) of a neuron.</param>
         /// <returns></returns>
-        public double EvaluateDerivative( double x )
+        public double EvaluateDerivative(double x)
         {
-            double y = Evaluate( x );
-            return (1 - Math.Pow( y, 2 ));
+            double y = Evaluate(x);
+            return (1 - Math.Pow(y, 2));
         }
     }
 }

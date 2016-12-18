@@ -125,7 +125,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
         /// </summary>
         /// <param name="decoratedConnector">The connector to be decorated.</param>
         /// <param name="parentNetwork">The parent network.</param>
-        public ConnectorDecorator( IConnector decoratedConnector, INetwork parentNetwork )
+        public ConnectorDecorator(IConnector decoratedConnector, INetwork parentNetwork)
         {
             this.decoratedConnector = decoratedConnector;
             ParentNetwork = parentNetwork;
@@ -181,7 +181,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
             // Undecorate the synapses.
             for (int i = 0; i < SynapseCount; i++)
             {
-                Synapses[ i ] = (Synapses[ i ] as SynapseDecorator).GetDecoratedSynapse(decoratedConnector);
+                Synapses[i] = (Synapses[i] as SynapseDecorator).GetDecoratedSynapse(decoratedConnector);
             }
 
             // Reintegrate.

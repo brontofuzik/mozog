@@ -50,11 +50,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         /// Sets the learning rates of all synapses in the network.
         /// </summary>
         /// <param name="synapseLearningRate"></param>
-        public void SetSynapseLearningRates( double synapseLearningRate )
+        public void SetSynapseLearningRates(double synapseLearningRate)
         {
             foreach (BackpropagationConnector connector in Connectors)
             {
-                connector.SetSynapseLearningRates( synapseLearningRate );
+                connector.SetSynapseLearningRates(synapseLearningRate);
             }
         }
 
@@ -62,11 +62,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         /// Sets the momenta of all connectors in the network.
         /// </summary>
         /// <param name="connectorMomentum"></param>
-        public void SetConnectorMomenta( double connectorMomentum )
+        public void SetConnectorMomenta(double connectorMomentum)
         {
             foreach (BackpropagationConnector connector in Connectors)
             {
-                connector.SetMomentum( connectorMomentum );
+                connector.SetMomentum(connectorMomentum);
             }
         }
 
@@ -97,17 +97,17 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
             double partialError = 0.0;
             foreach (BackpropagationNeuron outputNeuron in OutputLayer.Neurons)
             {
-                partialError += Math.Pow( outputNeuron.PartialDerivative, 2 );
+                partialError += Math.Pow(outputNeuron.PartialDerivative, 2);
             }
 
             _error += 0.5 * partialError;
         }
 
         // Replaces three steps - (b), (c) and (d) - with one.
-        public void Backpropagate( double[] desiredOutputVector )
+        public void Backpropagate(double[] desiredOutputVector)
         {
             // Output layer.
-            (OutputLayer as BackpropagationLayer).Backpropagate( desiredOutputVector );
+            (OutputLayer as BackpropagationLayer).Backpropagate(desiredOutputVector);
 
             // Hidden layers (backwards).
             for (int i = HiddenLayers.Count - 1; i >= 0; i--)

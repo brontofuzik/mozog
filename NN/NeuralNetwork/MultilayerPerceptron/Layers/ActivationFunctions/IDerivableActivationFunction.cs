@@ -19,7 +19,7 @@
         /// <param name="x">The input (the inner potential) of a neuron.</param>
         /// <returns>
         /// </returns>
-        double EvaluateDerivative( double x );
+        double EvaluateDerivative(double x);
 
         #endregion // Methods
     }

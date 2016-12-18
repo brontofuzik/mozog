@@ -4,7 +4,7 @@ using NeuralNetwork.MultilayerPerceptron.Networks;
 namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealingTeacher
 {
     internal class NetworkObjectiveFunction
-        : ObjectiveFunction< double >
+        : ObjectiveFunction<double>
     {
         private INetwork network;
 
@@ -17,10 +17,10 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealin
             this.trainingSet = trainingSet;
         }
 
-        public override double Evaluate( double[] weights )
+        public override double Evaluate(double[] weights)
         {
-            network.SetWeights( weights );
-            return network.CalculateError( trainingSet );
+            network.SetWeights(weights);
+            return network.CalculateError(trainingSet);
         }
     }
 }

@@ -152,7 +152,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Neurons
                 input += sourceSynapse.SourceNeuron.Output * sourceSynapse.Weight;
             }
 
-            output = (parentLayer as IActivationLayer).ActivationFunction.Evaluate( input );
+            output = (parentLayer as IActivationLayer).ActivationFunction.Evaluate(input);
         }
 
         /// <summary>
@@ -165,16 +165,16 @@ namespace NeuralNetwork.MultilayerPerceptron.Neurons
         {
             StringBuilder activationNeuronSB = new StringBuilder();
 
-            activationNeuronSB.Append( "AN([" );
+            activationNeuronSB.Append("AN([");
             foreach (ISynapse synapse in sourceSynapses)
             {
-                activationNeuronSB.Append( synapse + ", " );
+                activationNeuronSB.Append(synapse + ", ");
             }
             if (sourceSynapses.Count != 0)
             {
-                activationNeuronSB.Remove( activationNeuronSB.Length - 2, 2 );
+                activationNeuronSB.Remove(activationNeuronSB.Length - 2, 2);
             }
-            activationNeuronSB.Append( "]), " + input.ToString( "F2" ) + ", " + output.ToString( "F2" ) + ")" );
+            activationNeuronSB.Append("]), " + input.ToString("F2") + ", " + output.ToString("F2") + ")");
 
             return activationNeuronSB.ToString();
         }

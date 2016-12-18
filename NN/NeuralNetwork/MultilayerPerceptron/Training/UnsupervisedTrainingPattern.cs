@@ -145,7 +145,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             return String.Format("({0})", VectorToString(_inputVector));
 
             // alternatively:
-            // return (base.ToString() + "(" + VectorToString( inputVector ) + "," + VectorToString( outputVector ) + ")");
+            // return (base.ToString() + "(" + VectorToString(inputVector) + "," + VectorToString(outputVector) + ")");
         }
 
         /// <summary>

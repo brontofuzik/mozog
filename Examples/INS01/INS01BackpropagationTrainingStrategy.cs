@@ -20,8 +20,8 @@ namespace INS01
         /// <param name="batchLearning">Batch vs. incremental learning.</param>
         /// <param name="synapseLearningRate">The learning rate of the synapses.</param>
         /// <param name="connectorMomentum">The momentum of the connectors.</param>
-        public INS01BackpropagationTrainingStrategy( int maxIterationCount, double maxNetworkError, bool batchLearning, double synapseLearningRate, double connectorMomentum )
-            : base( maxIterationCount, maxNetworkError, batchLearning, synapseLearningRate, connectorMomentum )
+        public INS01BackpropagationTrainingStrategy(int maxIterationCount, double maxNetworkError, bool batchLearning, double synapseLearningRate, double connectorMomentum)
+            : base(maxIterationCount, maxNetworkError, batchLearning, synapseLearningRate, connectorMomentum)
         {
         }
 

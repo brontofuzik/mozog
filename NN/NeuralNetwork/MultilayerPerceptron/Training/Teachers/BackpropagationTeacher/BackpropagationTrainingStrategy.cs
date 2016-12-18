@@ -16,7 +16,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         /// <param name="maxNetworkError"></param>
         /// <param name="batchLearning"></param>
         /// <param name="synapseLearningRate"></param>
-        public BackpropagationTrainingStrategy( int maxIterationCount, double maxNetworkError, bool batchLearning, double synapseLearningRate, double connectorMomentum )
+        public BackpropagationTrainingStrategy(int maxIterationCount, double maxNetworkError, bool batchLearning, double synapseLearningRate, double connectorMomentum)
         {
             _maxIterationCount = maxIterationCount;
             _maxNetworkError = maxNetworkError;
@@ -130,7 +130,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         /// <param name="evaluationIterationCount"></param>
         /// <param name="networkError"></param>
         /// <returns></returns>
-        public virtual bool IsStoppingCriterionMet( int iterationCount, double networkError )
+        public virtual bool IsStoppingCriterionMet(int iterationCount, double networkError)
         {
             return (iterationCount >= _maxIterationCount) || (networkError <= _maxNetworkError);
         }

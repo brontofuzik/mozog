@@ -40,7 +40,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// <param name="inputVector">The input vector.</param>
         /// <param name="outputVector">The output vector.</param>
         public SupervisedTrainingPattern(double[] inputVector, double[] outputVector)
-            : this( inputVector, outputVector, null )
+            : this(inputVector, outputVector, null)
         {
         }
 
@@ -56,7 +56,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             return String.Format("({0}, {1})", VectorToString(InputVector), VectorToString(_outputVector));
             
             // alternatively:
-            // return (base.ToString() + "(" + VectorToString( inputVector ) + "," + VectorToString( outputVector ) + ")");
+            // return (base.ToString() + "(" + VectorToString(inputVector) + "," + VectorToString(outputVector) + ")");
         }
 
 		/// <summary>

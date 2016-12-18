@@ -6,13 +6,13 @@ namespace SimulatedAnnealing.Examples.ObjectiveFunctions
     /// A one dimensional (1D) function.
     /// </summary>
     internal class OneDimensionalFunction
-        : ObjectiveFunction< double >
+        : ObjectiveFunction<double>
     {
         /// <summary>
         /// Creates a new one-dimensional (1D) function.
         /// </summary>
         public OneDimensionalFunction()
-            : base( 1, Objective.MINIMIZE )
+            : base(1, Objective.MINIMIZE)
         {
         }
 
@@ -23,9 +23,9 @@ namespace SimulatedAnnealing.Examples.ObjectiveFunctions
         /// <returns>
         /// The evaluation of the state of the system (i.e. the internal energy of the system).
         /// </returns>
-        public override double Evaluate( double[] state )
+        public override double Evaluate(double[] state)
         {
-            return 1 - (Math.Sin( state[ 0 ] ) / state[ 0 ]);
+            return 1 - (Math.Sin(state[0]) / state[0]);
         }
     }
 }

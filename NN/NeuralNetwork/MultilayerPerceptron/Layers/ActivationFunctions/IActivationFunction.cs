@@ -19,7 +19,7 @@
         /// <returns>
         /// The output (the state) of the neuron.
         /// </returns>
-        double Evaluate( double x );
+        double Evaluate(double x);
 
         #endregion // Methods
     }

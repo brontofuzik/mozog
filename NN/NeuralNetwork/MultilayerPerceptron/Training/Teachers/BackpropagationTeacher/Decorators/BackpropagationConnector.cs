@@ -16,7 +16,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         /// <param name="connector">The connector to be decorated as backpropagation connector.</param>
         /// <param name="parentNetwork">The parent network.</param>
         public BackpropagationConnector(IConnector connector,INetwork parentNetwork)
-            : base( connector, parentNetwork )
+            : base(connector, parentNetwork)
         {
             // Decorate the synapses.
             for (int i = 0; i < SynapseCount; i++)
@@ -55,11 +55,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         /// Sets the learning rates of all synapses in the network.
         /// </summary>
         /// <param name="synapseLearningRate"></param>
-        public void SetSynapseLearningRates( double synapseLearningRate )
+        public void SetSynapseLearningRates(double synapseLearningRate)
         {
             foreach (BackpropagationSynapse synapse in Synapses)
             {
-                synapse.SetLearningRate( synapseLearningRate );
+                synapse.SetLearningRate(synapseLearningRate);
             }
         }
 
@@ -67,7 +67,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         /// Sets the momentum of the connector.
         /// </summary>
         /// <param name="momentum"></param>
-        public void SetMomentum( double momentum )
+        public void SetMomentum(double momentum)
         {
             _momentum = momentum;
         }

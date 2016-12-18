@@ -159,7 +159,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
             synapses = new List<ISynapse>(this.blueprint.SynapseCount);
             foreach (SynapseBlueprint synapseBlueprint in this.blueprint.SynapseBlueprints)
             {
-                ISynapse synapse = new Synapse( synapseBlueprint, this );
+                ISynapse synapse = new Synapse(synapseBlueprint, this);
                 synapses.Add(synapse);
             }
 
@@ -256,11 +256,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
         /// </summary>
         /// 
         /// <param name="jitterNoiseLimit">The maximum absolute jitter noise added.</param>
-        public void Jitter( double jitterNoiseLimit )
+        public void Jitter(double jitterNoiseLimit)
         {
             foreach (ISynapse synapse in synapses)
             {
-                synapse.Jitter( jitterNoiseLimit );
+                synapse.Jitter(jitterNoiseLimit);
             }
         }
     }

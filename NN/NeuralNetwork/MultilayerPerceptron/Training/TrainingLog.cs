@@ -14,7 +14,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// </summary>
         /// <param name="evaluationIterationCount">The number of iterations used (in the best case).</param>
         /// <param name="networkError">The minim network error achieved (in the best case).</param>
-        public TrainingLog( int iterationCount, double networkError )
+        public TrainingLog(int iterationCount, double networkError)
         {
             this._iterationCount = iterationCount;
             this._networkError = networkError;
@@ -25,28 +25,28 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// </summary>
         /// <param name="network">The network whose measures of fit are to be calculated (and logged).</param>
         /// <param name="trainingSet">The training set.</param>
-        public void CalculateMeasuresOfFit( INetwork network, TrainingSet trainingSet )
+        public void CalculateMeasuresOfFit(INetwork network, TrainingSet trainingSet)
         {
             int n = trainingSet.Size;
             int p = network.SynapseCount;
 
             // Calculate (and log) the residual sum of squares (within-sample).
-            _rss_trainingSet = CalculateRSS( network, trainingSet );
+            _rss_trainingSet = CalculateRSS(network, trainingSet);
 
             // Calculate (and log) the residual standard deviation (within-sample).
-            _rsd_trainingSet = Math.Sqrt( _rss_trainingSet / (double)n );
+            _rsd_trainingSet = Math.Sqrt(_rss_trainingSet / (double)n);
 
             // Calculate (and log) the Akaike information criterion.
-            _aic = n * Math.Log( _rss_trainingSet / (double)n ) + 2 * p;
+            _aic = n * Math.Log(_rss_trainingSet / (double)n) + 2 * p;
 
             // Calcuolate (and log) the bias-corrected Akaike information criterion.
             _aicc = _aic + (2 * (p + 1) * (p + 2)) / (n - p - 2);
 
             // Calculate (and log) the Bayesian information criterion.
-            _bic = n * Math.Log( _rss_trainingSet / (double)n ) + p + p * Math.Log( n );
+            _bic = n * Math.Log(_rss_trainingSet / (double)n) + p + p * Math.Log(n);
 
             // Calculate (and log) the Schwarz Bayesian criterion.
-            sbc = n * Math.Log( _rss_trainingSet / (double)n ) + p * Math.Log( n );
+            sbc = n * Math.Log(_rss_trainingSet / (double)n) + p * Math.Log(n);
         }
 
         /// <summary>
@@ -54,16 +54,16 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// </summary>
         /// <param name="network">The network whose forecast accuracy is to be calculated (and logged).</param>
         /// <param name="testSet">The test set.</param>
-        public void CalculateForecastAccuracy( INetwork network, TrainingSet testSet )
+        public void CalculateForecastAccuracy(INetwork network, TrainingSet testSet)
         {
             int n = testSet.Size;
             int p = network.SynapseCount;
 
             // Calculate the residual sum of squares (out-of-sample).
-            rss_testSet = CalculateRSS( network, testSet );
+            rss_testSet = CalculateRSS(network, testSet);
 
             // Calculate the residual standard deviation (out-of-sample).
-            rsd_testSet = Math.Sqrt( rss_testSet / (double)n );
+            rsd_testSet = Math.Sqrt(rss_testSet / (double)n);
         }
 
         /// <summary>
@@ -222,15 +222,15 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// <returns>
         /// The RSS.
         /// </returns>
-        private double CalculateRSS( INetwork network, TrainingSet trainingSet )
+        private double CalculateRSS(INetwork network, TrainingSet trainingSet)
         {
             double rss = 0.0;
             foreach (SupervisedTrainingPattern trainingPattern in trainingSet)
             {
-                double[] outputVector = network.Evaluate( trainingPattern.InputVector );
+                double[] outputVector = network.Evaluate(trainingPattern.InputVector);
                 double[] desiredOutputVector = trainingPattern.OutputVector;
 
-                rss += Math.Pow( (outputVector[ 0 ] - desiredOutputVector[ 0 ]), 2 );
+                rss += Math.Pow((outputVector[0] - desiredOutputVector[0]), 2);
             }
             return rss;
         }

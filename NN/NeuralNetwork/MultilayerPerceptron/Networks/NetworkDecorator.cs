@@ -71,7 +71,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
             // 2.1.3. Undecorate the hidden layers.
             for (int i = 0; i < HiddenLayerCount; i++)
             {
-                HiddenLayers[ i ] = (HiddenLayers[ i ] as ActivationLayerDecorator).GetDecoratedActivationLayer(_decoratedNetwork);
+                HiddenLayers[i] = (HiddenLayers[i] as ActivationLayerDecorator).GetDecoratedActivationLayer(_decoratedNetwork);
             }
 
             // 2.1.4. Undecorate the output layer.
@@ -80,7 +80,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
             // 2.2. Undecorate the connectors and their synapses.
             for (int i = 0; i < ConnectorCount; i++)
             {
-                Connectors[ i ] = (Connectors[ i ] as ConnectorDecorator).GetDecoratedConnector(_decoratedNetwork);
+                Connectors[i] = (Connectors[i] as ConnectorDecorator).GetDecoratedConnector(_decoratedNetwork);
             }
 
             // 3. Connect the network.
@@ -128,9 +128,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// <returns>
         /// The error of the network.
         /// </returns>
-        public virtual double CalculateError( TrainingSet trainingSet )
+        public virtual double CalculateError(TrainingSet trainingSet)
         {
-            return _decoratedNetwork.CalculateError( trainingSet );
+            return _decoratedNetwork.CalculateError(trainingSet);
         }
 
         /// <summary>
@@ -140,9 +140,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// <returns>
         /// The error of the network.
         /// </returns>
-        public virtual double CalculateError( SupervisedTrainingPattern trainingPattern )
+        public virtual double CalculateError(SupervisedTrainingPattern trainingPattern)
         {
-            return _decoratedNetwork.CalculateError( trainingPattern );
+            return _decoratedNetwork.CalculateError(trainingPattern);
         }
 
         /// <summary>
@@ -180,9 +180,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// Sets the weights of the network (as an  array).
         /// </summary>
         /// <param name="weights">The weights of the network (as an array).</param>
-        public virtual void SetWeights( double[] weights )
+        public virtual void SetWeights(double[] weights)
         {
-            _decoratedNetwork.SetWeights( weights );
+            _decoratedNetwork.SetWeights(weights);
         }
 
         /// <summary>

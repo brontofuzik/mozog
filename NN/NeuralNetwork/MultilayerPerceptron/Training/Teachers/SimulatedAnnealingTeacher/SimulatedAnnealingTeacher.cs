@@ -33,8 +33,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealin
         /// <param name="trainingSet">The training set.</param>
         /// <param name="validationSet">The validationSet.</param>
         /// <param name="testSet">The test set.</param>
-        public SimulatedAnnealingTeacher( TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet )
-            : base( trainingSet, validationSet, testSet )
+        public SimulatedAnnealingTeacher(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
+            : base(trainingSet, validationSet, testSet)
         {
             networkSimulatedAnnealing = new NetworkSimlatedAnnealing();
         }
@@ -45,30 +45,30 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealin
         /// <param name="network">The network to train.</param>
         /// <param name="maxIterationCount">The maximum number of iterations.</param>
         /// <param name="maxTolerableNetworkError">The maximum tolerable network error.</param>
-        public override TrainingLog Train( INetwork network, int maxIterationCount, double maxTolerableNetworkError )
+        public override TrainingLog Train(INetwork network, int maxIterationCount, double maxTolerableNetworkError)
         {
             // The network simulated annealing parameters.
-            NetworkObjectiveFunction networkObjectiveFunction = new NetworkObjectiveFunction( network, trainingSet );
+            NetworkObjectiveFunction networkObjectiveFunction = new NetworkObjectiveFunction(network, trainingSet);
             double initialTemperature = 1000.0;
             double finalTemperature = 0.001;
 
             // Train the network.
             int iterationCount;
             double networkError;
-            double[] weights = networkSimulatedAnnealing.Run( networkObjectiveFunction,
+            double[] weights = networkSimulatedAnnealing.Run(networkObjectiveFunction,
                 maxIterationCount, out iterationCount, maxTolerableNetworkError, out networkError,
                 initialTemperature, finalTemperature 
-            );
-            network.SetWeights( weights );
+           );
+            network.SetWeights(weights);
 
             // LOGGING
             // -------
 
             // Create the training log and log the training data.
-            TrainingLog trainingLog = new TrainingLog( iterationCount, networkError );
+            TrainingLog trainingLog = new TrainingLog(iterationCount, networkError);
 
             // Log the network statistics.
-            LogNetworkStatistics( trainingLog, network );
+            LogNetworkStatistics(trainingLog, network);
 
             return trainingLog;
         }

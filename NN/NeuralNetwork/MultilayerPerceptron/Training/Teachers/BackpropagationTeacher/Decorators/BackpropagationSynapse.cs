@@ -13,8 +13,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         /// Creates a new backpropagation synapse by decorating a synapse.
         /// </summary>
         /// <param name="synapse">The synapse to be doecorated as backpropagation synapse.</param>
-        public BackpropagationSynapse( ISynapse synapse,IConnector parentConnector )
-            : base( synapse, parentConnector )
+        public BackpropagationSynapse(ISynapse synapse,IConnector parentConnector)
+            : base(synapse, parentConnector)
         {
             _k = 1.01;
         }
@@ -40,7 +40,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         /// </summary>
         public override void Disconnect()
         {
-            Disconnect( this );
+            Disconnect(this);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         /// Sets the learning rate of the synapse.
         /// </summary>
         /// <param name="learningRate"></param>
-        public void SetLearningRate( double learningRate )
+        public void SetLearningRate(double learningRate)
         {
             _learningRate = learningRate;
         }

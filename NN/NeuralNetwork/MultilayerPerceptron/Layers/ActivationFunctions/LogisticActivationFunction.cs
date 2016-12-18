@@ -18,7 +18,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions
 	/// A logistic sigmoid (or sometimes the standard sigmoid curve) is a function of the form:
 	/// <code>
 	///                   1
-	/// f( x ) = --------------------
+	/// f(x) = --------------------
 	///          1 + e ^ (- gain * x)
     /// </code>
     /// where gain > 0.
@@ -57,10 +57,10 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions
         /// <exception name="System.ArgumentException">
         /// Condition: <c>gain</c> is less than or equal to zero.
         /// </exception>
-        public LogisticActivationFunction( double gain )
+        public LogisticActivationFunction(double gain)
         {
             // Validate the arguments.
-            Utilities.RequireNumberPositive( gain, "gain" );
+            Utilities.RequireNumberPositive(gain, "gain");
 
             // Initialize the instance fields.
             this.gain = gain;
@@ -70,7 +70,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions
         /// Creates a new logistic sigmoid activation fucntion.
         /// </summary>
         public LogisticActivationFunction()
-            : this( 1.0 )
+            : this(1.0)
         {
         }
 
@@ -79,9 +79,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions
         /// </summary>
         /// <param name="x">The input (or inner potential) of a neuron.</param>
         /// <returns></returns>
-        public double Evaluate( double x )
+        public double Evaluate(double x)
         {
-            return 1 / (1 + Math.Exp( -gain * x ));
+            return 1 / (1 + Math.Exp(-gain * x));
         }
 
         /// <summary>
@@ -89,9 +89,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions
         /// </summary>
         /// <param name="x">The input (or inner potential) of a neuron.</param>
         /// <returns></returns>
-        public double EvaluateDerivative( double x )
+        public double EvaluateDerivative(double x)
         {
-            double y = Evaluate( x );
+            double y = Evaluate(x);
             return gain * y * (1 - y);
         }
     }

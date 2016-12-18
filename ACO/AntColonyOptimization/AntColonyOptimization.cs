@@ -59,35 +59,35 @@ namespace AntColonyOptimization
             }
         }
 
-        public double[] Run( ObjectiveFunction objectiveFunction,
+        public double[] Run(ObjectiveFunction objectiveFunction,
             int maxIterationCount, out int usedIterationCount, double acceptableEvaluation, out double achievedEvalation,
             int antCount, int normalPDFCount, double requiredAccuracy
-        )
+       )
         {
             if (objectiveFunction == null)
             {
-                throw new ArgumentNullException( "objectiveFunction" );
+                throw new ArgumentNullException("objectiveFunction");
             }
             this.objectiveFunction = objectiveFunction;
 
             // Pheromone Maintenance - Initialization
-            CreatePheromoneTrail( normalPDFCount );
+            CreatePheromoneTrail(normalPDFCount);
 
-            CreateAntColony( antCount );
+            CreateAntColony(antCount);
 
             // Keep track of the global-best ant for elitist purposes.
-            globalBestAnt = antColony[ 0 ];
-            EvaluateAnt( globalBestAnt );
+            globalBestAnt = antColony[0];
+            EvaluateAnt(globalBestAnt);
 
             // Repeat while the computational budget is not spend and an acceptable solution is not found.
             int iterationIndex = 0;
-            while ((iterationIndex < maxIterationCount) && !IsAcceptableSolutionFound( acceptableEvaluation ))
+            while ((iterationIndex < maxIterationCount) && !IsAcceptableSolutionFound(acceptableEvaluation))
             {
                 // Solution Construction
                 EvaluateAntColony();
 
                 // Pheromone Maintenance - Update
-                UpdatePheromoneTrail( iterationIndex + 1, requiredAccuracy );
+                UpdatePheromoneTrail(iterationIndex + 1, requiredAccuracy);
 
                 iterationIndex++;
             }
@@ -105,9 +105,9 @@ namespace AntColonyOptimization
         ///// <returns>
         ///// The (global-best) solution.
         ///// </returns>
-        //public double[] Run( int iterationCount )
+        //public double[] Run(int iterationCount)
         //{
-        //    return Run( iterationCount, 100, 5, 0.001, true );
+        //    return Run(iterationCount, 100, 5, 0.001, true);
         //}
 
         ///// <summary>
@@ -117,41 +117,41 @@ namespace AntColonyOptimization
         ///// <returns>
         ///// The (global-best) solution.
         ///// </returns>
-        //public double[] Run( Dictionary< string, object > args )
+        //public double[] Run(Dictionary<string, object > args)
         //{
         //    // Validate the presence of compulasory parameters.
         //    // The number of iterations.
         //    int iterationCount;
         //    try
         //    {
-        //        iterationCount = (int)args[ "iterationCount" ];
+        //        iterationCount = (int)args["iterationCount"];
         //    }
         //    catch
         //    {
-        //        throw new ArgumentException( "iterationCount" );
+        //        throw new ArgumentException("iterationCount");
         //    }
 
         //    // Validate the presence of optional parameters.
         //    // The number of ants
-        //    int antCount = (args.ContainsKey( "antCOunt" )) ? (int)args[ "antCount" ] : 100;
+        //    int antCount = (args.ContainsKey("antCOunt")) ? (int)args["antCount"] : 100;
             
         //    // The number of normal PDFs.
-        //    double normalPDFCount = (args.ContainsKey("normalPDFCount")) ? (double)args[ "normalPDFCount" ] : 5;
+        //    double normalPDFCount = (args.ContainsKey("normalPDFCount")) ? (double)args["normalPDFCount"] : 5;
             
         //    // The required accuracy.
-        //    double requiredAccuracy = (args.ContainsKey("requiredAccuracy")) ? (double)args[ "requiredAccuracy" ] : 0.001;
+        //    double requiredAccuracy = (args.ContainsKey("requiredAccuracy")) ? (double)args["requiredAccuracy"] : 0.001;
             
         //    // The elitism flag.
-        //    bool elitism  = (args.ContainsKey( "elitism" )) ? (bool)args[ "elitism" ] : true;
+        //    bool elitism  = (args.ContainsKey("elitism")) ? (bool)args["elitism"] : true;
 
-        //    return Run( iterationCount, antCount, normalPDFCount, requiredAccuracy, elitism );
+        //    return Run(iterationCount, antCount, normalPDFCount, requiredAccuracy, elitism);
         //}
 
         /// <summary>
         /// Creates the pheromone trail.
         /// </summary>
         /// <param name="normalPDFCount">The number of PDFs in each pheromone distribution.</param>
-        private void CreatePheromoneTrail( int normalPDFCount )
+        private void CreatePheromoneTrail(int normalPDFCount)
         {
             // Clear the pheromone trail, ...
             pheromoneTrail.Clear();
@@ -160,10 +160,10 @@ namespace AntColonyOptimization
             for (int i = 0; i < Dimension; i++)
             {
                 // Create a random pheromone distribution, ...
-                PheromoneDistribution pheromoneDistribution = new PheromoneDistribution( normalPDFCount );
+                PheromoneDistribution pheromoneDistribution = new PheromoneDistribution(normalPDFCount);
                 
                 // ... and add it to the pheromone trail.
-                pheromoneTrail.Add( pheromoneDistribution );
+                pheromoneTrail.Add(pheromoneDistribution);
             }
         }
 
@@ -171,7 +171,7 @@ namespace AntColonyOptimization
         /// Creates the ant colony.
         /// </summary>
         /// <param name="antCount">The number of ants.</param>
-        private void CreateAntColony( int antCount )
+        private void CreateAntColony(int antCount)
         {
             // Clear the ant colony, ...
             antColony.Clear();
@@ -180,10 +180,10 @@ namespace AntColonyOptimization
             for (int i = 0; i < antCount; i++)
             {
                 // Create a new ant, ...
-                Ant ant = new Ant( Dimension );
+                Ant ant = new Ant(Dimension);
 
                 // ... and add it to the ant colony.
-                antColony.Add( ant );
+                antColony.Add(ant);
             }
         }
 
@@ -195,8 +195,8 @@ namespace AntColonyOptimization
             foreach (Ant ant in antColony)
             {
                 // Solution Construction
-                ant.ConstructSolution( pheromoneTrail );
-                EvaluateAnt( ant );
+                ant.ConstructSolution(pheromoneTrail);
+                EvaluateAnt(ant);
 
                 // Update the global-best ant.
                 if (ant.Evaluation < globalBestAnt.Evaluation)
@@ -211,10 +211,10 @@ namespace AntColonyOptimization
         /// </summary>
         /// <param name="iterationIndex">The index of the iteration.</param>
         /// <param name="requiredAccuracy">The required accuracy.</param>
-        private void UpdatePheromoneTrail( int iterationCount, double requiredAccuracy )
+        private void UpdatePheromoneTrail(int iterationCount, double requiredAccuracy)
         {
             // Find the iteration-best ant.
-            Ant iterationBestAnt = antColony[ 0 ];;
+            Ant iterationBestAnt = antColony[0];;
             foreach (Ant ant in antColony)
             {
                 if (ant.Evaluation < iterationBestAnt.Evaluation)
@@ -226,16 +226,16 @@ namespace AntColonyOptimization
             // Use the iteration-best ant to update the oheromone trail.
             for (int i = 0; i < pheromoneTrail.Count; i++)
             {
-                double mean = iterationBestAnt.Steps[ i ];
+                double mean = iterationBestAnt.Steps[i];
                 double max = Double.MinValue;
                 double min = Double.MaxValue;
                 foreach (Ant ant in antColony)
                 {
-                    max = Math.Max( max, ant.Steps[ i ] );
-                    min = Math.Min( min, ant.Steps[ i ] );
+                    max = Math.Max(max, ant.Steps[i]);
+                    min = Math.Min(min, ant.Steps[i]);
                 }
-                double standardDeviation = Math.Max(((max - min) / Math.Sqrt( iterationCount )), requiredAccuracy );
-                pheromoneTrail[ i ].Update( mean, standardDeviation );
+                double standardDeviation = Math.Max(((max - min) / Math.Sqrt(iterationCount)), requiredAccuracy);
+                pheromoneTrail[i].Update(mean, standardDeviation);
             }
         }
 
@@ -243,9 +243,9 @@ namespace AntColonyOptimization
         /// Evalautes an ant.
         /// </summary>
         /// <param name="ant">The ant to evalaute.</param>
-        private void EvaluateAnt( Ant ant )
+        private void EvaluateAnt(Ant ant)
         {
-            ant.Evaluation = (Objective == Objective.Minimize) ? objectiveFunction.Evaluate( ant.Steps ) : (1 / objectiveFunction.Evaluate( ant.Steps ));
+            ant.Evaluation = (Objective == Objective.Minimize) ? objectiveFunction.Evaluate(ant.Steps) : (1 / objectiveFunction.Evaluate(ant.Steps));
         }
 
         /// <summary>
@@ -255,7 +255,7 @@ namespace AntColonyOptimization
         /// <returns>
         /// <c>True</c> if an acceptable solution is found, <c>false</c> otherwise.
         /// </returns>
-        private bool IsAcceptableSolutionFound( double acceptableEvaluation )
+        private bool IsAcceptableSolutionFound(double acceptableEvaluation)
         {
             return (Objective == Objective.Minimize) ? (globalBestAnt.Evaluation <= acceptableEvaluation) : ((1 / globalBestAnt.Evaluation) >= acceptableEvaluation);
         }

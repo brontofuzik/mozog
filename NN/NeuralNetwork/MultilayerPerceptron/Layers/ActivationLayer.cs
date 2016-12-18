@@ -64,7 +64,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
         /// <value>
         /// The list of neurons comprising the layer.
         /// </value>
-        public List< IActivationNeuron > Neurons
+        public List<IActivationNeuron > Neurons
         {
             get
             {
@@ -85,11 +85,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
         /// <exception cref="IndexOutOfRangeException">
         /// Condition: <c>sourceNeuronIndex</c> is out of range.
         /// </exception>
-        public INeuron this[ int neuronIndex ]
+        public INeuron this[int neuronIndex]
         {
             get
             {
-                return neurons[ neuronIndex ];
+                return neurons[neuronIndex];
             }
         }
 
@@ -175,21 +175,21 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
         /// <param name="neuronCount">The number of (activation) neurons.</param>
         /// <param name="activationFunction">The activation function</param>
         ///<param name="parentNetwork">The parnet network.</param>
-        public ActivationLayer( ActivationLayerBlueprint blueprint, INetwork parentNetwork )
+        public ActivationLayer(ActivationLayerBlueprint blueprint, INetwork parentNetwork)
         {
             // Create the neurons.
-            neurons = new List< IActivationNeuron >( blueprint.NeuronCount );
+            neurons = new List<IActivationNeuron >(blueprint.NeuronCount);
             for (int i = 0; i < blueprint.NeuronCount; i++)
             {
-                IActivationNeuron neuron = new ActivationNeuron( this );
-                neurons.Add( neuron );
+                IActivationNeuron neuron = new ActivationNeuron(this);
+                neurons.Add(neuron);
             }
 
-            sourceConnectors = new List< IConnector >();
-            targetConnectors = new List< IConnector >();
+            sourceConnectors = new List<IConnector >();
+            targetConnectors = new List<IConnector >();
 
             // Validate the activation function.
-            Utilities.RequireObjectNotNull( blueprint.ActivationFunction, "activationFunction" );
+            Utilities.RequireObjectNotNull(blueprint.ActivationFunction, "activationFunction");
             this.activationFunction = blueprint.ActivationFunction;
 
             // Validate the parent network.
@@ -257,13 +257,13 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
         {
             StringBuilder activationLayerSB = new StringBuilder();
 
-            activationLayerSB.Append( "AL\n[\n" );
+            activationLayerSB.Append("AL\n[\n");
             int neuronIndex = 0;
             foreach (IActivationNeuron neuron in neurons)
             {
-                activationLayerSB.Append( "  " + neuronIndex++ + " : " + neuron + "\n" );
+                activationLayerSB.Append("  " + neuronIndex++ + " : " + neuron + "\n");
             }
-            activationLayerSB.Append( "]" );
+            activationLayerSB.Append("]");
 
             return activationLayerSB.ToString();
         }

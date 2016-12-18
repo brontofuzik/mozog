@@ -8,7 +8,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmT
     /// A genetic algorithm designed to train a neural network.
     /// </summary>
     internal class NetworkGeneticAlgorithm
-        : GeneticAlgorithm< double >
+        : GeneticAlgorithm<double>
     {
         /// <summary>
         /// The generator function.
@@ -16,13 +16,13 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmT
         /// <returns>
         /// A random chromosome.
         /// </returns>
-        protected override Chromosome< double > GeneratorFunction()
+        protected override Chromosome<double> GeneratorFunction()
         {
-            Chromosome< double > chromosome = new Chromosome< double >( Dimension );
+            Chromosome<double> chromosome = new Chromosome<double>(Dimension);
             for (int i = 0; i < Dimension; i++)
             {
                 // TODO: ???
-                chromosome.Genes[ i ] = random.NextDouble() + random.Next( -10, +10 );
+                chromosome.Genes[i] = random.NextDouble() + random.Next(-10, +10);
             }
             return chromosome;
         }
@@ -53,7 +53,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmT
             {
                 // Choose a point randomly.
                 // The point must be located after the first and before the last gene; the point is from the interval [1, chromosomeSize). 
-                int point = random.Next( 1, Dimension );
+                int point = random.Next(1, Dimension);
 
                 // Crossover all genes from point (including) to the end.
                 // parent1:    [x1_0, x1_1, ..., x1_point-1, x1_point, ..., x1_size-1]
@@ -62,14 +62,14 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmT
                 // offspring2: [x2_0, x2_1, ..., x2_point-1, x1_point, ..., x1_size-1]
 
                 int tmpGenesSize = Dimension - point;
-                double[] tmpGenes = new double[ tmpGenesSize ];
+                double[] tmpGenes = new double[tmpGenesSize];
 
                 // "tmpGenes = offspring1Genes"
-                Array.Copy( offspring1.Genes, point, tmpGenes, 0, tmpGenesSize );
+                Array.Copy(offspring1.Genes, point, tmpGenes, 0, tmpGenesSize);
                 // "offspring1Genes = offspring2Genes"
-                Array.Copy( offspring2.Genes, point, offspring1.Genes, point, tmpGenesSize );
+                Array.Copy(offspring2.Genes, point, offspring1.Genes, point, tmpGenesSize);
                 // "offspring2Genes = tmpGenes"
-                Array.Copy( tmpGenes, 0, offspring2.Genes, point, tmpGenesSize );
+                Array.Copy(tmpGenes, 0, offspring2.Genes, point, tmpGenesSize);
             }
         }
 
@@ -90,7 +90,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmT
                 if (random.NextDouble() < mutationRate)
                 {
                     // TODO: ???
-                    chromosome.Genes[ i ] = (chromosome.Genes[ i ] + (random.NextDouble() + random.Next( -10, +10 ))) / 2.0;
+                    chromosome.Genes[i] = (chromosome.Genes[i] + (random.NextDouble() + random.Next(-10, +10))) / 2.0;
                 }
             }
         }

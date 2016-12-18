@@ -16,8 +16,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         /// <param name="trainingSet">The training set.</param>
         /// <param name="validationSet">The validation set.</param>
         /// <param name="testSet">The test set.</param>
-        public BackpropagationTeacher( TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet )
-            : base( trainingSet, validationSet, testSet )
+        public BackpropagationTeacher(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
+            : base(trainingSet, validationSet, testSet)
         {
         }
      
@@ -43,15 +43,15 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         /// <returns>
         /// The training log.
         /// </returns>
-        public TrainingLog Train( INetwork network, BackpropagationTrainingStrategy trainingStrategy )
+        public TrainingLog Train(INetwork network, BackpropagationTrainingStrategy trainingStrategy)
         {
             // The interval between two consecutive updates of the cumulative network error (CNR).
             int cumulativeNetworkErrorUpdateInterval = 1;
 
             // 1. Setup : Decorate the network as a backpropagation network.
-            BackpropagationNetwork backpropagationNetwork = new BackpropagationNetwork( network );
-            backpropagationNetwork.SetSynapseLearningRates( trainingStrategy.SynapseLearningRate );
-            backpropagationNetwork.SetConnectorMomenta( trainingStrategy.ConnectorMomentum );
+            BackpropagationNetwork backpropagationNetwork = new BackpropagationNetwork(network);
+            backpropagationNetwork.SetSynapseLearningRates(trainingStrategy.SynapseLearningRate);
+            backpropagationNetwork.SetConnectorMomenta(trainingStrategy.ConnectorMomentum);
 
             // 2. Update the training strategy.
             trainingStrategy.BackpropagationNetwork = backpropagationNetwork;
@@ -62,17 +62,17 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
 
             // 4. Train the backpropagation network while the stopping criterion is not met.
             int iterationCount = 0;
-            double networkError = backpropagationNetwork.CalculateError( trainingSet );
+            double networkError = backpropagationNetwork.CalculateError(trainingSet);
             double cumulativeNetworkError = Double.MaxValue;
 
-            while (!trainingStrategy.IsStoppingCriterionMet( iterationCount, cumulativeNetworkError ))
+            while (!trainingStrategy.IsStoppingCriterionMet(iterationCount, cumulativeNetworkError))
             {
                 // Train the backpropagation network on a training set.
-                TrainOnTrainingSet( backpropagationNetwork, trainingStrategy );
+                TrainOnTrainingSet(backpropagationNetwork, trainingStrategy);
                 iterationCount++;
 
                 // Calculate the network error.
-                networkError = backpropagationNetwork.CalculateError( trainingSet );
+                networkError = backpropagationNetwork.CalculateError(trainingSet);
 
                 // Calculate the cumulative network error.
                 int i = iterationCount % cumulativeNetworkErrorUpdateInterval;
@@ -91,7 +91,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
                 // DEBUG
                 if (iterationCount % 10 == 0)
                 {
-                    Console.WriteLine( "{0:D5} : {1:F2}, {2:F2}", iterationCount, networkError, cumulativeNetworkError );
+                    Console.WriteLine("{0:D5} : {1:F2}, {2:F2}", iterationCount, networkError, cumulativeNetworkError);
                 }
             }
 
@@ -99,7 +99,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
             network = backpropagationNetwork.GetDecoratedNetwork();
 
             // 6. Create the trainig log.
-            TrainingLog trainingLog = new TrainingLog( iterationCount, networkError );
+            TrainingLog trainingLog = new TrainingLog(iterationCount, networkError);
             return trainingLog;
         }
 
@@ -112,10 +112,10 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         /// <returns>
         /// The training log.
         /// </returns>
-        public override TrainingLog Train( INetwork network, int maxIterationCount, double maxNetworkError )
+        public override TrainingLog Train(INetwork network, int maxIterationCount, double maxNetworkError)
         {
-            BackpropagationTrainingStrategy trainingStrategy = new BackpropagationTrainingStrategy( maxIterationCount, maxNetworkError, false, 0.01, 0.9 );
-            return Train( network, trainingStrategy );
+            BackpropagationTrainingStrategy trainingStrategy = new BackpropagationTrainingStrategy(maxIterationCount, maxNetworkError, false, 0.01, 0.9);
+            return Train(network, trainingStrategy);
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         /// </summary>
         /// <param name="backpropagationNetwork">The backpropagation network to train.</param>
         /// <param name="trainingStrategy">The training strategy to use.</param>
-        private void TrainOnTrainingSet( BackpropagationNetwork backpropagationNetwork, BackpropagationTrainingStrategy trainingStrategy )
+        private void TrainOnTrainingSet(BackpropagationNetwork backpropagationNetwork, BackpropagationTrainingStrategy trainingStrategy)
         {
             // Bacth vs. incremental learning.
             if (trainingStrategy.BatchLearning)
@@ -133,7 +133,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
 
             foreach (SupervisedTrainingPattern trainingPattern in trainingStrategy.TrainingPatterns)
             {
-                TrainOnTrainingPattern( backpropagationNetwork, trainingStrategy, trainingPattern );
+                TrainOnTrainingPattern(backpropagationNetwork, trainingStrategy, trainingPattern);
             }
 
             // Batch vs. incremental learning.
@@ -149,7 +149,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
         /// </summary>
         /// <param name="backpropagationNetwork"></param>
         /// <param name="trainingPattern"></param>
-        private void TrainOnTrainingPattern( BackpropagationNetwork backpropagationNetwork, BackpropagationTrainingStrategy trainingStrategy, SupervisedTrainingPattern trainingPattern )
+        private void TrainOnTrainingPattern(BackpropagationNetwork backpropagationNetwork, BackpropagationTrainingStrategy trainingStrategy, SupervisedTrainingPattern trainingPattern)
         {
             // Batch vs. incremental learning.
             if (!trainingStrategy.BatchLearning)
@@ -157,8 +157,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
                 backpropagationNetwork.ResetSynapsePartialDerivatives();
             }
 
-            backpropagationNetwork.Evaluate( trainingPattern.InputVector );
-            backpropagationNetwork.Backpropagate( trainingPattern.OutputVector );
+            backpropagationNetwork.Evaluate(trainingPattern.InputVector);
+            backpropagationNetwork.Backpropagate(trainingPattern.OutputVector);
 
             backpropagationNetwork.UpdateError();
             backpropagationNetwork.UpdateSynapsePartialDerivatives();

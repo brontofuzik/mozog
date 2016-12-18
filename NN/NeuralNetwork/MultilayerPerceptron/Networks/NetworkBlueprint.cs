@@ -196,9 +196,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// <param name="inputLayerBlueprint">The blueprint of the input layer.</param>
         /// <param name="hiddenLayerBlueprints">The blueprints of the hidden layers.</param>
         /// <param name="outputLayerBlueprint">The blueprint of the output layer.</param>
-        public NetworkBlueprint( LayerBlueprint inputLayerBlueprint, ActivationLayerBlueprint[] hiddenLayerBlueprints, ActivationLayerBlueprint outputLayerBlueprint )
+        public NetworkBlueprint(LayerBlueprint inputLayerBlueprint, ActivationLayerBlueprint[] hiddenLayerBlueprints, ActivationLayerBlueprint outputLayerBlueprint)
         {
-            Initialize( inputLayerBlueprint, hiddenLayerBlueprints, outputLayerBlueprint );
+            Initialize(inputLayerBlueprint, hiddenLayerBlueprints, outputLayerBlueprint);
         }
 
         /// <summary>
@@ -207,8 +207,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// <param name="inputLayerBlueprint">The blueprint of the input layer.</param>
         /// <param name="hiddenLayerBlueprint">The blueprint of the hidden layer.</param>
         /// <param name="outputLayerBlueprint">The blueprint of the output layer.</param>
-        public NetworkBlueprint( LayerBlueprint inputLayerBlueprint, ActivationLayerBlueprint hiddenLayerBlueprint, ActivationLayerBlueprint outputLayerBlueprint )
-            : this( inputLayerBlueprint, new ActivationLayerBlueprint[ 1 ] { hiddenLayerBlueprint }, outputLayerBlueprint )
+        public NetworkBlueprint(LayerBlueprint inputLayerBlueprint, ActivationLayerBlueprint hiddenLayerBlueprint, ActivationLayerBlueprint outputLayerBlueprint)
+            : this(inputLayerBlueprint, new ActivationLayerBlueprint[1] { hiddenLayerBlueprint }, outputLayerBlueprint)
         {
         }
 
@@ -216,31 +216,31 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// Creates a new network blueprint.
         /// </summary>
         /// <<param name="layerNeuronCounts">The numbers of neurons comprising the layers.</param>
-        public NetworkBlueprint( params int[] layerNeuronCounts )
+        public NetworkBlueprint(params int[] layerNeuronCounts)
         {
             if (layerNeuronCounts.Length < 2)
             {
-                throw new ArgumentException( "layerNeuronCounts" );
+                throw new ArgumentException("layerNeuronCounts");
             }
 
             // Create the input layer blueprint.
-            int inputLayerNeuronCount = layerNeuronCounts[ 0 ];
-            LayerBlueprint inputLayerBlueprint = new LayerBlueprint( inputLayerNeuronCount );
+            int inputLayerNeuronCount = layerNeuronCounts[0];
+            LayerBlueprint inputLayerBlueprint = new LayerBlueprint(inputLayerNeuronCount);
             
             // Create the hidden layer blueprints.
             int hiddenLayerCount = layerNeuronCounts.Length - 2;
-            ActivationLayerBlueprint[] hiddenLayerBlueprints = new ActivationLayerBlueprint[ hiddenLayerCount ];
+            ActivationLayerBlueprint[] hiddenLayerBlueprints = new ActivationLayerBlueprint[hiddenLayerCount];
             for (int i = 0; i < hiddenLayerCount; i++)
             {
-                int hiddenLayerNeuronCount = layerNeuronCounts[ 1 + i ];
-                hiddenLayerBlueprints[ i ] = new ActivationLayerBlueprint( hiddenLayerCount );
+                int hiddenLayerNeuronCount = layerNeuronCounts[1 + i];
+                hiddenLayerBlueprints[i] = new ActivationLayerBlueprint(hiddenLayerCount);
             }
 
             // Create the output layer blueprint.
-            int outputLayerNeuronCount = layerNeuronCounts[ layerNeuronCounts.Length - 1 ];
-            ActivationLayerBlueprint outputLayerBlueprint = new ActivationLayerBlueprint( outputLayerNeuronCount );
+            int outputLayerNeuronCount = layerNeuronCounts[layerNeuronCounts.Length - 1];
+            ActivationLayerBlueprint outputLayerBlueprint = new ActivationLayerBlueprint(outputLayerNeuronCount);
 
-            Initialize( inputLayerBlueprint, hiddenLayerBlueprints, outputLayerBlueprint );
+            Initialize(inputLayerBlueprint, hiddenLayerBlueprints, outputLayerBlueprint);
         }
 
         /// <summary>
@@ -249,28 +249,28 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// <param name="inputLayerBlueprint">The blueprint of the input layer.</param>
         /// <param name="hiddenLayerBlueprints">The blueprints of the hidden layers.</param>
         /// <param name="outputLayerBlueprint">The blueprint of the output layer.</param>
-        public void Initialize( LayerBlueprint inputLayerBlueprint, ActivationLayerBlueprint[] hiddenLayerBlueprints, ActivationLayerBlueprint outputLayerBlueprint )
+        public void Initialize(LayerBlueprint inputLayerBlueprint, ActivationLayerBlueprint[] hiddenLayerBlueprints, ActivationLayerBlueprint outputLayerBlueprint)
         {
             // 1. Create the layer blueprints.
 
-            this.biasLayerBlueprint = new LayerBlueprint( 1 );
+            this.biasLayerBlueprint = new LayerBlueprint(1);
 
-            Utilities.RequireObjectNotNull( inputLayerBlueprint, "inputLayerBlueprint" );
+            Utilities.RequireObjectNotNull(inputLayerBlueprint, "inputLayerBlueprint");
             this.inputLayerBlueprint = inputLayerBlueprint;
 
-            Utilities.RequireObjectNotNull( hiddenLayerBlueprints, "hiddenLayerBlueprints" );
+            Utilities.RequireObjectNotNull(hiddenLayerBlueprints, "hiddenLayerBlueprints");
             foreach (ActivationLayerBlueprint hiddenLayerBlueprint in hiddenLayerBlueprints)
             {
-                Utilities.RequireObjectNotNull( hiddenLayerBlueprint, "hiddenLayerBlueprint" );
+                Utilities.RequireObjectNotNull(hiddenLayerBlueprint, "hiddenLayerBlueprint");
             }
             this.hiddenLayerBlueprints = hiddenLayerBlueprints;
 
-            Utilities.RequireObjectNotNull( outputLayerBlueprint, "outputLayerBlueprint" );
+            Utilities.RequireObjectNotNull(outputLayerBlueprint, "outputLayerBlueprint");
             this.outputLayerBlueprint = outputLayerBlueprint;
 
             // 2. Create the connector blueprints.
             
-            connectorBlueprints = new ConnectorBlueprint[ (HiddenLayerCount + 1) * 2 ];
+            connectorBlueprints = new ConnectorBlueprint[(HiddenLayerCount + 1) * 2];
             
             int i = 0;
             for (int targetLayerIndex = 1; targetLayerIndex < LayerCount; targetLayerIndex++)
@@ -279,12 +279,12 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
                 int sourceLayerIndex = -1;
                 int sourceLayerNeuronCount = 1;
                 int targetLayerNeuronCount = GetLayerNeuronCount(targetLayerIndex);
-                connectorBlueprints[ i++ ] = new ConnectorBlueprint( sourceLayerIndex, sourceLayerNeuronCount, targetLayerIndex, targetLayerNeuronCount );
+                connectorBlueprints[i++] = new ConnectorBlueprint(sourceLayerIndex, sourceLayerNeuronCount, targetLayerIndex, targetLayerNeuronCount);
 
                 // 2.4. Create the connector between the source layer (previous) and the target layer.
                 sourceLayerIndex = targetLayerIndex - 1;
                 sourceLayerNeuronCount = GetLayerNeuronCount(sourceLayerIndex);
-                connectorBlueprints[ i++ ] = new ConnectorBlueprint( sourceLayerIndex, sourceLayerNeuronCount, targetLayerIndex, targetLayerNeuronCount );
+                connectorBlueprints[i++] = new ConnectorBlueprint(sourceLayerIndex, sourceLayerNeuronCount, targetLayerIndex, targetLayerNeuronCount);
             }
         }
 
@@ -297,7 +297,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// <returns>
         /// The number of neurons comprising the layer.
         /// </returns>
-        public int GetLayerNeuronCount( int layerIndex )
+        public int GetLayerNeuronCount(int layerIndex)
         {
             if (layerIndex == -1)
             {
@@ -309,7 +309,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
             }
             else if ((0 < layerIndex) && (layerIndex < LayerCount - 1))
             {
-                return hiddenLayerBlueprints[ layerIndex - 1 ].NeuronCount;
+                return hiddenLayerBlueprints[layerIndex - 1].NeuronCount;
             }
             else if (layerIndex == LayerCount - 1)
             {
@@ -321,9 +321,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
             }
         }
 
-        public int GetHiddenLayerNeuronCount( int hiddenLayerIndex )
+        public int GetHiddenLayerNeuronCount(int hiddenLayerIndex)
         {
-            return hiddenLayerBlueprints[ hiddenLayerIndex ].NeuronCount;
+            return hiddenLayerBlueprints[hiddenLayerIndex].NeuronCount;
         }
 
         /// <summary>
@@ -336,16 +336,16 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         {
             StringBuilder networkBlueprintSB = new StringBuilder();
 
-            networkBlueprintSB.Append( "MLP(" + inputLayerBlueprint.ToString() + ", [" );
+            networkBlueprintSB.Append("MLP(" + inputLayerBlueprint.ToString() + ", [");
             foreach (ActivationLayerBlueprint hiddenLayerBlueprint in hiddenLayerBlueprints)
             {
-                networkBlueprintSB.Append( hiddenLayerBlueprint.ToString() + ", " );
+                networkBlueprintSB.Append(hiddenLayerBlueprint.ToString() + ", ");
             }
             if (hiddenLayerBlueprints.Length > 0)
             {
-                networkBlueprintSB.Remove( networkBlueprintSB.Length - 2, 2 );
+                networkBlueprintSB.Remove(networkBlueprintSB.Length - 2, 2);
             }
-            networkBlueprintSB.Append( "], " + outputLayerBlueprint.ToString() + ")" );
+            networkBlueprintSB.Append("], " + outputLayerBlueprint.ToString() + ")");
 
             return networkBlueprintSB.ToString();
         }

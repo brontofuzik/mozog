@@ -110,7 +110,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
         /// </summary>
         /// <param name="decoratedSynapse">The synapse to be decorated.</param>
         /// <param name="parentConnector">The parent connector.</param>
-        public SynapseDecorator( ISynapse decoratedSynapse, IConnector parentConnector )
+        public SynapseDecorator(ISynapse decoratedSynapse, IConnector parentConnector)
         {
             this.decoratedSynapse = decoratedSynapse;
             ParentConnector = parentConnector;

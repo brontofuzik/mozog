@@ -31,29 +31,29 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
             // Decorate the neurons.
             for (int i = 0; i < NeuronCount; i++)
             {
-                Neurons[ i ] = new BackpropagationNeuron(Neurons[i],this);
+                Neurons[i] = new BackpropagationNeuron(Neurons[i],this);
             }
         }
 
         // Replaces three steps - (b), (c) and (d) - with one.
-        public void Backpropagate( double[] desiredOutputVector )
+        public void Backpropagate(double[] desiredOutputVector)
         {
             // Validate the arguments.
             if (desiredOutputVector == null)
             {
-                throw new ArgumentNullException( "desiredOutputVector" );
+                throw new ArgumentNullException("desiredOutputVector");
             }
 
             // Validate the length of the desired output vector.
             if (desiredOutputVector.Length != NeuronCount)
             {
-                throw new ArgumentException( "desiredOutputException" );
+                throw new ArgumentException("desiredOutputException");
             }
 
             int i = 0;
             foreach (BackpropagationNeuron neuron in Neurons)
             {
-                neuron.Backpropagate( desiredOutputVector[ i++ ] );
+                neuron.Backpropagate(desiredOutputVector[i++]);
             }
         }
 

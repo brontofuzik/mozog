@@ -183,7 +183,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// <returns>
         /// The error of the network.
         /// </returns>
-        double CalculateError( TrainingSet trainingSet );
+        double CalculateError(TrainingSet trainingSet);
 
         /// <summary>
         /// Calculate the error of the network with respect to a trainig pattern.
@@ -192,7 +192,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// <returns>
         /// The error of the network.
         /// </returns>
-        double CalculateError( SupervisedTrainingPattern trainingPattern );
+        double CalculateError(SupervisedTrainingPattern trainingPattern);
 
         /// <summary>
         /// Saves the weights of the network to a file.

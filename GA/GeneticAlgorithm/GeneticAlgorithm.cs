@@ -8,7 +8,7 @@ namespace GeneticAlgorithm
     /// samizdat.mines.edu/ga_tutorial/ga_tutorial.ps
     /// </remarks>
     /// <typeparam name="TGene">The type of the gene.</typeparam>
-    public abstract class GeneticAlgorithm< TGene >
+    public abstract class GeneticAlgorithm<TGene >
     {
         /// <summary>
         /// The psuedo-random number generator.
@@ -18,27 +18,27 @@ namespace GeneticAlgorithm
         /// <summary>
         /// The objective function.
         /// </summary>
-        private ObjectiveFunction< TGene > objectiveFunction;
+        private ObjectiveFunction<TGene > objectiveFunction;
 
         /// <summary>
         /// The current population (pseudo-class).
         /// </summary>
-        private List< Chromosome< TGene > > currentPopulation;
+        private List<Chromosome<TGene > > currentPopulation;
 
         /// <summary>
         /// The intermediate population (pseudo-class).
         /// </summary>
-        private List< Chromosome< TGene > > intermediatePopulation;
+        private List<Chromosome<TGene > > intermediatePopulation;
 
         /// <summary>
         /// The next population (pseudo-class).
         /// </summary>
-        private List< Chromosome< TGene > > nextPopulation;
+        private List<Chromosome<TGene > > nextPopulation;
 
         /// <summary>
         /// The global-best chromosome.
         /// </summary>
-        private Chromosome< TGene > globalBestChromosome;
+        private Chromosome<TGene > globalBestChromosome;
 
         /// <summary>
         /// Useful when the objective function is to be minimized.
@@ -52,9 +52,9 @@ namespace GeneticAlgorithm
         {
             random = new Random();
             objectiveFunction = null;
-            currentPopulation = new List< Chromosome< TGene > >();
-            intermediatePopulation = new List< Chromosome< TGene > >();
-            nextPopulation = new List< Chromosome< TGene > >();
+            currentPopulation = new List<Chromosome<TGene > >();
+            intermediatePopulation = new List<Chromosome<TGene > >();
+            nextPopulation = new List<Chromosome<TGene > >();
             globalBestChromosome = null;
         }
 
@@ -103,31 +103,31 @@ namespace GeneticAlgorithm
         /// <returns>
         /// The best solution (the global-best chromosome).
         /// </returns>
-        public TGene[] Run( ObjectiveFunction< TGene > objectiveFunction,
+        public TGene[] Run(ObjectiveFunction<TGene > objectiveFunction,
             int maxGenerationCount, out int usedGenerationCount, double acceptableEvaluation, out double achievedEvalaution,
             int populationSize, double crossoverRate, double mutationRate, bool scaling
-        )
+       )
         {
             if (objectiveFunction == null)
             {
-                throw new ArgumentNullException( "objectiveFunction" );
+                throw new ArgumentNullException("objectiveFunction");
             }
             this.objectiveFunction = objectiveFunction;
 
             // 1. The first step in the implementation of any genetic algorithm is to generate an initial population.
             // In most cases the initial population is generated randomly.
-            CreateCurrentPopulation( populationSize );
+            CreateCurrentPopulation(populationSize);
 
             // Keep track of the global-best chromosome for elitist purposes.
-            globalBestChromosome = currentPopulation[ 0 ];
-            EvaluateChromosome( globalBestChromosome );
+            globalBestChromosome = currentPopulation[0];
+            EvaluateChromosome(globalBestChromosome);
 
             // Repeat while the computational budget is not spend and an acceptable solution is not found.
             int generationIndex = 0;
-            while ((generationIndex < maxGenerationCount) && !IsAcceptableSolutionFound( acceptableEvaluation ))
+            while ((generationIndex < maxGenerationCount) && !IsAcceptableSolutionFound(acceptableEvaluation))
             {
                 // 2. After creating an initial population, each string is then evaluated, ...
-                EvaluateCurrentPopulation( scaling );
+                EvaluateCurrentPopulation(scaling);
 
                 // ... and assigned a fitness value (i.e. ranked).
                 RankCurrentPopulation();
@@ -138,7 +138,7 @@ namespace GeneticAlgorithm
 
                 // 4. After selection has been carried out the construction of the intermediate population is complete and recombination can occur.
                 // This can be viewed as creating the next population from the intermediate population.
-                CreateNextPopulation( crossoverRate, mutationRate );
+                CreateNextPopulation(crossoverRate, mutationRate);
 
                 // 5. After process of selection, recombination and mutation is complete, the new population can be evaluated.
                 currentPopulation = nextPopulation;
@@ -149,7 +149,7 @@ namespace GeneticAlgorithm
 
             // Return the (global-best) solution.
             usedGenerationCount = generationIndex;
-            achievedEvalaution = (objectiveFunction.Objective == Objective.MAXIMIZE) ? globalBestChromosome.Evaluation : ( maxObjectiveFunctionValue / globalBestChromosome.Evaluation);
+            achievedEvalaution = (objectiveFunction.Objective == Objective.MAXIMIZE) ? globalBestChromosome.Evaluation : (maxObjectiveFunctionValue / globalBestChromosome.Evaluation);
             return globalBestChromosome.Genes;
         }
 
@@ -164,7 +164,7 @@ namespace GeneticAlgorithm
         /// <returns>
         /// A random chromosome.
         /// </returns>
-        protected abstract Chromosome< TGene > GeneratorFunction();
+        protected abstract Chromosome<TGene > GeneratorFunction();
 
         /// <summary>
         /// <para>
@@ -188,7 +188,7 @@ namespace GeneticAlgorithm
         /// </summary>
         /// <param name="chromosome">The chromosome to be ranked.</param>
         /// <param name="averageEvaluation">The average evaluation of all chromosomes in the (current) population.</param>
-        protected virtual double FitnessFunction( Chromosome< TGene > chromosome, double averageEvaluation )
+        protected virtual double FitnessFunction(Chromosome<TGene > chromosome, double averageEvaluation)
         {
             return (averageEvaluation != 0) ? (chromosome.Evaluation / averageEvaluation) : 1.0;
         }
@@ -209,7 +209,7 @@ namespace GeneticAlgorithm
         /// <param name="offspring1">The first offpsring.</param>
         /// <param name="offspring2">The second offspring.</param>
         /// <param name="crossoverRate">The rate of crossover.</param>
-        protected abstract void CrossoverFunction( Chromosome< TGene > parent1, Chromosome< TGene > parent2, out Chromosome< TGene > offspring1, out Chromosome< TGene > offspring2, double crossoverRate );
+        protected abstract void CrossoverFunction(Chromosome<TGene > parent1, Chromosome<TGene > parent2, out Chromosome<TGene > offspring1, out Chromosome<TGene > offspring2, double crossoverRate);
 
         /// <summary>
         /// <para>
@@ -224,13 +224,13 @@ namespace GeneticAlgorithm
         /// </summary>
         /// <param name="chromosome">The chromosome to mutate.</param>
         /// <param name="mutationRate">The rate of mutation.</param>
-        protected abstract void MutationFunction( Chromosome< TGene > chromosome, double mutationRate );
+        protected abstract void MutationFunction(Chromosome<TGene > chromosome, double mutationRate);
 
         /// <summary>
         /// Creates the initial population.
         /// </summary>
         /// <param name="populationSize">The size of the population (i.e. the number of chromosomes in the population).</param>
-        private void CreateCurrentPopulation( int populationSize )
+        private void CreateCurrentPopulation(int populationSize)
         {
             // Clear the current population, ...
             currentPopulation.Clear();
@@ -239,9 +239,9 @@ namespace GeneticAlgorithm
             for (int i = 0; i < populationSize; i++)
             {
                 // Generate a random chromosome, ...
-                Chromosome< TGene > chromosome = GeneratorFunction();
+                Chromosome<TGene > chromosome = GeneratorFunction();
                 // ... and add it to the current generation.
-                currentPopulation.Add( chromosome );
+                currentPopulation.Add(chromosome);
             }
 
             // Calculate the maximum objective function value.
@@ -250,7 +250,7 @@ namespace GeneticAlgorithm
                 maxObjectiveFunctionValue = Double.MinValue;
                 foreach (Chromosome<TGene> chromosome in currentPopulation)
                 {
-                    double objectiveFunctionValue = objectiveFunction.Evaluate( chromosome.Genes );
+                    double objectiveFunctionValue = objectiveFunction.Evaluate(chromosome.Genes);
 
                     if (objectiveFunctionValue > maxObjectiveFunctionValue)
                     {
@@ -263,16 +263,16 @@ namespace GeneticAlgorithm
         /// <summary>
         /// Evaluates the chromosomes in the current population.
         /// </summary>
-        private void EvaluateCurrentPopulation( bool scaling )
+        private void EvaluateCurrentPopulation(bool scaling)
         {
             // Keep track of the iteration-best chromosome  ...
-            Chromosome< TGene > iterationBestChromosome = currentPopulation[ 0 ];
+            Chromosome<TGene > iterationBestChromosome = currentPopulation[0];
             // ... and the iteration-worst chromosome (for scaling purposes).
-            Chromosome< TGene > iterationWorstChromosome = currentPopulation[ 0 ];
+            Chromosome<TGene > iterationWorstChromosome = currentPopulation[0];
 
-            foreach (Chromosome< TGene > chromosome in currentPopulation)
+            foreach (Chromosome<TGene > chromosome in currentPopulation)
             {
-                EvaluateChromosome( chromosome );
+                EvaluateChromosome(chromosome);
 
                 // Update the iteration-best chromosome.
                 if (chromosome.Evaluation > iterationBestChromosome.Evaluation)
@@ -300,7 +300,7 @@ namespace GeneticAlgorithm
             // Alternatively, one can use a rank based form of selection.
             if (scaling)
             {
-                foreach (Chromosome< TGene > chromosome in currentPopulation)
+                foreach (Chromosome<TGene > chromosome in currentPopulation)
                 {
                     chromosome.Evaluation -= iterationWorstChromosome.Evaluation;
                 }
@@ -314,15 +314,15 @@ namespace GeneticAlgorithm
         {
             // Calculate the average evaluation.
             double totalEvaluation = 0.0;
-            foreach (Chromosome< TGene > chromosome in currentPopulation)
+            foreach (Chromosome<TGene > chromosome in currentPopulation)
             {
                 totalEvaluation += chromosome.Evaluation;
             }
             double averageEvaluation = totalEvaluation / currentPopulation.Count;
             
-            foreach (Chromosome< TGene > chromosome in currentPopulation)
+            foreach (Chromosome<TGene > chromosome in currentPopulation)
             {
-                chromosome.Fitness = FitnessFunction( chromosome, averageEvaluation );
+                chromosome.Fitness = FitnessFunction(chromosome, averageEvaluation);
             }
         }
 
@@ -340,12 +340,12 @@ namespace GeneticAlgorithm
 
             // There are a number of ways to do selection. We might view the population as mapping onto a roulette wheel,
             // where each individual is represented by a space that proportionally corresponds to its fitness.
-            List< double > rouletteWheel = new List< double >( currentPopulation.Count );
+            List<double> rouletteWheel = new List<double>(currentPopulation.Count);
             double previousPocketSize = 0.0;
-            foreach (Chromosome< TGene > chromosome in currentPopulation)
+            foreach (Chromosome<TGene > chromosome in currentPopulation)
             {
                 double currentPocketSize = previousPocketSize + chromosome.Fitness;
-                rouletteWheel.Add( currentPocketSize );
+                rouletteWheel.Add(currentPocketSize);
                 previousPocketSize = currentPocketSize;
             }
 
@@ -354,21 +354,21 @@ namespace GeneticAlgorithm
             for (int i = 0; i < currentPopulation.Count; i++)
             {
                 double pocket = random.NextDouble() * currentPopulation.Count;
-                int chromosomeIndex = rouletteWheel.BinarySearch( pocket );
+                int chromosomeIndex = rouletteWheel.BinarySearch(pocket);
                 if (chromosomeIndex < 0)
                 {
                     chromosomeIndex = ~chromosomeIndex;
                 }
-                Chromosome< TGene > chromosome = currentPopulation[ chromosomeIndex ];
+                Chromosome<TGene > chromosome = currentPopulation[chromosomeIndex];
 
-                intermediatePopulation.Add( chromosome );
+                intermediatePopulation.Add(chromosome);
             }
         }
 
         /// <summary>
         /// Creates the next population from the intermediate population.
         /// </summary>
-        private void CreateNextPopulation( double crossoverRate, double mutationRate )
+        private void CreateNextPopulation(double crossoverRate, double mutationRate)
         {
             // Clear the next population.
             nextPopulation.Clear();
@@ -378,22 +378,22 @@ namespace GeneticAlgorithm
             for (int i = 0; i < intermediatePopulation.Count; i += 2)
             {
                 // Pick a pair of strings.
-                Chromosome< TGene > parent1 = intermediatePopulation[ i ];
-                Chromosome< TGene > parent2 = intermediatePopulation[ i + 1 ];
+                Chromosome<TGene > parent1 = intermediatePopulation[i];
+                Chromosome<TGene > parent2 = intermediatePopulation[i + 1];
 
                 // With probability p_c "recombine" these strings to form two new strings that are inserted into the next population.
-                Chromosome< TGene > offspring1;
-                Chromosome< TGene > offspring2;
-                CrossoverFunction( parent1, parent2, out offspring1, out offspring2, crossoverRate );
-                nextPopulation.Add( offspring1 );
-                nextPopulation.Add( offspring2 );
+                Chromosome<TGene > offspring1;
+                Chromosome<TGene > offspring2;
+                CrossoverFunction(parent1, parent2, out offspring1, out offspring2, crossoverRate);
+                nextPopulation.Add(offspring1);
+                nextPopulation.Add(offspring2);
             }
 
             // 4.2 After recombination, we can apply a mutation operator.
             // For each bit in the population, mutate with some low probability p_m.
-            foreach (Chromosome< TGene > chromosome in nextPopulation)
+            foreach (Chromosome<TGene > chromosome in nextPopulation)
             {
-                MutationFunction( chromosome, mutationRate );
+                MutationFunction(chromosome, mutationRate);
             }
         }
 
@@ -404,11 +404,11 @@ namespace GeneticAlgorithm
         /// <returns>
         /// The evaluation of the chromosome.
         /// </returns>
-        public void EvaluateChromosome( Chromosome< TGene > chromosome )
+        public void EvaluateChromosome(Chromosome<TGene > chromosome)
         {
             chromosome.Evaluation = (Objective == Objective.MAXIMIZE) ?
-                objectiveFunction.Evaluate( chromosome.Genes ) :
-                (maxObjectiveFunctionValue / objectiveFunction.Evaluate( chromosome.Genes ));
+                objectiveFunction.Evaluate(chromosome.Genes) :
+                (maxObjectiveFunctionValue / objectiveFunction.Evaluate(chromosome.Genes));
         }
 
         /// <summary>
@@ -418,7 +418,7 @@ namespace GeneticAlgorithm
         /// <returns>
         /// <c>True</c> if an acceptable solution is found, <c>false</c> otherwise.
         /// </returns>
-        public bool IsAcceptableSolutionFound( double acceptableEvaluation )
+        public bool IsAcceptableSolutionFound(double acceptableEvaluation)
         {
             return (Objective == Objective.MAXIMIZE) ?
                 (globalBestChromosome.Evaluation >= acceptableEvaluation) :

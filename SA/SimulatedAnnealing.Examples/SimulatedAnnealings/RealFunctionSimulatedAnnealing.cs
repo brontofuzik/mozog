@@ -3,25 +3,25 @@
 namespace SimulatedAnnealing.Examples.SimulatedAnnealings
 {
     internal class RealFunctionSimulatedAnnealing
-        : SimulatedAnnealing< double >
+        : SimulatedAnnealing<double>
     {
         protected override double[] GeneratorFunction()
         {
-            double[] state = new double[ Dimension ];
+            double[] state = new double[Dimension];
             for (int i = 0; i < Dimension; i++)
             {
-                state[i] = random.NextDouble() + random.Next( -20, +20 );
+                state[i] = random.NextDouble() + random.Next(-20, +20);
             }
             return state;
         }
 
-        protected override double[] PerturbationFunction( double[] currentState )
+        protected override double[] PerturbationFunction(double[] currentState)
         {
-            double[] newState = new double[ Dimension ];
-            Array.Copy( currentState, newState, Dimension );
+            double[] newState = new double[Dimension];
+            Array.Copy(currentState, newState, Dimension);
 
-            int index = random.Next( 0, Dimension);
-            newState[ index ] = (newState[ index ] + (random.NextDouble() + random.Next( -20, +20 ))) / 2.0;
+            int index = random.Next(0, Dimension);
+            newState[index] = (newState[index] + (random.NextDouble() + random.Next(-20, +20))) / 2.0;
 
             return newState;
         }

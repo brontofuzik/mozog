@@ -70,7 +70,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers
         /// <returns>
         /// The training log.
         /// </returns>
-        public abstract TrainingLog Train( INetwork network, int maxIterationCount, double maxNetworkError );
+        public abstract TrainingLog Train(INetwork network, int maxIterationCount, double maxNetworkError);
 
         /// <summary>
         /// Trains a network.
@@ -80,9 +80,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers
         /// <returns>
         /// The training log.
         /// </returns>
-        public TrainingLog Train( INetwork network, int maxIterationCount )
+        public TrainingLog Train(INetwork network, int maxIterationCount)
         {
-            return Train( network, maxIterationCount, 0 );
+            return Train(network, maxIterationCount, 0);
         }
 
         /// <summary>
@@ -93,9 +93,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers
         /// <returns>
         /// The training log.
         /// </returns>
-        public TrainingLog Train( INetwork network, double maxNetworkError )
+        public TrainingLog Train(INetwork network, double maxNetworkError)
         {
-            return Train( network, Int32.MaxValue, maxNetworkError );
+            return Train(network, Int32.MaxValue, maxNetworkError);
         }
 
         /// <summary>
@@ -103,15 +103,15 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers
         /// </summary>
         /// <param name="trainingLog">The training log.</param>
         /// <param name="network">The network whose statistics are to be logged.</param>
-        public void LogNetworkStatistics( TrainingLog trainingLog, INetwork network )
+        public void LogNetworkStatistics(TrainingLog trainingLog, INetwork network)
         {
             // Calculate and log the measures of fit.
-            trainingLog.CalculateMeasuresOfFit( network, trainingSet );
+            trainingLog.CalculateMeasuresOfFit(network, trainingSet);
 
             // Calculate and log the forecast accuracy.
             if (testSet != null)
             {
-                trainingLog.CalculateForecastAccuracy( network, testSet );
+                trainingLog.CalculateForecastAccuracy(network, testSet);
             }
         }
 
@@ -121,10 +121,10 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers
         /// <param name="trainingSet">The training set.</param>
         /// <param name="validationSet">The validation set.</param>
         /// <param name="testSet">The test set.</param>
-        protected TeacherBase( TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet )
+        protected TeacherBase(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
         {
             // Vdalite the training set.
-            Utilities.RequireObjectNotNull( trainingSet, "trainingSet" );
+            Utilities.RequireObjectNotNull(trainingSet, "trainingSet");
             this.trainingSet = trainingSet;
 
             // The validation and test sets need not be provided.

@@ -10,7 +10,7 @@
         /// <returns>
         /// The output (the state) of the neuron.
         /// </returns>
-        public double Evaluate( double x )
+        public double Evaluate(double x)
         {
             return x;
         }
@@ -21,7 +21,7 @@
         /// <param name="x">The input (the inner potential) of a neuron.</param>
         /// <returns>
         /// </returns>
-        public double EvaluateDerivative( double x )
+        public double EvaluateDerivative(double x)
         {
             return 1.0;
         }

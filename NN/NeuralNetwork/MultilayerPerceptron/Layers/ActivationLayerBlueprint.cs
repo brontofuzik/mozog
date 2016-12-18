@@ -18,14 +18,14 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
             }
         }
 
-        public ActivationLayerBlueprint( int neuronCount, IActivationFunction activationFunction )
-            : base( neuronCount )
+        public ActivationLayerBlueprint(int neuronCount, IActivationFunction activationFunction)
+            : base(neuronCount)
         {
             this.activationFunction = activationFunction;
         }
 
-        public ActivationLayerBlueprint( int neuronCount )
-            : this( neuronCount, new LogisticActivationFunction() )
+        public ActivationLayerBlueprint(int neuronCount)
+            : this(neuronCount, new LogisticActivationFunction())
         {
         }
     }

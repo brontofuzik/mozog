@@ -15,7 +15,7 @@
             }
         }
 
-        public LayerBlueprint( int neuronCount )
+        public LayerBlueprint(int neuronCount)
         {
             this.neuronCount = neuronCount;
         }

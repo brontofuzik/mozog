@@ -89,20 +89,20 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
         /// 
         /// <param name="blueprint">The blueprint of the input layer.</param>
         /// <param name="parentNetwork">The parent network.</param>
-        public InputLayer( LayerBlueprint blueprint, INetwork parentNetwork)
+        public InputLayer(LayerBlueprint blueprint, INetwork parentNetwork)
         {
             // Create the neurons.
-            neurons = new List< InputNeuron >( blueprint.NeuronCount );
+            neurons = new List< InputNeuron >(blueprint.NeuronCount);
             for (int i = 0; i < blueprint.NeuronCount; i++)
             {
-                InputNeuron neuron = new InputNeuron( this );
-                neurons.Add( neuron );
+                InputNeuron neuron = new InputNeuron(this);
+                neurons.Add(neuron);
             }
 
             targetConnectors = new List<IConnector>();
 
             // Validate the parent network.
-            Utilities.RequireObjectNotNull( parentNetwork, "parentNetwork" );
+            Utilities.RequireObjectNotNull(parentNetwork, "parentNetwork");
             this.parentNetwork = parentNetwork;
         }
 
@@ -165,13 +165,13 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
         {
             StringBuilder inputLayerSB = new StringBuilder();
 
-            inputLayerSB.Append( "IL\n[\n" );
+            inputLayerSB.Append("IL\n[\n");
             int neuronIndex = 0;
             foreach (InputNeuron neuron in neurons)
             {
-                inputLayerSB.Append( "  " + neuronIndex++ + " : " + neuron + "\n" );
+                inputLayerSB.Append("  " + neuronIndex++ + " : " + neuron + "\n");
             }
-            inputLayerSB.Append( "]" );
+            inputLayerSB.Append("]");
             
             return inputLayerSB.ToString();
         }

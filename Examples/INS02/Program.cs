@@ -65,7 +65,7 @@ namespace INS02
         /// The application's entry point.
         /// </summary>
         /// <param name="args">The comamnd line arguments.</param>
-        static void Main( string[] args )
+        static void Main(string[] args)
         {
             #region Step 1 : Create the training set.
 
@@ -73,24 +73,24 @@ namespace INS02
             // ---------------------------------
 
             // 1.1. Create the trainig set.
-            int inputVectorLength = networkTopology[ 0 ];
-            int outputVectorLength = networkTopology[ networkTopology.Length - 1 ];
-            TrainingSet trainingSet = new TrainingSet( inputVectorLength, outputVectorLength, keywords );
+            int inputVectorLength = networkTopology[0];
+            int outputVectorLength = networkTopology[networkTopology.Length - 1];
+            TrainingSet trainingSet = new TrainingSet(inputVectorLength, outputVectorLength, keywords);
 
             // 1.2. Create the training patterns.
             for (int i = 0; i < keywordCount; i++)
             {
                 // Create the input vector.
-                double[] inputVector = KeywordToVector( keywords[ i ] );
+                double[] inputVector = KeywordToVector(keywords[i]);
 
                 // Create the output vector.
-                double[] outputVector = KeywordIndexToVector( i );
+                double[] outputVector = KeywordIndexToVector(i);
 
                 // Create the training pattern, ...
-                SupervisedTrainingPattern trainingPattern = new SupervisedTrainingPattern( inputVector, outputVector, keywords[ i ] );
+                SupervisedTrainingPattern trainingPattern = new SupervisedTrainingPattern(inputVector, outputVector, keywords[i]);
                 
                 // ... and add it to the training set.
-                trainingSet.Add( trainingPattern );
+                trainingSet.Add(trainingPattern);
             }
 
             #endregion // Step 1 : Create the training set.
@@ -103,24 +103,24 @@ namespace INS02
             // 2.1. Create the blueprint of the network.
 
             // 2.1.1. Create the blueprint of the input layer.
-            LayerBlueprint inputLayerBlueprint = new LayerBlueprint( networkTopology[ 0 ] );
+            LayerBlueprint inputLayerBlueprint = new LayerBlueprint(networkTopology[0]);
 
             // 2.1.2. Create the blueprints of the hidden layers.
             int hiddenLayerCount = networkTopology.Length - 2;
-            ActivationLayerBlueprint[] hiddenLayerBlueprints = new ActivationLayerBlueprint[ hiddenLayerCount ];
+            ActivationLayerBlueprint[] hiddenLayerBlueprints = new ActivationLayerBlueprint[hiddenLayerCount];
             for (int i = 0; i < hiddenLayerCount; i++)
             {
-                hiddenLayerBlueprints[ i ] = new ActivationLayerBlueprint( networkTopology[ 1 + i ], new LogisticActivationFunction() );
+                hiddenLayerBlueprints[i] = new ActivationLayerBlueprint(networkTopology[1 + i], new LogisticActivationFunction());
             }
 
             // 2.1.3. Create the blueprints of the output layer.
-            ActivationLayerBlueprint outputLayerBlueprint = new ActivationLayerBlueprint( networkTopology[ networkTopology.Length - 1 ], new LogisticActivationFunction() );
+            ActivationLayerBlueprint outputLayerBlueprint = new ActivationLayerBlueprint(networkTopology[networkTopology.Length - 1], new LogisticActivationFunction());
 
             // 2.1.4. Create the blueprint of the network.
-            NetworkBlueprint networkBlueprint = new NetworkBlueprint( inputLayerBlueprint, hiddenLayerBlueprints, outputLayerBlueprint );
+            NetworkBlueprint networkBlueprint = new NetworkBlueprint(inputLayerBlueprint, hiddenLayerBlueprints, outputLayerBlueprint);
 
             // 2.2. Create the network.
-            network = new Network( networkBlueprint );
+            network = new Network(networkBlueprint);
 
             #endregion // Step 2 : Create the network.
 
@@ -130,7 +130,7 @@ namespace INS02
             // ---------------------------
 
             // 3.1. Create the (backpropagation) teacher.
-            BackpropagationTeacher teacher = new BackpropagationTeacher( trainingSet, null, null );
+            BackpropagationTeacher teacher = new BackpropagationTeacher(trainingSet, null, null);
 
             // 3.2. Create the (backpropagation) training strategy.
             int maxIterationCount = Int32.MaxValue;
@@ -140,14 +140,14 @@ namespace INS02
             double synapseLearningRate = 0.05;
             double connectorMomentum = 0.9;
             
-            INS02BackpropagationTrainingStrategy backpropagationTrainingStrategy = new INS02BackpropagationTrainingStrategy( maxIterationCount, maxNetworkError, batchLearning, synapseLearningRate, connectorMomentum );
+            INS02BackpropagationTrainingStrategy backpropagationTrainingStrategy = new INS02BackpropagationTrainingStrategy(maxIterationCount, maxNetworkError, batchLearning, synapseLearningRate, connectorMomentum);
 
             // 3.3. Train the network.
-            TrainingLog trainingLog = teacher.Train( network, backpropagationTrainingStrategy );
+            TrainingLog trainingLog = teacher.Train(network, backpropagationTrainingStrategy);
 
             // 3.4. Inspect the training log.
-            Console.WriteLine( "Number of iterations used : " + trainingLog.IterationCount);
-            Console.WriteLine( "Minimum network error achieved : " + trainingLog.NetworkError);
+            Console.WriteLine("Number of iterations used : " + trainingLog.IterationCount);
+            Console.WriteLine("Minimum network error achieved : " + trainingLog.NetworkError);
 
             #endregion // Step 3 : Train the network.
 
@@ -158,19 +158,19 @@ namespace INS02
 
             foreach (string keyword in keywords)
             {
-                Console.WriteLine( keyword + " {" );
+                Console.WriteLine(keyword + " {");
 
                 // 2.1. Test the network on the keyword.
-                TestNetwork( keyword );
+                TestNetwork(keyword);
 
                 // 2.2. Test the netowork on the keyword mutations.
                 for (int i = 0; i < 5; ++i)
                 {
-                    string mutatedKeyword = MutateKeyword( keyword );
-                    TestNetwork( mutatedKeyword );
+                    string mutatedKeyword = MutateKeyword(keyword);
+                    TestNetwork(mutatedKeyword);
                 }
 
-                Console.WriteLine( "}" );
+                Console.WriteLine("}");
                 Console.WriteLine();
             }
 
@@ -182,9 +182,9 @@ namespace INS02
         /// </summary>
         /// <param name="keyword"></param>
         /// <returns></returns>
-        public static double[] KeywordToVector( string keyword )
+        public static double[] KeywordToVector(string keyword)
         {
-            keyword = keyword.PadRight( maxKeywordLength );
+            keyword = keyword.PadRight(maxKeywordLength);
 
             StringBuilder sb = new StringBuilder();
             foreach (char letter in keyword)
@@ -192,20 +192,20 @@ namespace INS02
                 string binary;
                 if (letter != ' ')
                 {
-                    binary = Convert.ToString( letter - 'a', 2 ).PadLeft( 5, '0' );
+                    binary = Convert.ToString(letter - 'a', 2).PadLeft(5, '0');
                 }
                 else
                 {
-                    binary = new String( '1', 5 );
+                    binary = new String('1', 5);
                 }
-                sb.Append( binary );
+                sb.Append(binary);
             }
             string inputVectorString = sb.ToString();
             
-            double[] vector = new double[ inputVectorString.Length ];
+            double[] vector = new double[inputVectorString.Length];
             for (int i = 0; i < vector.Length; i++)
             {
-                vector[ i ] = (inputVectorString[ i ] == '1') ? 1.0 : 0.0; 
+                vector[i] = (inputVectorString[i] == '1') ? 1.0 : 0.0; 
             }
             return vector;
         }
@@ -215,13 +215,13 @@ namespace INS02
         /// </summary>
         /// <param name="keywordIndex"></param>
         /// <returns></returns>
-        public static double[] KeywordIndexToVector( int keywordIndex )
+        public static double[] KeywordIndexToVector(int keywordIndex)
         {
-            double[] vector = new double[ keywordCount ];
+            double[] vector = new double[keywordCount];
 
             for (int i = 0; i < keywordCount; i++)
             {
-                vector[ i ] = (i == keywordIndex) ? 1.0 : 0.0;
+                vector[i] = (i == keywordIndex) ? 1.0 : 0.0;
             }
 
             return vector;
@@ -232,14 +232,14 @@ namespace INS02
         /// </summary>
         /// <param name="outputVector"></param>
         /// <returns></returns>
-        static int VectorToKeywordIndex( double[] outputVector )
+        static int VectorToKeywordIndex(double[] outputVector)
         {
             int keywordIndex = -1;
             int activeNeuronCount = 0;
             
             for (int i = 0; i < outputVector.Length; i++)
             {
-                if (outputVector[ i ] >= 0.5)
+                if (outputVector[i] >= 0.5)
                 {
                     keywordIndex = i;
                     activeNeuronCount++;
@@ -256,13 +256,13 @@ namespace INS02
         /// <returns>
         /// The mutated keyword.
         /// </returns>
-        public static string MutateKeyword( string keyword )
+        public static string MutateKeyword(string keyword)
         {
-            int mutationIndex = random.Next( 0, keyword.Length );
-            char mutatedCharacter = MutateCharacter( keyword[ mutationIndex ] );
+            int mutationIndex = random.Next(0, keyword.Length);
+            char mutatedCharacter = MutateCharacter(keyword[mutationIndex]);
 
-            StringBuilder sb = new StringBuilder( keyword );
-            sb[ mutationIndex ] = mutatedCharacter;
+            StringBuilder sb = new StringBuilder(keyword);
+            sb[mutationIndex] = mutatedCharacter;
             return sb.ToString();
         }
 
@@ -273,13 +273,13 @@ namespace INS02
         /// <returns>
         /// The mutated character.
         /// </returns>
-        static char MutateCharacter( char character )
+        static char MutateCharacter(char character)
         {
             int i = character - 'a';
             int mutatedI;
             do
             {
-                mutatedI = random.Next( 0, 26 );
+                mutatedI = random.Next(0, 26);
             }
             while (mutatedI == i);
             char mutatedCharacter = (char)('a' + mutatedI);
@@ -291,15 +291,15 @@ namespace INS02
         /// Tests the network.
         /// </summary>
         /// <param name="keyword"></param>
-        static void TestNetwork( string keyword )
+        static void TestNetwork(string keyword)
         {
-            double[] inputVector = KeywordToVector( keyword );
-            double[] outputVector = network.Evaluate( inputVector );
-            int keywordIndex = VectorToKeywordIndex( outputVector );
+            double[] inputVector = KeywordToVector(keyword);
+            double[] outputVector = network.Evaluate(inputVector);
+            int keywordIndex = VectorToKeywordIndex(outputVector);
 
             if (keywordIndex != -1)
             {
-                Console.WriteLine( "\t{0} : {1}", keyword, keywordIndex );
+                Console.WriteLine("\t{0} : {1}", keyword, keywordIndex);
             }
         }
 

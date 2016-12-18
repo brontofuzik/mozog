@@ -8,7 +8,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealin
     /// A simulated annealing designed to train a neural network.
     /// </summary>
     internal class NetworkSimlatedAnnealing
-        : SimulatedAnnealing< double >
+        : SimulatedAnnealing<double>
     {
         /// <summary>
         /// The generator function.
@@ -20,10 +20,10 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealin
         /// </returns>
         protected override double[] GeneratorFunction()
         {
-            double[] weights = new double[ Dimension ];
+            double[] weights = new double[Dimension];
             for (int i = 0; i < Dimension; i++)
             {
-                weights[ i ] = random.NextDouble() + random.Next( -20, +20 );
+                weights[i] = random.NextDouble() + random.Next(-20, +20);
             }
             return weights;
         }
@@ -36,13 +36,13 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealin
         /// The new state of the system.
         /// (= The new weights of the network.)
         /// </returns>
-        protected override double[] PerturbationFunction( double[] currentWeights )
+        protected override double[] PerturbationFunction(double[] currentWeights)
         {
-            double[] newWeights = new double[ Dimension ];
-            Array.Copy( currentWeights, newWeights, Dimension );
+            double[] newWeights = new double[Dimension];
+            Array.Copy(currentWeights, newWeights, Dimension);
 
-            int index = random.Next( 0, Dimension );
-            newWeights[ index ] = (newWeights[ index ] + (random.NextDouble() + random.Next( -20, +20 ))) / 2.0;
+            int index = random.Next(0, Dimension);
+            newWeights[index] = (newWeights[index] + (random.NextDouble() + random.Next(-20, +20))) / 2.0;
             
             return newWeights;
         }

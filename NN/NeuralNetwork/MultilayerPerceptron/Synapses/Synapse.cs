@@ -211,7 +211,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
         /// </summary>
         public void Initialize()
         {
-            weight = Utilities.NextDouble( -1, +1 );
+            weight = Utilities.NextDouble(-1, +1);
         }
 
 
@@ -222,7 +222,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
         /// <param name="jitterNoiseLimit">The maximum absolute jitter noise added.</param>
         public void Jitter(double jitterNoiseLimit)
         {
-            weight += Utilities.NextDouble( -jitterNoiseLimit, +jitterNoiseLimit );
+            weight += Utilities.NextDouble(-jitterNoiseLimit, +jitterNoiseLimit);
         }
 
         /// <summary>
@@ -234,7 +234,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
         /// </returns>
         public override string ToString()
         {
-            return weight.ToString( "F2" );
+            return weight.ToString("F2");
         }
     }
 }

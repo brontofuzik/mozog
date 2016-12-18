@@ -25,31 +25,31 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         public Network(NetworkBlueprint blueprint)
         {
             // 0. Validate the blueprint.
-            Utilities.RequireObjectNotNull( blueprint, "blueprint" );
+            Utilities.RequireObjectNotNull(blueprint, "blueprint");
             this._blueprint = blueprint;
 
             // 1. Create the network components.
             // 1.1. Create the layers.
             // 1.1.1. Create the bias layer.
-            _biasLayer = new InputLayer( this._blueprint.BiasLayerBlueprint, this );
-            _biasLayer.SetInputVector( new double[] { 1.0 } );
+            _biasLayer = new InputLayer(this._blueprint.BiasLayerBlueprint, this);
+            _biasLayer.SetInputVector(new double[] { 1.0 });
 
             // 1.1.2. Create the input layer.
-            _inputLayer = new InputLayer( this._blueprint.InputLayerBlueprint, this );
+            _inputLayer = new InputLayer(this._blueprint.InputLayerBlueprint, this);
 
             // 1.1.3. Create the hidden layers.
-            _hiddenLayers = new List< IActivationLayer >( this._blueprint.HiddenLayerCount );
-            foreach (ActivationLayerBlueprint hiddenLayerBlueprint in this._blueprint.HiddenLayerBlueprints )
+            _hiddenLayers = new List< IActivationLayer >(this._blueprint.HiddenLayerCount);
+            foreach (ActivationLayerBlueprint hiddenLayerBlueprint in this._blueprint.HiddenLayerBlueprints)
             {
-                IActivationLayer hiddenLayer = new ActivationLayer( hiddenLayerBlueprint, this );
-                _hiddenLayers.Add( hiddenLayer );
+                IActivationLayer hiddenLayer = new ActivationLayer(hiddenLayerBlueprint, this);
+                _hiddenLayers.Add(hiddenLayer);
             }
 
             // 1.1.4. Create the output layer.
-            _outputLayer = new ActivationLayer( this._blueprint.OutputLayerBlueprint, this );
+            _outputLayer = new ActivationLayer(this._blueprint.OutputLayerBlueprint, this);
 
             // 1.2 Create the connectors.
-            _connectors = new List< IConnector >( this._blueprint.ConnectorCount );
+            _connectors = new List< IConnector >(this._blueprint.ConnectorCount);
             foreach (ConnectorBlueprint connectorBlueprint in this._blueprint.ConnectorBlueprints)
             {
                 IConnector connector = new Connector(connectorBlueprint, this);
@@ -99,7 +99,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// <returns>
         /// The layer.
         /// </returns>
-        public ILayer GetLayerByIndex( int layerIndex )
+        public ILayer GetLayerByIndex(int layerIndex)
         {
             if (layerIndex == -1)
             {
@@ -115,7 +115,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
             }
             else
             {
-                return _hiddenLayers[ layerIndex - 1 ];
+                return _hiddenLayers[layerIndex - 1];
             }
         }
 
@@ -145,7 +145,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// <returns>
         /// The output vector.
         /// </returns>
-        public double[] Evaluate( double[] inputVector )
+        public double[] Evaluate(double[] inputVector)
         {
             SetInputVector(inputVector);
 
@@ -161,12 +161,12 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// <returns>
         /// The error of the network.
         /// </returns>
-        public double CalculateError( TrainingSet trainingSet )
+        public double CalculateError(TrainingSet trainingSet)
         {
             double networkError = 0.0;
             foreach (SupervisedTrainingPattern trainingPattern in trainingSet)
             {
-                networkError += CalculateError( trainingPattern );
+                networkError += CalculateError(trainingPattern);
             }
             return 0.5 * networkError;
         }
@@ -178,15 +178,15 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// <returns>
         /// The error of the network.
         /// </returns>
-        public double CalculateError( SupervisedTrainingPattern trainingPattern )
+        public double CalculateError(SupervisedTrainingPattern trainingPattern)
         {
-            double[] outputVector = Evaluate( trainingPattern.InputVector );
+            double[] outputVector = Evaluate(trainingPattern.InputVector);
             double[] desiredOutputVector = trainingPattern.OutputVector;
             
             double networkError = 0.0;
             for (int i = 0; i < outputVector.Length; i++)
             {
-                networkError += Math.Pow( (outputVector[ i ] - desiredOutputVector[ i ]), 2 );
+                networkError += Math.Pow((outputVector[i] - desiredOutputVector[i]), 2);
             }
 
             return networkError;
@@ -197,22 +197,22 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// </summary>
         /// 
         /// <param name="fileName">The name of the file to save the weights to.</param>
-        public void SaveWeights( string fileName )
+        public void SaveWeights(string fileName)
         {
             // Open the file for writing.
-            TextWriter fileWriter = new StreamWriter( fileName );
+            TextWriter fileWriter = new StreamWriter(fileName);
 
             // Write the line containing the numbers of neurons in the layers.
             StringBuilder lineSB = new StringBuilder();
-            lineSB.Append( _inputLayer.NeuronCount + " " );
+            lineSB.Append(_inputLayer.NeuronCount + " ");
             foreach (IActivationLayer hiddenLayer in _hiddenLayers)
             {
-                lineSB.Append( hiddenLayer.NeuronCount + " " );
+                lineSB.Append(hiddenLayer.NeuronCount + " ");
             }
-            lineSB.Append( _outputLayer.NeuronCount );
+            lineSB.Append(_outputLayer.NeuronCount);
             string line = lineSB.ToString();
 
-            fileWriter.WriteLine( line );
+            fileWriter.WriteLine(line);
 
             // Write the blank line.
             fileWriter.WriteLine();
@@ -225,15 +225,15 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
                     lineSB = new StringBuilder();
                     for (int i = 0; i < hiddenNeuron.SourceSynapses.Count; i++)
                     {
-                        lineSB.Append( hiddenNeuron.SourceSynapses[ i ].Weight + " " );
+                        lineSB.Append(hiddenNeuron.SourceSynapses[i].Weight + " ");
                     }
                     if (hiddenNeuron.SourceSynapses.Count != 0)
                     {
-                        lineSB.Remove( lineSB.Length - 1, 1 );
+                        lineSB.Remove(lineSB.Length - 1, 1);
                     }
                     line = lineSB.ToString();
 
-                    fileWriter.WriteLine( line );
+                    fileWriter.WriteLine(line);
                 }
 
                 // Write the blank line.
@@ -246,15 +246,15 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
                 lineSB = new StringBuilder();
                 for (int i = 0; i < outputNeuron.SourceSynapses.Count; i++)
                 {
-                    lineSB.Append( outputNeuron.SourceSynapses[ i ].Weight + " " );
+                    lineSB.Append(outputNeuron.SourceSynapses[i].Weight + " ");
                 }
                 if (outputNeuron.SourceSynapses.Count != 0)
                 {
-                    lineSB.Remove( lineSB.Length - 1, 1 );
+                    lineSB.Remove(lineSB.Length - 1, 1);
                 }
                 line = lineSB.ToString();
 
-                fileWriter.WriteLine( line );
+                fileWriter.WriteLine(line);
             }
 
             // Close the weights file.
@@ -266,15 +266,15 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// </summary>
         /// 
         /// <param name="fileName">The name of the file to load the weights from.</param>
-        public void LoadWeights( string fileName )
+        public void LoadWeights(string fileName)
         {
             // Open the weights file for reading.
-            TextReader fileReader = new StreamReader( fileName );
+            TextReader fileReader = new StreamReader(fileName);
             const char separator = ' ';
 
             // Read the line containing the numbers of neurons in the layers.
             string line = fileReader.ReadLine();
-            string[] words = line.Split( separator );
+            string[] words = line.Split(separator);
 
             // Read the blank line.
             fileReader.ReadLine();
@@ -288,11 +288,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
                 foreach (IActivationNeuron hiddenNeuron in hiddenLayer.Neurons)
                 {
                     line = fileReader.ReadLine();
-                    words = line.Split( separator );
+                    words = line.Split(separator);
 
                     for (int i = 0; i < hiddenNeuron.SourceSynapses.Count; i++)
                     {
-                        hiddenNeuron.SourceSynapses[ i ].Weight = Double.Parse( words[ i ] );
+                        hiddenNeuron.SourceSynapses[i].Weight = Double.Parse(words[i]);
                     }
                 }
 
@@ -311,7 +311,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
 
                 for (int i = 0; i < outputNeuron.SourceSynapses.Count; i++)
                 {
-                    outputNeuron.SourceSynapses[ i ].Weight = Double.Parse( words[ i ] );
+                    outputNeuron.SourceSynapses[i].Weight = Double.Parse(words[i]);
                 }
             }
 
@@ -327,7 +327,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// </returns>
         public double[] GetWeights()
         {
-            List< double > weights = new List< double >();
+            List<double> weights = new List<double>();
 
             // Get the weights of the source synapses of the hidden neurons.
             foreach (IActivationLayer hiddenLayer in _hiddenLayers)
@@ -336,7 +336,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
                 {
                     foreach (ISynapse sourceSynapse in hiddenNeuron.SourceSynapses)
                     {
-                        weights.Add( sourceSynapse.Weight );
+                        weights.Add(sourceSynapse.Weight);
                     }
                 }
             }
@@ -346,7 +346,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
             {
                 foreach (ISynapse sourceSynapse in outputNeuron.SourceSynapses)
                 {
-                    weights.Add( sourceSynapse.Weight );
+                    weights.Add(sourceSynapse.Weight);
                 }
             }
 
@@ -357,7 +357,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         /// Sets the weights of the network (as an  array).
         /// </summary>
         /// <param name="weights">The weights of the network (as an array).</param>
-        public void SetWeights( double[] weights )
+        public void SetWeights(double[] weights)
         {
             int i = 0;
 
@@ -368,7 +368,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
                 {
                     foreach (ISynapse sourceSynapse in hiddenNeuron.SourceSynapses)
                     {
-                        sourceSynapse.Weight = weights[ i++ ];
+                        sourceSynapse.Weight = weights[i++];
                     }
                 }
             }
@@ -378,7 +378,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
             {
                 foreach (ISynapse sourceSynapse in outputNeuron.SourceSynapses)
                 {
-                    sourceSynapse.Weight = weights[ i++ ];
+                    sourceSynapse.Weight = weights[i++];
                 }
             }
         }
@@ -393,22 +393,22 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         public override string ToString()
         {
             StringBuilder networkSB = new StringBuilder();
-            networkSB.Append( "MLP\n[\n" );
+            networkSB.Append("MLP\n[\n");
             int layerIndex = 0;
 
             // The input layer.
-            networkSB.Append( layerIndex++ + " : " + _inputLayer + "\n" );
+            networkSB.Append(layerIndex++ + " : " + _inputLayer + "\n");
 
             // The hidden layers.
             foreach (IActivationLayer hiddenLayer in _hiddenLayers)
             {
-                networkSB.Append( layerIndex++ + " : " + hiddenLayer + "\n" );
+                networkSB.Append(layerIndex++ + " : " + hiddenLayer + "\n");
             }
 
             // The output layer.
-            networkSB.Append( layerIndex + " : " + _outputLayer + "\n" );
+            networkSB.Append(layerIndex + " : " + _outputLayer + "\n");
 
-            networkSB.Append( "]" );
+            networkSB.Append("]");
             return networkSB.ToString();
         }
 

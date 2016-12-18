@@ -77,7 +77,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// </returns>
         public static TrainingSet Load(string fileName)
         {
-            TextReader textReader = new StreamReader( fileName );
+            TextReader textReader = new StreamReader(fileName);
             const char separator = ' ';
 
             //
@@ -85,7 +85,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             //
 
             string line = textReader.ReadLine();
-            string[] words = line.Trim().Split( separator );
+            string[] words = line.Trim().Split(separator);
 
             // Validate the input vector length.
             int inputVectorLength = Int32.Parse(words[0]);
@@ -95,7 +95,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             int outputVectorLength = Int32.Parse(words[1]);
             Utilities.RequireNumberPositive(outputVectorLength, "outputVectorLength");
 
-            TrainingSet trainingSet = new TrainingSet( inputVectorLength, outputVectorLength );
+            TrainingSet trainingSet = new TrainingSet(inputVectorLength, outputVectorLength);
 
             // Read the blank line.
             textReader.ReadLine();
@@ -111,7 +111,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
                     continue;
                 }
 
-                words = line.Trim().Split( separator );
+                words = line.Trim().Split(separator);
 
                 // 2.1. Read and create the input vector.
                 double[] inputVector = new double[inputVectorLength];
@@ -152,9 +152,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// <returns>
         /// <c>True</c> if contains, <c>false</c> otherwise.
         /// </returns>
-        public bool Contains( SupervisedTrainingPattern trainingPattern )
+        public bool Contains(SupervisedTrainingPattern trainingPattern)
         {
-            return _trainingPatterns.Contains( trainingPattern );
+            return _trainingPatterns.Contains(trainingPattern);
         }
 
         /// <summary>
@@ -172,25 +172,25 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// <exception cref="ArgumentException">
         /// Condition: the lengths of input vector or output vector (from the training pattern) differ from their expected lengths (from the training set).
         /// </exception>
-        public void Add( SupervisedTrainingPattern trainingPattern )
+        public void Add(SupervisedTrainingPattern trainingPattern)
         {
             // Validatate the arguments.
-            Utilities.RequireObjectNotNull( trainingPattern, "trainingPattern" );
+            Utilities.RequireObjectNotNull(trainingPattern, "trainingPattern");
 
             // Validate the input vector length.
             if (_inputVectorLength != trainingPattern.InputVector.Length)
             {
-                throw new ArgumentException( "The input vector must be of size " + _inputVectorLength, "trainingPattern" );
+                throw new ArgumentException("The input vector must be of size " + _inputVectorLength, "trainingPattern");
             }
             
             // Validate the output vector length.
             if (_outputVectorLength != trainingPattern.OutputVector.Length)
             {
-                throw new ArgumentException( "The output vector must be of size " + _outputVectorLength, "trainingPattern" );
+                throw new ArgumentException("The output vector must be of size " + _outputVectorLength, "trainingPattern");
             }
 
             // Add the training pattern to the training set.
-            _trainingPatterns.Add( trainingPattern );
+            _trainingPatterns.Add(trainingPattern);
         }
 
         /// <summary>
@@ -201,10 +201,10 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// Condition: <c>trainingSet</c> is not compatible with this training set.
         /// This happens when either their input vector lengths or their output vector lengths differ.
         /// </exception>
-        public void Add( TrainingSet trainingSet )
+        public void Add(TrainingSet trainingSet)
         {
             // Validate the arguments.
-            Utilities.RequireObjectNotNull( trainingSet, "trainingSet" );
+            Utilities.RequireObjectNotNull(trainingSet, "trainingSet");
 
             // Validate the input vector length and the output vector length.
             if ((_inputVectorLength != trainingSet.InputVectorLength) || (_outputVectorLength != trainingSet.OutputVectorLength))
@@ -216,7 +216,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             // Add all the training patterns contained within the given training set to the training set.
             foreach (SupervisedTrainingPattern trainingPattern in trainingSet)
             {
-                _trainingPatterns.Add( trainingPattern );
+                _trainingPatterns.Add(trainingPattern);
             }
         }
 
@@ -227,9 +227,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// <returns>
         /// <c>True</c> if successful, <c>false</c> otherwise.
         /// </returns>
-        public bool Remove( SupervisedTrainingPattern trainingPattern )
+        public bool Remove(SupervisedTrainingPattern trainingPattern)
         {
-            return _trainingPatterns.Remove( trainingPattern );
+            return _trainingPatterns.Remove(trainingPattern);
         }
 
         /// <summary>
@@ -246,12 +246,12 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// <param name="index"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public TrainingSet SeparateTestSet( int index, int size )
+        public TrainingSet SeparateTestSet(int index, int size)
         {
-            TrainingSet testSet = new TrainingSet( _inputVectorLength, _outputVectorLength );
+            TrainingSet testSet = new TrainingSet(_inputVectorLength, _outputVectorLength);
 
-            testSet._trainingPatterns.AddRange( this._trainingPatterns.GetRange( index, size ) );
-            this._trainingPatterns.RemoveRange( index, size );
+            testSet._trainingPatterns.AddRange(this._trainingPatterns.GetRange(index, size));
+            this._trainingPatterns.RemoveRange(index, size);
 
             return testSet;
         }
@@ -260,9 +260,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// Save the training set to a file.
         /// </summary>
         /// <param name="fileName">The name of the file to which the training set is to be saved.</param>
-        public void Save( string fileName )
+        public void Save(string fileName)
         {
-            TextWriter textWriter = new StreamWriter( fileName );
+            TextWriter textWriter = new StreamWriter(fileName);
             const char separator = ' ';
 
             //
@@ -270,7 +270,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             //
 
             string line = _inputVectorLength.ToString() + separator + _outputVectorLength.ToString();
-            textWriter.WriteLine( line );
+            textWriter.WriteLine(line);
 
             // Write the blank line.
             textWriter.WriteLine();
@@ -309,23 +309,23 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         {
             StringBuilder trainingSetStringBuilder = new StringBuilder();
 
-            //trainingSetStringBuilder.Append( base.ToString() );
+            //trainingSetStringBuilder.Append(base.ToString());
 
-            trainingSetStringBuilder.Append( "{\n" );
+            trainingSetStringBuilder.Append("{\n");
 
             int trainingPatternIndex = 0;
             foreach (SupervisedTrainingPattern trainingPattern in _trainingPatterns)
             {
-                trainingSetStringBuilder.Append( "\t" + trainingPatternIndex++ + " : " + trainingPattern.ToString() + "\n" );
+                trainingSetStringBuilder.Append("\t" + trainingPatternIndex++ + " : " + trainingPattern.ToString() + "\n");
             }
 
             // Remove the trailing "\n" if the training set contained no training patterns.
             if (Size == 0)
             {
-                trainingSetStringBuilder.Remove( trainingSetStringBuilder.Length - 1, 1 );
+                trainingSetStringBuilder.Remove(trainingSetStringBuilder.Length - 1, 1);
             }
 
-            trainingSetStringBuilder.Append( "}" );
+            trainingSetStringBuilder.Append("}");
 
             return trainingSetStringBuilder.ToString();
         }
@@ -384,11 +384,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// <exception cref="IndexOutOfRangeException">
         /// Condition: <c>trainingPatternIndex</c> is out of range.
         /// </exception>
-        public SupervisedTrainingPattern this[ int trainingPatternIndex ]
+        public SupervisedTrainingPattern this[int trainingPatternIndex]
         {
             get
             {
-                return _trainingPatterns[ trainingPatternIndex ];
+                return _trainingPatterns[trainingPatternIndex];
             }
         }
 

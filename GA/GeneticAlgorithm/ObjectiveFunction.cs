@@ -13,13 +13,13 @@
     /// </para>
     /// </remarks>
     /// <typeparam name="TGene">The type of the gene.</typeparam>
-    public abstract class ObjectiveFunction< TGene >
+    public abstract class ObjectiveFunction<TGene >
     {
         int dimension;
 
         Objective objective;
 
-        protected ObjectiveFunction( int dimension, Objective objective )
+        protected ObjectiveFunction(int dimension, Objective objective)
         {
             this.dimension = dimension;
             this.objective = objective;
@@ -48,7 +48,7 @@
         /// <returns>
         /// The evaluation of the chromosome.
         /// </returns>
-        public abstract double Evaluate( TGene[] genes );
+        public abstract double Evaluate(TGene[] genes);
     }
 
     /// <summary>

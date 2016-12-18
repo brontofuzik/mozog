@@ -102,7 +102,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Neurons
         /// </returns>
         public override string ToString()
         {
-            return String.Format( "IN(" + output.ToString( "F2" )+ ")" );
+            return String.Format("IN(" + output.ToString("F2")+ ")");
         }
     }
 }
