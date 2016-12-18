@@ -13,8 +13,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
     /// </summary>
     public interface ISynapse
     {
-        #region Properties
-
         /// <summary>
         /// Gets the blueprint of the synapse.
         /// </summary>
@@ -78,10 +76,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
             set;
         }
 
-        #endregion // Properties
-
-        #region Methods
-
         /// <summary>
         /// Connects the synapse.
         /// 
@@ -122,7 +116,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
         /// </summary>
         /// <param name="jitterNoiseLimit"></param>
         void Jitter(double jitterNoiseLimit);
-
-        #endregion // Methods
     }
 }

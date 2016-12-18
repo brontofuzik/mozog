@@ -16,8 +16,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Neurons
     /// </summary>
     public interface INeuron
     {
-        #region Properties
-
         /// <summary>
         /// Gets the ouput.
         /// </summary>
@@ -55,15 +53,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Neurons
             set;
         }
 
-        #endregion // Properties
-
-        #region Methods
-
         /// <summary>
         /// Initializes the neuron.
         /// </summary>
         void Initialize();
-
-        #endregion // Methods
     }
 }

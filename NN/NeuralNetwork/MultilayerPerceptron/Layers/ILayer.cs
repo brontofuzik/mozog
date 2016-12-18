@@ -11,8 +11,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
     /// </summary>
     public interface ILayer
     {
-        #region Properties
-
         /// <summary>
         /// Gets the list of neurons comprising the layer.
         /// </summary>
@@ -62,10 +60,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
             set;
         }
 
-        #endregion // Properties
-
-        #region Methods
-
         /// <summary>
         /// Gets a neuron (specified by its index within the layer).
         /// </summary>
@@ -79,7 +73,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
         /// Initializes the layer.
         /// </summary>
         void Initialize();
-
-        #endregion // Methods
     }
 }

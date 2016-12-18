@@ -9,8 +9,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Neurons
     public interface IActivationNeuron
         : INeuron
     {
-        #region Properties
-
         /// <summary>
         /// 
         /// </summary>
@@ -24,15 +22,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Neurons
             get;
         }
 
-        #endregion // Properties
-
-        #region Methods
-
         /// <summary>
         /// Evaluates the neuron.
         /// </summary>
         void Evaluate();
-
-        #endregion // Methods
     }
 }

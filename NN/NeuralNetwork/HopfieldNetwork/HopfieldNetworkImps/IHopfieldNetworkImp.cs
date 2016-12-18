@@ -2,7 +2,38 @@
 {
     public interface IHopfieldNetworkImp
     {
-        #region Methods
+        /// <summary>
+        /// Gets the number of neurons.
+        /// </summary>
+        /// <value>
+        /// The number of neurons.
+        /// </value>
+        int NeuronCount
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets the number of synapses.
+        /// </summary>
+        /// <value>
+        /// The number of synapses.
+        /// </value>
+        int SynapseCount
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets the energy.
+        /// </summary>
+        /// <value>
+        /// The energy.
+        /// </value>
+        double Energy
+        {
+            get;
+        }
 
         /// <summary>
         /// Gets the bias of the neuron.
@@ -50,45 +81,5 @@
         /// </summary>
         /// <returns>The recalled pattern.</returns>
         double[] GetNetworkOutput();
-
-        #endregion // Methods
-
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the number of neurons.
-        /// </summary>
-        /// <value>
-        /// The number of neurons.
-        /// </value>
-        int NeuronCount
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the number of synapses.
-        /// </summary>
-        /// <value>
-        /// The number of synapses.
-        /// </value>
-        int SynapseCount
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the energy.
-        /// </summary>
-        /// <value>
-        /// The energy.
-        /// </value>
-        double Energy
-        {
-            get;
-        }
-
-        #endregion // Properties        
     }
 }

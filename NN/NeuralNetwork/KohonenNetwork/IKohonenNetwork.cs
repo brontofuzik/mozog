@@ -4,7 +4,23 @@ namespace NeuralNetwork.KohonenNetwork
 {
     public interface IKohonenNetwork
     {
-        #region Methods
+        event TrainingPatternEventhandler BeginTrainingPatternEvent;
+
+        event TrainingSetEventHandler BeginTrainingSetEvent;
+
+        event TrainingPatternEventhandler EndTrainingPatternEvent;
+
+        event TrainingSetEventHandler EndTrainingSetEvent;
+
+        int InputNeuronCount
+        {
+            get;
+        }
+
+        int OutputNeuronCount
+        {
+            get;
+        }
 
         /// <summary>
         /// Trains the network with a training set for a number of iterations.
@@ -41,33 +57,5 @@ namespace NeuralNetwork.KohonenNetwork
         /// <param name="bitmapHeight">The height of the bitmap.</param>
         /// <returns>The bitmap representation of the network.</returns>
         Bitmap ToBitmap(int bitmapWidth, int bitmapHeight);
-
-        #endregion // Methods
-
-        #region Properties
-
-        int InputNeuronCount
-        {
-            get;
-        }
-
-        int OutputNeuronCount
-        {
-            get;
-        }
-
-        #endregion // Properties
-
-        #region Events
-
-        event TrainingPatternEventhandler BeginTrainingPatternEvent;
-        
-        event TrainingSetEventHandler BeginTrainingSetEvent;
-        
-        event TrainingPatternEventhandler EndTrainingPatternEvent;
-        
-        event TrainingSetEventHandler EndTrainingSetEvent;
-
-        #endregion // Events
     }
 }

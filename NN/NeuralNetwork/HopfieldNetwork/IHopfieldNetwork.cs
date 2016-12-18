@@ -4,7 +4,38 @@ namespace NeuralNetwork.HopfieldNetwork
 {
     public interface IHopfieldNetwork
     {
-        #region Methods
+        /// <summary>
+        /// Gets the number of neurons in the Hopfield network.
+        /// </summary>
+        /// <value>
+        /// The number of neurons in the Hopfield network.
+        /// </value>
+        int NeuronCount
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets the number of synapses in the Hopfield network.
+        /// </summary>
+        /// <value>
+        /// The number of synapses in the Hopfield network.
+        /// </value>
+        int SynapseCount
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets the energy of the Hopfield network.
+        /// </summary>
+        /// <value>
+        /// The energy of the Hopfield network.
+        /// </value>
+        double Energy
+        {
+            get;
+        }
 
         /// <summary>
         /// Trains the Hopfield network.
@@ -55,44 +86,5 @@ namespace NeuralNetwork.HopfieldNetwork
         /// </summary>
         /// <returns>The string representation of the Hopfield network.</returns>
         string ToString();
-
-        #endregion // Methods
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the number of neurons in the Hopfield network.
-        /// </summary>
-        /// <value>
-        /// The number of neurons in the Hopfield network.
-        /// </value>
-        int NeuronCount
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the number of synapses in the Hopfield network.
-        /// </summary>
-        /// <value>
-        /// The number of synapses in the Hopfield network.
-        /// </value>
-        int SynapseCount
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the energy of the Hopfield network.
-        /// </summary>
-        /// <value>
-        /// The energy of the Hopfield network.
-        /// </value>
-        double Energy
-        {
-            get;
-        }
-
-        #endregion // Properties
     }
 }

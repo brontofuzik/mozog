@@ -16,8 +16,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
     /// </summary>
     public interface IConnector
     {
-        #region Properties
-
         /// <summary>
         /// Gets the blueprint of the connector.
         /// </summary>
@@ -93,10 +91,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
             set;
         }
 
-        #endregion // Properties
-
-        #region Methods
-
         /// <summary>
         /// Connects the connector.
         /// 
@@ -139,7 +133,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
         /// </summary>
         /// <param name="jitterNoiseLimit"></param>
         void Jitter(double jitterNoiseLimit);
-
-        #endregion // Methods
     }
 }

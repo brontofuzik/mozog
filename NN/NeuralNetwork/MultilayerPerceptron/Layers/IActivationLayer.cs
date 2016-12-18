@@ -17,8 +17,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
     public interface IActivationLayer
         : ILayer
     {
-        #region Properties
-
         /// <summary>
         /// 
         /// </summary>
@@ -46,10 +44,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
         {
             get;
         }
-
-        #endregion // Properties
-
-        #region Methods
         
         /// <summary>
         /// 
@@ -61,7 +55,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
         /// </summary>
         /// <returns></returns>
         double[] GetOutputVector();
-
-        #endregion // Methods
     }
 }
