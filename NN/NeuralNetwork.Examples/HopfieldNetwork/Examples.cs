@@ -1,13 +1,13 @@
 ﻿using System;
-using NeuralNetwork.MultilayerPerceptron.Training;
-using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkImp;
 using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps;
+using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkImp;
+using NeuralNetwork.MultilayerPerceptron.Training;
 
-namespace NeuralNetwork.Examples.Hopfield
+namespace NeuralNetwork.Examples.HopfieldNetwork
 {
-    class Program
+    class Examples
     {
-        static void Main(string[] args)
+        public static void Run()
         {
             TestHopfieldNetwork();
             TestMultiflopNetwork();
@@ -28,7 +28,7 @@ namespace NeuralNetwork.Examples.Hopfield
             // Create the training set.
 
             TrainingSet trainingSet = new TrainingSet(10, 0);
-            
+
             // Create the training patterns.
 
             SupervisedTrainingPattern trainingPattern = new SupervisedTrainingPattern(new double[] { 1.0, 1.0, 1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, -1.0 }, new double[0]);

@@ -3,11 +3,11 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using NeuralNetwork.MultilayerPerceptron.Training;
 
-namespace NeuralNetwork.Examples.Kohonen
+namespace NeuralNetwork.Examples.KohonenNetwork
 {
-    class Program
+    static class Examples
     {
-        static void Main(string[] args)
+        public static void Run()
         {
             Test1DTo1D();
             Test1DTo2D();
@@ -18,7 +18,7 @@ namespace NeuralNetwork.Examples.Kohonen
         /// <summary>
         /// Tests the 1D input space to 1D output space mapping.
         /// </summary>
-        static void Test1DTo1D()
+        public static void Test1DTo1D()
         {
             Console.WriteLine("Test1DTo1D started");
             Console.WriteLine("==================");
@@ -80,7 +80,7 @@ namespace NeuralNetwork.Examples.Kohonen
         /// <summary>
         /// Tests the 1D input space to 2D output space mapping.
         /// </summary>
-        static void Test1DTo2D()
+        public static void Test1DTo2D()
         {
             Console.WriteLine("Test1DTo2D started");
             Console.WriteLine("==================");
@@ -142,7 +142,7 @@ namespace NeuralNetwork.Examples.Kohonen
         /// <summary>
         /// Tests the 2D input space to 1D output space mapping.
         /// </summary>
-        static void Test2DTo1D()
+        public static void Test2DTo1D()
         {
             Console.WriteLine("Test2DTo1D started");
             Console.WriteLine("==================");
@@ -204,7 +204,7 @@ namespace NeuralNetwork.Examples.Kohonen
         /// <summary>
         /// Test the 2D input space to 2D output space mapping.
         /// </summary>
-        static void Test2DTo2D()
+        public static void Test2DTo2D()
         {
             Console.WriteLine("Test2DTo2D started");
             Console.WriteLine("==================");

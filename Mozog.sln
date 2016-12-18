@@ -37,11 +37,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticAlgorithm.Examples",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulatedAnnealing.Examples", "SA\SimulatedAnnealing.Examples\SimulatedAnnealing.Examples.csproj", "{0B06B5F6-8D8F-48E5-9A9E-6A4AFED09C54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork.Examples.Perceptron", "NN\NeuralNetwork.Examples.Perceptron\NeuralNetwork.Examples.Perceptron.csproj", "{9BC6A1B4-4E53-4AF1-8DB0-DCA8C0A3B888}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork.Examples.Hopfield", "NN\NeuralNetwork.Examples.Hopfield\NeuralNetwork.Examples.Hopfield.csproj", "{3EA63BB9-A539-42F9-94EF-13086A348160}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork.Examples.Kohonen", "NN\NeuralNetwork.Examples.Kohonen\NeuralNetwork.Examples.Kohonen.csproj", "{9ABD9C6D-46AF-41E5-B40A-C1C7AA951976}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork.Examples", "NN\NeuralNetwork.Examples\NeuralNetwork.Examples.csproj", "{6258AD12-418C-4461-BCC0-0A179B3EE954}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,18 +93,10 @@ Global
 		{0B06B5F6-8D8F-48E5-9A9E-6A4AFED09C54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B06B5F6-8D8F-48E5-9A9E-6A4AFED09C54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B06B5F6-8D8F-48E5-9A9E-6A4AFED09C54}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9BC6A1B4-4E53-4AF1-8DB0-DCA8C0A3B888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9BC6A1B4-4E53-4AF1-8DB0-DCA8C0A3B888}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9BC6A1B4-4E53-4AF1-8DB0-DCA8C0A3B888}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9BC6A1B4-4E53-4AF1-8DB0-DCA8C0A3B888}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3EA63BB9-A539-42F9-94EF-13086A348160}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3EA63BB9-A539-42F9-94EF-13086A348160}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3EA63BB9-A539-42F9-94EF-13086A348160}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3EA63BB9-A539-42F9-94EF-13086A348160}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9ABD9C6D-46AF-41E5-B40A-C1C7AA951976}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9ABD9C6D-46AF-41E5-B40A-C1C7AA951976}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9ABD9C6D-46AF-41E5-B40A-C1C7AA951976}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9ABD9C6D-46AF-41E5-B40A-C1C7AA951976}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6258AD12-418C-4461-BCC0-0A179B3EE954}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6258AD12-418C-4461-BCC0-0A179B3EE954}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6258AD12-418C-4461-BCC0-0A179B3EE954}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6258AD12-418C-4461-BCC0-0A179B3EE954}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -126,8 +114,6 @@ Global
 		{61205A5B-1BDC-49F3-A1F5-981CA6DE7D0E} = {55041237-D7A2-4140-93A4-37869AF1ADE9}
 		{8ACB1738-5DEC-4804-84FD-E39E498E3BB8} = {39012F6D-52C4-401E-9832-49C0C071302A}
 		{0B06B5F6-8D8F-48E5-9A9E-6A4AFED09C54} = {F7DC6F6A-5242-4C9D-A29F-820FBA061870}
-		{9BC6A1B4-4E53-4AF1-8DB0-DCA8C0A3B888} = {0D96491B-CBF8-403A-9AE5-2A259A554ECD}
-		{3EA63BB9-A539-42F9-94EF-13086A348160} = {0D96491B-CBF8-403A-9AE5-2A259A554ECD}
-		{9ABD9C6D-46AF-41E5-B40A-C1C7AA951976} = {0D96491B-CBF8-403A-9AE5-2A259A554ECD}
+		{6258AD12-418C-4461-BCC0-0A179B3EE954} = {0D96491B-CBF8-403A-9AE5-2A259A554ECD}
 	EndGlobalSection
 EndGlobal
