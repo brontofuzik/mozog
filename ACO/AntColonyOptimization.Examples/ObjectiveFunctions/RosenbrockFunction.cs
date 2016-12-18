@@ -14,7 +14,7 @@ namespace AntColonyOptimization.Examples.ObjectiveFunctions
         /// </summary>
         /// <param name="dimension">The dimension of the R function.</param>
         public RosenbrockFunction( int dimension )
-            : base( dimension, Objective.MINIMIZE )
+            : base( dimension, Objective.Minimize )
         {
         }
 

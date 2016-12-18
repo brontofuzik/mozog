@@ -2,33 +2,17 @@
 {
     public abstract class ObjectiveFunction
     {
-        int dimension;
-
-        Objective objective;
-
-        protected ObjectiveFunction( int dimension, Objective objective )
+        protected ObjectiveFunction(int dimension, Objective objective)
         {
-            this.dimension = dimension;
-            this.objective = objective;
+            Dimension = dimension;
+            Objective = objective;
         }
 
-        public int Dimension
-        {
-            get
-            {
-                return dimension;
-            }
-        }
+        public int Dimension { get; }
 
-        public Objective Objective
-        {
-            get
-            {
-                return objective;
-            }
-        }
+        public Objective Objective { get; }
 
-        public abstract double Evaluate( double[] steps );
+        public abstract double Evaluate(double[] steps);
     }
 
     /// <summary>
@@ -36,7 +20,7 @@
     /// </summary>
     public enum Objective
     {
-        MINIMIZE,
-        MAXIMIZE
+        Minimize,
+        Maximize
     }
 }

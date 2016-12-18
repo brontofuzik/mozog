@@ -5,44 +5,39 @@ namespace AntColonyOptimization
 {
     internal class PheromoneDistribution
     {
-        private static Random random;
+        private static readonly Random random = new Random();
 
-        private double[] weights;
+        private readonly double[] weights;
 
-        private List< NormalPDF > normalPDFs;
-
-        static PheromoneDistribution()
-        {
-            random = new Random();
-        }
+        private readonly List<NormalPDF> normalPDFs;
 
         /// <summary>
         /// Creates a new pheromone distribution.
         /// </summary>
         /// <param name="normalPDFCount">The number of normal PDFs.</param>
-        public PheromoneDistribution( int normalPDFCount )
+        public PheromoneDistribution(int normalPDFCount)
         {
             // Create the weights.
-            double weight = 1.0 / (double)normalPDFCount;
-            weights = new double[ normalPDFCount ];
+            double weight = 1.0 / normalPDFCount;
+            weights = new double[normalPDFCount];
             for (int i = 0; i < normalPDFCount; i++)
             {
-                weights[ i ] = weight;
+                weights[i] = weight;
             }
 
             // Create the normal PDFs.
             double a = -1.0;
             double b = 1.0;
-            double standardDeviation = (b - a) / (double)(2 * normalPDFCount);
+            double standardDeviation = (b - a) / (2 * normalPDFCount);
 
-            normalPDFs = new List< NormalPDF >( normalPDFCount );
+            normalPDFs = new List< NormalPDF >(normalPDFCount);
             for (int i = 0; i < normalPDFCount; i++)
             {
                 double mean = 2 * random.NextDouble() - 1;
                 // ALT:
                 // double mean = a + (2 * i - 1) * ((b - a) / (double)(2 * normalPDFCount));
 
-                normalPDFs.Add( new NormalPDF( mean, standardDeviation ) );
+                normalPDFs.Add(new NormalPDF(mean, standardDeviation));
             }
         }
 
@@ -54,25 +49,25 @@ namespace AntColonyOptimization
             {
                 weightSum += weight;
             }
-            double[] probabilities = new double[ weights.Length ];
+            double[] probabilities = new double[weights.Length];
             for (int i = 0; i < probabilities.Length; i++)
             {
-                probabilities[ i ] = weights[ i ] / weightSum;
+                probabilities[i] = weights[i] / weightSum;
             }
 
             // Create the roulette-wheel.
-            List< double > rouletteWheel = new List< double >( probabilities.Length );
+            List<double> rouletteWheel = new List<double>(probabilities.Length);
             double previousPocketCount = 0.0;
             foreach (double probability in probabilities)
             {
                 double currentPocketCount = previousPocketCount + probability;
-                rouletteWheel.Add( currentPocketCount );
+                rouletteWheel.Add(currentPocketCount);
                 previousPocketCount = currentPocketCount;
             }
 
             // Spin the roulette-wheel.
             double pocket = random.NextDouble();
-            int normalPDFIndex = rouletteWheel.BinarySearch( pocket );
+            int normalPDFIndex = rouletteWheel.BinarySearch(pocket);
             if (normalPDFIndex < 0)
             {
                 normalPDFIndex = ~normalPDFIndex;

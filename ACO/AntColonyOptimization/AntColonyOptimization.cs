@@ -94,7 +94,7 @@ namespace AntColonyOptimization
 
             // Return the (global-best) solution.
             usedIterationCount = iterationIndex;
-            achievedEvalation = (objectiveFunction.Objective == Objective.MINIMIZE) ? globalBestAnt.Evaluation : (1 / globalBestAnt.Evaluation);
+            achievedEvalation = (objectiveFunction.Objective == Objective.Minimize) ? globalBestAnt.Evaluation : (1 / globalBestAnt.Evaluation);
             return globalBestAnt.Steps;
         }
 
@@ -245,7 +245,7 @@ namespace AntColonyOptimization
         /// <param name="ant">The ant to evalaute.</param>
         private void EvaluateAnt( Ant ant )
         {
-            ant.Evaluation = (Objective == Objective.MINIMIZE) ? objectiveFunction.Evaluate( ant.Steps ) : (1 / objectiveFunction.Evaluate( ant.Steps ));
+            ant.Evaluation = (Objective == Objective.Minimize) ? objectiveFunction.Evaluate( ant.Steps ) : (1 / objectiveFunction.Evaluate( ant.Steps ));
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace AntColonyOptimization
         /// </returns>
         private bool IsAcceptableSolutionFound( double acceptableEvaluation )
         {
-            return (Objective == Objective.MINIMIZE) ? (globalBestAnt.Evaluation <= acceptableEvaluation) : ((1 / globalBestAnt.Evaluation) >= acceptableEvaluation);
+            return (Objective == Objective.Minimize) ? (globalBestAnt.Evaluation <= acceptableEvaluation) : ((1 / globalBestAnt.Evaluation) >= acceptableEvaluation);
         }
     }
 }

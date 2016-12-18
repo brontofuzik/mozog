@@ -13,7 +13,7 @@ namespace AntColonyOptimization.Examples.ObjectiveFunctions
         /// </summary>
         /// <param name="dimension">The dimension of the Z function.</param>
         public ZakharovFunction( int dimension )
-            : base( dimension, Objective.MINIMIZE )
+            : base( dimension, Objective.Minimize )
         {
         }
 

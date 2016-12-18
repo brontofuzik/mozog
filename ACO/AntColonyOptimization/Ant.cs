@@ -4,44 +4,20 @@ namespace AntColonyOptimization
 {
     internal class Ant
     {
-        private double[] steps;
-
-        private double evaluation;
-
-        public Ant( int dimension )
+        public Ant(int dimension)
         {
-            steps = new double[ dimension ]; 
+            Steps = new double[dimension]; 
         }
 
-        public double[] Steps
-        {
-            get
-            {
-                return steps;
-            }
-            set
-            {
-                steps = value;
-            }
-        }
+        public double[] Steps { get; set; }
 
-        public double Evaluation
-        {
-            get
-            {
-                return evaluation;
-            }
-            set
-            {
-                evaluation = value;
-            }
-        }
+        public double Evaluation { get; set; }
 
-        public void ConstructSolution( List< PheromoneDistribution > pheromoneTrail )
+        public void ConstructSolution(List<PheromoneDistribution> pheromoneTrail)
         {
-            for (int i = 0; i < steps.Length; i++)
+            for (int i = 0; i < Steps.Length; i++)
             {
-                steps[ i ] = pheromoneTrail[ i ].GetSolutionComponent();
+                Steps[i] = pheromoneTrail[i].GetSolutionComponent();
             }
         }
     }
