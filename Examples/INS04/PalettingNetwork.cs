@@ -130,7 +130,7 @@ namespace INS04
             // The training image must be provided.
             if (trainingImage == null)
             {
-                throw new ArgumentNullException("trainingImage");
+                throw new ArgumentNullException(nameof(trainingImage));
             }
 
             #endregion // Preconditions
@@ -154,7 +154,7 @@ namespace INS04
             // The color must be provided.
             if (color == null)
             {
-                throw new ArgumentNullException("color");
+                throw new ArgumentNullException(nameof(color));
             }
 
             #endregion // Preconditions

@@ -180,13 +180,13 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             // Validate the input vector length.
             if (_inputVectorLength != trainingPattern.InputVector.Length)
             {
-                throw new ArgumentException("The input vector must be of size " + _inputVectorLength, "trainingPattern");
+                throw new ArgumentException("The input vector must be of size " + _inputVectorLength, nameof(trainingPattern));
             }
             
             // Validate the output vector length.
             if (_outputVectorLength != trainingPattern.OutputVector.Length)
             {
-                throw new ArgumentException("The output vector must be of size " + _outputVectorLength, "trainingPattern");
+                throw new ArgumentException("The output vector must be of size " + _outputVectorLength, nameof(trainingPattern));
             }
 
             // Add the training pattern to the training set.

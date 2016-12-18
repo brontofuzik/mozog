@@ -100,7 +100,7 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
             // The length of the pattern to recall must match the number of neurons in the network.
             if (patternToRecall.Length != NeuronCount)
             {
-                throw new ArgumentException("The length of the pattern to recall must match the number of neurons in the network.", "patternToRecall");
+                throw new ArgumentException("The length of the pattern to recall must match the number of neurons in the network.", nameof(patternToRecall));
             }
 
             #endregion // Preconditions

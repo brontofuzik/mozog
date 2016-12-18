@@ -212,7 +212,7 @@ namespace NeuralNetwork
             // The maximum value must be greater than or equal to the minimum value.
             if (maxValue < minValue)
             {
-                throw new ArgumentException("The maximum value must be greater than or equal to the minimum value.", "maxValue");
+                throw new ArgumentException("The maximum value must be greater than or equal to the minimum value.", nameof(maxValue));
             }
 
             #endregion // Preconditions

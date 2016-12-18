@@ -66,7 +66,7 @@ namespace AntColonyOptimization
         {
             if (objectiveFunction == null)
             {
-                throw new ArgumentNullException("objectiveFunction");
+                throw new ArgumentNullException(nameof(objectiveFunction));
             }
             this.objectiveFunction = objectiveFunction;
 

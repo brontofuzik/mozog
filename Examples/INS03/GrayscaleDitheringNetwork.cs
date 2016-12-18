@@ -92,13 +92,13 @@ namespace INS03
             // The width must be positive.
             if (width <= 0)
             {
-                throw new ArgumentException("The width must be positive.", "width");
+                throw new ArgumentException("The width must be positive.", nameof(width));
             }
 
             // The height must be positive.
             if (height <= 0)
             {
-                throw new ArgumentException("The height must be positive.", "height");
+                throw new ArgumentException("The height must be positive.", nameof(height));
             }
 
             #endregion // Preconditions
@@ -136,19 +136,19 @@ namespace INS03
             // The training image must be provided.
             if (trainingImage == null)
             {
-                throw new ArgumentNullException("trainingImage");
+                throw new ArgumentNullException(nameof(trainingImage));
             }
 
             // The radius must be non-negative.
             if (radius < 0)
             {
-                throw new ArgumentOutOfRangeException("radius", "The radius must be non-negative.");
+                throw new ArgumentOutOfRangeException(nameof(radius), "The radius must be non-negative.");
             }
 
             // The alpha must be within the range [0, 1] (inclusive).
             if (alpha < 0.0 || 1.0 < alpha)
             {
-                throw new ArgumentOutOfRangeException("alpha", "The alpha must be within the range [0, 1] (inclusive).");
+                throw new ArgumentOutOfRangeException(nameof(alpha), "The alpha must be within the range [0, 1] (inclusive).");
             }
 
             #endregion // Preconditions

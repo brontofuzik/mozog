@@ -33,7 +33,7 @@ namespace NeuralNetwork.KohonenNetwork.LearningRateFunctions
             // The final learning rate must be less than or equal to the initial learning rate.
             if (finalLearningRate > initialLearningRate)
             {
-                throw new ArgumentException("The final learning rate must be less than or equal to the initial learning rate.", "finalLearningRate");
+                throw new ArgumentException("The final learning rate must be less than or equal to the initial learning rate.", nameof(finalLearningRate));
             }
 
             #endregion // Preconditions

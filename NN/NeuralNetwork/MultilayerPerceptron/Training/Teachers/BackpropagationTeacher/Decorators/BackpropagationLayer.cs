@@ -41,7 +41,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTe
             // Validate the arguments.
             if (desiredOutputVector == null)
             {
-                throw new ArgumentNullException("desiredOutputVector");
+                throw new ArgumentNullException(nameof(desiredOutputVector));
             }
 
             // Validate the length of the desired output vector.

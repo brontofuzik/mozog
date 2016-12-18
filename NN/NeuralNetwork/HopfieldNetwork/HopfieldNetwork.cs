@@ -62,7 +62,7 @@ namespace NeuralNetwork.HopfieldNetwork
             // The training set must be compatible with the network.
             if (trainingSet.InputVectorLength != NeuronCount)
             {
-                throw new ArgumentException("The training set is not compatible with the network.", "trainingSet");
+                throw new ArgumentException("The training set is not compatible with the network.", nameof(trainingSet));
             }
 
             // Train the neurons.
@@ -160,7 +160,7 @@ namespace NeuralNetwork.HopfieldNetwork
             // i.e. the length of the pattern is equal to the number of neurons in the network.
             if (patternToRecall.Length != NeuronCount)
             {
-                throw new ArgumentException("The pattern to recall is not compatible with the Hopfield network.", "patternToRecall");
+                throw new ArgumentException("The pattern to recall is not compatible with the Hopfield network.", nameof(patternToRecall));
             }
 
             // Ensure the number of iterations is not negative.

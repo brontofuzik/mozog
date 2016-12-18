@@ -93,7 +93,7 @@ namespace NeuralNetwork.KohonenNetwork
             // Training set must be compatible with the network.
             if (trainingSet.InputVectorLength != _inputLayerNeuronCount)
             {
-                throw new ArgumentException("The training set is not compatible with the network (i.e. the length of the input vector does not match the number of neurons in the input layer).", "trainingSet");
+                throw new ArgumentException("The training set is not compatible with the network (i.e. the length of the input vector does not match the number of neurons in the input layer).", nameof(trainingSet));
             }
 
             // The number of iterations is positive.
@@ -150,7 +150,7 @@ namespace NeuralNetwork.KohonenNetwork
             // The input vector must be compatible with the network.
             if (inputVector.Length != _inputLayerNeuronCount)
             {
-                throw new ArgumentException("The input vector is not compatible with the network (i.e. the length of the input vector does not match the number of input neurons).", "inputVector");
+                throw new ArgumentException("The input vector is not compatible with the network (i.e. the length of the input vector does not match the number of input neurons).", nameof(inputVector));
             }
 
             #endregion // Preconditions
@@ -290,7 +290,7 @@ namespace NeuralNetwork.KohonenNetwork
             // The maximum weight must be greater than or equal to the minimum weight.
             if (maxWeight < minWeight)
             {
-                throw new ArgumentException("The maximum weight must be greater than or equal to the minimum weight.", "maxWeight");
+                throw new ArgumentException("The maximum weight must be greater than or equal to the minimum weight.", nameof(maxWeight));
             }
 
             #endregion // Preconditions

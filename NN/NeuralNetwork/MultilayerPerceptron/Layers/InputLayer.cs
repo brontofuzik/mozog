@@ -141,7 +141,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
             // Validate the input vector.
             if (inputVector == null)
             {
-                throw new ArgumentNullException("inputVector");
+                throw new ArgumentNullException(nameof(inputVector));
             }
             // Validate the length of the input vector.
             if (inputVector.Length != NeuronCount)
