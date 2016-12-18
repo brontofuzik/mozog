@@ -269,7 +269,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             // 1. Write the input vector length and the input vector length.
             //
 
-            string line = _inputVectorLength.ToString() + separator + _outputVectorLength.ToString();
+            string line = _inputVectorLength.ToString() + separator + _outputVectorLength;
             textWriter.WriteLine(line);
 
             // Write the blank line.
@@ -316,7 +316,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             int trainingPatternIndex = 0;
             foreach (SupervisedTrainingPattern trainingPattern in _trainingPatterns)
             {
-                trainingSetStringBuilder.Append("\t" + trainingPatternIndex++ + " : " + trainingPattern.ToString() + "\n");
+                trainingSetStringBuilder.Append("\t" + trainingPatternIndex++ + " : " + trainingPattern + "\n");
             }
 
             // Remove the trailing "\n" if the training set contained no training patterns.

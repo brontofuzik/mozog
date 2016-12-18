@@ -336,16 +336,16 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         {
             StringBuilder networkBlueprintSB = new StringBuilder();
 
-            networkBlueprintSB.Append("MLP(" + inputLayerBlueprint.ToString() + ", [");
+            networkBlueprintSB.Append("MLP(" + inputLayerBlueprint + ", [");
             foreach (ActivationLayerBlueprint hiddenLayerBlueprint in hiddenLayerBlueprints)
             {
-                networkBlueprintSB.Append(hiddenLayerBlueprint.ToString() + ", ");
+                networkBlueprintSB.Append(hiddenLayerBlueprint + ", ");
             }
             if (hiddenLayerBlueprints.Length > 0)
             {
                 networkBlueprintSB.Remove(networkBlueprintSB.Length - 2, 2);
             }
-            networkBlueprintSB.Append("], " + outputLayerBlueprint.ToString() + ")");
+            networkBlueprintSB.Append("], " + outputLayerBlueprint + ")");
 
             return networkBlueprintSB.ToString();
         }

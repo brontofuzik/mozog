@@ -150,7 +150,7 @@ namespace INS01
             Bitmap targetPicture = MergeTilesIntoPicture(targetTiles);
 
             // Save the (target) picture.
-            string targetPictureFileName = fileName + "#" + iterationCount.ToString() + "#" + uniqueTileCount + "." + fileExtension;
+            string targetPictureFileName = fileName + "#" + iterationCount + "#" + uniqueTileCount + "." + fileExtension;
             targetPicture.Save(targetPictureFileName);
 
             #endregion // Step 4 : Test the network.

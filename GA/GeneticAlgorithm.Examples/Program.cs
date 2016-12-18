@@ -82,7 +82,7 @@ namespace GeneticAlgorithm.Examples
             // Print the results.
             Console.WriteLine("Test " + testNumber + " : Duration : " + (endTime - startTime));
             Console.WriteLine("Test " + testNumber + " : Number of generations taken : " + takenGenerationCount);
-            Console.WriteLine("Test " + testNumber + " : Best solution : " + solutionSB.ToString());
+            Console.WriteLine("Test " + testNumber + " : Best solution : " + solutionSB);
             Console.WriteLine("Test " + testNumber + " : Best solution's evaluation : " + achievedEvaluation);
         }
     }
