@@ -11,7 +11,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealin
         private TrainingSet trainingSet;
 
         public NetworkObjectiveFunction(INetwork network, TrainingSet trainingSet)
-            : base(network.SynapseCount, Objective.MINIMIZE)
+            : base(network.SynapseCount, Objective.Minimize)
         {
             this.network = network;
             this.trainingSet = trainingSet;

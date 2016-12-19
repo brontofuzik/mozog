@@ -12,7 +12,7 @@ namespace SimulatedAnnealing.Examples.ObjectiveFunctions
         /// Creates a new two-dimensional (2D) function.
         /// </summary>
         public TwoDimensionalFunction()
-            : base(2, Objective.MINIMIZE)
+            : base(2, Objective.Minimize)
         {
         }
 

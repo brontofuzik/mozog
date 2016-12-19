@@ -6,31 +6,15 @@
     /// <typeparam name="T">The type of the state.</typeparam>
     public abstract class ObjectiveFunction<T >
     {
-        int dimension;
-
-        Objective objective;
-
         protected ObjectiveFunction(int dimension, Objective objective)
         {
-            this.dimension = dimension;
-            this.objective = objective;
+            Dimension = dimension;
+            Objective = objective;
         }
 
-        public int Dimension
-        {
-            get
-            {
-                return dimension;
-            }
-        }
+        public int Dimension { get; }
 
-        public Objective Objective
-        {
-            get
-            {
-                return objective;
-            }
-        }
+        public Objective Objective { get; }
 
         /// <summary>
         /// Evaluates the objective function.
@@ -47,7 +31,7 @@
     /// </summary>
     public enum Objective
     {
-        MINIMIZE,
-        MAXIMIZE
+        Minimize,
+        Maximize
     }
 }

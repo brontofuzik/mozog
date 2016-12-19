@@ -7,17 +7,17 @@ namespace SimulatedAnnealing
     /// http://en.wikipedia.org/wiki/Simulated_annealing
     /// </remarks>
     /// <typeparam name="TAtom">The type of the atom.</typeparam>
-    public abstract class SimulatedAnnealing<T >
+    public abstract class SimulatedAnnealing<T>
     {
         /// <summary>
         /// The pseudo-random number generator.
         /// </summary>
-        protected Random random;
+        protected Random random = new Random();
 
         /// <summary>
         /// The objective function.
         /// </summary>
-        private ObjectiveFunction<T > objectiveFunction;
+        private ObjectiveFunction<T> objectiveFunction;
 
         /// <summary>
         /// The best state.
@@ -27,18 +27,7 @@ namespace SimulatedAnnealing
         /// <summary>
         /// The best energy.
         /// </summary>
-        private double bestEnergy;
-
-        /// <summary>
-        /// Creates a new simulated annealing.
-        /// </summary>
-        protected SimulatedAnnealing()
-        {
-            random = new Random();
-            objectiveFunction = null;
-            bestState = null;
-            bestEnergy = Double.MaxValue;
-        }
+        private double bestEnergy = Double.MaxValue;
 
         /// <summary>
         /// Gets the dimension.
@@ -46,13 +35,7 @@ namespace SimulatedAnnealing
         /// <value>
         /// The dimension.
         /// </value>
-        public int Dimension
-        {
-            get
-            {
-                return objectiveFunction.Dimension;
-            }
-        }
+        public int Dimension => objectiveFunction.Dimension;
 
         /// <summary>
         /// Gets the objective (minimize or maximize).
@@ -60,13 +43,7 @@ namespace SimulatedAnnealing
         /// <value>
         /// The objective (minimize or mazimize).
         /// </value>
-        public Objective Objective
-        {
-            get
-            {
-                return objectiveFunction.Objective;
-            }
-        }
+        public Objective Objective => objectiveFunction.Objective;
 
         /// <summary>
         /// Runs the simulated annealing.
@@ -83,7 +60,7 @@ namespace SimulatedAnnealing
         /// <returns>
         /// The best solution (i.e. the global-best state).
         /// </returns>
-        public T[] Run(ObjectiveFunction<T > objectiveFunction,
+        public T[] Run(ObjectiveFunction<T> objectiveFunction,
             int maxIterationCount, out int usedIterationCount,
             double acceptableEnergy, out double achievedEnergy,
             double initialTemperature, double finalTemperature
@@ -138,7 +115,7 @@ namespace SimulatedAnnealing
 
             // return sbest ... Return the best solution found.
             usedIterationCount = iterationIndex;
-            achievedEnergy = objectiveFunction.Objective == Objective.MINIMIZE ? bestEnergy : 1 / bestEnergy;
+            achievedEnergy = objectiveFunction.Objective == Objective.Minimize ? bestEnergy : 1 / bestEnergy;
             return bestState;
         }
 
@@ -267,9 +244,7 @@ namespace SimulatedAnnealing
         /// The temperature the use.
         /// </returns>
         protected virtual double TemperatureFunction(double initialTemperature, double finalTemperature, double r)
-        {
-            return initialTemperature * Math.Pow(finalTemperature / initialTemperature, r);
-        }
+            => initialTemperature * Math.Pow(finalTemperature / initialTemperature, r);
 
         /// <summary>
         /// <para>
@@ -286,9 +261,7 @@ namespace SimulatedAnnealing
         /// The probability that a transition from the current state of the system to the new state of the system will be accepted.
         /// </returns>
         protected virtual double AcceptanceProbabilityFunction(double currentEnergy, double newEnergy, double temperature)
-        {
-            return Math.Min(1, Math.Exp(- (newEnergy - currentEnergy) / temperature));
-        }
+            => Math.Min(1, Math.Exp(-(newEnergy - currentEnergy) / temperature));
 
         /// <summary>
         /// Runs the Metropolis algorithm.
@@ -336,9 +309,7 @@ namespace SimulatedAnnealing
         /// The evaluation of the state.
         /// </returns>
         private double EvaluateState(T[] state)
-        {
-            return Objective == Objective.MINIMIZE ? objectiveFunction.Evaluate(state) : 1 / objectiveFunction.Evaluate(state);
-        }
+            => Objective == Objective.Minimize ? objectiveFunction.Evaluate(state) : 1 / objectiveFunction.Evaluate(state);
 
         /// <summary>
         /// Is acceptable solution found?
@@ -348,8 +319,6 @@ namespace SimulatedAnnealing
         /// <c>True</c> if an acceptable solution is found, <c>false</c> otherwise.
         /// </returns>
         public bool IsAcceptableSolutionFound(double acceptableEnergy)
-        {
-            return Objective == Objective.MINIMIZE ? bestEnergy <= acceptableEnergy : 1 / bestEnergy >= acceptableEnergy;
-        }
+            => Objective == Objective.Minimize ? bestEnergy <= acceptableEnergy : 1 / bestEnergy >= acceptableEnergy;
     }
 }
