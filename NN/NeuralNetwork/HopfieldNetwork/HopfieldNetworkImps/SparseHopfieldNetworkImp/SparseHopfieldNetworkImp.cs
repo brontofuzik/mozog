@@ -95,15 +95,10 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
         /// <param name="patternToRecall">The pattern to recall.</param>
         public void SetNetworkInput(double[] patternToRecall)
         {
-            #region Preconditions
-
-            // The length of the pattern to recall must match the number of neurons in the network.
             if (patternToRecall.Length != NeuronCount)
             {
                 throw new ArgumentException("The length of the pattern to recall must match the number of neurons in the network.", nameof(patternToRecall));
             }
-
-            #endregion // Preconditions
 
             for (int neuronIndex = 0; neuronIndex < NeuronCount; ++neuronIndex)
             {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text;
 
 using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps;
@@ -142,15 +143,13 @@ namespace NeuralNetwork.HopfieldNetwork
             // Ensure the number of iterations is not negative.
             if (evaluationIterationCount < 0)
             {
-                throw new ArgumentException("The number of iterations cannot be negative.", "iterationCount");
+                throw new ArgumentException("The number of iterations cannot be negative.", nameof(evaluationIterationCount));
             }
 
             _hopfieldNetworkImp.SetNetworkInput(patternToRecall);
             for (int iterationIndex = 0; iterationIndex < evaluationIterationCount; ++iterationIndex)
             {
-                #if DEBUG
-                Console.WriteLine("{0} : network energy = {1:0.000}", iterationIndex, _hopfieldNetworkImp.Energy);
-                #endif
+                Trace.WriteLine($"{iterationIndex}: network energy = {_hopfieldNetworkImp.Energy:0.000}");
 
                 double evaluationProgressRatio = iterationIndex / (double)evaluationIterationCount;
                 _hopfieldNetworkImp.Evaluate(evaluationProgressRatio);

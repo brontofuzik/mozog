@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 
 using NeuralNetwork.HopfieldNetwork;
@@ -22,44 +23,44 @@ namespace INS03
             // Step 1: Create the training set.
             // --------------------------------
 
-            Console.Write("Step 1: Creating the training set... ");
+            Trace.Write("Step 1: Creating the training set... ");
 
             // Do nothing.
 
-            Console.WriteLine("Done");
+            Trace.WriteLine("Done");
 
             // ---------------------------
             // Step 2: Create the network.
             // ---------------------------
 
-            Console.Write("Step 2: Creating the network... ");
+            Trace.Write("Step 2: Creating the network... ");
 
             // Create the dithering network.
             int imageWidth = originalImage.Width;
             int imageHeight = originalImage.Height;
             GrayscaleDitheringNetwork grayscaleDitheringNetwork = new GrayscaleDitheringNetwork(imageWidth, imageHeight);
 
-            Console.WriteLine("Done");
+            Trace.WriteLine("Done");
 
             // --------------------------
             // Step 3: train the network.
             // --------------------------
 
-            Console.Write("Step 3: Training the network... ");
+            Trace.Write("Step 3: Training the network... ");
 
             grayscaleDitheringNetwork.train(originalImage, radius, alpha);
 
-            Console.WriteLine("Done");
+            Trace.WriteLine("Done");
 
             // ------------------------
             // Step 4: Use the network.
             // ------------------------
 
-            Console.Write("Step 4: Using the network... ");
+            Trace.Write("Step 4: Using the network... ");
 
             Bitmap ditheredImage = grayscaleDitheringNetwork.evalaute(originalImage, _evaluationIterationCount);
 
-            Console.WriteLine("Done");
+            Trace.WriteLine("Done");
 
             return ditheredImage;
         }

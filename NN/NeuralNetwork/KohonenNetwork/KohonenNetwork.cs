@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 
 using NeuralNetwork.KohonenNetwork.LearningRateFunctions;
@@ -114,9 +115,7 @@ namespace NeuralNetwork.KohonenNetwork
                 // Calculate the neighbourhood radius.
                 double neighbourhoodRadius = _neighbourhoodRadiusFunction.CalculateLearningRate(trainingIterationIndex);
                 
-                #if DEBUG
-                Console.WriteLine("{0} : learning rate = {1:0.000}, neighbourhood radius = {2:0.000}", trainingIterationIndex, learningRate, neighbourhoodRadius);
-                #endif
+                Trace.WriteLine($"{trainingIterationIndex}: learning rate = {learningRate:0.000}, neighbourhood radius = {neighbourhoodRadius:0.000}");
 
                 TrainSet(trainingSet, trainingIterationIndex, learningRate, neighbourhoodRadius);
             }
@@ -266,15 +265,10 @@ namespace NeuralNetwork.KohonenNetwork
         /// <param name="minWeight">The maximum weight.</param>
         private void Initialize(double minWeight, double maxWeight)
         {
-            #region Preconditions
-
-            // The maximum weight must be greater than or equal to the minimum weight.
             if (maxWeight < minWeight)
             {
                 throw new ArgumentException("The maximum weight must be greater than or equal to the minimum weight.", nameof(maxWeight));
             }
-
-            #endregion // Preconditions
 
             // Initialize the input layer.
             for (int inputNeuronIndex = 0; inputNeuronIndex < _inputLayerNeuronCount; ++inputNeuronIndex)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 
 using NeuralNetwork.HopfieldNetwork;
@@ -30,44 +31,44 @@ namespace INS04
             // Step 1: Build the training set.
             // -------------------------------
 
-            Console.Write("Step 1: Building the training set... ");
+            Trace.Write("Step 1: Building the training set... ");
 
             // Do nothing.
 
-            Console.WriteLine("Done");
+            Trace.WriteLine("Done");
 
             // --------------------------
             // Step 2: Build the network.
             // --------------------------
 
-            Console.Write("Step 2: Build the network... ");
+            Trace.Write("Step 2: Build the network... ");
 
             int width = originalImage.Width;
             int height = originalImage.Height;
             int depth = paletteSize;
             ColourDitheringNetwork colourDitheringNetwork = new ColourDitheringNetwork(width, height, depth);
 
-            Console.WriteLine("Done");
+            Trace.WriteLine("Done");
 
             // --------------------------
             // Step 3: Train the network.
             // --------------------------
 
-            Console.Write("Step 3: Training the network... ");
+            Trace.Write("Step 3: Training the network... ");
 
             colourDitheringNetwork.train(originalImage, radius, alpha, beta, gamma);
 
-            Console.WriteLine("Done");
+            Trace.WriteLine("Done");
 
             // ------------------------
             // Step 4: Use the network.
             // ------------------------
 
-            Console.Write("Step 4: Using the network... ");
+            Trace.Write("Step 4: Using the network... ");
 
             Bitmap ditheredImage = colourDitheringNetwork.evaluate(originalImage);
 
-            Console.WriteLine("Done");
+            Trace.WriteLine("Done");
 
             return ditheredImage;
         }
