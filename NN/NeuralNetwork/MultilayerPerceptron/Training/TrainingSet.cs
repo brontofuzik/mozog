@@ -27,15 +27,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// </exception>
         public TrainingSet(int inputVectorLength, int outputVectorLength, object tag)
         {
-            #region Preconditions
-
-            // The length of the input vector must be positive.
-            Utilities.RequireNumberPositive(inputVectorLength, "inputVectorLength");
-            
-            // The length of the output vector must be non-negative.
-            Utilities.RequireNumberNonNegative(outputVectorLength, "outputVectorLength");
-
-            #endregion // Preconditions
+            Utilities.RequireNumberPositive(inputVectorLength, nameof(inputVectorLength));
+            Utilities.RequireNumberNonNegative(outputVectorLength, nameof(outputVectorLength));
 
             _inputVectorLength = inputVectorLength;
             _outputVectorLength = outputVectorLength;

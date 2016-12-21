@@ -5,15 +5,8 @@
     {
         public IHopfieldNetworkImp CreateHopfieldNetworkImp(int neuronCount, ActivationFunction activationFunction)
         {
-            #region Preconditions
-
-            // The number of neurons must be positive.
-            Utilities.RequireNumberPositive(neuronCount, "neuronCount");
-
-            // The activation function must be provided.
-            Utilities.RequireObjectNotNull(activationFunction, "activationFunction");
-
-            #endregion // Preconditions
+            Utilities.RequireNumberPositive(neuronCount, nameof(neuronCount));
+            Utilities.RequireObjectNotNull(activationFunction, nameof(activationFunction));
 
             return new FullHopfieldNetworkImp(neuronCount, activationFunction);
         }

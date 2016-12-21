@@ -19,24 +19,14 @@ namespace NeuralNetwork.KohonenNetwork.LearningRateFunctions
         /// <param name="finalLearningRate">The final learning rate.</param>
         protected AbstractLearningRateFunction(int trainingIterationCount, double initialLearningRate, double finalLearningRate)
         {
-            #region Preconditions
+            Utilities.RequireNumberPositive(trainingIterationCount, nameof(trainingIterationCount));
+            Utilities.RequireNumberWithinRange(initialLearningRate, nameof(initialLearningRate), MinLearningRate, MaxLearningRate);
+            Utilities.RequireNumberWithinRange(finalLearningRate, nameof(finalLearningRate), MinLearningRate, MaxLearningRate);
 
-            // The number of trianing iterations is positive.
-            Utilities.RequireNumberPositive(trainingIterationCount, "trainingIterationCount");
-
-            // The initial learning rate must be within range [MinLearningRate, MaxLearningRate].
-            Utilities.RequireNumberWithinRange(initialLearningRate, "initialLearningRate", MinLearningRate, MaxLearningRate);
-
-            // The final learning rate must be within rane [MinLearningRate, MaxLearningRate].
-            Utilities.RequireNumberWithinRange(finalLearningRate, "finalLearningRate", MinLearningRate, MaxLearningRate);
-
-            // The final learning rate must be less than or equal to the initial learning rate.
             if (finalLearningRate > initialLearningRate)
             {
                 throw new ArgumentException("The final learning rate must be less than or equal to the initial learning rate.", nameof(finalLearningRate));
             }
-
-            #endregion // Preconditions
 
             _trainingIterationCount = trainingIterationCount;
             _initialLearningRate = initialLearningRate;

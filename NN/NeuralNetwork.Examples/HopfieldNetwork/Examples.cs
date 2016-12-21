@@ -23,7 +23,9 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
             Console.WriteLine("TestHopfieldNetwork");
             Console.WriteLine("===================");
 
-            #region Step 1 : Create the training set.
+            // --------------------------------
+            // Step 1: Create the training set.
+            // --------------------------------
 
             // Create the training set.
 
@@ -34,31 +36,29 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
             SupervisedTrainingPattern trainingPattern = new SupervisedTrainingPattern(new double[] { 1.0, 1.0, 1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, -1.0 }, new double[0]);
             trainingSet.Add(trainingPattern);
 
-            #endregion // Step 1 : Create the training set.
-
-            #region Step 2 : Create the network.
+            // ---------------------------
+            // Step 2: Create the network.
+            // ---------------------------
 
             int neuronCount = trainingSet.InputVectorLength;
             IHopfieldNetworkImpFactory networkImpFactory = new FullHopfieldNetworkImpFactory();
             NeuralNetwork.HopfieldNetwork.HopfieldNetwork defaultNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(neuronCount, networkImpFactory);
 
-            #endregion Step 2 : Create the network.
-
-            #region Step 3 : Train the network.
+            // --------------------------
+            // Step 3: Train the network.
+            // --------------------------
 
             defaultNetwork.Train(trainingSet);
 
-            #endregion // Step 3 : Train the network.
-
-            #region Step 4 : Test the network.
+            // -------------------------
+            // Step 4: Test the network.
+            // -------------------------
 
             double[] patternToRecall = new double[] { -1.0, 1.0, 1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0 };
             int iterationCount = 10;
             double[] recalledPattern = defaultNetwork.Evaluate(patternToRecall, iterationCount);
 
             Console.WriteLine(UnsupervisedTrainingPattern.VectorToString(recalledPattern));
-
-            #endregion // Step 4 : Test the network.
 
             Console.WriteLine();
         }
@@ -71,33 +71,33 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
             Console.WriteLine("TestMultiflopNetwork");
             Console.WriteLine("====================");
 
-            #region Step 1 : Create the training set.
+            // --------------------------------
+            // Step 1: Create the training set.
+            // --------------------------------
 
-            // Empty
+            // Do nothing.
 
-            #endregion // Step 1 : Create the training set.
-
-            #region Step 2 : Create the network.
+            // ---------------------------
+            // Step 2: Create the network.
+            // ---------------------------
 
             int neuronCount = 4;
             MultiflopHopfieldNetwork multiflopNetwork = new MultiflopHopfieldNetwork(neuronCount);
 
-            #endregion // Step 2 : Create the network.
-
-            #region Step 3 : Train the network.
+            // --------------------------
+            // Step 3: Train the network.
+            // --------------------------
 
             multiflopNetwork.Train();
 
-            #endregion // Step 3 : Train the network.
-
-            #region Step 4 : Test the network.
+            // -------------------------
+            // Step 4: Test the network.
+            // -------------------------
 
             int iterationCount = 10;
             double[] recalledPattern = multiflopNetwork.Evaluate(iterationCount);
 
             Console.WriteLine(UnsupervisedTrainingPattern.VectorToString(recalledPattern));
-
-            #endregion // Step 4 : Test the network.
 
             Console.WriteLine();
         }
@@ -110,32 +110,32 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
             Console.WriteLine("TestEightRooksNetwork");
             Console.WriteLine("=====================");
 
-            #region Step 1 : Create the training set.
+            // --------------------------------
+            // Step 1: Create the training set.
+            // --------------------------------
 
-            // Empty step.
+            // Do nothing.
 
-            #endregion // Step 1 : Create the training set.
-
-            #region Step 2 : Create the network.
+            // ---------------------------
+            // Step 2: Create the network.
+            // ---------------------------
 
             EightRooksHopfieldNetwork eightRooksNetwork = new EightRooksHopfieldNetwork();
 
-            #endregion // Step 2 : Create the network.
-
-            #region Step 3 : Train the network.
+            // --------------------------
+            // Step 3: Train the network.
+            // --------------------------
 
             eightRooksNetwork.Train();
 
-            #endregion // Step 3 : Train the network.
-
-            #region Step 4 : Test the network.
+            // -------------------------
+            // Step 4: Test the network.
+            // -------------------------
 
             int iterationCount = 10;
             double[] recalledPattern = eightRooksNetwork.Evaluate(iterationCount);
 
             Console.WriteLine(UnsupervisedTrainingPattern.VectorToString(recalledPattern));
-
-            #endregion // Step 4 : Test the network.
 
             Console.WriteLine();
         }
@@ -148,32 +148,32 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
             Console.WriteLine("TestEightQueensNetwork started");
             Console.WriteLine("==============================");
 
-            #region Step 1 : Create the training set.
+            // --------------------------------
+            // Step 1: Create the training set.
+            // --------------------------------
 
-            // Empty step.
+            // Do nothing.
 
-            #endregion // Step 1 : Create the training set.
-
-            #region Step 2 : Create the network.
+            // ---------------------------
+            // Step 2: Create the network.
+            // ---------------------------
 
             EightQueensHopfieldNetwork eightQueensNetwork = new EightQueensHopfieldNetwork();
 
-            #endregion // Step 2 : Create the network.
-
-            #region Step 3 : Train the network.
+            // --------------------------
+            // Step 3: Train the network.
+            // --------------------------
 
             eightQueensNetwork.Train();
 
-            #endregion // Step 3 : Train the network.
-
-            #region Step 4 : Test the network.
+            // -------------------------
+            // Step 4: Test the network.
+            // -------------------------
 
             int iterationCount = 10;
             double[] recalledPattern = eightQueensNetwork.Evaluate(iterationCount);
 
             Console.WriteLine(UnsupervisedTrainingPattern.VectorToString(recalledPattern));
-
-            #endregion // Step 4 : Test the network.
 
             Console.WriteLine("TestEightQueensNetwork finished");
             Console.WriteLine();

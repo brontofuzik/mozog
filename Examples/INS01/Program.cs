@@ -32,11 +32,9 @@ namespace INS01
 
         static void Main(string[] args)
         {
-            #region Step 1 : Create the training set.
-
-            // ---------------------------------
-            // Step 1 : Create the training set.
-            // ---------------------------------
+            // --------------------------------
+            // Step 1: Create the training set.
+            // --------------------------------
 
             // Load the (source) picture.
             string sourcePictureFileName = fileName + "." + fileExtension;
@@ -73,13 +71,9 @@ namespace INS01
                 }
             }
 
-            #endregion // Step 1 : Create the training set.
-
-            #region Step 2 : Create the network.
-
-            // ----------------------------
-            // Step 2 : Create the network.
-            // ----------------------------
+            // ---------------------------
+            // Step 2: Create the network.
+            // ---------------------------
 
             // 2.1. Create the blueprint of the network.
 
@@ -103,13 +97,9 @@ namespace INS01
             // 2.2. Create the network.
             network = new Network(networkBlueprint);
 
-            #endregion // Step 2 : Create the network.
-
-            #region Step 3 : Train the network.
-
-            // ---------------------------
-            // Step 3 : Train the network.
-            // ---------------------------
+            // --------------------------
+            // Step 3: Train the network.
+            // --------------------------
 
             // 3.1. Create the (backpropagation) teacher.
             BackpropagationTeacher teacher = new BackpropagationTeacher(trainingSet, null, null);
@@ -131,13 +121,9 @@ namespace INS01
             Console.WriteLine("Number of iterations used : " + trainingLog.IterationCount);
             Console.WriteLine("Minimum network error achieved : " + trainingLog.NetworkError);
 
-            #endregion // Step 3 : Train the network.
-
-            #region Step 4 : Test the network.
-
-            // --------------------------
-            // Step 4 : Test the network.
-            // --------------------------
+            // -------------------------
+            // Step 4: Test the network.
+            // -------------------------
 
             // Gets the target tiles.
             Bitmap[,] targetTiles = SourceTilesToTargetTiles(sourceTiles);
@@ -152,8 +138,6 @@ namespace INS01
             // Save the (target) picture.
             string targetPictureFileName = fileName + "#" + iterationCount + "#" + uniqueTileCount + "." + fileExtension;
             targetPicture.Save(targetPictureFileName);
-
-            #endregion // Step 4 : Test the network.
         }
 
         /// <summary>

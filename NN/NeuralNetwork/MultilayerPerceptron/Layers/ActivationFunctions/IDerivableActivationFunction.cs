@@ -11,8 +11,6 @@
     public interface IDerivableActivationFunction
         : IActivationFunction
     {
-        #region Methods
-
         /// <summary>
         /// Evaluates the activation function's derivative for the input (the inner potential) of a neuron. 
         /// </summary>
@@ -20,7 +18,5 @@
         /// <returns>
         /// </returns>
         double EvaluateDerivative(double x);
-
-        #endregion // Methods
     }
 }

@@ -16,10 +16,9 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron
 
         private static void Example()
         {
-            #region Step 1 : Create the training set.
-
-            // Step 1 : Create the training set.
-            // ---------------------------------
+            // --------------------------------
+            // Step 1: Create the training set.
+            // --------------------------------
 
             // 1.1. Create the training set.
             int inputVectorLength = 2;
@@ -37,12 +36,9 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron
             trainingPattern = new SupervisedTrainingPattern(new double[2] { 1.0, 1.0 }, new double[1] { 0.0 });
             trainingSet.Add(trainingPattern);
 
-            #endregion // Step 1 : Create the training set.
-
-            #region Step 2 : Create the network.
-
-            // Step 2 : Create the network.
-            // ----------------------------
+            // ---------------------------
+            // Step 2: Create the network.
+            // ---------------------------
 
             // 2.1. Create the blueprint of the netowork.
 
@@ -62,12 +58,9 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron
             // 2.2. : Create the network.
             Network network = new Network(networkBlueprint);
 
-            #endregion // Step 2 : Create the network.
-
-            #region Step 3 : Train the network.
-
-            // Step 3 : Train the network.
-            // ---------------------------
+            // --------------------------
+            // Step 3: Train the network.
+            // --------------------------
 
             // 3.1. Create the teacher.
             BackpropagationTeacher teacher = new BackpropagationTeacher(trainingSet, null, null);
@@ -89,12 +82,9 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron
             Console.WriteLine("Number of iterations used : " + trainingLog.IterationCount);
             Console.WriteLine("Minimum network error achieved : " + trainingLog.NetworkError);
 
-            #endregion // Step 3 : Train the network.
-
-            #region Step 4 : Test the network.
-
-            // Step 4 : Test the trained network.
-            // ----------------------------------
+            // ---------------------------------
+            // Step 4: Test the trained network.
+            // ---------------------------------
 
             foreach (SupervisedTrainingPattern tp in trainingSet)
             {
@@ -102,8 +92,6 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron
                 double[] outputVector = network.Evaluate(inputVector);
                 Console.WriteLine(tp + " -> " + UnsupervisedTrainingPattern.VectorToString(outputVector));
             }
-
-            #endregion // Step 4 : Test the network.
         }
     }
 }

@@ -67,10 +67,9 @@ namespace INS02
         /// <param name="args">The comamnd line arguments.</param>
         static void Main(string[] args)
         {
-            #region Step 1 : Create the training set.
-
-            // Step 1 : Create the training set.
-            // ---------------------------------
+            // --------------------------------
+            // Step 1: Create the training set.
+            // --------------------------------
 
             // 1.1. Create the trainig set.
             int inputVectorLength = networkTopology[0];
@@ -93,12 +92,9 @@ namespace INS02
                 trainingSet.Add(trainingPattern);
             }
 
-            #endregion // Step 1 : Create the training set.
-
-            #region Step 2 : Create the network.
-
-            // Step 2 : Create the network.
-            // ----------------------------
+            // ---------------------------
+            // Step 2: Create the network.
+            // ---------------------------
 
             // 2.1. Create the blueprint of the network.
 
@@ -122,12 +118,9 @@ namespace INS02
             // 2.2. Create the network.
             network = new Network(networkBlueprint);
 
-            #endregion // Step 2 : Create the network.
-
-            #region Step 3 : Train the network.
-
-            // Step 3 : Train the network.
-            // ---------------------------
+            // --------------------------
+            // Step 3: Train the network.
+            // --------------------------
 
             // 3.1. Create the (backpropagation) teacher.
             BackpropagationTeacher teacher = new BackpropagationTeacher(trainingSet, null, null);
@@ -149,12 +142,9 @@ namespace INS02
             Console.WriteLine("Number of iterations used : " + trainingLog.IterationCount);
             Console.WriteLine("Minimum network error achieved : " + trainingLog.NetworkError);
 
-            #endregion // Step 3 : Train the network.
-
-            #region Step 4 : Test the network.
-
-            // Step 4 : Test the network.
-            // --------------------------
+            // -------------------------
+            // Step 4: Test the network.
+            // -------------------------
 
             foreach (string keyword in keywords)
             {
@@ -173,8 +163,6 @@ namespace INS02
                 Console.WriteLine("}");
                 Console.WriteLine();
             }
-
-            #endregion // Step 4 : Test the network.
         }
 
         /// <summary>

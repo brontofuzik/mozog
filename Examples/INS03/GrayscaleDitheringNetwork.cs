@@ -18,7 +18,9 @@ namespace INS03
         /// <returns>The dithered image.</returns>
         public static Bitmap DitherImage(Bitmap originalImage, int radius, double alpha)
         {
-            #region Step 1 : Create the training set.
+            // --------------------------------
+            // Step 1: Create the training set.
+            // --------------------------------
 
             #if DEBUG
             Console.Write("Step 1 : Creating the training set ... ");
@@ -30,9 +32,9 @@ namespace INS03
             Console.WriteLine("DONE");
             #endif
 
-            #endregion // Step 1 : Create the training set.
-
-            #region Step 2 : Create the network.
+            // ---------------------------
+            // Step 2: Create the network.
+            // ---------------------------
 
             #if DEBUG
             Console.Write("Step 2 : Creating the network ... ");
@@ -47,9 +49,9 @@ namespace INS03
             Console.WriteLine("DONE");
             #endif
 
-            #endregion // Step 2 : Create the network.
-
-            #region Step 3 : train the network.
+            // --------------------------
+            // Step 3: train the network.
+            // --------------------------
 
             #if DEBUG
             Console.Write("Step 3 : Training the network ... ");
@@ -61,9 +63,9 @@ namespace INS03
             Console.WriteLine("DONE");
             #endif
 
-            #endregion // Step 3 : train the network.
-
-            #region Step 4 : Use the network.
+            // ------------------------
+            // Step 4: Use the network.
+            // ------------------------
 
             #if DEBUG
             Console.WriteLine("Step 4 : Using the network ... ");
@@ -75,8 +77,6 @@ namespace INS03
             Console.WriteLine("DONE");
             #endif
 
-            #endregion // Step 4 : Use the network.
-
             return ditheredImage;
         }
 
@@ -87,21 +87,15 @@ namespace INS03
         /// <param name="height">The height of the dithering network.</param>
         private GrayscaleDitheringNetwork(int width, int height)
         {
-            #region Preconditions
-
-            // The width must be positive.
             if (width <= 0)
             {
                 throw new ArgumentException("The width must be positive.", nameof(width));
             }
 
-            // The height must be positive.
             if (height <= 0)
             {
                 throw new ArgumentException("The height must be positive.", nameof(height));
             }
-
-            #endregion // Preconditions
 
             _underlyingHopfieldNetwork = new HopfieldNetwork(width * height, grayscaleDitheringNetworkActivationFunction, new SparseHopfieldNetworkImpFactory());
             _width = width;
@@ -131,27 +125,20 @@ namespace INS03
         /// <param name="alpha">The alpha (i.e. the "degree of locality").</param>
         public void train(Bitmap trainingImage, int radius, double alpha)
         {
-            #region Preconditions
-
-            // The training image must be provided.
             if (trainingImage == null)
             {
                 throw new ArgumentNullException(nameof(trainingImage));
             }
 
-            // The radius must be non-negative.
             if (radius < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(radius), "The radius must be non-negative.");
             }
 
-            // The alpha must be within the range [0, 1] (inclusive).
             if (alpha < 0.0 || 1.0 < alpha)
             {
                 throw new ArgumentOutOfRangeException(nameof(alpha), "The alpha must be within the range [0, 1] (inclusive).");
             }
-
-            #endregion // Preconditions
 
             // Train the neurons.
             for (int neuronYCoordinate = 0; neuronYCoordinate < _height; ++neuronYCoordinate)

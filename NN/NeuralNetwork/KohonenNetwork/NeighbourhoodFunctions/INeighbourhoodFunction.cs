@@ -2,10 +2,6 @@
 {
     public interface INeighbourhoodFunction
     {
-        #region Methods
-
         double CalculateNeighbourhood(double distanceBetweenOutputNeurons, double neighbourhoodRadius);
-
-        #endregion // Methods
     }
 }

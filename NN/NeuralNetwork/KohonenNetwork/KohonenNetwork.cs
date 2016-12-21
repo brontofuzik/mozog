@@ -18,22 +18,15 @@ namespace NeuralNetwork.KohonenNetwork
         /// <param name="outputLayerDimensions">The dimensions (i.e. the numbers of neurons) of the output layer.</param>
         public KohonenNetwork(int inputLayerNeuronCount, int[] outputLayerDimensions)
         {
-            #region Preconditions
+            Utilities.RequireNumberPositive(inputLayerNeuronCount, nameof(inputLayerNeuronCount));
+            Utilities.RequireNumberPositive(outputLayerDimensions.Length, nameof(outputLayerDimensions));
 
-            // The number of neurons in the input layer must be positive.
-            Utilities.RequireNumberPositive(inputLayerNeuronCount, "inputLayerNeuronCount");
-
-            // The dimension of the output layer must be positive.
-            Utilities.RequireNumberPositive(outputLayerDimensions.Length, "outputLayerDimension");
-
-            // The dimensions of the output layer must all be positive.
             foreach (int outputLayerDimension in outputLayerDimensions)
             {
                 Utilities.RequireNumberPositive(outputLayerDimension, "outputLayerDimension");
             }
 
-            #endregion // Preconditions
-
+            // ---------------------------
             // Initialize the input layer.
             // ---------------------------
 
@@ -43,6 +36,7 @@ namespace NeuralNetwork.KohonenNetwork
             // Initialize the outputs of the input neurons.
             _inputLayerNeuronOutputs = new double[inputLayerNeuronCount];
 
+            // ----------------------------
             // Initialize the output layer.
             // ----------------------------
 
@@ -85,21 +79,14 @@ namespace NeuralNetwork.KohonenNetwork
         /// <param name="trainingIterationCount">The number of training iterations.</param>
         public void Train(TrainingSet trainingSet, int trainingIterationCount)
         {
-            #region Preconditions
+            Utilities.RequireObjectNotNull(trainingSet, nameof(trainingSet));
 
-            // The trianing set must be provided.
-            Utilities.RequireObjectNotNull(trainingSet, "trainingSet");
-
-            // Training set must be compatible with the network.
             if (trainingSet.InputVectorLength != _inputLayerNeuronCount)
             {
                 throw new ArgumentException("The training set is not compatible with the network (i.e. the length of the input vector does not match the number of neurons in the input layer).", nameof(trainingSet));
             }
 
-            // The number of iterations is positive.
-            Utilities.RequireNumberPositive(trainingIterationCount, "trainingIterationCount");
-
-            #endregion // Preconditions
+            Utilities.RequireNumberPositive(trainingIterationCount, nameof(trainingIterationCount));
 
             // The learning rate function.
             double initialLearningRate = 0.999;
@@ -142,18 +129,12 @@ namespace NeuralNetwork.KohonenNetwork
         /// <returns>The coordinates of the output.</returns>
         public int[] Evaluate(double[] inputVector)
         {
-            #region Preconditions
+            Utilities.RequireObjectNotNull(inputVector, nameof(inputVector));
 
-            // The input vector must be provided.
-            Utilities.RequireObjectNotNull(inputVector, "inputVector");
-
-            // The input vector must be compatible with the network.
             if (inputVector.Length != _inputLayerNeuronCount)
             {
                 throw new ArgumentException("The input vector is not compatible with the network (i.e. the length of the input vector does not match the number of input neurons).", nameof(inputVector));
             }
-
-            #endregion // Preconditions
 
             // Set the outputs of the input neurons.
             Array.Copy(inputVector, _inputLayerNeuronOutputs, _inputLayerNeuronCount);

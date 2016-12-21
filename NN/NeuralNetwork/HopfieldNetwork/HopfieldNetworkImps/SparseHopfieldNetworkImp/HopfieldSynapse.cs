@@ -9,15 +9,8 @@
         /// <param name="neuron2">The second neuron.</param>
         public HopfieldSynapse(HopfieldNeuron neuron1, HopfieldNeuron neuron2)
         {
-            #region Preconditions
-
-            // The first neuron must be provided.
-            Utilities.RequireObjectNotNull(neuron1, "neuron1");
-
-            // The sedond neuron must be provided.
-            Utilities.RequireObjectNotNull(neuron2, "neuron2");
-
-            #endregion // Preconditions
+            Utilities.RequireObjectNotNull(neuron1, nameof(neuron1));
+            Utilities.RequireObjectNotNull(neuron2, nameof(neuron2));
 
             _neuron1 = neuron1;
             _neuron2 = neuron2;

@@ -20,12 +20,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// <param name="tag">The tag.</param>
         public UnsupervisedTrainingPattern(double[] inputVector, object tag)
         {
-            #region Preconditions
-
-            // The input vector must be provided.
-            Utilities.RequireObjectNotNull(inputVector, "inputVector");
-
-            #endregion // Preconditions
+            Utilities.RequireObjectNotNull(inputVector, nameof(inputVector));
 
             _inputVector = inputVector;
             _normalizedInputVector = NormalizeVector(inputVector);
@@ -56,15 +51,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// </exception>
         public static double[] NormalizeVector(double[] vector, double magnitude)
         {
-            #region Preconditions
-
-            // The vector must be provided.
             Utilities.RequireObjectNotNull(vector, "vector");
-
-            // The magnitude must be non-negative.
             Utilities.RequireNumberNonNegative(magnitude, "magnitude");
-
-            #endregion // Preconditions
 
             // Calculate the sum of squares.
             double sumOfSquares = 0d;
@@ -111,12 +99,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// </exception>
         public static string VectorToString(double[] vector)
         {
-            #region Preconditions
-
-            // The vector must be provided.
             Utilities.RequireObjectNotNull(vector, "vector");
-
-            #endregion // Preconditions
 
             StringBuilder vectorStringBuilder = new StringBuilder();
 

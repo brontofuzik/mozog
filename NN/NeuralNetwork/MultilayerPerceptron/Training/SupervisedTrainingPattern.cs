@@ -23,12 +23,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         public SupervisedTrainingPattern(double[] inputVector, double[] outputVector, object tag)
             : base(inputVector, tag)
         {
-            #region Preconditions
-
-            // The output vector must be provided.
-            Utilities.RequireObjectNotNull(outputVector, "outputVector");
-
-            #endregion // Preconditions
+            Utilities.RequireObjectNotNull(outputVector, nameof(outputVector));
 
             _outputVector = outputVector;
             _normalizedOutputVector = NormalizeVector(outputVector);

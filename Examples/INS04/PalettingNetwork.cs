@@ -25,7 +25,9 @@ namespace INS04
         /// <returns>The paletted image.</returns>
         public static Bitmap PaletteImage(Bitmap originalImage, int paletteSize)
         {
-            #region Step 1 : Build the training set.
+            // -------------------------------
+            // Step 1: Build the training set.
+            // -------------------------------
 
             #if DEBUG
             Console.WriteLine("Step 1 : Building the training set ... ");
@@ -33,9 +35,9 @@ namespace INS04
 
             // Do nothing.
 
-            #endregion // Step 1 : Build the training set.
-
-            #region Step 2 : Build the network.
+            // ---------------------------
+            // Step 2 : Build the network.
+            // ---------------------------
 
             #if DEBUG
             Console.WriteLine("Step 2 : Building the network ... ");
@@ -43,9 +45,9 @@ namespace INS04
 
             PalettingNetwork palettingNetwork = new PalettingNetwork(paletteSize);
 
-            #endregion // Step 2 : Build the network.
-
-            #region Step 3 : Train the network.
+            // --------------------------
+            // Step 3: Train the network.
+            // --------------------------
 
             #if DEBUG
             Console.WriteLine("Step 3 : Training the netwotk ... ");
@@ -53,17 +55,15 @@ namespace INS04
 
             palettingNetwork.Train(originalImage);
 
-            #endregion // Step 3 : Train the network.
-
-            #region Step 4 : Use the network.
+            // -------------------------
+            // Step 4 : Use the network.
+            // -------------------------
 
             #if DEBUG
             Console.WriteLine("Step 4 : Using the network ... ");
             #endif
 
             Bitmap palettedImage = palettingNetwork.Use(originalImage);
-
-            #endregion // Step 4 : Use the network.
 
             return palettedImage;
         }
@@ -76,7 +76,9 @@ namespace INS04
         /// <returns>The palette.</returns>
         public static Color[] ExtractPalette(Bitmap image, int paletteSize)
         {
-            #region Step 1 : Build the training set.
+            // -------------------------------
+            // Step 1: Build the training set.
+            // -------------------------------
 
             #if DEBUG
             Console.WriteLine("Step 1 : Building the training set ... ");
@@ -84,9 +86,9 @@ namespace INS04
 
             // Do nothing.
 
-            #endregion // Step 1 : Build the training set.
-
-            #region Step 2 : Build the network.
+            // --------------------------
+            // Step 2: Build the network.
+            // --------------------------
 
             #if DEBUG
             Console.WriteLine("Step 2 : Building the network ... ");
@@ -94,9 +96,9 @@ namespace INS04
 
             PalettingNetwork palettingNetwork = new PalettingNetwork(paletteSize);
 
-            #endregion // Step 2 : Build the network.
-
-            #region Step 3 : Train the network.
+            // --------------------------
+            // Step 3: Train the network.
+            // --------------------------
 
             #if DEBUG
             Console.WriteLine("Step 3 : Training the netwotk ... ");
@@ -104,17 +106,15 @@ namespace INS04
 
             palettingNetwork.Train(image);
 
-            #endregion // Step 3 : Train the network.
-
-            #region Step 4 : Use the network.
+            // -------------------------
+            // Step 4 : Use the network.
+            // -------------------------
 
             #if DEBUG
             Console.WriteLine("Step 4 : Using the network ... ");
             #endif
 
             Color[] palette = palettingNetwork.GetPalette();
-
-            #endregion // Step 4 : Use the network.
 
             return palette;
         }
@@ -125,15 +125,10 @@ namespace INS04
         /// <param name="image">The training image.</param>
         public void Train(Bitmap trainingImage)
         {
-            #region Preconditions
-
-            // The training image must be provided.
             if (trainingImage == null)
             {
                 throw new ArgumentNullException(nameof(trainingImage));
             }
-
-            #endregion // Preconditions
 
             // Build the training set.
             TrainingSet trainingSet = buildTrainingSet(trainingImage);
@@ -149,15 +144,10 @@ namespace INS04
         /// <returns>The paletted color.</returns>
         public int[] Evaluate(Color color)
         {
-            #region Preconditions
-
-            // The color must be provided.
             if (color == null)
             {
                 throw new ArgumentNullException(nameof(color));
             }
-
-            #endregion // Preconditions
 
             // Convert the color into the input vector.
             double[] inputVector = colorToVector(color);

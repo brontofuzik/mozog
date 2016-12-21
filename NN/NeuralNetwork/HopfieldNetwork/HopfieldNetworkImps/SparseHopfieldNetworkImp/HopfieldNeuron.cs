@@ -11,15 +11,8 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
         /// <param name="activationFunction">The activation function.</param>
         public HopfieldNeuron(int index, ActivationFunction activationFunction)
         {
-            #region Preconditions
-
-            // The index must be non-negative.
-            Utilities.RequireNumberNonNegative(index, "index");
-
-            // The activation function must be provided.
-            Utilities.RequireObjectNotNull(activationFunction, "activationFunction");
-
-            #endregion // Preconditions
+            Utilities.RequireNumberNonNegative(index, nameof(index));
+            Utilities.RequireObjectNotNull(activationFunction, nameof(activationFunction));
 
             _index = index;
             _synapses = new HashSet<HopfieldSynapse>();

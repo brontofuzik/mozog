@@ -207,15 +207,10 @@ namespace NeuralNetwork
         /// </exception>
         internal static double NextDouble(double minValue, double maxValue)
         {
-            #region Preconditions
-
-            // The maximum value must be greater than or equal to the minimum value.
             if (maxValue < minValue)
             {
                 throw new ArgumentException("The maximum value must be greater than or equal to the minimum value.", nameof(maxValue));
             }
-
-            #endregion // Preconditions
 
             return minValue + (maxValue - minValue) * _random.NextDouble();
         }

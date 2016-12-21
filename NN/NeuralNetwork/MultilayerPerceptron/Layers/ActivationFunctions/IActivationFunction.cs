@@ -10,8 +10,6 @@
     /// </summary>
     public interface IActivationFunction
     {
-        #region Methods
-
         /// <summary>
         /// Evaluates the activation fuction for the input (the inner potential) of a neuron.
         /// </summary>
@@ -20,7 +18,5 @@
         /// The output (the state) of the neuron.
         /// </returns>
         double Evaluate(double x);
-
-        #endregion // Methods
     }
 }

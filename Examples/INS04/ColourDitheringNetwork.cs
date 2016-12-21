@@ -26,7 +26,9 @@ namespace INS04
         /// <returns>The dithered image.</returns>
         public static Bitmap DitherImage(Bitmap originalImage, int paletteSize, int radius, double alpha, double beta, double gamma)
         {
-            #region Step 1 : Build the training set.
+            // -------------------------------
+            // Step 1: Build the training set.
+            // -------------------------------
 
             #if DEBUG
             Console.WriteLine("Step 1 : Building the training set ... ");
@@ -34,9 +36,9 @@ namespace INS04
 
             // Do nothing.
 
-            #endregion // Step 1 : Building the training set.
-
-            #region Step 2 : Build the network.
+            // --------------------------
+            // Step 2: Build the network.
+            // --------------------------
 
             #if DEBUG
             Console.WriteLine("Step 2 : Build the network ... ");
@@ -47,9 +49,9 @@ namespace INS04
             int depth = paletteSize;
             ColourDitheringNetwork colourDitheringNetwork = new ColourDitheringNetwork(width, height, depth);
 
-            #endregion // Step 2 : Build the network.
-
-            #region Step 3 : Train the network.
+            // --------------------------
+            // Step 3: Train the network.
+            // --------------------------
 
             #if DEBUG
             Console.WriteLine("Step 3 : Training the network ... ");
@@ -57,17 +59,15 @@ namespace INS04
 
             colourDitheringNetwork.train(originalImage, radius, alpha, beta, gamma);
 
-            #endregion // Step 3 : Train the network.
-
-            #region Step 4 : Use the network.
+            // ------------------------
+            // Step 4: Use the network.
+            // ------------------------
 
             #if DEBUG
             Console.WriteLine("Step 4 : Using the network ... ");
             #endif
 
             Bitmap ditheredImage = colourDitheringNetwork.evaluate(originalImage);
-
-            #endregion // Step 4 : Use the network.
 
             return ditheredImage;
         }
@@ -80,27 +80,20 @@ namespace INS04
         /// <param name="depth">The depth of the network.</param>
         private ColourDitheringNetwork(int width, int height, int depth)
         {
-            #region Preconditions
-
-            // The width must be positive.
             if (width <= 0)
             {
                 throw new ArgumentException("The width must be positive.", nameof(width));
             }
 
-            // The height must be positive.
             if (height <= 0)
             {
                 throw new ArgumentException("The height must be positive.", nameof(height));
             }
 
-            // The depth must be positive.
             if (depth <= 0)
             {
                 throw new ArgumentException("The depth must be positive", nameof(depth));
             }
-
-            #endregion // Preconditions
 
             _underlyingHopfieldNetwork = new HopfieldNetwork(width * height * depth, colourDitheringNetworkActivationFunction, new SparseHopfieldNetworkImpFactory());
             _width = width;
@@ -153,39 +146,30 @@ namespace INS04
         /// <param name="gamma">The gamma.</param>
         private void train(Bitmap trainingImage, int radius, double alpha, double beta, double gamma)
         {
-            #region Preconditions
-
-            // The training image must be provided.
             if (trainingImage == null)
             {
                 throw new ArgumentNullException(nameof(trainingImage));
             }
 
-            // The radius must be non-negative.
             if (radius < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(radius), "The radius must be non-negative.");
             }
 
-            // The alpha must be within the range [0, 1] (inclusive).
             if (alpha < 0.0 || 1.0 < alpha)
             {
                 throw new ArgumentOutOfRangeException(nameof(alpha), "The alpha must be within the range [0, 1] (inclusive).");
             }
 
-            // The alpha must be within the range [0, 1] (inclusive).
             if (beta < 0.0 || 1.0 < beta)
             {
                 throw new ArgumentOutOfRangeException(nameof(beta), "The betamust be within the range [0, 1] (inclusive).");
             }
 
-            // The alpha must be within the range [0, 1] (inclusive).
             if (gamma < 0.0 || 1.0 < gamma)
             {
                 throw new ArgumentOutOfRangeException(nameof(gamma), "The gamma must be within the range [0, 1] (inclusive).");
             }
-
-            #endregion // Preconditions
 
             #region Paletting network & palette
 
