@@ -22,60 +22,44 @@ namespace INS03
             // Step 1: Create the training set.
             // --------------------------------
 
-            #if DEBUG
-            Console.Write("Step 1 : Creating the training set ... ");
-            #endif
+            Console.Write("Step 1: Creating the training set... ");
 
             // Do nothing.
 
-            #if DEBUG
-            Console.WriteLine("DONE");
-            #endif
+            Console.WriteLine("Done");
 
             // ---------------------------
             // Step 2: Create the network.
             // ---------------------------
 
-            #if DEBUG
-            Console.Write("Step 2 : Creating the network ... ");
-            #endif
+            Console.Write("Step 2: Creating the network... ");
 
             // Create the dithering network.
             int imageWidth = originalImage.Width;
             int imageHeight = originalImage.Height;
             GrayscaleDitheringNetwork grayscaleDitheringNetwork = new GrayscaleDitheringNetwork(imageWidth, imageHeight);
 
-            #if DEBUG
-            Console.WriteLine("DONE");
-            #endif
+            Console.WriteLine("Done");
 
             // --------------------------
             // Step 3: train the network.
             // --------------------------
 
-            #if DEBUG
-            Console.Write("Step 3 : Training the network ... ");
-            #endif
+            Console.Write("Step 3: Training the network... ");
 
             grayscaleDitheringNetwork.train(originalImage, radius, alpha);
 
-            #if DEBUG
-            Console.WriteLine("DONE");
-            #endif
+            Console.WriteLine("Done");
 
             // ------------------------
             // Step 4: Use the network.
             // ------------------------
 
-            #if DEBUG
-            Console.WriteLine("Step 4 : Using the network ... ");
-            #endif
+            Console.Write("Step 4: Using the network... ");
 
             Bitmap ditheredImage = grayscaleDitheringNetwork.evalaute(originalImage, _evaluationIterationCount);
 
-            #if DEBUG
-            Console.WriteLine("DONE");
-            #endif
+            Console.WriteLine("Done");
 
             return ditheredImage;
         }

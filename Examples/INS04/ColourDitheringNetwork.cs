@@ -30,44 +30,44 @@ namespace INS04
             // Step 1: Build the training set.
             // -------------------------------
 
-            #if DEBUG
-            Console.WriteLine("Step 1 : Building the training set ... ");
-            #endif
+            Console.Write("Step 1: Building the training set... ");
 
             // Do nothing.
+
+            Console.WriteLine("Done");
 
             // --------------------------
             // Step 2: Build the network.
             // --------------------------
 
-            #if DEBUG
-            Console.WriteLine("Step 2 : Build the network ... ");
-            #endif
+            Console.Write("Step 2: Build the network... ");
 
             int width = originalImage.Width;
             int height = originalImage.Height;
             int depth = paletteSize;
             ColourDitheringNetwork colourDitheringNetwork = new ColourDitheringNetwork(width, height, depth);
 
+            Console.WriteLine("Done");
+
             // --------------------------
             // Step 3: Train the network.
             // --------------------------
 
-            #if DEBUG
-            Console.WriteLine("Step 3 : Training the network ... ");
-            #endif
+            Console.Write("Step 3: Training the network... ");
 
             colourDitheringNetwork.train(originalImage, radius, alpha, beta, gamma);
+
+            Console.WriteLine("Done");
 
             // ------------------------
             // Step 4: Use the network.
             // ------------------------
 
-            #if DEBUG
-            Console.WriteLine("Step 4 : Using the network ... ");
-            #endif
+            Console.Write("Step 4: Using the network... ");
 
             Bitmap ditheredImage = colourDitheringNetwork.evaluate(originalImage);
+
+            Console.WriteLine("Done");
 
             return ditheredImage;
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 
 using NeuralNetwork.KohonenNetwork;
@@ -29,41 +30,41 @@ namespace INS04
             // Step 1: Build the training set.
             // -------------------------------
 
-            #if DEBUG
-            Console.WriteLine("Step 1 : Building the training set ... ");
-            #endif
+            Debug.Write("Step 1: Building the training set... ");
 
             // Do nothing.
+
+            Debug.WriteLine("Done");
 
             // ---------------------------
             // Step 2 : Build the network.
             // ---------------------------
 
-            #if DEBUG
-            Console.WriteLine("Step 2 : Building the network ... ");
-            #endif
+            Debug.Write("Step 2: Building the network... ");
 
             PalettingNetwork palettingNetwork = new PalettingNetwork(paletteSize);
+
+            Debug.WriteLine("Done");
 
             // --------------------------
             // Step 3: Train the network.
             // --------------------------
 
-            #if DEBUG
-            Console.WriteLine("Step 3 : Training the netwotk ... ");
-            #endif
+            Debug.Write("Step 3: Training the netwotk... ");
 
             palettingNetwork.Train(originalImage);
+
+            Debug.WriteLine("Done");
 
             // -------------------------
             // Step 4 : Use the network.
             // -------------------------
 
-            #if DEBUG
-            Console.WriteLine("Step 4 : Using the network ... ");
-            #endif
+            Debug.Write("Step 4: Using the network... ");
 
             Bitmap palettedImage = palettingNetwork.Use(originalImage);
+
+            Debug.WriteLine("Done");
 
             return palettedImage;
         }
@@ -80,41 +81,41 @@ namespace INS04
             // Step 1: Build the training set.
             // -------------------------------
 
-            #if DEBUG
-            Console.WriteLine("Step 1 : Building the training set ... ");
-            #endif
+            Debug.Write("Step 1: Building the training set... ");
 
             // Do nothing.
+
+            Debug.WriteLine("Done");
 
             // --------------------------
             // Step 2: Build the network.
             // --------------------------
 
-            #if DEBUG
-            Console.WriteLine("Step 2 : Building the network ... ");
-            #endif
+            Debug.Write("Step 2: Building the network... ");
 
             PalettingNetwork palettingNetwork = new PalettingNetwork(paletteSize);
+
+            Debug.WriteLine("Done");
 
             // --------------------------
             // Step 3: Train the network.
             // --------------------------
 
-            #if DEBUG
-            Console.WriteLine("Step 3 : Training the netwotk ... ");
-            #endif
+            Debug.Write("Step 3: Training the netwotk... ");
 
             palettingNetwork.Train(image);
+
+            Debug.WriteLine("Done");
 
             // -------------------------
             // Step 4 : Use the network.
             // -------------------------
 
-            #if DEBUG
-            Console.WriteLine("Step 4 : Using the network ... ");
-            #endif
+            Debug.Write("Step 4: Using the network... ");
 
             Color[] palette = palettingNetwork.GetPalette();
+
+            Debug.WriteLine("Done");
 
             return palette;
         }
