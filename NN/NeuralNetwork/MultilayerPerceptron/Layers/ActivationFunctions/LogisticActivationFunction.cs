@@ -1,4 +1,5 @@
 ﻿using System;
+using NeuralNetwork.Utils;
 
 
 namespace NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions
@@ -60,7 +61,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions
         public LogisticActivationFunction(double gain)
         {
             // Validate the arguments.
-            Utilities.RequireNumberPositive(gain, "gain");
+            Require.IsPositive(gain, "gain");
 
             // Initialize the instance fields.
             this.gain = gain;

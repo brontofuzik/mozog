@@ -3,6 +3,7 @@ using System.Text;
 
 using NeuralNetwork.MultilayerPerceptron.Layers;
 using NeuralNetwork.MultilayerPerceptron.Synapses;
+using NeuralNetwork.Utils;
 
 
 namespace NeuralNetwork.MultilayerPerceptron.Neurons
@@ -127,7 +128,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Neurons
             targetSynapses = new List<ISynapse>();
 
             // Validate the parent layer.
-            Utilities.RequireObjectNotNull(parentLayer, "parentLayer");
+            Require.IsNotNull(parentLayer, "parentLayer");
             this.parentLayer = parentLayer;
         }
 

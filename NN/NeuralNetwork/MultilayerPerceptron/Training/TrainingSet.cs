@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using NeuralNetwork.Utils;
+using Random = NeuralNetwork.Utils.Random;
 
 namespace NeuralNetwork.MultilayerPerceptron.Training
 {
@@ -27,8 +29,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// </exception>
         public TrainingSet(int inputVectorLength, int outputVectorLength, object tag)
         {
-            Utilities.RequireNumberPositive(inputVectorLength, nameof(inputVectorLength));
-            Utilities.RequireNumberNonNegative(outputVectorLength, nameof(outputVectorLength));
+            Require.IsPositive(inputVectorLength, nameof(inputVectorLength));
+            Require.IsNonNegative(outputVectorLength, nameof(outputVectorLength));
 
             _inputVectorLength = inputVectorLength;
             _outputVectorLength = outputVectorLength;
@@ -82,11 +84,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
 
             // Validate the input vector length.
             int inputVectorLength = Int32.Parse(words[0]);
-            Utilities.RequireNumberPositive(inputVectorLength, "inputVectorLength");
+            Require.IsPositive(inputVectorLength, "inputVectorLength");
 
             // Validate the output vector length.
             int outputVectorLength = Int32.Parse(words[1]);
-            Utilities.RequireNumberPositive(outputVectorLength, "outputVectorLength");
+            Require.IsPositive(outputVectorLength, "outputVectorLength");
 
             TrainingSet trainingSet = new TrainingSet(inputVectorLength, outputVectorLength);
 
@@ -168,7 +170,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         public void Add(SupervisedTrainingPattern trainingPattern)
         {
             // Validatate the arguments.
-            Utilities.RequireObjectNotNull(trainingPattern, "trainingPattern");
+            Require.IsNotNull(trainingPattern, "trainingPattern");
 
             // Validate the input vector length.
             if (_inputVectorLength != trainingPattern.InputVector.Length)
@@ -197,7 +199,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         public void Add(TrainingSet trainingSet)
         {
             // Validate the arguments.
-            Utilities.RequireObjectNotNull(trainingSet, "trainingSet");
+            Require.IsNotNull(trainingSet, "trainingSet");
 
             // Validate the input vector length and the output vector length.
             if (_inputVectorLength != trainingSet.InputVectorLength || _outputVectorLength != trainingSet.OutputVectorLength)
@@ -405,7 +407,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             get
             {
                 SupervisedTrainingPattern[] _trainingPatternsRandomOrder = _trainingPatterns.ToArray();
-                Utilities.Shuffle<SupervisedTrainingPattern>(_trainingPatternsRandomOrder);
+                Random.Shuffle<SupervisedTrainingPattern>(_trainingPatternsRandomOrder);
                 foreach (SupervisedTrainingPattern trainingPattern in _trainingPatternsRandomOrder)
                 {
                     yield return trainingPattern;

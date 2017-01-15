@@ -1,6 +1,7 @@
 ﻿using NeuralNetwork.MultilayerPerceptron.Connectors;
 using NeuralNetwork.MultilayerPerceptron.Layers;
 using NeuralNetwork.MultilayerPerceptron.Neurons;
+using NeuralNetwork.Utils;
 
 
 namespace NeuralNetwork.MultilayerPerceptron.Synapses
@@ -138,11 +139,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
         public Synapse(SynapseBlueprint blueprint, IConnector parentConnector)
         {
             // Validate the synapse blueprint.
-            Utilities.RequireObjectNotNull(blueprint, "blueprint");
+            Require.IsNotNull(blueprint, "blueprint");
             this.blueprint = blueprint;
 
             // Validate the parent connector.
-            Utilities.RequireObjectNotNull(parentConnector, "parentConnector");
+            Require.IsNotNull(parentConnector, "parentConnector");
             this.parentConnector = parentConnector;
         }
 
@@ -211,7 +212,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
         /// </summary>
         public void Initialize()
         {
-            weight = Utilities.NextDouble(-1, +1);
+            weight = Random.NextDouble(-1, +1);
         }
 
 
@@ -222,7 +223,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
         /// <param name="jitterNoiseLimit">The maximum absolute jitter noise added.</param>
         public void Jitter(double jitterNoiseLimit)
         {
-            weight += Utilities.NextDouble(-jitterNoiseLimit, +jitterNoiseLimit);
+            weight += Random.NextDouble(-jitterNoiseLimit, +jitterNoiseLimit);
         }
 
         /// <summary>

@@ -8,6 +8,7 @@ using NeuralNetwork.MultilayerPerceptron.Layers;
 using NeuralNetwork.MultilayerPerceptron.Neurons;
 using NeuralNetwork.MultilayerPerceptron.Synapses;
 using NeuralNetwork.MultilayerPerceptron.Training;
+using NeuralNetwork.Utils;
 
 namespace NeuralNetwork.MultilayerPerceptron.Networks
 {
@@ -25,7 +26,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
         public Network(NetworkBlueprint blueprint)
         {
             // 0. Validate the blueprint.
-            Utilities.RequireObjectNotNull(blueprint, "blueprint");
+            Require.IsNotNull(blueprint, "blueprint");
             _blueprint = blueprint;
 
             // 1. Create the network components.

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.25928.0
+VisualStudioVersion = 15.0.26020.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{1F76D577-5340-432E-89EB-9CC0A1A596C1}"
 EndProject
@@ -38,6 +38,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulatedAnnealing.Examples", "SA\SimulatedAnnealing.Examples\SimulatedAnnealing.Examples.csproj", "{0B06B5F6-8D8F-48E5-9A9E-6A4AFED09C54}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork.Examples", "NN\NeuralNetwork.Examples\NeuralNetwork.Examples.csproj", "{6258AD12-418C-4461-BCC0-0A179B3EE954}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork.Tests", "NN\NeuralNetwork.Tests\NeuralNetwork.Tests.csproj", "{ACDBEA77-1EBB-4553-AC79-B9294A799BE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,6 +99,10 @@ Global
 		{6258AD12-418C-4461-BCC0-0A179B3EE954}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6258AD12-418C-4461-BCC0-0A179B3EE954}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6258AD12-418C-4461-BCC0-0A179B3EE954}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACDBEA77-1EBB-4553-AC79-B9294A799BE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACDBEA77-1EBB-4553-AC79-B9294A799BE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACDBEA77-1EBB-4553-AC79-B9294A799BE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACDBEA77-1EBB-4553-AC79-B9294A799BE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,5 +121,6 @@ Global
 		{8ACB1738-5DEC-4804-84FD-E39E498E3BB8} = {39012F6D-52C4-401E-9832-49C0C071302A}
 		{0B06B5F6-8D8F-48E5-9A9E-6A4AFED09C54} = {F7DC6F6A-5242-4C9D-A29F-820FBA061870}
 		{6258AD12-418C-4461-BCC0-0A179B3EE954} = {0D96491B-CBF8-403A-9AE5-2A259A554ECD}
+		{ACDBEA77-1EBB-4553-AC79-B9294A799BE3} = {0D96491B-CBF8-403A-9AE5-2A259A554ECD}
 	EndGlobalSection
 EndGlobal

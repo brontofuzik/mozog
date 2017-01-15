@@ -6,6 +6,8 @@ using System.Drawing;
 using NeuralNetwork.KohonenNetwork.LearningRateFunctions;
 using NeuralNetwork.KohonenNetwork.NeighbourhoodFunctions;
 using NeuralNetwork.MultilayerPerceptron.Training;
+using NeuralNetwork.Utils;
+using Random = NeuralNetwork.Utils.Random;
 
 namespace NeuralNetwork.KohonenNetwork
 {
@@ -19,12 +21,12 @@ namespace NeuralNetwork.KohonenNetwork
         /// <param name="outputLayerDimensions">The dimensions (i.e. the numbers of neurons) of the output layer.</param>
         public KohonenNetwork(int inputLayerNeuronCount, int[] outputLayerDimensions)
         {
-            Utilities.RequireNumberPositive(inputLayerNeuronCount, nameof(inputLayerNeuronCount));
-            Utilities.RequireNumberPositive(outputLayerDimensions.Length, nameof(outputLayerDimensions));
+            Require.IsPositive(inputLayerNeuronCount, nameof(inputLayerNeuronCount));
+            Require.IsPositive(outputLayerDimensions.Length, nameof(outputLayerDimensions));
 
             foreach (int outputLayerDimension in outputLayerDimensions)
             {
-                Utilities.RequireNumberPositive(outputLayerDimension, "outputLayerDimension");
+                Require.IsPositive(outputLayerDimension, "outputLayerDimension");
             }
 
             // ---------------------------
@@ -80,14 +82,14 @@ namespace NeuralNetwork.KohonenNetwork
         /// <param name="trainingIterationCount">The number of training iterations.</param>
         public void Train(TrainingSet trainingSet, int trainingIterationCount)
         {
-            Utilities.RequireObjectNotNull(trainingSet, nameof(trainingSet));
+            Require.IsNotNull(trainingSet, nameof(trainingSet));
 
             if (trainingSet.InputVectorLength != _inputLayerNeuronCount)
             {
                 throw new ArgumentException("The training set is not compatible with the network (i.e. the length of the input vector does not match the number of neurons in the input layer).", nameof(trainingSet));
             }
 
-            Utilities.RequireNumberPositive(trainingIterationCount, nameof(trainingIterationCount));
+            Require.IsPositive(trainingIterationCount, nameof(trainingIterationCount));
 
             // The learning rate function.
             double initialLearningRate = 0.999;
@@ -128,7 +130,7 @@ namespace NeuralNetwork.KohonenNetwork
         /// <returns>The coordinates of the output.</returns>
         public int[] Evaluate(double[] inputVector)
         {
-            Utilities.RequireObjectNotNull(inputVector, nameof(inputVector));
+            Require.IsNotNull(inputVector, nameof(inputVector));
 
             if (inputVector.Length != _inputLayerNeuronCount)
             {
@@ -142,7 +144,7 @@ namespace NeuralNetwork.KohonenNetwork
             int winnerOutputNeuronIndex = 0;
             for (int outputNeuronIndex = 0; outputNeuronIndex < _outputLayerNeuronCount; ++outputNeuronIndex)
             {
-                _outputLayerNeuronOutputs[outputNeuronIndex] = Utilities.DistanceBetweenDoubleVectors(_outputLayerNeuronWeights[outputNeuronIndex], _inputLayerNeuronOutputs);
+                _outputLayerNeuronOutputs[outputNeuronIndex] = Vector.Distance(_outputLayerNeuronWeights[outputNeuronIndex], _inputLayerNeuronOutputs);
 
                 // Update the winner neuron index.
                 if (_outputLayerNeuronOutputs[outputNeuronIndex] < _outputLayerNeuronOutputs[winnerOutputNeuronIndex])
@@ -281,7 +283,7 @@ namespace NeuralNetwork.KohonenNetwork
             {
                 for (int weightIndex = 0; weightIndex < _inputLayerNeuronCount; ++weightIndex)
                 {
-                    _outputLayerNeuronWeights[outputNeuronIndex][weightIndex] = Utilities.NextDouble(minWeight, maxWeight);
+                    _outputLayerNeuronWeights[outputNeuronIndex][weightIndex] = Random.NextDouble(minWeight, maxWeight);
                 }
                 _outputLayerNeuronOutputs[outputNeuronIndex] = 0.0;
             }
@@ -363,7 +365,7 @@ namespace NeuralNetwork.KohonenNetwork
                 int[] outputNeuronCoordinates = OutputNeuronIndexToCoordinates(outputNeuronIndex);
 
                 // Calculate the distance between the output neuron and the winner output neuron.
-                double distanceBetweenOutputNeurons = Utilities.DistanceBetweenIntVectors(outputNeuronCoordinates, winnerOutputNeuronCoordinates);
+                double distanceBetweenOutputNeurons = Vector.Distance(outputNeuronCoordinates, winnerOutputNeuronCoordinates);
 
                 // Calculate the neighbourhood.
                 double neighbourhood = _neighbourhoodFunction.CalculateNeighbourhood(distanceBetweenOutputNeurons, neighbourhoodRadius);

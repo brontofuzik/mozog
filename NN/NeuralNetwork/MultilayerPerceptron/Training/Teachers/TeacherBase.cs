@@ -1,5 +1,6 @@
 ﻿using System;
 using NeuralNetwork.MultilayerPerceptron.Networks;
+using NeuralNetwork.Utils;
 
 namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers
 {
@@ -124,7 +125,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers
         protected TeacherBase(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
         {
             // Vdalite the training set.
-            Utilities.RequireObjectNotNull(trainingSet, "trainingSet");
+            Require.IsNotNull(trainingSet, "trainingSet");
             this.trainingSet = trainingSet;
 
             // The validation and test sets need not be provided.

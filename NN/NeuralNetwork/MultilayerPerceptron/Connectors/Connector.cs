@@ -3,6 +3,7 @@
 using NeuralNetwork.MultilayerPerceptron.Layers;
 using NeuralNetwork.MultilayerPerceptron.Networks;
 using NeuralNetwork.MultilayerPerceptron.Synapses;
+using NeuralNetwork.Utils;
 
 
 namespace NeuralNetwork.MultilayerPerceptron.Connectors
@@ -152,7 +153,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
         public Connector(ConnectorBlueprint blueprint, INetwork parentNetwork)
         {
             // Validate the connector blueprint.
-            Utilities.RequireObjectNotNull(blueprint, "blueprint");
+            Require.IsNotNull(blueprint, "blueprint");
             this.blueprint = blueprint;
 
             // Create the synapses.
@@ -164,7 +165,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
             }
 
             // Validate the parent network.
-            Utilities.RequireObjectNotNull(parentNetwork, "parentNetwork");
+            Require.IsNotNull(parentNetwork, "parentNetwork");
             this.parentNetwork = parentNetwork;
         }
 

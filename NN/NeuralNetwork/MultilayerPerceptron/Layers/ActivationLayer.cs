@@ -6,6 +6,7 @@ using NeuralNetwork.MultilayerPerceptron.Connectors;
 using NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions;
 using NeuralNetwork.MultilayerPerceptron.Networks;
 using NeuralNetwork.MultilayerPerceptron.Neurons;
+using NeuralNetwork.Utils;
 
 
 namespace NeuralNetwork.MultilayerPerceptron.Layers
@@ -189,11 +190,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
             targetConnectors = new List<IConnector >();
 
             // Validate the activation function.
-            Utilities.RequireObjectNotNull(blueprint.ActivationFunction, "activationFunction");
+            Require.IsNotNull(blueprint.ActivationFunction, "activationFunction");
             activationFunction = blueprint.ActivationFunction;
 
             // Validate the parent network.
-            Utilities.RequireObjectNotNull(parentNetwork, "parentNetwork");
+            Require.IsNotNull(parentNetwork, "parentNetwork");
             this.parentNetwork = parentNetwork;
         }
 

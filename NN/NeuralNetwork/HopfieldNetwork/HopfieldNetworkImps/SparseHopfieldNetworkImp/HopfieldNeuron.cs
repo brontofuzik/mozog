@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NeuralNetwork.Utils;
 
 namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp
 {
@@ -11,8 +12,8 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
         /// <param name="activationFunction">The activation function.</param>
         public HopfieldNeuron(int index, ActivationFunction activationFunction)
         {
-            Utilities.RequireNumberNonNegative(index, nameof(index));
-            Utilities.RequireObjectNotNull(activationFunction, nameof(activationFunction));
+            Require.IsNonNegative(index, nameof(index));
+            Require.IsNotNull(activationFunction, nameof(activationFunction));
 
             _index = index;
             _synapses = new HashSet<HopfieldSynapse>();

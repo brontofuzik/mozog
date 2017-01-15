@@ -1,4 +1,6 @@
 ﻿using System;
+using NeuralNetwork.Utils;
+
 namespace NeuralNetwork.KohonenNetwork.LearningRateFunctions
 {
     public abstract class AbstractLearningRateFunction
@@ -19,9 +21,9 @@ namespace NeuralNetwork.KohonenNetwork.LearningRateFunctions
         /// <param name="finalLearningRate">The final learning rate.</param>
         protected AbstractLearningRateFunction(int trainingIterationCount, double initialLearningRate, double finalLearningRate)
         {
-            Utilities.RequireNumberPositive(trainingIterationCount, nameof(trainingIterationCount));
-            Utilities.RequireNumberWithinRange(initialLearningRate, nameof(initialLearningRate), MinLearningRate, MaxLearningRate);
-            Utilities.RequireNumberWithinRange(finalLearningRate, nameof(finalLearningRate), MinLearningRate, MaxLearningRate);
+            Require.IsPositive(trainingIterationCount, nameof(trainingIterationCount));
+            Require.IsWithinRange(initialLearningRate, nameof(initialLearningRate), MinLearningRate, MaxLearningRate);
+            Require.IsWithinRange(finalLearningRate, nameof(finalLearningRate), MinLearningRate, MaxLearningRate);
 
             if (finalLearningRate > initialLearningRate)
             {

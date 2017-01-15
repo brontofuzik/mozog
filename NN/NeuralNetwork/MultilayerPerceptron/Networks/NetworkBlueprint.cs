@@ -2,6 +2,7 @@
 using System.Text;
 using NeuralNetwork.MultilayerPerceptron.Connectors;
 using NeuralNetwork.MultilayerPerceptron.Layers;
+using NeuralNetwork.Utils;
 
 
 namespace NeuralNetwork.MultilayerPerceptron.Networks
@@ -255,17 +256,17 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
 
             biasLayerBlueprint = new LayerBlueprint(1);
 
-            Utilities.RequireObjectNotNull(inputLayerBlueprint, "inputLayerBlueprint");
+            Require.IsNotNull(inputLayerBlueprint, "inputLayerBlueprint");
             this.inputLayerBlueprint = inputLayerBlueprint;
 
-            Utilities.RequireObjectNotNull(hiddenLayerBlueprints, "hiddenLayerBlueprints");
+            Require.IsNotNull(hiddenLayerBlueprints, "hiddenLayerBlueprints");
             foreach (ActivationLayerBlueprint hiddenLayerBlueprint in hiddenLayerBlueprints)
             {
-                Utilities.RequireObjectNotNull(hiddenLayerBlueprint, "hiddenLayerBlueprint");
+                Require.IsNotNull(hiddenLayerBlueprint, "hiddenLayerBlueprint");
             }
             this.hiddenLayerBlueprints = hiddenLayerBlueprints;
 
-            Utilities.RequireObjectNotNull(outputLayerBlueprint, "outputLayerBlueprint");
+            Require.IsNotNull(outputLayerBlueprint, "outputLayerBlueprint");
             this.outputLayerBlueprint = outputLayerBlueprint;
 
             // 2. Create the connector blueprints.

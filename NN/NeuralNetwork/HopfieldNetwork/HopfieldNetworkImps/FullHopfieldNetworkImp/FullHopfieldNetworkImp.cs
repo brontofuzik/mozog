@@ -1,4 +1,5 @@
 ﻿using System;
+using Random = NeuralNetwork.Utils.Random;
 
 namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkImp
 {
@@ -176,7 +177,7 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkI
             {
                 int[] neuronIndicesRandomOrder = new int[NeuronCount];
                 Array.Copy(_neuronIndices, neuronIndicesRandomOrder, NeuronCount);
-                Utilities.Shuffle<int>(neuronIndicesRandomOrder);
+                Random.Shuffle<int>(neuronIndicesRandomOrder);
                 return neuronIndicesRandomOrder;
             }
         }
@@ -191,7 +192,7 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkI
         {
             get
             {
-                return Utilities.Next(NeuronCount);
+                return Random.Next(NeuronCount);
             }
         }
 

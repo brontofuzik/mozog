@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Random = NeuralNetwork.Utils.Random;
 
 namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp
 {
@@ -296,7 +297,7 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
             {
                 HopfieldNeuron[] neuronsRandomOrder = new HopfieldNeuron[NeuronCount];
                 Array.Copy(_neurons, neuronsRandomOrder, NeuronCount);
-                Utilities.Shuffle<HopfieldNeuron>(neuronsRandomOrder);
+                Random.Shuffle<HopfieldNeuron>(neuronsRandomOrder);
                 return neuronsRandomOrder;
             }
         }
@@ -311,7 +312,7 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
         {
             get
             {
-                return _neurons[Utilities.Next(NeuronCount)];
+                return _neurons[Random.Next(NeuronCount)];
             }
         }
 

@@ -55,11 +55,18 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CuttingEdge.Conditions, Version=1.2.0.11174, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CuttingEdge.Conditions.1.2.0.0\lib\NET35\CuttingEdge.Conditions.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics, Version=3.16.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MathNet.Numerics.3.16.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -139,7 +146,9 @@
     <Compile Include="MultilayerPerceptron\Training\TrainingLog.cs" />
     <Compile Include="MultilayerPerceptron\Training\SupervisedTrainingPattern.cs" />
     <Compile Include="MultilayerPerceptron\Training\TrainingSet.cs" />
-    <Compile Include="Utilities.cs" />
+    <Compile Include="Utils\Require.cs" />
+    <Compile Include="Utils\Random.cs" />
+    <Compile Include="Utils\Vector.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Todo.txt" />
@@ -162,9 +171,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\ACO\AntColonyOptimization\AntColonyOptimization.csproj">
       <Project>{b9e7eb39-f473-4b70-b3d1-ce574baed120}</Project>
       <Name>AntColonyOptimization</Name>
@@ -177,6 +183,9 @@
       <Project>{e5f97d52-c842-4376-935f-c8132805c735}</Project>
       <Name>SimulatedAnnealing</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

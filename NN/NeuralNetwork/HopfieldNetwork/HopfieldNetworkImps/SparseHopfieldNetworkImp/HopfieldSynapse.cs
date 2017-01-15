@@ -1,4 +1,6 @@
-﻿namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp
+﻿using NeuralNetwork.Utils;
+
+namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp
 {
     class HopfieldSynapse
     {
@@ -9,8 +11,8 @@
         /// <param name="neuron2">The second neuron.</param>
         public HopfieldSynapse(HopfieldNeuron neuron1, HopfieldNeuron neuron2)
         {
-            Utilities.RequireObjectNotNull(neuron1, nameof(neuron1));
-            Utilities.RequireObjectNotNull(neuron2, nameof(neuron2));
+            Require.IsNotNull(neuron1, nameof(neuron1));
+            Require.IsNotNull(neuron2, nameof(neuron2));
 
             _neuron1 = neuron1;
             _neuron2 = neuron2;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using NeuralNetwork.Utils;
 
 namespace NeuralNetwork.MultilayerPerceptron.Training
 {
@@ -20,7 +21,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// <param name="tag">The tag.</param>
         public UnsupervisedTrainingPattern(double[] inputVector, object tag)
         {
-            Utilities.RequireObjectNotNull(inputVector, nameof(inputVector));
+            Require.IsNotNull(inputVector, nameof(inputVector));
 
             _inputVector = inputVector;
             _normalizedInputVector = NormalizeVector(inputVector);
@@ -51,8 +52,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// </exception>
         public static double[] NormalizeVector(double[] vector, double magnitude)
         {
-            Utilities.RequireObjectNotNull(vector, "vector");
-            Utilities.RequireNumberNonNegative(magnitude, "magnitude");
+            Require.IsNotNull(vector, "vector");
+            Require.IsNonNegative(magnitude, "magnitude");
 
             // Calculate the sum of squares.
             double sumOfSquares = 0d;
@@ -99,7 +100,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         /// </exception>
         public static string VectorToString(double[] vector)
         {
-            Utilities.RequireObjectNotNull(vector, "vector");
+            Require.IsNotNull(vector, "vector");
 
             StringBuilder vectorStringBuilder = new StringBuilder();
 

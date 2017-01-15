@@ -5,6 +5,7 @@ using System.Text;
 using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps;
 using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp;
 using NeuralNetwork.MultilayerPerceptron.Training;
+using NeuralNetwork.Utils;
 
 namespace NeuralNetwork.HopfieldNetwork
 {
@@ -58,7 +59,7 @@ namespace NeuralNetwork.HopfieldNetwork
         public void Train(TrainingSet trainingSet)
         {
             // The training set mmust be provided.
-            Utilities.RequireObjectNotNull(trainingSet, "trainingSet");
+            Require.IsNotNull(trainingSet, "trainingSet");
 
             // The training set must be compatible with the network.
             if (trainingSet.InputVectorLength != NeuronCount)
@@ -80,7 +81,7 @@ namespace NeuralNetwork.HopfieldNetwork
         /// <returns>The bias of the neuron.</returns>
         public double GetNeuronBias(int neuronIndex)
         {
-            Utilities.RequireNumberWithinRange(neuronIndex, nameof(neuronIndex), 0, NeuronCount - 1);
+            Require.IsWithinRange(neuronIndex, nameof(neuronIndex), 0, NeuronCount - 1);
 
             return _hopfieldNetworkImp.GetNeuronBias(neuronIndex);
         }
@@ -92,7 +93,7 @@ namespace NeuralNetwork.HopfieldNetwork
         /// <param name="neuronBias">The bias of the neuron.</param>
         public void SetNeuronBias(int neuronIndex, double neuronBias)
         {
-            Utilities.RequireNumberWithinRange(neuronIndex, nameof(neuronIndex), 0, NeuronCount - 1);
+            Require.IsWithinRange(neuronIndex, nameof(neuronIndex), 0, NeuronCount - 1);
 
             _hopfieldNetworkImp.SetNeuronBias(neuronIndex, neuronBias);
         }
@@ -105,8 +106,8 @@ namespace NeuralNetwork.HopfieldNetwork
         /// <returns>The weight of the synapse.</returns>
         public double GetSynapseWeight(int neuronIndex, int sourceNeuronIndex)
         {
-            Utilities.RequireNumberWithinRange(neuronIndex, nameof(neuronIndex), 0, NeuronCount - 1);
-            Utilities.RequireNumberWithinRange(sourceNeuronIndex, nameof(sourceNeuronIndex), 0, NeuronCount - 1);
+            Require.IsWithinRange(neuronIndex, nameof(neuronIndex), 0, NeuronCount - 1);
+            Require.IsWithinRange(sourceNeuronIndex, nameof(sourceNeuronIndex), 0, NeuronCount - 1);
 
             return _hopfieldNetworkImp.GetSynapseWeight(neuronIndex, sourceNeuronIndex);
         }
@@ -119,8 +120,8 @@ namespace NeuralNetwork.HopfieldNetwork
         /// <param name="synapseWeight">The weight of the synapse.</param>
         public void SetSynapseWeight(int neuronIndex, int sourceNeuronIndex, double synapseWeight)
         {
-            Utilities.RequireNumberWithinRange(neuronIndex, nameof(neuronIndex), 0, NeuronCount - 1);
-            Utilities.RequireNumberWithinRange(sourceNeuronIndex, nameof(sourceNeuronIndex), 0, NeuronCount - 1);
+            Require.IsWithinRange(neuronIndex, nameof(neuronIndex), 0, NeuronCount - 1);
+            Require.IsWithinRange(sourceNeuronIndex, nameof(sourceNeuronIndex), 0, NeuronCount - 1);
 
             _hopfieldNetworkImp.SetSynapseWeight(neuronIndex, sourceNeuronIndex, synapseWeight);
         }

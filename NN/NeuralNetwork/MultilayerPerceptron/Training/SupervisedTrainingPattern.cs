@@ -1,4 +1,5 @@
 ﻿using System;
+using NeuralNetwork.Utils;
 
 namespace NeuralNetwork.MultilayerPerceptron.Training
 {
@@ -23,7 +24,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
         public SupervisedTrainingPattern(double[] inputVector, double[] outputVector, object tag)
             : base(inputVector, tag)
         {
-            Utilities.RequireObjectNotNull(outputVector, nameof(outputVector));
+            Require.IsNotNull(outputVector, nameof(outputVector));
 
             _outputVector = outputVector;
             _normalizedOutputVector = NormalizeVector(outputVector);
