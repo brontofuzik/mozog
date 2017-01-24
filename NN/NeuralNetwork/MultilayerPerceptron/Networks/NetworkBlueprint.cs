@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Text;
+using Mozog.Utils;
 using NeuralNetwork.MultilayerPerceptron.Connectors;
 using NeuralNetwork.MultilayerPerceptron.Layers;
-using NeuralNetwork.Utils;
 
 
 namespace NeuralNetwork.MultilayerPerceptron.Networks

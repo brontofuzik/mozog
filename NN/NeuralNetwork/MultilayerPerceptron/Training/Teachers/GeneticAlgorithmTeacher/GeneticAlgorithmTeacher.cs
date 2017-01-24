@@ -1,5 +1,5 @@
-﻿using NeuralNetwork.MultilayerPerceptron.Networks;
-
+﻿using GeneticAlgorithm;
+using NeuralNetwork.MultilayerPerceptron.Networks;
 
 namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmTeacher
 {
@@ -12,7 +12,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmT
         /// <summary>
         /// The network genetic algorithm.
         /// </summary>
-        private NetworkGeneticAlgorithm networkGeneticAlgorithm;
+        private readonly NetworkGeneticAlgorithm networkGeneticAlgorithm = new NetworkGeneticAlgorithm();
 
         /// <summary>
         /// Gets the name of the teacher.
@@ -20,13 +20,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmT
         /// <value>
         /// The name of the teacher.
         /// </value>
-        public override string Name
-        {
-            get
-            {
-                return "GeneticAlgorithmTeacher";
-            }
-        }
+        public override string Name => "GeneticAlgorithmTeacher";
 
         /// <summary>
         /// Creates a new genetic teacher.
@@ -37,7 +31,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmT
         public GeneticAlgorithmTeacher(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
             : base(trainingSet, validationSet, testSet)
         {
-            networkGeneticAlgorithm = new NetworkGeneticAlgorithm();
         }
 
         /// <summary>
@@ -50,25 +43,19 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmT
         {
             // The network genetic algorithm parameters.
             NetworkObjectiveFunction networkObjectiveFunction = new NetworkObjectiveFunction(network, trainingSet);
-            int populationSize = 500;
-            double crossoverRate = 0.8;
-            double mutationRate = 0.05;
-            bool scaling = false;
 
             // Train the network.
             int iterationCount;
             double networkError;
-            double[] weights = networkGeneticAlgorithm.Run(networkObjectiveFunction,
-                maxIterationCount, out iterationCount, maxTolerableNetworkError, out networkError,
-                populationSize, crossoverRate, mutationRate, scaling
-           );
-            network.SetWeights(weights);
+            Result<double> result = networkGeneticAlgorithm.Run(networkObjectiveFunction, maxIterationCount, maxTolerableNetworkError,
+                populationSize: 500, crossoverRate: 0.8, mutationRate: 0.05, scaling: false);
+            network.SetWeights(result.Solution);
 
             // LOGGING
             // -------
 
             // Create the training log and log the training data.
-            TrainingLog trainingLog = new TrainingLog(iterationCount, networkError);
+            TrainingLog trainingLog = new TrainingLog(result.Generations, result.Evaluation);
 
             // Log the network statistics.
             LogNetworkStatistics(trainingLog, network);

@@ -1,5 +1,5 @@
 ﻿using System;
-using Random = NeuralNetwork.Utils.Random;
+using Random = Mozog.Utils.Random;
 
 namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkImp
 {
@@ -192,7 +192,7 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkI
         {
             get
             {
-                return Random.Next(NeuronCount);
+                return Random.Int(NeuronCount);
             }
         }
 

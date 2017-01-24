@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 namespace GeneticAlgorithm
 {
@@ -7,31 +6,15 @@ namespace GeneticAlgorithm
     /// A chromosome.
     /// </summary>
     /// <typeparam name="TGene">The type of gene.</typeparam>
-    public class Chromosome<TGene >
-        : IComparable<Chromosome<TGene > >
+    public class Chromosome<TGene> : IComparable<Chromosome<TGene>>
     {
-        /// <summary>
-        /// The genes of the chromosome.
-        /// </summary>
-        private TGene[] genes;
-
-        /// <summary>
-        /// The evaluation of the chromosome (the value of objective function for the chromoosme).
-        /// </summary>
-        private double evaluation;
-
-        /// <summary>
-        /// The fitness of the chromosome (the value of fitness function for the chromosome).
-        /// </summary>
-        private double fitness;
-
         /// <summary>
         /// Creates a new chromosome.
         /// </summary>
         /// <param name="chromosomeSize">The size of the chromosome (i.e. the numebr of genes in the chromosome).</param>
         public Chromosome(int chromosomeSize)
         {
-            genes = new TGene[chromosomeSize];
+            Genes = new TGene[chromosomeSize];
         }
 
         /// <summary>
@@ -40,16 +23,12 @@ namespace GeneticAlgorithm
         /// <value>
         /// The genes.
         /// </value>
-        public TGene[] Genes
+        public TGene[] Genes { get; set; }
+
+        public TGene this[int index]
         {
-            get
-            {
-                return genes;
-            }
-            set
-            {
-                genes = value;
-            }
+            get { return Genes[index]; }
+            set { Genes[index] = value; }
         }
 
         /// <summary>
@@ -58,13 +37,7 @@ namespace GeneticAlgorithm
         /// <value>
         /// The size of the chromosome.
         /// </value>
-        public int Size
-        {
-            get
-            {
-                return genes.Length;
-            }
-        }
+        public int Size => Genes.Length;
 
         /// <summary>
         /// Gets or sets the evaluation.
@@ -72,17 +45,7 @@ namespace GeneticAlgorithm
         /// <value>
         /// The evaluation.
         /// </value>
-        public double Evaluation
-        {
-            get
-            {
-                return evaluation;
-            }
-            set
-            {
-                evaluation = value;
-            }
-        }
+        public double Evaluation { get; set; }
 
         /// <summary>
         /// Gets or sets the fitness.
@@ -90,17 +53,13 @@ namespace GeneticAlgorithm
         /// <value>
         /// The fitness.
         /// </value>
-        public double Fitness
-        {
-            get
-            {
-                return fitness;
-            }
-            set
-            {
-                fitness = value;
-            }
-        }
+        public double Fitness { get; set; }
+
+        public double Evaluate(ObjectiveFunction<TGene> objectiveFunction)
+            => Evaluation = objectiveFunction.Evaluate(Genes);
+
+        public double EvaluateFitness(FitnessFunction fitnessFunction, double averageEvaluation, Objective objective)
+            => Fitness = fitnessFunction(Evaluation, averageEvaluation, objective);
 
         /// <summary>
         /// Clones the chromosome.
@@ -110,8 +69,8 @@ namespace GeneticAlgorithm
         /// </returns>
         public Chromosome<TGene > Clone()
         {
-            Chromosome<TGene > clone = new Chromosome<TGene >(Size);
-            Array.Copy(genes, clone.genes, Size);
+            Chromosome<TGene> clone = new Chromosome<TGene>(Size);
+            Array.Copy(Genes, clone.Genes, Size);
             return clone;
         }
 
@@ -125,9 +84,7 @@ namespace GeneticAlgorithm
         /// greater than zero if this chromosome is more than the <c>otherChromosome</c> (this chromosome is fitter than the <c>otherChromosome</c>).
         /// </returns>
         public int CompareTo(Chromosome<TGene > otherChromosome)
-        {
-            return evaluation.CompareTo(otherChromosome.Evaluation);
-        }
+            => Evaluation.CompareTo(otherChromosome.Evaluation);
 
         /// <summary>
         /// Converts a chromosome into its string representation.
@@ -136,19 +93,8 @@ namespace GeneticAlgorithm
         /// The string representation of the chromosome.
         /// </returns>
         public override string ToString()
-        {
-            StringBuilder chromosomeSB = new StringBuilder();
+            => $"Genes: {Print(Genes)}, Evaluation: {Evaluation}, Fitness: {Fitness}";
 
-            chromosomeSB.Append("Genes: [");
-            foreach (TGene gene in genes)
-            {
-                chromosomeSB.Append(gene);
-                chromosomeSB.Append(", ");
-            }
-            chromosomeSB.Remove(chromosomeSB.Length - 2, 2);
-            chromosomeSB.Append("]; Evaluation: " + evaluation + "; Fitness: " + fitness);
-
-            return chromosomeSB.ToString();
-        }
+        public static string Print(TGene[] genes) => $"[{String.Join(", ", genes)}]";
     }
 }

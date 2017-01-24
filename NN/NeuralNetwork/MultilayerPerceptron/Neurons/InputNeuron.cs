@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Mozog.Utils;
 using NeuralNetwork.MultilayerPerceptron.Layers;
 using NeuralNetwork.MultilayerPerceptron.Synapses;
-using NeuralNetwork.Utils;
 
 
 namespace NeuralNetwork.MultilayerPerceptron.Neurons

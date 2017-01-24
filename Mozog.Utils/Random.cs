@@ -1,22 +1,35 @@
 ﻿using System;
 
-namespace NeuralNetwork.Utils
+namespace Mozog.Utils
 {
-    internal class Random
+    public class Random
     {
+        /// <summary>
+        /// The pseudo-random number generator.
+        /// </summary>
+        private static readonly System.Random random;
+
         /// <summary>
         /// 
         /// </summary>
         static Random()
         {
-            _random = new System.Random();
+            random = new System.Random();
         }
 
-        internal static int Next() => _random.Next();
+        public static int Int() => random.Next();
 
-        internal static int Next(int maxValue) => _random.Next(maxValue);
+        public static int Int(int maxValue) => random.Next(maxValue);
 
-        internal static int Next(int minValue, int maxValue) => _random.Next(minValue, maxValue);
+        public static int Int(int minValue, int maxValue)
+        {
+            if (maxValue < minValue)
+                throw new ArgumentException("The maximum value must be greater than or equal to the minimum value.", nameof(maxValue));
+
+            return random.Next(minValue, maxValue);
+        }
+
+        public static double Double() => random.NextDouble();
 
         /// <summary>
         /// Returns a random number within a specified range.
@@ -29,14 +42,12 @@ namespace NeuralNetwork.Utils
         /// <exception name="ArgumentOutOfRangeException">
         /// Condition: <c>minValue</c> is greater than <c>maxValue</c>. 
         /// </exception>
-        internal static double NextDouble(double minValue, double maxValue)
+        public static double Double(double minValue, double maxValue)
         {
             if (maxValue < minValue)
-            {
                 throw new ArgumentException("The maximum value must be greater than or equal to the minimum value.", nameof(maxValue));
-            }
 
-            return minValue + (maxValue - minValue) * _random.NextDouble();
+            return minValue + (maxValue - minValue) * random.NextDouble();
         }
 
         /// <summary>
@@ -44,20 +55,16 @@ namespace NeuralNetwork.Utils
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="array"></param>
-        internal static void Shuffle<T>(T[] array)
+        public static T[] Shuffle<T>(T[] array)
         {
             for (int i = array.Length; i > 1; --i)
             {
-                int j = Next(i);
+                int j = Int(i);
                 T tmp = array[j];
                 array[j] = array[i - 1];
                 array[i - 1] = tmp;
             }
+            return array;
         }
-
-        /// <summary>
-        /// The pseudo-random number generator.
-        /// </summary>
-        private static readonly System.Random _random;
     }
 }

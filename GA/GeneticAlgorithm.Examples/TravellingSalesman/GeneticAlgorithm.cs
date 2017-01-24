@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
+using Mozog.Utils;
 
-namespace GeneticAlgorithm.Examples.Problems
+namespace GeneticAlgorithm.Examples.TravellingSalesman
 {
     /// <summary>
     /// A travelling salesman problem (TSP) genetic algorithm.
     /// http://en.wikipedia.org/wiki/Travelling_salesman_problem
     /// </summary>
-    internal class TravellingSalesmanProblemGeneticAlgorithm
-        : GeneticAlgorithm<char>
+    class GeneticAlgorithm : GeneticAlgorithm<char>
     {
         /// <summary>
         /// <para>
@@ -15,19 +15,12 @@ namespace GeneticAlgorithm.Examples.Problems
         /// </para>
         /// </summary>
         /// <param name="chromosome">The chromosome to initialize.</param>
-        protected override Chromosome<char> GeneratorFunction()
+        protected override Chromosome<char> InitializationFunction()
         {
-            Chromosome<char> chromosome = new Chromosome<char>(Dimension);
-            // A list of unvisited cities.
-            List<char> unvisitedCities = new List<char>(new[] { 'A', 'B', 'C', 'D' });
-            for (int i = 0; i < Dimension; i++)
+            return new Chromosome<char>(Dimension)
             {
-                int randomCityIndex = random.Next(0, unvisitedCities.Count);
-                char randomCity = unvisitedCities[randomCityIndex];
-                chromosome.Genes[i] = randomCity;
-                unvisitedCities.Remove(randomCity);
-            }
-            return chromosome;
+                Genes = Random.Shuffle(new[] {'A', 'B', 'C', 'D'})
+            };
         }
 
         /// <summary>
@@ -55,70 +48,56 @@ namespace GeneticAlgorithm.Examples.Problems
         /// <param name="crossoverRate">The rate of crossover.</param>
         protected override void CrossoverFunction(Chromosome<char> parent1, Chromosome<char> parent2, out Chromosome<char> offspring1, out Chromosome<char> offspring2, double crossoverRate)
         {
-            // Breed the first offspring from the first parent.
             offspring1 = parent1.Clone();
-
-            // Breed the second offspring from the second parent.
             offspring2 = parent2.Clone();
 
-            // Perform a permutation-based partially matched crossover (PMX) function.
-            if (random.NextDouble() < crossoverRate)
+            if (Random.Double() < crossoverRate)
             {
                 // 1. Select a substring uniformly in two parents at random.
                 // Choose two points randomly.
                 // The points must be located after the first and before the last gene; the points are from the interval [1, chromosomeSize).
-                int point1 = random.Next(1, Dimension);
-                int point2 = random.Next(1, Dimension);
+                int point1 = Random.Int(1, Dimension);
+                int point2 = Random.Int(1, Dimension);
                 if (point1 > point2)
                 {
-                    int tmpPoint = point1;
-                    point1 = point2;
-                    point2 = tmpPoint;
+                    Misc.Swap(ref point1, ref point2);
                 }
 
                 // 2. Exchange these two substrings to produce proto-offspring.
                 // Crossover all genes from the first point (including) to the second point (excluding).
                 for (int i = point1; i < point2; i++)
                 {
-                    char tmpGene = offspring1.Genes[i];
-                    offspring1.Genes[i] = offspring2.Genes[i];
-                    offspring2.Genes[i] = tmpGene;
+                    Misc.Swap(ref offspring1.Genes[i], ref offspring2.Genes[i]);
                 }
 
                 // 3. Determine the mapping relationship according to these two substrings.
                 Dictionary<char, char> mapping = new Dictionary<char, char>();
                 for (int i = point1; i < point2; i++)
                 {
-                    mapping[offspring1.Genes[i]] = offspring2.Genes[i];
+                    mapping[offspring1[i]] = offspring2[i];
                 }
 
                 // 4. Legalize proto-offspring with the mapping relationship.
                 for (int i = 0; i < Dimension; i++)
                 {
-                    if (point1 <= i && i < point2)
-                    {
-                        continue;
-                    }
+                    if (point1 <= i && i < point2) continue;
 
-                    char tmpGene = offspring1.Genes[i];
-                    while (mapping.ContainsKey(offspring1.Genes[i]))
+                    char tmpGene = offspring1[i];
+                    while (mapping.ContainsKey(offspring1[i]))
                     {
-                        offspring1.Genes[i] = mapping[offspring1.Genes[i]];
+                        offspring1[i] = mapping[offspring1[i]];
                     }
                     
                     // There has been a swap.
-                    if (tmpGene != offspring1.Genes[i])
+                    if (tmpGene != offspring1[i])
                     {
                         for (int j = 0; j < Dimension; j++)
                         {
-                            if (point1 <= j && j < point2)
-                            {
-                                continue;
-                            }
+                            if (point1 <= j && j < point2) continue;
 
-                            if (offspring2.Genes[j] == offspring1.Genes[i])
+                            if (offspring2[j] == offspring1[i])
                             {
-                                offspring2.Genes[j] = tmpGene;
+                                offspring2[j] = tmpGene;
                             }
                         }
                     }
@@ -138,15 +117,13 @@ namespace GeneticAlgorithm.Examples.Problems
         /// <param name="mutationRate">The rate of mutation.</param>
         protected override void MutationFunction(Chromosome<char> chromosome, double mutationRate)
         {
-            if (random.NextDouble() < mutationRate)
+            if (Random.Double() < mutationRate)
             {
                 // Swap two consecutive (tour-wisely) cities.
-                int originCityIndex = random.Next(0, Dimension);
-                int destinationCityIndex = originCityIndex + 1 < Dimension ? originCityIndex + 1 : 0;
+                int from = Random.Int(0, Dimension);
+                int to = (from + 1) % Dimension;
                 
-                char tmpCity = chromosome.Genes[originCityIndex];
-                chromosome.Genes[originCityIndex] = chromosome.Genes[destinationCityIndex];
-                chromosome.Genes[destinationCityIndex] = tmpCity;
+                Misc.Swap(ref chromosome.Genes[from], ref chromosome.Genes[to]);
             }
         }
     }

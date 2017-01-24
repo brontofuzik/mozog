@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using NeuralNetwork.Utils;
-using Random = NeuralNetwork.Utils.Random;
+using Mozog.Utils;
+using Random = Mozog.Utils.Random;
 
 namespace NeuralNetwork.MultilayerPerceptron.Training
 {

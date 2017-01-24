@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text;
-
+using Mozog.Utils;
 using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps;
 using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp;
 using NeuralNetwork.MultilayerPerceptron.Training;
-using NeuralNetwork.Utils;
 
 namespace NeuralNetwork.HopfieldNetwork
 {

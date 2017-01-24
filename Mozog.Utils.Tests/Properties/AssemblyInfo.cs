@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("NeuralNetwork.Tests")]
+[assembly: AssemblyTitle("Mozog.Utils.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("NeuralNetwork.Tests")]
+[assembly: AssemblyProduct("Mozog.Utils.Tests")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("acdbea77-1ebb-4553-ac79-b9294a799be3")]
+[assembly: Guid("f9d5c63a-0356-44ec-8dfc-dea98af42247")]
 
 // Version information for an assembly consists of the following four values:
 //

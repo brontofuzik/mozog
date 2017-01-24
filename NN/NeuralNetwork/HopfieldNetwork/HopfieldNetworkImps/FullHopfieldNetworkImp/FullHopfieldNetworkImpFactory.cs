@@ -1,4 +1,4 @@
-﻿using NeuralNetwork.Utils;
+﻿using Mozog.Utils;
 
 namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkImp
 {

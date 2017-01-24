@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-
+using Mozog.Utils;
 using NeuralNetwork.MultilayerPerceptron.Connectors;
 using NeuralNetwork.MultilayerPerceptron.Layers;
 using NeuralNetwork.MultilayerPerceptron.Neurons;
 using NeuralNetwork.MultilayerPerceptron.Synapses;
 using NeuralNetwork.MultilayerPerceptron.Training;
-using NeuralNetwork.Utils;
 
 namespace NeuralNetwork.MultilayerPerceptron.Networks
 {

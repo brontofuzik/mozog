@@ -39,7 +39,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulatedAnnealing.Examples
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork.Examples", "NN\NeuralNetwork.Examples\NeuralNetwork.Examples.csproj", "{6258AD12-418C-4461-BCC0-0A179B3EE954}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork.Tests", "NN\NeuralNetwork.Tests\NeuralNetwork.Tests.csproj", "{ACDBEA77-1EBB-4553-AC79-B9294A799BE3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mozog.Utils", "Mozog.Utils\Mozog.Utils.csproj", "{47CB5C11-3DCE-4768-AB1F-FFC1CFD55167}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mozog.Utils.Tests", "Mozog.Utils.Tests\Mozog.Utils.Tests.csproj", "{F9D5C63A-0356-44EC-8DFC-DEA98AF42247}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,10 +101,14 @@ Global
 		{6258AD12-418C-4461-BCC0-0A179B3EE954}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6258AD12-418C-4461-BCC0-0A179B3EE954}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6258AD12-418C-4461-BCC0-0A179B3EE954}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ACDBEA77-1EBB-4553-AC79-B9294A799BE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ACDBEA77-1EBB-4553-AC79-B9294A799BE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ACDBEA77-1EBB-4553-AC79-B9294A799BE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ACDBEA77-1EBB-4553-AC79-B9294A799BE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47CB5C11-3DCE-4768-AB1F-FFC1CFD55167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47CB5C11-3DCE-4768-AB1F-FFC1CFD55167}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47CB5C11-3DCE-4768-AB1F-FFC1CFD55167}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47CB5C11-3DCE-4768-AB1F-FFC1CFD55167}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9D5C63A-0356-44EC-8DFC-DEA98AF42247}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9D5C63A-0356-44EC-8DFC-DEA98AF42247}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9D5C63A-0356-44EC-8DFC-DEA98AF42247}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9D5C63A-0356-44EC-8DFC-DEA98AF42247}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -121,6 +127,5 @@ Global
 		{8ACB1738-5DEC-4804-84FD-E39E498E3BB8} = {39012F6D-52C4-401E-9832-49C0C071302A}
 		{0B06B5F6-8D8F-48E5-9A9E-6A4AFED09C54} = {F7DC6F6A-5242-4C9D-A29F-820FBA061870}
 		{6258AD12-418C-4461-BCC0-0A179B3EE954} = {0D96491B-CBF8-403A-9AE5-2A259A554ECD}
-		{ACDBEA77-1EBB-4553-AC79-B9294A799BE3} = {0D96491B-CBF8-403A-9AE5-2A259A554ECD}
 	EndGlobalSection
 EndGlobal

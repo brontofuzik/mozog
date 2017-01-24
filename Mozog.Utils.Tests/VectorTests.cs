@@ -1,7 +1,6 @@
-﻿using NeuralNetwork.Utils;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
-namespace NeuralNetwork.Tests
+namespace Mozog.Utils.Tests
 {
     [TestFixture]
     public class VectorTests

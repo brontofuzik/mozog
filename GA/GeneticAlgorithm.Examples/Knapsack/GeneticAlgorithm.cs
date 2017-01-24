@@ -1,11 +1,13 @@
-﻿namespace GeneticAlgorithm.Examples.Problems
+﻿using Mozog.Utils;
+using static Mozog.Utils.Misc;
+
+namespace GeneticAlgorithm.Examples.Knapsack
 {
     /// <summary>
     /// A knapsack problem (KP) genetic algorithm.
     /// http://en.wikipedia.org/wiki/Knapsack_problem
     /// </summary>
-    internal class KnapsackProblemGeneticAlgorithm
-        : GeneticAlgorithm<int>
+    class GeneticAlgorithm : GeneticAlgorithm<int>
     {
         /// <summary>
         /// <para>
@@ -13,13 +15,15 @@
         /// </para>
         /// </summary>
         /// <param name="chromosome">The chromosome to initialize.</param>
-        protected override Chromosome<int> GeneratorFunction()
+        protected override Chromosome<int> InitializationFunction()
         {
-            Chromosome<int> chromosome = new Chromosome<int >(Dimension);
+            Chromosome<int> chromosome = new Chromosome<int>(Dimension);
+
             for (int i = 0; i < Dimension; i++)
             {
-                chromosome.Genes[i] = random.Next(0, 2);
+                chromosome[i] = Random.Int(0, 2);
             }
+
             return chromosome;
         }
 
@@ -42,46 +46,19 @@
         /// <param name="crossoverRate">The rate of crossover.</param>
         protected override void CrossoverFunction(Chromosome<int> parent1, Chromosome<int> parent2, out Chromosome<int> offspring1, out Chromosome<int> offspring2, double crossoverRate)
         {
-            // Breed the first offspring from the first parent.
             offspring1 = parent1.Clone();
-
-            // Breed the second offspring from the second parent.
             offspring2 = parent2.Clone();
 
-            // Perform a binary-coded one-point (1-PX) crossover.
-            if (random.NextDouble() < crossoverRate)
+            if (Random.Double() < crossoverRate)
             {
                 // Choose a point randomly.
                 // The point must be located after the first and before the last gene; the point is from the interval [1, chromosomeSize). 
-                int point = random.Next(1, Dimension);
+                int point = Random.Int(1, Dimension);
 
                 // Crossover all genes from the point (including) to the end.
                 for (int i = point; i < Dimension; i++)
                 {
-                    int tmpGene = offspring1.Genes[i];
-                    offspring1.Genes[i] = offspring2.Genes[i];
-                    offspring2.Genes[i] = tmpGene;
-                }
-            }
-        }
-
-        /// <summary>
-        /// <para>
-        /// The mutation function.
-        /// </para>
-        /// <para>
-        /// Mutates the chromosome with some probability p_m.
-        /// </para>
-        /// </summary>
-        /// <param name="chromosome">The chromosome to mutate.</param>
-        /// <param name="mutationRate">The rate of mutation.</param>
-        protected override void MutationFunction(Chromosome<int> chromosome, double mutationRate)
-        {
-            for (int i = 0; i < chromosome.Size; i++)
-            {
-                if (random.NextDouble() < mutationRate)
-                {
-                    chromosome.Genes[i] = chromosome.Genes[i] == 0 ? 1 : 0;
+                    Swap(ref offspring1.Genes[i], ref offspring2.Genes[i]);
                 }
             }
         }
@@ -114,5 +91,26 @@
         //        }
         //    }
         //}
+
+        /// <summary>
+        /// <para>
+        /// The mutation function.
+        /// </para>
+        /// <para>
+        /// Mutates the chromosome with some probability p_m.
+        /// </para>
+        /// </summary>
+        /// <param name="chromosome">The chromosome to mutate.</param>
+        /// <param name="mutationRate">The rate of mutation.</param>
+        protected override void MutationFunction(Chromosome<int> chromosome, double mutationRate)
+        {
+            for (int i = 0; i < chromosome.Size; i++)
+            {
+                if (Random.Double() < mutationRate)
+                {
+                    chromosome[i] = chromosome[i] == 0 ? 1 : 0;
+                }
+            }
+        }
     }
 }

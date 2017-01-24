@@ -13,33 +13,20 @@
     /// </para>
     /// </remarks>
     /// <typeparam name="TGene">The type of the gene.</typeparam>
-    public abstract class ObjectiveFunction<TGene >
+    public abstract class ObjectiveFunction<TGene>
     {
-        int dimension;
-
-        Objective objective;
-
-        protected ObjectiveFunction(int dimension, Objective objective)
+        protected ObjectiveFunction(int arity, Objective objective)
         {
-            this.dimension = dimension;
-            this.objective = objective;
+            Arity = arity;
+            Objective = objective;
         }
 
-        public int Dimension
-        {
-            get
-            {
-                return dimension;
-            }
-        }
+        public int Arity { get; }
 
-        public Objective Objective
-        {
-            get
-            {
-                return objective;
-            }
-        }
+        public Objective Objective { get; }
+
+        private bool Maximizing => Objective == Objective.Maximize;
+        private bool Minimizing => Objective == Objective.Minimize;
 
         /// <summary>
         /// Evaluates the objective function.
@@ -49,6 +36,29 @@
         /// The evaluation of the chromosome.
         /// </returns>
         public abstract double Evaluate(TGene[] genes);
+
+        internal void UpdateBestChromosome(ref Chromosome<TGene> bestChromosome, Chromosome<TGene> chromosome)
+        {
+            if (bestChromosome == null
+                || Maximizing && chromosome.Evaluation > bestChromosome.Evaluation
+                || Minimizing && chromosome.Evaluation < bestChromosome.Evaluation)
+            {
+                bestChromosome = chromosome;
+            }
+        }
+
+        internal void UpdateWorstChromosome(ref Chromosome<TGene> worstChromosome, Chromosome<TGene> chromosome)
+        {
+            if (worstChromosome == null
+                || Maximizing && chromosome.Evaluation < worstChromosome.Evaluation
+                || Minimizing && chromosome.Evaluation > worstChromosome.Evaluation)
+            {
+                worstChromosome = chromosome;
+            }
+        }
+
+        public bool IsAcceptable(double evaluation, double acceptableEvaluation)
+            => Objective == Objective.Maximize ? evaluation >= acceptableEvaluation : evaluation <= acceptableEvaluation;
     }
 
     /// <summary>
@@ -56,7 +66,7 @@
     /// </summary>
     public enum Objective
     {
-        MINIMIZE,
-        MAXIMIZE
+        Minimize,
+        Maximize
     }
 }

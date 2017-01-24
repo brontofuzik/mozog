@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using NeuralNetwork.Utils;
+using Mozog.Utils;
 
 namespace NeuralNetwork.MultilayerPerceptron.Training
 {
