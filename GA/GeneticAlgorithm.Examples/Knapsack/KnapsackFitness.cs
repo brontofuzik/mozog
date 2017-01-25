@@ -3,11 +3,11 @@ using System.Linq;
 
 namespace GeneticAlgorithm.Examples.Knapsack
 {
-    class ObjectiveFunction : ObjectiveFunction<int>
+    class KnapsackFitness : ObjectiveFunction<int>
     {
         private readonly Item[] items;
 
-        public ObjectiveFunction()
+        public KnapsackFitness()
             : base(5, Objective.Maximize)
         {
             items = new[]

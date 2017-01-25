@@ -31,12 +31,6 @@ namespace GeneticAlgorithm
 
         public int Size => chromosomes.Count;
 
-        public double Evaluate(ObjectiveFunction<TGene> objectiveFunction, Objective objective)
-        {
-            var evaluations = chromosomes.Select(c => c.Evaluate(objectiveFunction));
-            return objective == Objective.Maximize ? evaluations.Max() : evaluations.Min();
-        }
-
         public Chromosome<TGene> Evaluate(ObjectiveFunction<TGene> objectiveFunction, Objective objective, bool scaling)
         {
             foreach (Chromosome<TGene> chromosome in chromosomes)

@@ -2,11 +2,11 @@
 
 namespace GeneticAlgorithm.Examples.TravellingSalesman
 {
-    internal class ObjectiveFunction : ObjectiveFunction<char>
+    internal class TravellingSalesmanFitness : ObjectiveFunction<char>
     {
         private readonly Dictionary<(char from, char to), double> distances;
 
-        public ObjectiveFunction()
+        public TravellingSalesmanFitness()
             : base(4, Objective.Minimize)
         {
             distances = new Dictionary<(char, char), double>

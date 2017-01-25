@@ -7,22 +7,24 @@ namespace GeneticAlgorithm
     {
         private Population<TGene> population;
         private List<double> rouletteWheel;
+        private double maxPocket;
 
         public void Initialize(Population<TGene> population)
         {
+            this.population = population;
+
             rouletteWheel = new List<double>(population.Size);
-            double previousPocketSize = 0.0;
+            double currentPocket = 0.0;
             foreach (Chromosome<TGene> chromosome in population.Chromosomes)
             {
-                double currentPocketSize = previousPocketSize + chromosome.Fitness;
-                rouletteWheel.Add(currentPocketSize);
-                previousPocketSize = currentPocketSize;
+                rouletteWheel.Add(currentPocket += chromosome.Fitness);
             }
+            maxPocket = currentPocket;
         }
 
         public Chromosome<TGene> Select()
         {
-            double pocket = Random.Double(0.0, population.Size);
+            double pocket = Random.Double(0.0, maxPocket);
             int index = rouletteWheel.BinarySearch(pocket);
             if (index < 0)
             {

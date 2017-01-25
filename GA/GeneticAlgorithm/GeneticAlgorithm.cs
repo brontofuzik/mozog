@@ -73,7 +73,7 @@ namespace GeneticAlgorithm
         /// The best solution (the global-best chromosome).
         /// </returns>
         public Result<TGene> Run(ObjectiveFunction<TGene> objectiveFunction, int maxGenerations, double acceptableEvaluation,
-            int populationSize, double crossoverRate, double mutationRate, bool scaling)
+            int populationSize, double crossoverRate, double mutationRate, bool scaling = false)
         {
             //
             // Arguments
@@ -90,8 +90,8 @@ namespace GeneticAlgorithm
             // Algorithm
 
             population = Population<TGene>.CreateRandom(populationSize, InitializationFunction);
-
-            population.Evaluate(objectiveFunction, Objective);
+            var generationChampion = population.Evaluate(objectiveFunction, Objective, scaling);
+            objectiveFunction.UpdateBestChromosome(ref globalBestChromosome, generationChampion);
 
             while (!ShouldTerminate(maxGenerations, acceptableEvaluation))
             {

@@ -7,7 +7,7 @@ namespace GeneticAlgorithm.Examples.Knapsack
     /// A knapsack problem (KP) genetic algorithm.
     /// http://en.wikipedia.org/wiki/Knapsack_problem
     /// </summary>
-    class GeneticAlgorithm : GeneticAlgorithm<int>
+    class KnapsackAlgorithm : GeneticAlgorithm<int>
     {
         /// <summary>
         /// <para>

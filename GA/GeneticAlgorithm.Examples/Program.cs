@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using GeneticAlgorithm.Examples.Knapsack;
+using GeneticAlgorithm.Examples.TravellingSalesman;
 
 namespace GeneticAlgorithm.Examples
 {
@@ -14,21 +16,32 @@ namespace GeneticAlgorithm.Examples
         /// <param name="args">The command line arguments.</param>
         public static void Main(string[] args)
         {
-            // Best solution : [1, 1, 1, 0, 1]
-            // Best solution's evalaution : 15
-            Test(1, "Genetic algorithm (GA): The Knapsack problem (KP)",
-                new Knapsack.GeneticAlgorithm(), new Knapsack.ObjectiveFunction(),
+            //RunKnapsack();
+            RunTravellingSalesman();
+        }
+
+        /// <summary>
+        /// Solution: [1, 1, 1, 0, 1]
+        /// Evaluation: 15
+        /// </summary>
+        private static void RunKnapsack()
+        {
+            Run(1, "Knapsack problem (KP)",
+                new KnapsackAlgorithm(), new KnapsackFitness(),
                 maxGenerationCount: 1000, acceptableEvaluation: double.MaxValue,
-                populationSize: 100, crossoverRate: 0.80, mutationRate: 0.05, scaling: false);
+                populationSize: 10, crossoverRate: 0.80, mutationRate: 0.05);
+        }
 
-            Console.WriteLine();
-
-            // Best solution : [A, B, C, D]
-            // Best solution's evalaution : 97
-            Test(2, "Genetic algorithm (GA): The travelling salesman problem (TSP)",
-                new TravellingSalesman.GeneticAlgorithm(), new TravellingSalesman.ObjectiveFunction(),
+        /// <summary>
+        /// Solution : [A, B, C, D]
+        /// Evaluation: 97
+        /// </summary>
+        private static void RunTravellingSalesman()
+        {
+            Run(2, "Travelling salesman problem (TSP)",
+                new TravellingSalesmanAlgorithm(), new TravellingSalesmanFitness(),
                 maxGenerationCount: 1000, acceptableEvaluation: double.MinValue,
-                populationSize: 100, crossoverRate: 0.80, mutationRate: 0.05, scaling: false);
+                populationSize: 100, crossoverRate: 0.80, mutationRate: 0.05);
         }
 
         /// <summary>
@@ -46,19 +59,18 @@ namespace GeneticAlgorithm.Examples
         /// <param name="populationSize">The size of the population.</param>
         /// <param name="crossoverRate">The rate of crossover.</param>
         /// <param name="mutationRate">The rate of mutation.</param>
-        /// <param name="scaling">The scaling flag.</param>
-        private static void Test<TGene >(int testNumber, string testDescription, GeneticAlgorithm<TGene > geneticAlgorithm, ObjectiveFunction<TGene > objectiveFunction,
-            int maxGenerationCount, double acceptableEvaluation, int populationSize, double crossoverRate, double mutationRate, bool scaling)
+        private static void Run<TGene>(int testNumber, string testDescription, GeneticAlgorithm<TGene > geneticAlgorithm, ObjectiveFunction<TGene > objectiveFunction,
+            int maxGenerationCount, double acceptableEvaluation, int populationSize, double crossoverRate, double mutationRate)
         {
             Console.WriteLine($"Test {testNumber}: {testDescription}");
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            Result<TGene> result = geneticAlgorithm.Run(objectiveFunction, maxGenerationCount, acceptableEvaluation, populationSize, crossoverRate, mutationRate, scaling);
+            Result<TGene> result = geneticAlgorithm.Run(objectiveFunction, maxGenerationCount, acceptableEvaluation, populationSize, crossoverRate, mutationRate);
             stopwatch.Stop();
         
             // Print the results.
-            Console.WriteLine($"Test {testNumber}: Duration: {stopwatch.Elapsed.Seconds}");
+            Console.WriteLine($"Test {testNumber}: Duration: {stopwatch.Elapsed.Milliseconds} ms");
             Console.WriteLine($"Test {testNumber}: Number of generations taken: {result.Generations}");
             Console.WriteLine($"Test {testNumber}: Best solution: {Chromosome<TGene>.Print(result.Solution)}");
             Console.WriteLine($"Test {testNumber}: Best solution's evaluation: {result.Evaluation}");

@@ -7,7 +7,7 @@ namespace GeneticAlgorithm.Examples.TravellingSalesman
     /// A travelling salesman problem (TSP) genetic algorithm.
     /// http://en.wikipedia.org/wiki/Travelling_salesman_problem
     /// </summary>
-    class GeneticAlgorithm : GeneticAlgorithm<char>
+    class TravellingSalesmanAlgorithm : GeneticAlgorithm<char>
     {
         /// <summary>
         /// <para>
