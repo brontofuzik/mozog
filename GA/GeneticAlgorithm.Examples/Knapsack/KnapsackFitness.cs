@@ -1,40 +1,40 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GeneticAlgorithm.Examples.Knapsack
 {
     class KnapsackFitness : ObjectiveFunction<int>
     {
-        private readonly Item[] items;
+        private readonly Knapsack knapsack;
 
         public KnapsackFitness()
             : base(5, Objective.Maximize)
         {
-            items = new[]
-            {
-                new Item(1.0, 1.0),
-                new Item(1.0, 2.0),
-                new Item(2.0, 2.0),
-                new Item(12.0, 4.0),
-                new Item(4.0, 10.0)
-            };
+            knapsack = new Knapsack()
+            .AddItem(1.0, 1.0)
+            .AddItem(1.0, 2.0)
+            .AddItem(2.0, 2.0)
+            .AddItem(12.0, 4.0)
+            .AddItem(4.0, 10.0);
         }
 
         public override double Evaluate(int[] genes)
-        {
-            double totalWeight = genes.Select((g, i) => g == 1 ? items[i].Weight : 0.0).Sum();
-            double totalValue = genes.Select((g, i) => g == 1 ? items[i].Value : 0.0).Sum();
-            return totalWeight <= 15.0 ? totalValue : 0.0;
-        }
+            => knapsack.TotalWeight(genes) <= 15.0 ? knapsack.TotalValue(genes) : 0.0;
     }
 
-    class Item : Tuple<double, double>
+    class Knapsack
     {
-        public Item(double weight, double value)
-            : base(weight, value) { }
+        private readonly IList<(double weight, double value)> items = new List<(double weight, double value)>();
 
-        public double Weight => Item1;
+        public Knapsack AddItem(double weight, double value)
+        {
+            items.Add((weight, value));
+            return this;
+        }
 
-        public double Value => Item2;
+        public double TotalWeight(int[] genes) => genes.Select((g, i) => g == 1 ? items[i].weight : 0.0).Sum();
+
+        public double TotalValue(int[] genes) => genes.Select((g, i) => g == 1 ? items[i].value : 0.0).Sum();
     }
 }

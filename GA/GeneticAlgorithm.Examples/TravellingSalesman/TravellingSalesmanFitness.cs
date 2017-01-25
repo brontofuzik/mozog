@@ -1,42 +1,47 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GeneticAlgorithm.Examples.TravellingSalesman
 {
     internal class TravellingSalesmanFitness : ObjectiveFunction<char>
     {
-        private readonly Dictionary<(char from, char to), double> distances;
+        private readonly Map map;
 
         public TravellingSalesmanFitness()
             : base(4, Objective.Minimize)
         {
-            distances = new Dictionary<(char, char), double>
-            {
-                {('A', 'A'), 0.0},
-                {('A', 'B'), 20.0},
-                {('A', 'C'), 42},
-                {('A', 'D'), 35.0},
-
-                {('B', 'B'), 0.0},
-                {('B', 'C'), 30.0},
-                {('B', 'D'), 34.0},
-
-                {('C', 'C'), 0.0},
-                {('C', 'D'), 12.0},
-
-                {('D', 'D'), 0.0}
-            };
+            map = new Map()
+            .AddRoad('A', 'B', 20)
+            .AddRoad('A', 'C', 42)
+            .AddRoad('A', 'D', 35)
+            .AddRoad('B', 'C', 30)
+            .AddRoad('B', 'D', 34)
+            .AddRoad('C', 'D', 12);
         }
 
-        public override double Evaluate(char[] genes)
+        public override double Evaluate(char[] genes) => map.TotalDistance(genes);
+
+        private class Map
         {
-            double totalDistance = 0.0;
-            for (int i = 0; i < 4; i++)
+            private readonly Dictionary<(char from, char to), double> roads = new Dictionary<(char from, char to), double>();
+
+            public Map AddRoad(char from, char to, double distance)
             {
-                char from = genes[i];
-                char to = genes[(i + 1) % Arity];
-                totalDistance += distances[(from, to)];
+                roads[(from, to)] = distance;
+                return this;
             }
-            return totalDistance;
+
+            public double TotalDistance(char[] genes)
+            {
+                double totalDistance = 0.0;
+                for (int i = 0; i < 4; i++)
+                {
+                    char from = genes[i];
+                    char to = genes[(i + 1) % genes.Length];
+                    totalDistance += from != to ? roads[((char)Math.Min(from, to), (char)Math.Max(from, to))] : 0;
+                }
+                return totalDistance;
+            }
         }
     }
 }
