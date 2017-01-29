@@ -10,7 +10,7 @@ namespace GeneticAlgorithm.Examples
     /// </summary>
     static class KnapsackProblem
     {
-        private static Knapsack Knapsack => new Knapsack()
+        private static readonly Knapsack Knapsack = new Knapsack()
             .AddItem(1.0, 1.0)
             .AddItem(1.0, 2.0)
             .AddItem(2.0, 2.0)
@@ -19,84 +19,13 @@ namespace GeneticAlgorithm.Examples
 
         public static GeneticAlgorithm<int> Algorithm => new GeneticAlgorithm<int>(Knapsack.ItemCount)
         {
-            ObjectiveFunction = new KnapsackFitness(Knapsack),
+            ObjectiveFunction = ObjectiveFunction<int>.Maximize(chromosome =>
+                Knapsack.TotalWeight(chromosome) <= 15.0 ? Knapsack.TotalValue(chromosome) : 0.0),
 
-            InitializationFunction = args =>
-            {
-                int[] genes = new int[args.ChromosomeSize];
-                for (int i = 0; i < args.ChromosomeSize; i++)
-                {
-                    genes[i] = Random.Int(0, 2);
-                }
-                return genes;
-            },
-
-            // The binary-coded one-point (1-PX) crossover function.
-            // ---
-            // Crossover Operators (S. Malkos)
-            // http://www3.itu.edu.tr/~okerol/CROSSOVER%20OPERATORS.pdf
-            CrossoverOperator = (offspring1, offspring2, args) =>
-            {
-                // Choose a point randomly.
-                // The point must be located after the first and before the last gene; the point is from the interval [1, chromosomeSize). 
-                int point = Random.Int(1, args.ChromosomeSize);
-
-                // Crossover all genes from the point (including) to the end.
-                for (int i = point; i < args.ChromosomeSize; i++)
-                {
-                    Misc.Swap(ref offspring1[i], ref offspring2[i]);
-                }
-            },
-
-            MutationOperator = (offspring, args) =>
-            {
-                int index = Random.Int(0, args.ChromosomeSize);
-                offspring[index] = offspring[index] == 0 ? 1 : 0;
-            }
+            InitializationFunction = Functions.PiecewiseInitialization<int>(_ => Random.Int(0, 2)),
+            CrossoverOperator = Functions.SinglePointCrossover<int>(),
+            MutationOperator = Functions.RandomPointMutation<int>((gene, _) => gene == 0 ? 1 : 0)
         };
-
-        class KnapsackFitness : ObjectiveFunction<int>
-        {
-            private readonly Knapsack knapsack;
-
-            public KnapsackFitness(Knapsack knapsack)
-                : base(Objective.Maximize)
-            {
-                this.knapsack = knapsack;
-            }
-
-            public override double Evaluate(int[] genes)
-                => knapsack.TotalWeight(genes) <= 15.0 ? knapsack.TotalValue(genes) : 0.0;
-        }
-
-        //private static void KnapsackUniformCrossoverFunction(int[] parent1Genes, int[] parent2Genes, out int[] offspring1Genes, out int[] offspring2Genes, double crossoverRate)
-        //{
-        //    int chromosomeSize = parent1Genes.Length;
-
-        //    // Breed the first offspring from the first parent.
-        //    offspring1Genes = new int[chromosomeSize];
-
-        //    // Breed the second offspring from the second parent.
-        //    offspring2Genes = new int[chromosomeSize];
-
-        //    // Perform a uniform crossover.
-        //    if (random.NextDouble() < crossoverRate)
-        //    {
-        //        for (int i = 0; i < chromosomeSize; i++)
-        //        {
-        //            if (random.NextDouble() < 0.5)
-        //            {
-        //                offspring1Genes[i] = parent1Genes[i];
-        //                offspring2Genes[i] = parent2Genes[i];
-        //            }
-        //            else
-        //            {
-        //                offspring1Genes[i] = parent2Genes[i];
-        //                offspring2Genes[i] = parent1Genes[i];
-        //            }
-        //        }
-        //    }
-        //}
     }
 
     class Knapsack

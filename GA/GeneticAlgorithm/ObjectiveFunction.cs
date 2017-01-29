@@ -13,26 +13,27 @@
     /// </para>
     /// </remarks>
     /// <typeparam name="TGene">The type of the gene.</typeparam>
-    public abstract class ObjectiveFunction<TGene>
+    public class ObjectiveFunction<TGene>
     {
-        protected ObjectiveFunction(Objective objective)
+        public static ObjectiveFunction<TGene> Maximize(ObjectiveFunc<TGene> function)
+            => new ObjectiveFunction<TGene>(Objective.Maximize, function);
+
+        public static ObjectiveFunction<TGene> Minimize(ObjectiveFunc<TGene> function)
+            => new ObjectiveFunction<TGene>(Objective.Minimize, function);
+
+        private ObjectiveFunction(Objective objective, ObjectiveFunc<TGene> function)
         {
             Objective = objective;
+            Function = function;
         }
 
         public Objective Objective { get; }
+        public ObjectiveFunc<TGene> Function { get; }
 
         private bool Maximizing => Objective == Objective.Maximize;
         private bool Minimizing => Objective == Objective.Minimize;
 
-        /// <summary>
-        /// Evaluates the objective function.
-        /// </summary>
-        /// <param name="genes">The genes of the chromosome to evalaute.</param>
-        /// <returns>
-        /// The evaluation of the chromosome.
-        /// </returns>
-        public abstract double Evaluate(TGene[] genes);
+        public double Evaluate(Chromosome<TGene> chromosome) => Function(chromosome.Genes);
 
         internal void UpdateBestChromosome(ref Chromosome<TGene> bestChromosome, Chromosome<TGene> chromosome)
         {
@@ -55,7 +56,7 @@
         }
 
         public bool IsAcceptable(double evaluation, double acceptableEvaluation)
-            => Objective == Objective.Maximize ? evaluation >= acceptableEvaluation : evaluation <= acceptableEvaluation;
+            => Maximizing ? evaluation >= acceptableEvaluation : evaluation <= acceptableEvaluation;
     }
 
     /// <summary>

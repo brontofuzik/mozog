@@ -3,7 +3,7 @@
 namespace Mozog.Utils.Tests
 {
     [TestFixture]
-    public class VectorTests
+    class VectorTests
     {
         [Test]
         public void Subtract_IntVector()

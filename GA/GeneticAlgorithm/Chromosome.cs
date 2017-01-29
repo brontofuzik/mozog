@@ -66,7 +66,7 @@ namespace GeneticAlgorithm
         /// </value>
         public double Fitness { get; set; }
 
-        public double Evaluate() => Evaluation = args.ObjectiveFunction.Evaluate(Genes);
+        public double Evaluate() => Evaluation = args.ObjectiveFunction.Evaluate(this);
 
         public double EvaluateFitness(double averageEvaluation) => Fitness = args.FitnessFunction(Evaluation, averageEvaluation, args.ObjectiveFunction.Objective);
 
@@ -117,8 +117,7 @@ namespace GeneticAlgorithm
         /// zero if this chromosome equals the <c>otherChromosome</c> (this chromosome and the <c>otherChromosome</c> are equally fit), and
         /// greater than zero if this chromosome is more than the <c>otherChromosome</c> (this chromosome is fitter than the <c>otherChromosome</c>).
         /// </returns>
-        public int CompareTo(Chromosome<TGene > otherChromosome)
-            => Evaluation.CompareTo(otherChromosome.Evaluation);
+        public int CompareTo(Chromosome<TGene > otherChromosome) => Evaluation.CompareTo(otherChromosome.Evaluation);
 
         /// <summary>
         /// Converts a chromosome into its string representation.
@@ -126,8 +125,7 @@ namespace GeneticAlgorithm
         /// <returns>
         /// The string representation of the chromosome.
         /// </returns>
-        public override string ToString()
-            => $"Genes: {Print(Genes)}, Evaluation: {Evaluation}, Fitness: {Fitness}";
+        public override string ToString() => $"Genes: {Print(Genes)}, Evaluation: {Evaluation}, Fitness: {Fitness}";
 
         public static string Print(TGene[] genes) => $"[{String.Join(", ", genes)}]";
     }
