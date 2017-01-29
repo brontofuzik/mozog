@@ -104,16 +104,6 @@ namespace GeneticAlgorithm
             return clone;
         }
 
-        public void Segment()
-        {
-
-        }
-
-        public void AllExcept()
-        {
-
-        }
-
         /// <summary>
         /// Compares the current chromosome with another chromosome.
         /// </summary>
