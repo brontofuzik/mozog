@@ -14,8 +14,8 @@ namespace GeneticAlgorithm.Examples
         /// <param name="args">The command line arguments.</param>
         public static void Main(string[] args)
         {
-            RunKnapsack();
-            //RunTravellingSalesman();
+            //RunKnapsack();
+            RunTravellingSalesman();
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace GeneticAlgorithm.Examples
                 crossoverRate: 0.80,
                 mutationRate: 0.05,
                 acceptableEvaluation: double.MaxValue,
-                maxGenerations: 1000);
+                maxGenerations: 100);
         }
 
         /// <summary>
@@ -41,11 +41,11 @@ namespace GeneticAlgorithm.Examples
         {
             Run(2, "Travelling salesman problem (TSP)",
                 TravellingSalesmanProblem.Algorithm,
-                populationSize: 100,
+                populationSize: 5,
                 crossoverRate: 0.80,
                 mutationRate: 0.05,
                 acceptableEvaluation: double.MinValue,
-                maxGenerations: 1000);
+                maxGenerations: 10);
         }
 
         /// <summary>
@@ -65,6 +65,8 @@ namespace GeneticAlgorithm.Examples
             double acceptableEvaluation, int maxGenerations)
         {
             Console.WriteLine($"Test {testNumber}: {testDescription}");
+
+            geneticAlgorithm.Notify += (generation, evaluation) => Console.WriteLine($"{generation}: {evaluation}"); 
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();

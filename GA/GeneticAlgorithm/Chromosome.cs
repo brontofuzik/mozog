@@ -56,7 +56,7 @@ namespace GeneticAlgorithm
         /// <value>
         /// The evaluation.
         /// </value>
-        public double Evaluation { get; set; }
+        public double Evaluation { get; internal set; }
 
         /// <summary>
         /// Gets or sets the fitness.
@@ -64,11 +64,7 @@ namespace GeneticAlgorithm
         /// <value>
         /// The fitness.
         /// </value>
-        public double Fitness { get; set; }
-
-        public double Evaluate() => Evaluation = args.ObjectiveFunction.Evaluate(this);
-
-        public double EvaluateFitness(double averageEvaluation) => Fitness = args.FitnessFunction(Evaluation, averageEvaluation, args.ObjectiveFunction.Objective);
+        public double Fitness { get; internal set; }
 
         public IEnumerable<Chromosome<TGene>> Mate(Chromosome<TGene> partner)
         {
@@ -106,6 +102,16 @@ namespace GeneticAlgorithm
             Chromosome<TGene> clone = new Chromosome<TGene>(args, new TGene[Size]);
             Array.Copy(Genes, clone.Genes, Size);
             return clone;
+        }
+
+        public void Segment()
+        {
+
+        }
+
+        public void AllExcept()
+        {
+
         }
 
         /// <summary>

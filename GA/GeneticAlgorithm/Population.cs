@@ -34,10 +34,10 @@ namespace GeneticAlgorithm
 
         public Chromosome<TGene> EvaluateFitness()
         {
+            // Evaluate
             foreach (Chromosome<TGene> chromosome in chromosomes)
             {
-                chromosome.Evaluate();
-
+                chromosome.Evaluation = args.ObjectiveFunction.Evaluate(chromosome);
                 args.ObjectiveFunction.UpdateBestChromosome(ref bestChromosome, chromosome);
 
                 if (args.Scaling)
@@ -51,8 +51,9 @@ namespace GeneticAlgorithm
                 Scale();
             }
 
+            // Assign fitness
             double averageEvaluation = chromosomes.Average(c => c.Evaluation);
-            chromosomes.ForEach(c => c.EvaluateFitness(averageEvaluation));
+            chromosomes.ForEach(c => c.Fitness = args.FitnessFunction(c.Evaluation, averageEvaluation, args.ObjectiveFunction.Objective));
 
             return bestChromosome;
         }

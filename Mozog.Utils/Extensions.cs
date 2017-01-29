@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Mozog.Utils
 {
@@ -20,5 +21,26 @@ namespace Mozog.Utils
                 action(item);
             }
         }
+
+        public static void ForEachWithinRange<T>(this T[] array, int from, int to, Action<int> action)
+        {
+            for (int i = from; i < to; i++)
+            {
+                action(i);
+            }
+        }
+
+        public static void ForEachOutsideRange<T>(this T[] array, int from, int to, Action<int> action)
+        {
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (i < from || to <= i)
+                {
+                    action(i);
+                }
+            }
+        }
+
+        public static bool None<T>(this IEnumerable<T> source) => !source.Any();
     }
 }

@@ -1,4 +1,6 @@
-﻿using GeneticAlgorithm.Selectors;
+﻿using System;
+using System.Collections.Specialized;
+using GeneticAlgorithm.Selectors;
 
 namespace GeneticAlgorithm
 {
@@ -19,7 +21,7 @@ namespace GeneticAlgorithm
         /// <summary>
         /// The global-best chromosome.
         /// </summary>
-        private Chromosome<TGene> globalBestChromosome;
+        private Chromosome<TGene> globalChampion;
 
         public GeneticAlgorithm(int chromosomeSize, InitializationFunction<TGene> initialization = null,
             ObjectiveFunction<TGene> objective = null, FitnessFunction fitness = null,
@@ -37,6 +39,8 @@ namespace GeneticAlgorithm
 
             args.ChromosomeSize = chromosomeSize;
         }
+
+        public Action<int, double> Notify;
 
         /// <summary>
         /// Runs the genetic algorithm.
@@ -69,24 +73,23 @@ namespace GeneticAlgorithm
             
             // Algorithm
 
-            population = Population<TGene>.CreateInitial(args);
-            var generationChampion = population.EvaluateFitness();
-            args.ObjectiveFunction.UpdateBestChromosome(ref globalBestChromosome, generationChampion);
-
-            while (!args.TerminationFunction(population.Generation, globalBestChromosome.Evaluation, args))
+            do
             {
-                var generationBestChromosome = population.EvaluateFitness();
-                args.ObjectiveFunction.UpdateBestChromosome(ref globalBestChromosome, generationBestChromosome);
+                population = population?.BreedNewGeneration() ?? Population<TGene>.CreateInitial(args);
 
-                population = population.BreedNewGeneration();
+                var generationChampion = population.EvaluateFitness();
+                args.ObjectiveFunction.UpdateBestChromosome(ref globalChampion, generationChampion);
+
+                Notify(population.Generation, globalChampion.Evaluation);
             }
+            while (!args.TerminationFunction(population.Generation, globalChampion.Evaluation, args));
 
             // Return value
 
             return new Result<TGene>
             {
-                Solution = globalBestChromosome.Genes,
-                Evaluation = globalBestChromosome.Evaluation,
+                Solution = globalChampion.Genes,
+                Evaluation = globalChampion.Evaluation,
                 Generations = population.Generation
             };
         }
