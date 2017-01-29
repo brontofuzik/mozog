@@ -1,4 +1,4 @@
-﻿namespace GeneticAlgorithm
+﻿namespace GeneticAlgorithm.Selectors
 {
     public interface ISelector<TGene>
     {

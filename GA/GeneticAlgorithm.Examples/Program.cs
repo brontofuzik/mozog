@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using GeneticAlgorithm.Examples.Knapsack;
-using GeneticAlgorithm.Examples.TravellingSalesman;
 
 namespace GeneticAlgorithm.Examples
 {
@@ -27,9 +25,12 @@ namespace GeneticAlgorithm.Examples
         private static void RunKnapsack()
         {
             Run(1, "Knapsack problem (KP)",
-                new KnapsackAlgorithm(), new KnapsackFitness(),
-                maxGenerationCount: 1000, acceptableEvaluation: double.MaxValue,
-                populationSize: 10, crossoverRate: 0.80, mutationRate: 0.05);
+                KnapsackProblem.Algorithm,
+                populationSize: 10,
+                crossoverRate: 0.80,
+                mutationRate: 0.05,
+                acceptableEvaluation: double.MaxValue,
+                maxGenerations: 1000);
         }
 
         /// <summary>
@@ -39,9 +40,12 @@ namespace GeneticAlgorithm.Examples
         private static void RunTravellingSalesman()
         {
             Run(2, "Travelling salesman problem (TSP)",
-                new TravellingSalesmanAlgorithm(), new TravellingSalesmanFitness(),
-                maxGenerationCount: 1000, acceptableEvaluation: double.MinValue,
-                populationSize: 100, crossoverRate: 0.80, mutationRate: 0.05);
+                TravellingSalesmanProblem.Algorithm,
+                populationSize: 100,
+                crossoverRate: 0.80,
+                mutationRate: 0.05,
+                acceptableEvaluation: double.MinValue,
+                maxGenerations: 1000);
         }
 
         /// <summary>
@@ -51,22 +55,20 @@ namespace GeneticAlgorithm.Examples
         /// <param name="testNumber">The number of the test.</param>
         /// <param name="testDescription">The description of the test.</param>
         /// <param name="geneticAlgorithm">The genetic algorithm to test.</param>
-        /// <param name="objectiveFunction">The objective function to test.</param>
-        /// 
         /// <param name="maxGenerationCount">The maximum number of generations (the computational budget).</param>
         /// <param name="acceptableEvaluation">The acceptable evaluation.</param>
-        /// 
         /// <param name="populationSize">The size of the population.</param>
         /// <param name="crossoverRate">The rate of crossover.</param>
         /// <param name="mutationRate">The rate of mutation.</param>
-        private static void Run<TGene>(int testNumber, string testDescription, GeneticAlgorithm<TGene > geneticAlgorithm, ObjectiveFunction<TGene > objectiveFunction,
-            int maxGenerationCount, double acceptableEvaluation, int populationSize, double crossoverRate, double mutationRate)
+        private static void Run<TGene>(int testNumber, string testDescription, GeneticAlgorithm<TGene > geneticAlgorithm,
+            int populationSize, double crossoverRate, double mutationRate,
+            double acceptableEvaluation, int maxGenerations)
         {
             Console.WriteLine($"Test {testNumber}: {testDescription}");
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            Result<TGene> result = geneticAlgorithm.Run(objectiveFunction, maxGenerationCount, acceptableEvaluation, populationSize, crossoverRate, mutationRate);
+            Result<TGene> result = geneticAlgorithm.Run(populationSize, crossoverRate, mutationRate, false, acceptableEvaluation, maxGenerations);
             stopwatch.Stop();
         
             // Print the results.

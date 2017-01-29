@@ -70,13 +70,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chromosome.cs" />
+    <Compile Include="Functions.cs" />
     <Compile Include="GeneticAlgorithm.cs" />
-    <Compile Include="ISelector.cs" />
+    <Compile Include="Selectors\ISelector.cs" />
     <Compile Include="ObjectiveFunction.cs" />
     <Compile Include="Population.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Result.cs" />
-    <Compile Include="RouletteWheelSelector.cs" />
+    <Compile Include="Selectors\RouletteWheelSelector.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

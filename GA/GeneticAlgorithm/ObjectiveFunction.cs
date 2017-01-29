@@ -15,13 +15,10 @@
     /// <typeparam name="TGene">The type of the gene.</typeparam>
     public abstract class ObjectiveFunction<TGene>
     {
-        protected ObjectiveFunction(int arity, Objective objective)
+        protected ObjectiveFunction(Objective objective)
         {
-            Arity = arity;
             Objective = objective;
         }
-
-        public int Arity { get; }
 
         public Objective Objective { get; }
 

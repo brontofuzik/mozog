@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Random = Mozog.Utils.Random;
 
-namespace GeneticAlgorithm
+namespace GeneticAlgorithm.Selectors
 {
     internal class RouletteWheelSelector<TGene> : ISelector<TGene>
     {

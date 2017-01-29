@@ -6,13 +6,12 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmT
     /// <remarks>
     /// A genetic algorithm teacher.
     /// </remarks>
-    public class GeneticAlgorithmTeacher
-        : TeacherBase
+    public class GeneticAlgorithmTeacher : TeacherBase
     {
         /// <summary>
         /// The network genetic algorithm.
         /// </summary>
-        private readonly NetworkGeneticAlgorithm networkGeneticAlgorithm = new NetworkGeneticAlgorithm();
+        //private readonly GeneticAlgorithm<double> geneticAlgo;
 
         /// <summary>
         /// Gets the name of the teacher.
@@ -41,23 +40,18 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmT
         /// <param name="maxTolerableNetworkError">The maximum tolerable network error.</param>
         public override TrainingLog Train(INetwork network, int maxIterationCount, double maxTolerableNetworkError)
         {
-            // The network genetic algorithm parameters.
-            NetworkObjectiveFunction networkObjectiveFunction = new NetworkObjectiveFunction(network, trainingSet);
+            var geneticAlgo = NetworkGeneticAlgorithm.Algorithm(network, trainingSet);
 
-            // Train the network.
-            int iterationCount;
-            double networkError;
-            Result<double> result = networkGeneticAlgorithm.Run(networkObjectiveFunction, maxIterationCount, maxTolerableNetworkError,
-                populationSize: 500, crossoverRate: 0.8, mutationRate: 0.05, scaling: false);
+            Result<double> result = geneticAlgo.Run(
+                populationSize: 500,
+                crossoverRate: 0.8,
+                mutationRate: 0.05,
+                scaling: false,
+                acceptableEvaluation: maxTolerableNetworkError,
+                maxGenerations: maxIterationCount);  
             network.SetWeights(result.Solution);
 
-            // LOGGING
-            // -------
-
-            // Create the training log and log the training data.
             TrainingLog trainingLog = new TrainingLog(result.Generations, result.Evaluation);
-
-            // Log the network statistics.
             LogNetworkStatistics(trainingLog, network);
 
             return trainingLog;

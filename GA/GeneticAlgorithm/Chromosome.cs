@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Random = Mozog.Utils.Random;
 
 namespace GeneticAlgorithm
 {
@@ -8,13 +10,22 @@ namespace GeneticAlgorithm
     /// <typeparam name="TGene">The type of gene.</typeparam>
     public class Chromosome<TGene> : IComparable<Chromosome<TGene>>
     {
+        private readonly GeneticAlgorithm<TGene> args;
+
         /// <summary>
         /// Creates a new chromosome.
         /// </summary>
         /// <param name="chromosomeSize">The size of the chromosome (i.e. the numebr of genes in the chromosome).</param>
-        public Chromosome(int chromosomeSize)
+        public Chromosome(GeneticAlgorithm<TGene> args)
         {
-            Genes = new TGene[chromosomeSize];
+            this.args = args;
+            Genes = args.InitializationFunction(args);
+        }
+
+        private Chromosome(GeneticAlgorithm<TGene> args, TGene[] genes)
+        {
+            this.args = args;
+            Genes = genes;
         }
 
         /// <summary>
@@ -55,11 +66,34 @@ namespace GeneticAlgorithm
         /// </value>
         public double Fitness { get; set; }
 
-        public double Evaluate(ObjectiveFunction<TGene> objectiveFunction)
-            => Evaluation = objectiveFunction.Evaluate(Genes);
+        public double Evaluate() => Evaluation = args.ObjectiveFunction.Evaluate(Genes);
 
-        public double EvaluateFitness(FitnessFunction fitnessFunction, double averageEvaluation, Objective objective)
-            => Fitness = fitnessFunction(Evaluation, averageEvaluation, objective);
+        public double EvaluateFitness(double averageEvaluation) => Fitness = args.FitnessFunction(Evaluation, averageEvaluation, args.ObjectiveFunction.Objective);
+
+        public IEnumerable<Chromosome<TGene>> Mate(Chromosome<TGene> partner)
+        {
+            Chromosome<TGene> offspring1 = Clone();
+            Chromosome<TGene> offspring2 = partner.Clone();
+
+            // Cross-over
+            if (Random.Double() < args.CrossoverRate)
+            {
+                args.CrossoverOperator(offspring1.Genes, offspring2.Genes, args);
+            }
+
+            // Mutate
+            if (Random.Double() < args.MutationRate)
+            {
+                args.MutationOperator(offspring1.Genes, args);
+            }
+            if (Random.Double() < args.MutationRate)
+            {
+                args.MutationOperator(offspring2.Genes, args);
+            }
+
+            yield return offspring1;
+            yield return offspring2;
+        }
 
         /// <summary>
         /// Clones the chromosome.
@@ -69,7 +103,7 @@ namespace GeneticAlgorithm
         /// </returns>
         public Chromosome<TGene > Clone()
         {
-            Chromosome<TGene> clone = new Chromosome<TGene>(Size);
+            Chromosome<TGene> clone = new Chromosome<TGene>(args, new TGene[Size]);
             Array.Copy(Genes, clone.Genes, Size);
             return clone;
         }

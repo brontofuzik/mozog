@@ -1,4 +1,5 @@
 ﻿using System;
+using GeneticAlgorithm.Selectors;
 
 namespace GeneticAlgorithm
 {
@@ -7,12 +8,25 @@ namespace GeneticAlgorithm
     /// samizdat.mines.edu/ga_tutorial/ga_tutorial.ps
     /// </remarks>
     /// <typeparam name="TGene">The type of the gene.</typeparam>
-    public abstract class GeneticAlgorithm<TGene>
+    public class GeneticAlgorithm<TGene>
     {
-        /// <summary>
-        /// The objective function.
-        /// </summary>
-        private ObjectiveFunction<TGene> objectiveFunction;
+        // Params
+        public InitializationFunction<TGene> InitializationFunction { get; set; }
+        public ObjectiveFunction<TGene> ObjectiveFunction { get; set; }
+        public FitnessFunction FitnessFunction { get; set; }
+        public ISelector<TGene> Selector { get; set; }
+        public CrossoverOperator<TGene> CrossoverOperator { get; set; }
+        public MutationOperator<TGene> MutationOperator { get; set; }
+        public TerminationFunction<TGene> TerminationFunction { get; set; }
+
+        public int ChromosomeSize { get; private set; }
+        public int PopulationSize { get; private set; }
+        public double CrossoverRate { get; private set; }
+        public double MutationRate { get; private set; }
+        public bool Scaling { get; private set; }
+
+        public double AcceptableEvaluation { get; private set; }
+        public int MaxGenerations { get; private set; }
 
         /// <summary>
         /// The current population (pseudo-class).
@@ -20,40 +34,17 @@ namespace GeneticAlgorithm
         private Population<TGene> population;
 
         /// <summary>
-        /// The intermediate population (pseudo-class).
-        /// </summary>
-        private Population<TGene> intermediatePopulation;
-
-        /// <summary>
-        /// The next population (pseudo-class).
-        /// </summary>
-        private Population<TGene> nextPopulation;
-
-        /// <summary>
         /// The global-best chromosome.
         /// </summary>
         private Chromosome<TGene> globalBestChromosome;
 
-        /// <summary>
-        /// Useful when the objective function is to be minimized.
-        /// </summary>
-        //private double maxObjectiveFunctionValue;
-
-        /// <summary>
-        /// Gets the dimension.
-        /// </summary>
-        /// <value>
-        /// The dimension.
-        /// </value>
-        public int Dimension => objectiveFunction.Arity;
-
-        /// <summary>
-        /// Gets the objective (minimize or maximize).
-        /// </summary>
-        /// <value>
-        /// The objective (minimize or mazimize).
-        /// </value>
-        public Objective Objective => objectiveFunction.Objective;
+        public GeneticAlgorithm(int chromosomeSize)
+        {
+            ChromosomeSize = chromosomeSize;
+            FitnessFunction = DefaultFitnessFunction;
+            Selector = new RouletteWheelSelector<TGene>(); // Default
+            TerminationFunction = DefaultTerminationFunction;
+        }
 
         /// <summary>
         /// Runs the genetic algorithm.
@@ -72,34 +63,30 @@ namespace GeneticAlgorithm
         /// <returns>
         /// The best solution (the global-best chromosome).
         /// </returns>
-        public Result<TGene> Run(ObjectiveFunction<TGene> objectiveFunction, int maxGenerations, double acceptableEvaluation,
-            int populationSize, double crossoverRate, double mutationRate, bool scaling = false)
+        public Result<TGene> Run(int populationSize, double crossoverRate, double mutationRate, bool scaling, double acceptableEvaluation, int maxGenerations)
         {
             //
             // Arguments
             //
-
-            if (objectiveFunction == null)
-            {
-                throw new ArgumentNullException(nameof(objectiveFunction));
-            }
-            this.objectiveFunction = objectiveFunction;
-
-            ISelector<TGene> selector = new RouletteWheelSelector<TGene>();
-
+            PopulationSize = populationSize;
+            CrossoverRate = crossoverRate;
+            MutationRate = mutationRate;
+            Scaling = scaling;
+            AcceptableEvaluation = acceptableEvaluation;
+            MaxGenerations = maxGenerations;
+            
             // Algorithm
 
-            population = Population<TGene>.CreateRandom(populationSize, InitializationFunction);
-            var generationChampion = population.Evaluate(objectiveFunction, Objective, scaling);
-            objectiveFunction.UpdateBestChromosome(ref globalBestChromosome, generationChampion);
+            population = Population<TGene>.CreateInitial(this);
+            var generationChampion = population.EvaluateFitness();
+            ObjectiveFunction.UpdateBestChromosome(ref globalBestChromosome, generationChampion);
 
-            while (!ShouldTerminate(maxGenerations, acceptableEvaluation))
+            while (!TerminationFunction(population.Generation, globalBestChromosome.Evaluation, this))
             {
-                var generationBestChromosome = population.Evaluate(objectiveFunction, Objective, scaling);
-                objectiveFunction.UpdateBestChromosome(ref globalBestChromosome, generationBestChromosome);
-                population.EvaluateFitness(FitnessFunction, Objective);
+                var generationBestChromosome = population.EvaluateFitness();
+                ObjectiveFunction.UpdateBestChromosome(ref globalBestChromosome, generationBestChromosome);
 
-                population = population.BreedNewGeneration(selector, CrossoverFunction, crossoverRate, MutationFunction, mutationRate);
+                population = population.BreedNewGeneration();
             }
 
             // Return value
@@ -111,19 +98,6 @@ namespace GeneticAlgorithm
                 Generations = population.Generation
             };
         }
-
-        /// <summary>
-        /// <para>
-        /// The generator function.
-        /// </para>
-        /// <para>
-        /// Must be overriden.
-        /// </para>
-        /// </summary>
-        /// <returns>
-        /// A random chromosome.
-        /// </returns>
-        protected abstract Chromosome<TGene> InitializationFunction();
 
         /// <summary>
         /// <para>
@@ -147,64 +121,10 @@ namespace GeneticAlgorithm
         /// </summary>
         /// <param name="chromosome">The chromosome to be ranked.</param>
         /// <param name="averageEvaluation">The average evaluation of all chromosomes in the (current) population.</param>
-        protected virtual double FitnessFunction(double evaluation, double averageEvaluation, Objective objective)
+        private static double DefaultFitnessFunction(double evaluation, double averageEvaluation, Objective objective)
             => objective == Objective.Maximize ? evaluation / averageEvaluation : averageEvaluation / evaluation;
 
-        /// <summary>
-        /// <para>
-        /// The crossover function.
-        /// </para>
-        /// <para>
-        /// Crossovers the chromosome with some other chromosome to create (two) offsprings with some probability p_c.
-        /// </para>
-        /// <para>
-        /// Must be overriden.
-        /// </para>
-        /// </summary>
-        /// <param name="parent1">The first parent to crossover.</param>
-        /// <param name="parent2">The second parent to crossover.</param>
-        /// <param name="offspring1">The first offpsring.</param>
-        /// <param name="offspring2">The second offspring.</param>
-        /// <param name="crossoverRate">The rate of crossover.</param>
-        protected abstract void CrossoverFunction(Chromosome<TGene> parent1, Chromosome<TGene> parent2,
-            out Chromosome<TGene> offspring1, out Chromosome<TGene> offspring2, double crossoverRate);
-
-        /// <summary>
-        /// <para>
-        /// The mutation function.
-        /// </para>
-        /// <para>
-        /// Mutates the chromosome with some probability p_m.
-        /// </para>
-        /// <para>
-        /// Must be overriden.
-        /// </para>
-        /// </summary>
-        /// <param name="chromosome">The chromosome to mutate.</param>
-        /// <param name="mutationRate">The rate of mutation.</param>
-        protected abstract void MutationFunction(Chromosome<TGene> chromosome, double mutationRate);
-
-        protected virtual bool ShouldTerminate(int maxGenerations, double acceptableEvaluation)
-            => IsAcceptableSolutionFound(acceptableEvaluation) || IsComputingBudgetSpent(maxGenerations);
-
-        /// <summary>
-        /// Is acceptable solution found?
-        /// </summary>
-        /// <param name="acceptableEvaluation">The acceptable evaluation (i.e. evaluation sufficiently low (when minimizing) or sufficiently high (when maximizing)).</param>
-        /// <returns>
-        /// <c>True</c> if an acceptable solution is found, <c>false</c> otherwise.
-        /// </returns>
-        private bool IsAcceptableSolutionFound(double acceptableEvaluation) => objectiveFunction.IsAcceptable(globalBestChromosome.Evaluation, acceptableEvaluation);
-
-        private bool IsComputingBudgetSpent(int maxGenerations) => population.Generation >= maxGenerations;
+        private bool DefaultTerminationFunction(int generation, double bestEvaluation, GeneticAlgorithm<TGene> args)
+            => ObjectiveFunction.IsAcceptable(bestEvaluation, AcceptableEvaluation) || generation >= MaxGenerations;
     }
-
-    public delegate Chromosome<TGene> InitializationFunction<TGene>();
-
-    public delegate double FitnessFunction(double evaluation, double averageEvaluation, Objective objective);
-
-    public delegate void CrossoverFunction<TGene>(Chromosome<TGene> parent1, Chromosome<TGene> parent2,
-        out Chromosome<TGene> offspring1, out Chromosome<TGene> offspring2, double crossoverRate);
-
-    public delegate void MutationFunction<TGene>(Chromosome<TGene> chromosome, double mutationRate);
 }

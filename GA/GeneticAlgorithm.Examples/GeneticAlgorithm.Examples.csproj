@@ -75,10 +75,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Knapsack\KnapsackAlgorithm.cs" />
-    <Compile Include="TravellingSalesman\TravellingSalesmanAlgorithm.cs" />
-    <Compile Include="TravellingSalesman\TravellingSalesmanFitness.cs" />
-    <Compile Include="Knapsack\KnapsackFitness.cs" />
+    <Compile Include="KnapsackProblem.cs" />
+    <Compile Include="TravellingSalesmanProblem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
