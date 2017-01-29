@@ -10,19 +10,19 @@ namespace GeneticAlgorithm
     /// <typeparam name="TGene">The type of gene.</typeparam>
     public class Chromosome<TGene> : IComparable<Chromosome<TGene>>
     {
-        private readonly GeneticAlgorithm<TGene> args;
+        private readonly Parameters<TGene> args;
 
         /// <summary>
         /// Creates a new chromosome.
         /// </summary>
         /// <param name="chromosomeSize">The size of the chromosome (i.e. the numebr of genes in the chromosome).</param>
-        public Chromosome(GeneticAlgorithm<TGene> args)
+        public Chromosome(Parameters<TGene> args)
         {
             this.args = args;
             Genes = args.InitializationFunction(args);
         }
 
-        private Chromosome(GeneticAlgorithm<TGene> args, TGene[] genes)
+        private Chromosome(Parameters<TGene> args, TGene[] genes)
         {
             this.args = args;
             Genes = genes;

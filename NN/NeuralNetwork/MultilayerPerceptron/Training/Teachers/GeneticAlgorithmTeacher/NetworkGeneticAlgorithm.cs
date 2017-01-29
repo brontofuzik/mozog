@@ -1,5 +1,6 @@
 ﻿using GeneticAlgorithm;
 using NeuralNetwork.MultilayerPerceptron.Networks;
+using static GeneticAlgorithm.Functions;
 using Random = Mozog.Utils.Random;
 
 namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmTeacher
@@ -9,17 +10,16 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmT
     /// </summary>
     internal static class NetworkGeneticAlgorithm
     {
-        public static GeneticAlgorithm<double> Algorithm(INetwork network, TrainingSet trainingSet) => new GeneticAlgorithm<double>(network.SynapseCount)
-        {
-            ObjectiveFunction = ObjectiveFunction<double>.Minimize(chromosome =>
+        public static GeneticAlgorithm<double> Algorithm(INetwork network, TrainingSet trainingSet) =>
+            new GeneticAlgorithm<double>(network.SynapseCount,
+            objective: ObjectiveFunction<double>.Minimize(chromosome =>
             {
                 network.SetWeights(chromosome);
                 return network.CalculateError(trainingSet);
             }),
-
-            InitializationFunction = Functions.PiecewiseInitialization<double>(_ => Random.Double(-10, +10)),
-            CrossoverOperator = Functions.SinglePointCrossover<double>(),
-            MutationOperator = Functions.RandomPointMutation<double>((gene, _) => (gene + Random.Double(-10, +10)) / 2.0)
-        };
+            initialization: PiecewiseInitialization<double>(_ => Random.Double(-10, +10)),
+            crossover: SinglePointCrossover<double>(),
+            mutation: RandomPointMutation<double>((gene, _) => (gene + Random.Double(-10, +10)) / 2.0)
+        );
     }
 }

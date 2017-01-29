@@ -5,21 +5,21 @@ using Random = Mozog.Utils.Random;
 
 namespace GeneticAlgorithm 
 {
-    public delegate TGene[] InitializationFunction<TGene>(GeneticAlgorithm<TGene> args);
+    public delegate TGene[] InitializationFunction<TGene>(Parameters<TGene> args);
 
     public delegate double ObjectiveFunc<TGene>(TGene[] chromosome);
 
     public delegate double FitnessFunction(double evaluation, double averageEvaluation, Objective objective);
 
-    public delegate void CrossoverOperator<TGene>(TGene[] offspring1, TGene[] offspring2, GeneticAlgorithm<TGene> args);
+    public delegate void CrossoverOperator<TGene>(TGene[] offspring1, TGene[] offspring2, Parameters<TGene> args);
 
-    public delegate void MutationOperator<TGene>(TGene[] chromosome, GeneticAlgorithm<TGene> args);
+    public delegate void MutationOperator<TGene>(TGene[] chromosome, Parameters<TGene> args);
 
-    public delegate bool TerminationFunction<TGene>(int generation, double bestEvaluation, GeneticAlgorithm<TGene> args);
+    public delegate bool TerminationFunction<TGene>(int generation, double bestEvaluation, Parameters<TGene> args);
 
     public static class Functions
     {
-        public static InitializationFunction<TGene> PiecewiseInitialization<TGene>(Func<GeneticAlgorithm<TGene>, TGene> initialize) =>
+        public static InitializationFunction<TGene> PiecewiseInitialization<TGene>(Func<Parameters<TGene>, TGene> initialize) =>
             args =>
             {
                 TGene[] genes = new TGene[args.ChromosomeSize];
@@ -129,7 +129,7 @@ namespace GeneticAlgorithm
                 }
             };
 
-        public static MutationOperator<TGene> RandomPointMutation<TGene>(Func<TGene, GeneticAlgorithm<TGene>, TGene> mutate) =>
+        public static MutationOperator<TGene> RandomPointMutation<TGene>(Func<TGene, Parameters<TGene>, TGene> mutate) =>
             (chromosome, args) =>
             {
                 int index = Random.Int(0, args.ChromosomeSize);

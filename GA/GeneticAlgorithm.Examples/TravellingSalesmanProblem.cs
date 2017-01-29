@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Mozog.Utils;
+using static GeneticAlgorithm.Functions;
 using Random = Mozog.Utils.Random;
 
 namespace GeneticAlgorithm.Examples
@@ -20,14 +21,12 @@ namespace GeneticAlgorithm.Examples
             .AddRoad('B', 'D', 34)
             .AddRoad('C', 'D', 12);
 
-        public static GeneticAlgorithm<char> Algorithm => new GeneticAlgorithm<char>(Map.CityCount)
-        {
-            ObjectiveFunction = ObjectiveFunction<char>.Minimize(chromosome =>
-                Map.TotalDistance(chromosome)),
-
-            InitializationFunction = args => Random.Shuffle(new[] {'A', 'B', 'C', 'D'}),
-            CrossoverOperator = Functions.PartiallyMatchedCrossover<char>(),
-            MutationOperator = (offspring, args) =>
+        public static GeneticAlgorithm<char> Algorithm => new GeneticAlgorithm<char>(Map.CityCount,
+            objective: ObjectiveFunction<char>.Minimize(
+                chromosome => Map.TotalDistance(chromosome)),
+            initialization: _ => Random.Shuffle(new[] {'A', 'B', 'C', 'D'}),
+            crossover: PartiallyMatchedCrossover<char>(),
+            mutation: (offspring, args) =>
             {
                 // SwapArrays two consecutive (tour-wisely) cities.
                 int from = Random.Int(0, args.ChromosomeSize);
@@ -35,7 +34,7 @@ namespace GeneticAlgorithm.Examples
                 
                 Misc.Swap(ref offspring[from], ref offspring[to]);
             }
-        };
+        );
     }
 
     class Map

@@ -9,23 +9,7 @@ namespace GeneticAlgorithm
     /// <typeparam name="TGene">The type of the gene.</typeparam>
     public class GeneticAlgorithm<TGene>
     {
-        // Params
-        public InitializationFunction<TGene> InitializationFunction { get; set; }
-        public ObjectiveFunction<TGene> ObjectiveFunction { get; set; }
-        public FitnessFunction FitnessFunction { get; set; }
-        public ISelector<TGene> Selector { get; set; }
-        public CrossoverOperator<TGene> CrossoverOperator { get; set; }
-        public MutationOperator<TGene> MutationOperator { get; set; }
-        public TerminationFunction<TGene> TerminationFunction { get; set; }
-
-        public int ChromosomeSize { get; private set; }
-        public int PopulationSize { get; private set; }
-        public double CrossoverRate { get; private set; }
-        public double MutationRate { get; private set; }
-        public bool Scaling { get; private set; }
-
-        public double AcceptableEvaluation { get; private set; }
-        public int MaxGenerations { get; private set; }
+        public Parameters<TGene> args = new Parameters<TGene>(); 
 
         /// <summary>
         /// The current population (pseudo-class).
@@ -37,12 +21,21 @@ namespace GeneticAlgorithm
         /// </summary>
         private Chromosome<TGene> globalBestChromosome;
 
-        public GeneticAlgorithm(int chromosomeSize)
+        public GeneticAlgorithm(int chromosomeSize, InitializationFunction<TGene> initialization = null,
+            ObjectiveFunction<TGene> objective = null, FitnessFunction fitness = null,
+            ISelector<TGene> selector = null,
+            CrossoverOperator<TGene> crossover = null, MutationOperator<TGene> mutation = null,
+            TerminationFunction<TGene> termination = null)
         {
-            ChromosomeSize = chromosomeSize;
-            FitnessFunction = DefaultFitnessFunction;
-            Selector = new RouletteWheelSelector<TGene>(); // Default
-            TerminationFunction = DefaultTerminationFunction;
+            args.InitializationFunction = initialization;
+            args.ObjectiveFunction = objective;
+            args.FitnessFunction = fitness ?? DefaultFitnessFunction;
+            args.Selector = selector ?? new RouletteWheelSelector<TGene>();
+            args.CrossoverOperator = crossover;
+            args.MutationOperator = mutation;
+            args.TerminationFunction = termination ?? DefaultTerminationFunction;
+
+            args.ChromosomeSize = chromosomeSize;
         }
 
         /// <summary>
@@ -67,23 +60,23 @@ namespace GeneticAlgorithm
             //
             // Arguments
             //
-            PopulationSize = populationSize;
-            CrossoverRate = crossoverRate;
-            MutationRate = mutationRate;
-            Scaling = scaling;
-            AcceptableEvaluation = acceptableEvaluation;
-            MaxGenerations = maxGenerations;
+            args.PopulationSize = populationSize;
+            args.CrossoverRate = crossoverRate;
+            args.MutationRate = mutationRate;
+            args.Scaling = scaling;
+            args.AcceptableEvaluation = acceptableEvaluation;
+            args.MaxGenerations = maxGenerations;
             
             // Algorithm
 
-            population = Population<TGene>.CreateInitial(this);
+            population = Population<TGene>.CreateInitial(args);
             var generationChampion = population.EvaluateFitness();
-            ObjectiveFunction.UpdateBestChromosome(ref globalBestChromosome, generationChampion);
+            args.ObjectiveFunction.UpdateBestChromosome(ref globalBestChromosome, generationChampion);
 
-            while (!TerminationFunction(population.Generation, globalBestChromosome.Evaluation, this))
+            while (!args.TerminationFunction(population.Generation, globalBestChromosome.Evaluation, args))
             {
                 var generationBestChromosome = population.EvaluateFitness();
-                ObjectiveFunction.UpdateBestChromosome(ref globalBestChromosome, generationBestChromosome);
+                args.ObjectiveFunction.UpdateBestChromosome(ref globalBestChromosome, generationBestChromosome);
 
                 population = population.BreedNewGeneration();
             }
@@ -123,7 +116,7 @@ namespace GeneticAlgorithm
         private static double DefaultFitnessFunction(double evaluation, double averageEvaluation, Objective objective)
             => objective == Objective.Maximize ? evaluation / averageEvaluation : averageEvaluation / evaluation;
 
-        private bool DefaultTerminationFunction(int generation, double bestEvaluation, GeneticAlgorithm<TGene> args)
-            => ObjectiveFunction.IsAcceptable(bestEvaluation, AcceptableEvaluation) || generation >= MaxGenerations;
+        private bool DefaultTerminationFunction(int generation, double bestEvaluation, Parameters<TGene> args)
+            => args.ObjectiveFunction.IsAcceptable(bestEvaluation, args.AcceptableEvaluation) || generation >= args.MaxGenerations;
     }
 }

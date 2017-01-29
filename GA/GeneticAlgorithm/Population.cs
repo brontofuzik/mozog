@@ -6,19 +6,19 @@ namespace GeneticAlgorithm
 {
     public class Population<TGene>
     {
-        private readonly GeneticAlgorithm<TGene> args;
+        private readonly Parameters<TGene> args;
         private readonly List<Chromosome<TGene>> chromosomes = new List<Chromosome<TGene>>();
         private Chromosome<TGene> bestChromosome;
         private Chromosome<TGene> worstChromosome;
 
-        public static Population<TGene> CreateInitial(GeneticAlgorithm<TGene> args)
+        public static Population<TGene> CreateInitial(Parameters<TGene> args)
         {
             var population = new Population<TGene>(args, 0);
             args.PopulationSize.Times(() => population.chromosomes.Add(new Chromosome<TGene>(args)));
             return population;
         }
 
-        private Population(GeneticAlgorithm<TGene> args, int generation)
+        private Population(Parameters<TGene> args, int generation)
         {
             this.args = args;
             Generation = generation;

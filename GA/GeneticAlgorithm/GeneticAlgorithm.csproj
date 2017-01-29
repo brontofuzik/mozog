@@ -72,6 +72,7 @@
     <Compile Include="Chromosome.cs" />
     <Compile Include="Functions.cs" />
     <Compile Include="GeneticAlgorithm.cs" />
+    <Compile Include="Parameters.cs" />
     <Compile Include="Selectors\ISelector.cs" />
     <Compile Include="ObjectiveFunction.cs" />
     <Compile Include="Population.cs" />
