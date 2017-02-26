@@ -10,6 +10,8 @@ namespace GeneticAlgorithm.Functions.Selection
 
         public override void Initialize(Population<TGene> population)
         {
+            Population = population;
+
             rouletteWheel = new List<double>(population.Size);
             double currentPocket = 0.0;
             foreach (Chromosome<TGene> chromosome in population.Chromosomes)
@@ -29,7 +31,5 @@ namespace GeneticAlgorithm.Functions.Selection
             }
             return Population[index]; 
         }
-
-
     }
 }
