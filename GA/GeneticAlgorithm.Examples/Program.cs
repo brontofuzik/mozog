@@ -55,7 +55,7 @@ namespace GeneticAlgorithm.Examples
         {
             Console.WriteLine($"Test {testNumber}: {testDescription}");
 
-            geneticAlgorithm.Notify += (generation, evaluation) => Console.WriteLine($"{generation}: {evaluation}"); 
+            geneticAlgorithm.Notify += (_, state) => Console.WriteLine($"{state.Generations}: {state.Evaluation}");
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
