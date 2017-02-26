@@ -70,6 +70,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chromosome.cs" />
+    <Compile Include="Configuration\AlgorithmConfigurer.cs" />
+    <Compile Include="Configuration\Configurer.cs" />
+    <Compile Include="Configuration\CrossoverConfigurer.cs" />
+    <Compile Include="Configuration\FitnessConfigurer.cs" />
+    <Compile Include="Configuration\FunctionConfigurer.cs" />
+    <Compile Include="Configuration\InitializationConfigurer.cs" />
+    <Compile Include="Configuration\SelectionConfigurer.cs" />
+    <Compile Include="Configuration\TerminationConfigurer.cs" />
+    <Compile Include="GeneticAlgorithm.cs" />
+    <Compile Include="Configuration\MutationConfigurer.cs" />
     <Compile Include="Functions\Crossover\CrossoverOperator.cs" />
     <Compile Include="Functions\Fitness\FitnessFunction.cs" />
     <Compile Include="Functions\Initialization\LambdaInitialization.cs" />
@@ -96,7 +106,6 @@
     <Compile Include="Functions\Termination\TerminationFunction.cs" />
     <Compile Include="Functions\Crossover\TwoPointCrossover.cs" />
     <Compile Include="Functions\Crossover\UniformCrossover.cs" />
-    <Compile Include="GeneticAlgorithm.cs" />
     <Compile Include="Functions\Selection\ISelectionFunction.cs" />
     <Compile Include="Population.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

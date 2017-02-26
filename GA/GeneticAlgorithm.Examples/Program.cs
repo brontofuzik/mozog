@@ -24,11 +24,8 @@ namespace GeneticAlgorithm.Examples
         /// </summary>
         private static void RunKnapsack()
         {
-            Run(1, "Knapsack problem (KP)",
-                KnapsackProblem.Algorithm,
-                populationSize: 10,
-                crossoverRate: 0.80,
-                mutationRate: 0.05);
+            Run(1, "Knapsack problem (KP)", KnapsackProblem.Algorithm(maxGenerations: 100),
+                populationSize: 10, crossoverRate: 0.80, mutationRate: 0.05);
         }
 
         /// <summary>
@@ -37,11 +34,8 @@ namespace GeneticAlgorithm.Examples
         /// </summary>
         private static void RunTravellingSalesman()
         {
-            Run(2, "Travelling salesman problem (TSP)",
-                TravellingSalesmanProblem.Algorithm,
-                populationSize: 5,
-                crossoverRate: 0.80,
-                mutationRate: 0.05);
+            Run(2, "Travelling salesman problem (TSP)", TravellingSalesmanProblem.Algorithm(maxGenerations: 10),
+                populationSize: 5, crossoverRate: 0.80, mutationRate: 0.05);
         }
 
         /// <summary>

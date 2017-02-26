@@ -1,10 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using GeneticAlgorithm.Functions.Crossover;
-using GeneticAlgorithm.Functions.Fitness;
-using GeneticAlgorithm.Functions.Initialization;
-using GeneticAlgorithm.Functions.Mutation;
-using GeneticAlgorithm.Functions.Termination;
 using Mozog.Utils;
 
 namespace GeneticAlgorithm.Examples
@@ -22,15 +17,14 @@ namespace GeneticAlgorithm.Examples
             .AddItem(12.0, 4.0)
             .AddItem(4.0, 10.0);
 
-        public static GeneticAlgorithm<int> Algorithm => new GeneticAlgorithm<int>(Knapsack.ItemCount)
-        {
-            Fitness = FitnessFunction<int>.Maximize(chromosome =>
-                Knapsack.TotalWeight(chromosome) <= 15.0 ? Knapsack.TotalValue(chromosome) : 0.0),
-            Initializer = Initialization.Piecewise(() => Random.Int(0, 2)),
-            Crossover = Crossover.SinglePoint<int>(),
-            Mutator = Mutation.RandomPoint<int>(gene => gene == 0 ? 1 : 0),
-            Terminator = Termination.MaxGenerationsOrMinEvaluation<int>(maxGenerations: 100, minEvaluation: double.MaxValue)
-        };
+        public static GeneticAlgorithm<int> Algorithm(int maxGenerations) => new GeneticAlgorithm<int>(Knapsack.ItemCount).Configure(cfg => cfg
+            .Fitness.Maximize(chromosome => Knapsack.TotalWeight(chromosome) <= 15.0 ? Knapsack.TotalValue(chromosome) : 0.0)
+            .Initialization.Piecewise(() => Random.Int(0, 2))
+            .Selection.RouletteWheel()
+            .Crossover.SinglePoint()
+            .Mutation.RandomPoint(gene => gene == 0 ? 1 : 0)
+            .Termination.MaxGenerations(maxGenerations)
+        );
     }
 
     class Knapsack

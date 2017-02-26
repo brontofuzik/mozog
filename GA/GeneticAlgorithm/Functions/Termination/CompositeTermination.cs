@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GeneticAlgorithm.Configuration;
 using Mozog.Utils;
 
 namespace GeneticAlgorithm.Functions.Termination

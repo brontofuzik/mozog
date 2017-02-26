@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using GeneticAlgorithm.Configuration;
 using GeneticAlgorithm.Functions.Crossover;
 using GeneticAlgorithm.Functions.Fitness;
 using GeneticAlgorithm.Functions.Initialization;
@@ -28,6 +29,8 @@ namespace GeneticAlgorithm
         public int CurrentGeneration => population.Generation;
 
         public double BestEvaluation => bestChromosome.Evaluation;
+
+        #region Functions & operators
 
         private IFitnessFunction<TGene> fitness;
         public IFitnessFunction<TGene> Fitness
@@ -95,7 +98,16 @@ namespace GeneticAlgorithm
             }
         }
 
+        #endregion Functions & operators
+
         public Action<int, double> Notify;
+
+        public GeneticAlgorithm<TGene> Configure(Action<AlgorithmConfigurer<TGene>> configure)
+        {
+            var configurer = new AlgorithmConfigurer<TGene>(this);
+            configure(configurer);
+            return this;
+        }
 
         /// <summary>
         /// Runs the genetic algorithm.
