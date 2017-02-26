@@ -100,14 +100,9 @@ namespace GeneticAlgorithm
 
         public int CurrentGeneration => population.Generation;
 
-        public double BestEvaluation => bestChromosome.Evaluation;
+        public TGene[] BestGenes => bestChromosome.Genes;
 
-        public Result<TGene> GetResults() => new Result<TGene>
-        {
-            Generations = CurrentGeneration,
-            Evaluation = BestEvaluation,
-            Solution = bestChromosome.Genes
-        };
+        public double BestEvaluation => bestChromosome.Evaluation;
 
         #endregion State
 
@@ -138,11 +133,18 @@ namespace GeneticAlgorithm
                 var generationChampion = population.EvaluateFitness();
                 Fitness.UpdateBestChromosome(generationChampion, ref bestChromosome);
 
-                Notify?.Invoke(this, GetResults());
+                Notify?.Invoke(this, GetStateSnapshot());
             }
             while (!Terminator.ShouldTerminate());
 
-            return GetResults();
+            return GetStateSnapshot();
         }
+
+        private Result<TGene> GetStateSnapshot() => new Result<TGene>
+        {
+            Solution = BestGenes,
+            Evaluation = BestEvaluation,
+            Generations = CurrentGeneration
+        };
     }
 }

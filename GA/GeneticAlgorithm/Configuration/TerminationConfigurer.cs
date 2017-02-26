@@ -13,14 +13,14 @@ namespace GeneticAlgorithm.Configuration
         public AlgorithmConfigurer<TGene> MaxGenerations(int maxGenerations)
             => SetTermination(new MaxGenerations<TGene>(maxGenerations));
 
-        public AlgorithmConfigurer<TGene> MinEvaluation(double minEvaluation)
-            => SetTermination(new MinEvaluation<TGene>(minEvaluation));
+        public AlgorithmConfigurer<TGene> AcceptableEvaluation(double acceptableEvaluation)
+            => SetTermination(new AcceptableEvaluation<TGene>(acceptableEvaluation));
 
-        public AlgorithmConfigurer<TGene> MaxGenerationsOrMinEvaluation(int maxGenerations, double minEvaluation)
+        public AlgorithmConfigurer<TGene> MaxGenerationsOrAcceptableEvaluation(int maxGenerations, double acceptableEvaluation)
             => SetTermination(new AnyTermination<TGene>(new List<ITerminationFunction<TGene>>
             {
                 new MaxGenerations<TGene>(maxGenerations),
-                new MinEvaluation<TGene>(minEvaluation)
+                new AcceptableEvaluation<TGene>(acceptableEvaluation)
             }));
 
         private AlgorithmConfigurer<TGene> SetTermination(ITerminationFunction<TGene> termination)

@@ -102,7 +102,7 @@
     <Compile Include="Functions\Crossover\SinglePointCrossover.cs" />
     <Compile Include="Functions\Termination\AnyTermination.cs" />
     <Compile Include="Functions\Termination\MaxGenerations.cs" />
-    <Compile Include="Functions\Termination\MinEvaluation.cs" />
+    <Compile Include="Functions\Termination\AcceptableEvaluation.cs" />
     <Compile Include="Functions\Termination\TerminationFunction.cs" />
     <Compile Include="Functions\Crossover\TwoPointCrossover.cs" />
     <Compile Include="Functions\Crossover\UniformCrossover.cs" />
