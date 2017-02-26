@@ -70,15 +70,38 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chromosome.cs" />
-    <Compile Include="Functions.cs" />
+    <Compile Include="Functions\Crossover\CrossoverOperator.cs" />
+    <Compile Include="Functions\Fitness\FitnessFunction.cs" />
+    <Compile Include="Functions\Initialization\LambdaInitialization.cs" />
+    <Compile Include="Functions\Mutation\LambdaMutation.cs" />
+    <Compile Include="Functions\Mutation\ProbabilisticMutation.cs" />
+    <Compile Include="Functions\Termination\AllTermination.cs" />
+    <Compile Include="Functions\Termination\CompositeTermination.cs" />
+    <Compile Include="Functions\FunctionBase.cs" />
+    <Compile Include="Functions\Crossover\ICrossoverOperator.cs" />
+    <Compile Include="Functions\Fitness\IFitnessFunction.cs" />
+    <Compile Include="Functions\Initialization\IInitializationFunction.cs" />
+    <Compile Include="Functions\Mutation\IMutationOperator.cs" />
+    <Compile Include="Functions\Initialization\InitializationFunction.cs" />
+    <Compile Include="Functions\Termination\ITerminationFunction.cs" />
+    <Compile Include="Functions\Mutation\MutationOperator.cs" />
+    <Compile Include="Functions\Crossover\PartiallyMatchedCrossover.cs" />
+    <Compile Include="Functions\Initialization\PiecewiseInitialization.cs" />
+    <Compile Include="Functions\Mutation\RandomPointMutation.cs" />
+    <Compile Include="Functions\Selection\SelectionFunction.cs" />
+    <Compile Include="Functions\Crossover\SinglePointCrossover.cs" />
+    <Compile Include="Functions\Termination\AnyTermination.cs" />
+    <Compile Include="Functions\Termination\MaxGenerations.cs" />
+    <Compile Include="Functions\Termination\MinEvaluation.cs" />
+    <Compile Include="Functions\Termination\TerminationFunction.cs" />
+    <Compile Include="Functions\Crossover\TwoPointCrossover.cs" />
+    <Compile Include="Functions\Crossover\UniformCrossover.cs" />
     <Compile Include="GeneticAlgorithm.cs" />
-    <Compile Include="Parameters.cs" />
-    <Compile Include="Selectors\ISelector.cs" />
-    <Compile Include="ObjectiveFunction.cs" />
+    <Compile Include="Functions\Selection\ISelectionFunction.cs" />
     <Compile Include="Population.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Result.cs" />
-    <Compile Include="Selectors\RouletteWheelSelector.cs" />
+    <Compile Include="Functions\Selection\RouletteWheelSelection.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

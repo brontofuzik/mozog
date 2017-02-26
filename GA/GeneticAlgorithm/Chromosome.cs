@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Random = Mozog.Utils.Random;
 
 namespace GeneticAlgorithm
 {
@@ -10,21 +9,21 @@ namespace GeneticAlgorithm
     /// <typeparam name="TGene">The type of gene.</typeparam>
     public class Chromosome<TGene> : IComparable<Chromosome<TGene>>
     {
-        private readonly Parameters<TGene> args;
+        private readonly GeneticAlgorithm<TGene> algo;
 
         /// <summary>
         /// Creates a new chromosome.
         /// </summary>
         /// <param name="chromosomeSize">The size of the chromosome (i.e. the numebr of genes in the chromosome).</param>
-        public Chromosome(Parameters<TGene> args)
+        public Chromosome(GeneticAlgorithm<TGene> algo)
         {
-            this.args = args;
-            Genes = args.InitializationFunction(args);
+            this.algo = algo;
+            Genes = algo.Initializer.Initialize(algo.ChromosomeSize);
         }
 
-        private Chromosome(Parameters<TGene> args, TGene[] genes)
+        private Chromosome(GeneticAlgorithm<TGene> algo, TGene[] genes)
         {
-            this.args = args;
+            this.algo = algo;
             Genes = genes;
         }
 
@@ -71,21 +70,10 @@ namespace GeneticAlgorithm
             Chromosome<TGene> offspring1 = Clone();
             Chromosome<TGene> offspring2 = partner.Clone();
 
-            // Cross-over
-            if (Random.Double() < args.CrossoverRate)
-            {
-                args.CrossoverOperator(offspring1.Genes, offspring2.Genes, args);
-            }
+            algo.Crossover.CrossOver(offspring1.Genes, offspring2.Genes);
 
-            // Mutate
-            if (Random.Double() < args.MutationRate)
-            {
-                args.MutationOperator(offspring1.Genes, args);
-            }
-            if (Random.Double() < args.MutationRate)
-            {
-                args.MutationOperator(offspring2.Genes, args);
-            }
+            algo.Mutator.Mutate(offspring1.Genes);
+            algo.Mutator.Mutate(offspring2.Genes);
 
             yield return offspring1;
             yield return offspring2;
@@ -99,7 +87,7 @@ namespace GeneticAlgorithm
         /// </returns>
         public Chromosome<TGene > Clone()
         {
-            Chromosome<TGene> clone = new Chromosome<TGene>(args, new TGene[Size]);
+            Chromosome<TGene> clone = new Chromosome<TGene>(algo, new TGene[Size]);
             Array.Copy(Genes, clone.Genes, Size);
             return clone;
         }

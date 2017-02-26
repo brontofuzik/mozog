@@ -1,7 +1,5 @@
 ﻿using GeneticAlgorithm;
 using NeuralNetwork.MultilayerPerceptron.Networks;
-using static GeneticAlgorithm.Functions;
-using Random = Mozog.Utils.Random;
 
 namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmTeacher
 {

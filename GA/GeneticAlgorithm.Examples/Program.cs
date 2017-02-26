@@ -28,9 +28,7 @@ namespace GeneticAlgorithm.Examples
                 KnapsackProblem.Algorithm,
                 populationSize: 10,
                 crossoverRate: 0.80,
-                mutationRate: 0.05,
-                acceptableEvaluation: double.MaxValue,
-                maxGenerations: 100);
+                mutationRate: 0.05);
         }
 
         /// <summary>
@@ -43,9 +41,7 @@ namespace GeneticAlgorithm.Examples
                 TravellingSalesmanProblem.Algorithm,
                 populationSize: 5,
                 crossoverRate: 0.80,
-                mutationRate: 0.05,
-                acceptableEvaluation: double.MinValue,
-                maxGenerations: 10);
+                mutationRate: 0.05);
         }
 
         /// <summary>
@@ -61,8 +57,7 @@ namespace GeneticAlgorithm.Examples
         /// <param name="crossoverRate">The rate of crossover.</param>
         /// <param name="mutationRate">The rate of mutation.</param>
         private static void Run<TGene>(int testNumber, string testDescription, GeneticAlgorithm<TGene > geneticAlgorithm,
-            int populationSize, double crossoverRate, double mutationRate,
-            double acceptableEvaluation, int maxGenerations)
+            int populationSize, double crossoverRate, double mutationRate)
         {
             Console.WriteLine($"Test {testNumber}: {testDescription}");
 
@@ -70,7 +65,7 @@ namespace GeneticAlgorithm.Examples
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            Result<TGene> result = geneticAlgorithm.Run(populationSize, crossoverRate, mutationRate, false, acceptableEvaluation, maxGenerations);
+            Result<TGene> result = geneticAlgorithm.Run(populationSize, crossoverRate, mutationRate);
             stopwatch.Stop();
         
             // Print the results.

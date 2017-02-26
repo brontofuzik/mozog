@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GeneticAlgorithm.Functions.Crossover;
+using GeneticAlgorithm.Functions.Fitness;
+using GeneticAlgorithm.Functions.Initialization;
+using GeneticAlgorithm.Functions.Mutation;
+using GeneticAlgorithm.Functions.Termination;
 using Mozog.Utils;
-using static GeneticAlgorithm.Functions;
 using Random = Mozog.Utils.Random;
 
 namespace GeneticAlgorithm.Examples
@@ -21,20 +25,21 @@ namespace GeneticAlgorithm.Examples
             .AddRoad('B', 'D', 34)
             .AddRoad('C', 'D', 12);
 
-        public static GeneticAlgorithm<char> Algorithm => new GeneticAlgorithm<char>(Map.CityCount,
-            objective: ObjectiveFunction<char>.Minimize(
-                chromosome => Map.TotalDistance(chromosome)),
-            initialization: _ => Random.Shuffle(new[] {'A', 'B', 'C', 'D'}),
-            crossover: PartiallyMatchedCrossover<char>(),
-            mutation: (offspring, args) =>
+        public static GeneticAlgorithm<char> Algorithm => new GeneticAlgorithm<char>(Map.CityCount)
+        {
+            Fitness = FitnessFunction<char>.Minimize(chromosome => Map.TotalDistance(chromosome)),
+            Initializer = Initialization.Lambda(_ => Random.Shuffle(new[] {'A', 'B', 'C', 'D'})),
+            Crossover = Crossover.PartiallyMatched<char>(),
+            Mutator = Mutation.Lambda<char>(offspring =>
             {
                 // SwapArrays two consecutive (tour-wisely) cities.
-                int from = Random.Int(0, args.ChromosomeSize);
-                int to = (from + 1) % args.ChromosomeSize;
+                int from = Random.Int(0, offspring.Length);
+                int to = (from + 1) % offspring.Length;
                 
                 Misc.Swap(ref offspring[from], ref offspring[to]);
-            }
-        );
+            }),
+            Terminator = Termination.MaxGenerationsOrMinEvaluation<char>(maxGenerations: 10, minEvaluation: double.MinValue)
+        };
     }
 
     class Map

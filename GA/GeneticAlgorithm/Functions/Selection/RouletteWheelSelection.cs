@@ -1,18 +1,15 @@
 ﻿using System.Collections.Generic;
 using Random = Mozog.Utils.Random;
 
-namespace GeneticAlgorithm.Selectors
+namespace GeneticAlgorithm.Functions.Selection
 {
-    internal class RouletteWheelSelector<TGene> : ISelector<TGene>
-    {
-        private Population<TGene> population;
+    internal class RouletteWheelSelection<TGene> : SelectionFunction<TGene>
+    {     
         private List<double> rouletteWheel;
         private double maxPocket;
 
-        public void Initialize(Population<TGene> population)
+        public override void Initialize(Population<TGene> population)
         {
-            this.population = population;
-
             rouletteWheel = new List<double>(population.Size);
             double currentPocket = 0.0;
             foreach (Chromosome<TGene> chromosome in population.Chromosomes)
@@ -22,7 +19,7 @@ namespace GeneticAlgorithm.Selectors
             maxPocket = currentPocket;
         }
 
-        public Chromosome<TGene> Select()
+        public override Chromosome<TGene> Select()
         {
             double pocket = Random.Double(0.0, maxPocket);
             int index = rouletteWheel.BinarySearch(pocket);
@@ -30,7 +27,9 @@ namespace GeneticAlgorithm.Selectors
             {
                 index = ~index;
             }
-            return population[index]; 
+            return Population[index]; 
         }
+
+
     }
 }
