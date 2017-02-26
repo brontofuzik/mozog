@@ -1,5 +1,3 @@
-using GeneticAlgorithm.Configuration;
-
 namespace GeneticAlgorithm.Functions
 {
     public interface IFunction<TGene>

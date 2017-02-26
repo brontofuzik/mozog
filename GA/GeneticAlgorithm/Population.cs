@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using GeneticAlgorithm.Configuration;
 using Mozog.Utils;
 
 namespace GeneticAlgorithm

@@ -1,5 +1,3 @@
-using System.Security.Policy;
-
 namespace GeneticAlgorithm.Configuration
 {
     public class AlgorithmConfigurer<TGene> : Configurer<TGene>

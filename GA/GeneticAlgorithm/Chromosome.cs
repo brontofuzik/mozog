@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using GeneticAlgorithm.Configuration;
 
 namespace GeneticAlgorithm
 {

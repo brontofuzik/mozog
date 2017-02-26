@@ -1,5 +1,4 @@
-﻿using System.Net.Configuration;
-using GeneticAlgorithm.Functions.Selection;
+﻿using GeneticAlgorithm.Functions.Selection;
 
 namespace GeneticAlgorithm.Configuration
 {

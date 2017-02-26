@@ -26,10 +26,6 @@ namespace GeneticAlgorithm
 
         public int ChromosomeSize { get; }
 
-        public int CurrentGeneration => population.Generation;
-
-        public double BestEvaluation => bestChromosome.Evaluation;
-
         #region Functions & operators
 
         private IFitnessFunction<TGene> fitness;
@@ -100,7 +96,22 @@ namespace GeneticAlgorithm
 
         #endregion Functions & operators
 
-        public Action<int, double> Notify;
+        #region State
+
+        public int CurrentGeneration => population.Generation;
+
+        public double BestEvaluation => bestChromosome.Evaluation;
+
+        public Result<TGene> GetResults() => new Result<TGene>
+        {
+            Generations = CurrentGeneration,
+            Evaluation = BestEvaluation,
+            Solution = bestChromosome.Genes
+        };
+
+        #endregion State
+
+        public event EventHandler<Result<TGene>> Notify;
 
         public GeneticAlgorithm<TGene> Configure(Action<AlgorithmConfigurer<TGene>> configure)
         {
@@ -127,16 +138,11 @@ namespace GeneticAlgorithm
                 var generationChampion = population.EvaluateFitness();
                 Fitness.UpdateBestChromosome(generationChampion, ref bestChromosome);
 
-                Notify(population.Generation, bestChromosome.Evaluation);
+                Notify?.Invoke(this, GetResults());
             }
             while (!Terminator.ShouldTerminate());
 
-            return new Result<TGene>
-            {
-                Solution = bestChromosome.Genes,
-                Evaluation = bestChromosome.Evaluation,
-                Generations = population.Generation
-            };
+            return GetResults();
         }
     }
 }
