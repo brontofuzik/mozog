@@ -25,7 +25,7 @@ namespace GeneticAlgorithm.Examples
             .Crossover.SinglePoint()
             .Mutation.RandomPoint(gene => gene == 0 ? 1 : 0)
             .Termination.MaxGenerations(maxGenerations)
-            .Parallelizer(new ForLoopParallelizer())
+            .Parallelizer(new TplParallelizer())
         );
     }
 

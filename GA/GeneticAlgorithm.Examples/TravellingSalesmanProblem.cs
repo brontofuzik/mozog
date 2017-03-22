@@ -35,7 +35,7 @@ namespace GeneticAlgorithm.Examples
                 Misc.Swap(ref offspring[from], ref offspring[to]);
             })
             .Termination.MaxGenerations(maxGenerations)
-            .Parallelizer(new ForLoopParallelizer())
+            .Parallelizer(new TplParallelizer())
         );
     }
 

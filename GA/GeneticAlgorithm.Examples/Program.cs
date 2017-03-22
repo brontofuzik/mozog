@@ -14,7 +14,7 @@ namespace GeneticAlgorithm.Examples
         /// <param name="args">The command line arguments.</param>
         public static void Main(string[] args)
         {
-            //RunKnapsack();
+            RunKnapsack();
             //RunTravellingSalesman();
         }
 
