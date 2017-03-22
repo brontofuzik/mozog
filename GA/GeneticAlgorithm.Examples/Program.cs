@@ -19,12 +19,12 @@ namespace GeneticAlgorithm.Examples
         }
 
         /// <summary>
-        /// Solution: [1, 1, 1, 0, 1]
-        /// Evaluation: 15
+        /// Solution: [1, 1, 1, 1, 0, 1, 0, 0, 0, 0]
+        /// Evaluation: ?
         /// </summary>
         private static void RunKnapsack()
         {
-            Run(1, "Knapsack problem (KP)", KnapsackProblem.Algorithm(maxGenerations: 10),
+            Run(1, "Knapsack problem (KP)", KnapsackProblem.Algorithm(maxGenerations: 20),
                 populationSize: 20, crossoverRate: 0.80, mutationRate: 0.05);
         }
 
