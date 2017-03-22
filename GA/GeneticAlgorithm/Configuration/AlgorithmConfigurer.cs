@@ -1,3 +1,5 @@
+using Mozog.Utils.Threading;
+
 namespace GeneticAlgorithm.Configuration
 {
     public class AlgorithmConfigurer<TGene> : Configurer<TGene>
@@ -17,5 +19,10 @@ namespace GeneticAlgorithm.Configuration
         public MutationConfigurer<TGene> Mutation => new MutationConfigurer<TGene>(Algo, this);
 
         public TerminationConfigurer<TGene> Termination => new TerminationConfigurer<TGene>(Algo, this);
+
+        public void Parallelizer(IParallelizer parallelizer)
+        {
+            Algo.Parallelizer = parallelizer;
+        }
     }
 }

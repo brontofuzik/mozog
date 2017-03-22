@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Mozog.Utils;
+using Mozog.Utils.Threading;
 using Random = Mozog.Utils.Random;
 
 namespace GeneticAlgorithm.Examples
@@ -22,7 +23,8 @@ namespace GeneticAlgorithm.Examples
 
         public static GeneticAlgorithm<char> Algorithm(int maxGenerations) => new GeneticAlgorithm<char>(Map.CityCount).Configure(cfg => cfg
             .Fitness.Minimize(chromosome => Map.TotalDistance(chromosome))
-            .Initialization.Lambda(_ => Random.Shuffle(new[] { 'A', 'B', 'C', 'D' }))     
+            .Initialization.Lambda(_ => Random.Shuffle(new[] { 'A', 'B', 'C', 'D' }))
+            .Selection.RouletteWheel()
             .Crossover.PartiallyMatched()
             .Mutation.Lambda(offspring =>
             {
@@ -33,6 +35,7 @@ namespace GeneticAlgorithm.Examples
                 Misc.Swap(ref offspring[from], ref offspring[to]);
             })
             .Termination.MaxGenerations(maxGenerations)
+            .Parallelizer(new ForLoopParallelizer())
         );
     }
 

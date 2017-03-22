@@ -56,26 +56,6 @@ namespace GeneticAlgorithm.Functions.Fitness
             population.Chromosomes.ForEach(c => c.Fitness = Maximizing ? c.Evaluation / averageEvaluation : averageEvaluation / c.Evaluation);
         }
 
-        public void UpdateBestChromosome(Chromosome<TGene> chromosome, ref Chromosome<TGene> bestChromosome)
-        {
-            if (bestChromosome == null
-                || Maximizing && chromosome.Evaluation > bestChromosome.Evaluation
-                || Minimizing && chromosome.Evaluation < bestChromosome.Evaluation)
-            {
-                bestChromosome = chromosome;
-            }
-        }
-
-        public void UpdateWorstChromosome(Chromosome<TGene> chromosome, ref Chromosome<TGene> worstChromosome)
-        {
-            if (worstChromosome == null
-                || Maximizing && chromosome.Evaluation < worstChromosome.Evaluation
-                || Minimizing && chromosome.Evaluation > worstChromosome.Evaluation)
-            {
-                worstChromosome = chromosome;
-            }
-        }
-
         public bool IsAcceptable(double evaluation, double acceptableEvaluation)
             => Maximizing ? evaluation >= acceptableEvaluation : evaluation <= acceptableEvaluation;
     }

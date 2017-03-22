@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mozog.Utils;
+using Mozog.Utils.Threading;
 
 namespace GeneticAlgorithm.Examples
 {
@@ -24,6 +25,7 @@ namespace GeneticAlgorithm.Examples
             .Crossover.SinglePoint()
             .Mutation.RandomPoint(gene => gene == 0 ? 1 : 0)
             .Termination.MaxGenerations(maxGenerations)
+            .Parallelizer(new ForLoopParallelizer())
         );
     }
 

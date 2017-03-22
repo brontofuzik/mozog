@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using MoreLinq;
 using Mozog.Utils;
 
 namespace GeneticAlgorithm
 {
     public class Population<TGene>
     {
-        private readonly GeneticAlgorithm<TGene> algo;
         private readonly List<Chromosome<TGene>> chromosomes = new List<Chromosome<TGene>>();
+        private readonly GeneticAlgorithm<TGene> algo;
+
         private Chromosome<TGene> bestChromosome;
 
         public static Population<TGene> CreateInitial(GeneticAlgorithm<TGene> algo, int size)
@@ -32,16 +36,17 @@ namespace GeneticAlgorithm
 
         public Chromosome<TGene> EvaluateFitness()
         {
-            // Evaluate
-            foreach (Chromosome<TGene> chromosome in chromosomes)
+            // Evaluate objective function.
+            algo.Parallelizer.Parallelize(chromosomes.Select<Chromosome<TGene>, Action>(c =>
             {
-                chromosome.Evaluation = algo.Fitness.EvaluateObjective(chromosome);
-                algo.Fitness.UpdateBestChromosome(chromosome, ref bestChromosome);
-            }
+                var cNew = c;
+                return () => { cNew.Evaluation = algo.Fitness.EvaluateObjective(cNew); };
+            }));
 
+            // Evaluate fitness function.
             algo.Fitness.EvaluateFitness(this);
 
-            return bestChromosome;
+            return chromosomes.MaxBy(c => c.Fitness);
         }
 
         public Population<TGene> BreedNewGeneration()
@@ -55,7 +60,7 @@ namespace GeneticAlgorithm
                 Chromosome<TGene> parent1 = algo.Selector.Select();
                 Chromosome<TGene> parent2 = algo.Selector.Select();
                 var offsprings = parent1.Mate(parent2);
-                offsprings.ForEach(o => newPopulation.chromosomes.Add(o));
+                Extensions.ForEach(offsprings, o => newPopulation.chromosomes.Add(o));
             });
 
             return newPopulation;

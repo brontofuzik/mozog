@@ -6,6 +6,7 @@ using GeneticAlgorithm.Functions.Initialization;
 using GeneticAlgorithm.Functions.Mutation;
 using GeneticAlgorithm.Functions.Selection;
 using GeneticAlgorithm.Functions.Termination;
+using Mozog.Utils.Threading;
 
 namespace GeneticAlgorithm
 {
@@ -17,7 +18,7 @@ namespace GeneticAlgorithm
     public class GeneticAlgorithm<TGene>
     {
         private Population<TGene> population;
-        private Chromosome<TGene> bestChromosome;
+        private Chromosome<TGene> champion;
 
         public GeneticAlgorithm(int chromosomeSize)
         {
@@ -94,15 +95,17 @@ namespace GeneticAlgorithm
             }
         }
 
+        public IParallelizer Parallelizer { get; set; }
+
         #endregion Functions & operators
 
         #region State
 
         public int CurrentGeneration => population.Generation;
 
-        public TGene[] BestGenes => bestChromosome.Genes;
+        public TGene[] BestGenes => champion.Genes;
 
-        public double BestEvaluation => bestChromosome.Evaluation;
+        public double BestEvaluation => champion.Evaluation;
 
         #endregion State
 
@@ -131,7 +134,7 @@ namespace GeneticAlgorithm
                 population = population?.BreedNewGeneration() ?? Population<TGene>.CreateInitial(this, populationSize);
 
                 var generationChampion = population.EvaluateFitness();
-                Fitness.UpdateBestChromosome(generationChampion, ref bestChromosome);
+                champion = champion == null || generationChampion.Evaluation > champion.Evaluation ? generationChampion : champion;
 
                 Notify?.Invoke(this, GetStateSnapshot());
             }

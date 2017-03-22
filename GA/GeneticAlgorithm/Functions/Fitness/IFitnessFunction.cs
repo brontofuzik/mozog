@@ -6,8 +6,6 @@ namespace GeneticAlgorithm.Functions.Fitness
 
         void EvaluateFitness(Population<TGene> population);
 
-        void UpdateBestChromosome(Chromosome<TGene> chromosome, ref Chromosome<TGene> bestChromosome);
-
         bool IsAcceptable(double bestEvaluation, double acceptableEvaluation);
     }
 }
