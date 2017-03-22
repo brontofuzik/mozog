@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Mozog.Utils.Threading
 {
-    public class ForLoopParallelizer : IParallelizer
+    public class TplParallelizer : IParallelizer
     {
         public void Parallelize(IEnumerable<Action> tasks)
         {
