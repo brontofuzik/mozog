@@ -32,16 +32,16 @@ namespace GeneticAlgorithm.Examples
         }
 
         /// <summary>
-        /// Solution : [A, M, B, O, I, E, G, C, L, N, J, H, F, D, K, A]
-        /// Evaluation: 64
+        /// Solution : [A, M, B, O, I, E, G, C, L, N, J, H, F, D, K]
+        /// Evaluation: 291
         /// </summary>
         private static void RunTravellingSalesman()
         {
             Run("Travelling salesman problem (TSP)",
-                TravellingSalesmanProblem.Algorithm(maxGenerations: 100),
-                populationSize: 500,
+                TravellingSalesmanProblem.Algorithm(maxGenerations: 1000),
+                populationSize: 1000,
                 crossoverRate: 0.80,
-                mutationRate: 0.05);
+                mutationRate: 0.1);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace GeneticAlgorithm.Examples
             stopwatch.Stop();
         
             // Print the results.
-            Console.WriteLine($"Duration: {stopwatch.Elapsed.Milliseconds} ms");
+            Console.WriteLine($"Duration: {stopwatch.Elapsed.TotalSeconds} s");
             Console.WriteLine($"Number of generations taken: {result.Generations}");
             Console.WriteLine($"Best solution: {Chromosome<TGene>.Print(result.Solution)}");
             Console.WriteLine($"Best solution's evaluation: {result.Evaluation}");

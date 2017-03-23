@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Random = Mozog.Utils.Random;
+using Mozog.Utils;
 
 namespace GeneticAlgorithm.Functions.Selection
 {
@@ -23,7 +23,7 @@ namespace GeneticAlgorithm.Functions.Selection
 
         public override Chromosome<TGene> Select()
         {
-            double pocket = Random.Double(0.0, maxPocket);
+            double pocket = StaticRandom.Double(0.0, maxPocket);
             int index = rouletteWheel.BinarySearch(pocket);
             if (index < 0)
             {

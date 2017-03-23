@@ -97,6 +97,10 @@ namespace GeneticAlgorithm
 
         public IParallelizer Parallelizer { get; set; }
 
+        public double CrossoverRate { get; set; }
+
+        public double MutationRate { get; set; }
+
         #endregion Functions & operators
 
         #region State
@@ -129,6 +133,9 @@ namespace GeneticAlgorithm
         /// </returns>
         public Result<TGene> Run(int populationSize, double crossoverRate, double mutationRate)
         {
+            CrossoverRate = crossoverRate;
+            MutationRate = mutationRate;
+
             do
             {
                 population = population?.BreedNewGeneration() ?? Population<TGene>.CreateInitial(this, populationSize);

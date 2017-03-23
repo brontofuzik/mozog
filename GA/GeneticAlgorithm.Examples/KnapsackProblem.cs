@@ -14,7 +14,7 @@ namespace GeneticAlgorithm.Examples
         public static GeneticAlgorithm<int> Algorithm(int maxGenerations) =>
             new GeneticAlgorithm<int>(Knapsack.ItemCount).Configure(cfg =>
                 cfg.Fitness.Maximize(chromosome => Knapsack.Evaluate(chromosome))
-                .Initialization.Piecewise(() => Random.Int(0, 2))
+                .Initialization.Piecewise(() => StaticRandom.Int(0, 2))
                 .Selection.RouletteWheel()
                 .Crossover.SinglePoint()
                 .Mutation.RandomPoint(gene => gene == 0 ? 1 : 0)

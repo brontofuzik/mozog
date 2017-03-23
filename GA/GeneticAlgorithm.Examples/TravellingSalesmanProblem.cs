@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mozog.Utils;
 using Mozog.Utils.Threading;
-using Random = Mozog.Utils.Random;
+using StaticRandom = Mozog.Utils.StaticRandom;
 
 namespace GeneticAlgorithm.Examples
 {
@@ -16,13 +16,13 @@ namespace GeneticAlgorithm.Examples
         public static GeneticAlgorithm<char> Algorithm(int maxGenerations) =>
             new GeneticAlgorithm<char>(Map.CityCount).Configure(cfg =>
                 cfg.Fitness.Minimize(chromosome => Map.TotalDistance(chromosome))
-                .Initialization.Lambda(_ => Random.Shuffle(new[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O' }))
-                .Selection.RouletteWheel()
+                .Initialization.Lambda(_ => StaticRandom.Shuffle(new[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O' }))
+                .Selection.RankBased()
                 .Crossover.PartiallyMatched()
                 .Mutation.Lambda(offspring =>
                 {
                     // SwapArrays two consecutive (tour-wisely) cities.
-                    int from = Random.Int(0, offspring.Length);
+                    int from = StaticRandom.Int(0, offspring.Length);
                     int to = (from + 1) % offspring.Length;
 
                     Misc.Swap(ref offspring[from], ref offspring[to]);
@@ -65,11 +65,12 @@ namespace GeneticAlgorithm.Examples
         public double TotalDistance(char[] genes)
         {
             double totalDistance = 0.0;
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < genes.Length; i++)
             {
                 char from = genes[i];
                 char to = genes[(i + 1) % genes.Length];
-                totalDistance += from != to ? roads[((char)Math.Min(from, to), (char)Math.Max(from, to))] : 0;
+                if (from > to) Misc.Swap(ref from, ref to);
+                totalDistance += from != to ? roads[(from, to)] : 0.0;
             }
             return totalDistance;
         }

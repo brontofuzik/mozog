@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using StaticRandom = Mozog.Utils.StaticRandom;
 
 namespace GeneticAlgorithm
 {
@@ -70,10 +71,20 @@ namespace GeneticAlgorithm
             Chromosome<TGene> offspring1 = Clone();
             Chromosome<TGene> offspring2 = partner.Clone();
 
-            algo.Crossover.CrossOver(offspring1.Genes, offspring2.Genes);
+            if (StaticRandom.WithProbability(algo.CrossoverRate))
+            {
+                algo.Crossover.CrossOver(offspring1.Genes, offspring2.Genes);
+            }
 
-            algo.Mutator.Mutate(offspring1.Genes);
-            algo.Mutator.Mutate(offspring2.Genes);
+            if (StaticRandom.WithProbability(algo.MutationRate))
+            {
+                algo.Mutator.Mutate(offspring1.Genes);
+            }
+
+            if (StaticRandom.WithProbability(algo.MutationRate))
+            {
+                algo.Mutator.Mutate(offspring2.Genes);
+            }
 
             yield return offspring1;
             yield return offspring2;

@@ -18,8 +18,8 @@ namespace GeneticAlgorithm.Functions.Crossover
         {
             // 1. Select a substring uniformly in two parents at random.
             // Choose two points from interval [1, chromosomeSize) randomly.
-            int point1 = Random.Int(1, offspring1.Length - 1);
-            int point2 = Random.Int(point1 + 1, offspring1.Length);
+            int point1 = StaticRandom.Int(1, offspring1.Length - 1);
+            int point2 = StaticRandom.Int(point1 + 1, offspring1.Length);
 
             // 2. Exchange these two substrings to produce proto-offspring.
             // Swap all genes from the point1 (including) to the point2 (excluding).

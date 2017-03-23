@@ -1,5 +1,5 @@
 using System;
-using Random = Mozog.Utils.Random;
+using StaticRandom = Mozog.Utils.StaticRandom;
 
 namespace GeneticAlgorithm.Functions.Mutation
 {
@@ -14,7 +14,7 @@ namespace GeneticAlgorithm.Functions.Mutation
 
         public override void Mutate(TGene[] offspring)
         {
-            int index = Random.Int(0, offspring.Length);
+            int index = StaticRandom.Int(0, offspring.Length);
             offspring[index] = mutate(offspring[index]);
         }
     }

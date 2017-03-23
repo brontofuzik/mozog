@@ -11,7 +11,7 @@ namespace GeneticAlgorithm.Functions.Crossover
         public override void CrossOver(TGene[] offspring1, TGene[] offspring2)
         {
             // Choose a point from itnerval [1, chromosomeSize) randomly.
-            int point = Random.Int(1, offspring1.Length);
+            int point = StaticRandom.Int(1, offspring1.Length);
 
             // Swap all genes from the point (including) to the end.
             Misc.SwapArrays(offspring1, point, offspring2, point, offspring1.Length - point);

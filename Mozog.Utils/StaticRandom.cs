@@ -1,35 +1,27 @@
 ﻿using System;
+using System.Threading;
 
 namespace Mozog.Utils
 {
-    public class Random
+    public class StaticRandom
     {
-        /// <summary>
-        /// The pseudo-random number generator.
-        /// </summary>
-        private static readonly System.Random random;
+        static int seed = Environment.TickCount;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        static Random()
-        {
-            random = new System.Random();
-        }
+        private static readonly ThreadLocal<Random> random = new ThreadLocal<Random>(() => new Random(Interlocked.Increment(ref seed)));
 
-        public static int Int() => random.Next();
+        public static int Int() => random.Value.Next();
 
-        public static int Int(int maxValue) => random.Next(maxValue);
+        public static int Int(int maxValue) => random.Value.Next(maxValue);
 
         public static int Int(int minValue, int maxValue)
         {
             if (maxValue < minValue)
                 throw new ArgumentException("The maximum value must be greater than or equal to the minimum value.", nameof(maxValue));
 
-            return random.Next(minValue, maxValue);
+            return random.Value.Next(minValue, maxValue);
         }
 
-        public static double Double() => random.NextDouble();
+        public static double Double() => random.Value.NextDouble();
 
         /// <summary>
         /// Returns a random number within a specified range.
@@ -47,7 +39,7 @@ namespace Mozog.Utils
             if (maxValue < minValue)
                 throw new ArgumentException("The maximum value must be greater than or equal to the minimum value.", nameof(maxValue));
 
-            return minValue + (maxValue - minValue) * random.NextDouble();
+            return minValue + (maxValue - minValue) * random.Value.NextDouble();
         }
 
         /// <summary>
@@ -66,5 +58,7 @@ namespace Mozog.Utils
             }
             return array;
         }
+
+        public static bool WithProbability(double probability) => Double() < probability;
     }
 }
