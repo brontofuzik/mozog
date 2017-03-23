@@ -3,25 +3,14 @@ using System.Diagnostics;
 
 namespace GeneticAlgorithm.Examples
 {
-    /// <remarks>
-    /// The genetic algorithm test suite.
-    /// </remarks>
-    internal class Program
+    class Program
     {
-        /// <summary>
-        /// The test harness.
-        /// </summary>
-        /// <param name="args">The command line arguments.</param>
         public static void Main(string[] args)
         {
             //RunKnapsack();
             RunTravellingSalesman();
         }
 
-        /// <summary>
-        /// Solution: [1, 1, 1, 1, 0, 1, 0, 0, 0, 0]
-        /// Evaluation: 309
-        /// </summary>
         private static void RunKnapsack()
         {
             Run("Knapsack problem (KP)",
@@ -31,10 +20,6 @@ namespace GeneticAlgorithm.Examples
                 mutationRate: 0.05);
         }
 
-        /// <summary>
-        /// Solution : [A, M, B, O, I, E, G, C, L, N, J, H, F, D, K]
-        /// Evaluation: 291
-        /// </summary>
         private static void RunTravellingSalesman()
         {
             Run("Travelling salesman problem (TSP)",
@@ -44,17 +29,6 @@ namespace GeneticAlgorithm.Examples
                 mutationRate: 0.1);
         }
 
-        /// <summary>
-        /// Tests a genetic algorithm.
-        /// </summary>
-        /// <typeparam name="TGene">The type of the gene.</typeparam>
-        /// <param name="testName">The description of the test.</param>
-        /// <param name="geneticAlgorithm">The genetic algorithm to test.</param>
-        /// <param name="populationSize">The size of the population.</param>
-        /// <param name="crossoverRate">The rate of crossover.</param>
-        /// <param name="mutationRate">The rate of mutation.</param>
-        /// <param name="maxGenerationCount">The maximum number of generations (the computational budget).</param>
-        /// <param name="acceptableEvaluation">The acceptable evaluation.</param>
         private static void Run<TGene>(string testName, GeneticAlgorithm<TGene> geneticAlgorithm, int populationSize, double crossoverRate, double mutationRate)
         {
             Console.WriteLine($"{testName}:");

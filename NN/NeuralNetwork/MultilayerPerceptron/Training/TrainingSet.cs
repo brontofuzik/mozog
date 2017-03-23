@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Mozog.Utils;
-using Random = Mozog.Utils.Random;
 
 namespace NeuralNetwork.MultilayerPerceptron.Training
 {
@@ -407,7 +406,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training
             get
             {
                 SupervisedTrainingPattern[] _trainingPatternsRandomOrder = _trainingPatterns.ToArray();
-                Random.Shuffle<SupervisedTrainingPattern>(_trainingPatternsRandomOrder);
+                StaticRandom.Shuffle(_trainingPatternsRandomOrder);
                 foreach (SupervisedTrainingPattern trainingPattern in _trainingPatternsRandomOrder)
                 {
                     yield return trainingPattern;

@@ -16,9 +16,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmT
                 network.SetWeights(chromosome);
                 return network.CalculateError(trainingSet);
             })
-            .Initialization.Piecewise(() => Random.Double(-10, +10))
+            .Initialization.Piecewise(() => StaticRandom.Double(-10, +10))
             .Crossover.SinglePoint()
-            .Mutation.RandomPoint(gene => (gene + Random.Double(-10, +10)) / 2.0)
+            .Mutation.RandomPoint(gene => (gene + StaticRandom.Double(-10, +10)) / 2.0)
             .Termination.MaxGenerationsOrAcceptableEvaluation(maxGenerations: maxIterationCount, acceptableEvaluation: acceptableEvaluation));
     }
 }

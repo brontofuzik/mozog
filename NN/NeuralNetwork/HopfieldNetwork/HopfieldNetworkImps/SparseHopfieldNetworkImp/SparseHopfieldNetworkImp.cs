@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Random = Mozog.Utils.Random;
+using Mozog.Utils;
 
 namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp
 {
@@ -297,7 +297,7 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
             {
                 HopfieldNeuron[] neuronsRandomOrder = new HopfieldNeuron[NeuronCount];
                 Array.Copy(_neurons, neuronsRandomOrder, NeuronCount);
-                Random.Shuffle<HopfieldNeuron>(neuronsRandomOrder);
+                StaticRandom.Shuffle(neuronsRandomOrder);
                 return neuronsRandomOrder;
             }
         }
@@ -312,7 +312,7 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
         {
             get
             {
-                return _neurons[Random.Int(NeuronCount)];
+                return _neurons[StaticRandom.Int(NeuronCount)];
             }
         }
 

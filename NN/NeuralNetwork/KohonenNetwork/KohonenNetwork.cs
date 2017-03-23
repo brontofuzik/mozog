@@ -6,7 +6,6 @@ using Mozog.Utils;
 using NeuralNetwork.KohonenNetwork.LearningRateFunctions;
 using NeuralNetwork.KohonenNetwork.NeighbourhoodFunctions;
 using NeuralNetwork.MultilayerPerceptron.Training;
-using Random = Mozog.Utils.Random;
 
 namespace NeuralNetwork.KohonenNetwork
 {
@@ -282,7 +281,7 @@ namespace NeuralNetwork.KohonenNetwork
             {
                 for (int weightIndex = 0; weightIndex < _inputLayerNeuronCount; ++weightIndex)
                 {
-                    _outputLayerNeuronWeights[outputNeuronIndex][weightIndex] = Random.Double(minWeight, maxWeight);
+                    _outputLayerNeuronWeights[outputNeuronIndex][weightIndex] = StaticRandom.Double(minWeight, maxWeight);
                 }
                 _outputLayerNeuronOutputs[outputNeuronIndex] = 0.0;
             }

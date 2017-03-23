@@ -1,5 +1,5 @@
 ﻿using System;
-using StaticRandom = Mozog.Utils.StaticRandom;
+using Mozog.Utils;
 
 namespace GeneticAlgorithm.Functions.Mutation
 {
@@ -43,7 +43,7 @@ namespace GeneticAlgorithm.Functions.Mutation
 
         private void Mutate(TGene[] offspring, double mutationRate)
         {
-            if (StaticRandom.Double() < mutationRate)
+            if (StaticRandom.WithProbability(mutationRate))
             {
                 mutator.Mutate(offspring);
             }

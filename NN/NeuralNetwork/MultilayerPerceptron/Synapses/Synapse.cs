@@ -3,7 +3,6 @@ using NeuralNetwork.MultilayerPerceptron.Connectors;
 using NeuralNetwork.MultilayerPerceptron.Layers;
 using NeuralNetwork.MultilayerPerceptron.Neurons;
 
-
 namespace NeuralNetwork.MultilayerPerceptron.Synapses
 {
     /// <summary>
@@ -212,7 +211,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
         /// </summary>
         public void Initialize()
         {
-            weight = Random.Double(-1, +1);
+            weight = StaticRandom.Double(-1, +1);
         }
 
 
@@ -223,7 +222,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
         /// <param name="jitterNoiseLimit">The maximum absolute jitter noise added.</param>
         public void Jitter(double jitterNoiseLimit)
         {
-            weight += Random.Double(-jitterNoiseLimit, +jitterNoiseLimit);
+            weight += StaticRandom.Double(-jitterNoiseLimit, +jitterNoiseLimit);
         }
 
         /// <summary>

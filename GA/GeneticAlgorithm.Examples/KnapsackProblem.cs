@@ -22,6 +22,11 @@ namespace GeneticAlgorithm.Examples
                 .Parallelizer(new TplParallelizer())
             );
 
+        /// <summary>
+        /// Dataset: https://people.sc.fsu.edu/~jburkardt/datasets/knapsack_01/knapsack_01.html (P01)
+        /// Solution: [1, 1, 1, 1, 0, 1, 0, 0, 0, 0]
+        /// Evaluation: 309
+        /// </summary>
         private static readonly Knapsack Knapsack = new Knapsack(165.0)
             .AddItem(weight: 23.0, value: 92.0)
             .AddItem(weight: 31.0, value: 57.0)

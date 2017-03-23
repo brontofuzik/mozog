@@ -1,5 +1,5 @@
 using System;
-using StaticRandom = Mozog.Utils.StaticRandom;
+using Mozog.Utils;
 
 namespace GeneticAlgorithm.Functions.Mutation
 {
