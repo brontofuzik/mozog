@@ -6,6 +6,8 @@ namespace GeneticAlgorithm.Functions.Fitness
 
         void EvaluateFitness(Population<TGene> population);
 
+        void UpdateChampion(Chromosome<TGene> chromosome, ref Chromosome<TGene> champion);
+
         bool IsAcceptable(double bestEvaluation, double acceptableEvaluation);
     }
 }

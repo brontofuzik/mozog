@@ -134,7 +134,7 @@ namespace GeneticAlgorithm
                 population = population?.BreedNewGeneration() ?? Population<TGene>.CreateInitial(this, populationSize);
 
                 var generationChampion = population.EvaluateFitness();
-                champion = champion == null || generationChampion.Evaluation > champion.Evaluation ? generationChampion : champion;
+                Fitness.UpdateChampion(generationChampion, ref champion);
 
                 Notify?.Invoke(this, GetStateSnapshot());
             }

@@ -14,13 +14,13 @@ namespace GeneticAlgorithm.Examples
         /// <param name="args">The command line arguments.</param>
         public static void Main(string[] args)
         {
-            RunKnapsack();
-            //RunTravellingSalesman();
+            //RunKnapsack();
+            RunTravellingSalesman();
         }
 
         /// <summary>
         /// Solution: [1, 1, 1, 1, 0, 1, 0, 0, 0, 0]
-        /// Evaluation: ?
+        /// Evaluation: 309
         /// </summary>
         private static void RunKnapsack()
         {
@@ -32,14 +32,14 @@ namespace GeneticAlgorithm.Examples
         }
 
         /// <summary>
-        /// Solution : [A, B, C, D]
-        /// Evaluation: 97
+        /// Solution : [A, M, B, O, I, E, G, C, L, N, J, H, F, D, K, A]
+        /// Evaluation: 64
         /// </summary>
         private static void RunTravellingSalesman()
         {
             Run("Travelling salesman problem (TSP)",
-                TravellingSalesmanProblem.Algorithm(maxGenerations: 10),
-                populationSize: 20,
+                TravellingSalesmanProblem.Algorithm(maxGenerations: 100),
+                populationSize: 500,
                 crossoverRate: 0.80,
                 mutationRate: 0.05);
         }

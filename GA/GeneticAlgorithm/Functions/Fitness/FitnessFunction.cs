@@ -56,6 +56,16 @@ namespace GeneticAlgorithm.Functions.Fitness
             population.Chromosomes.ForEach(c => c.Fitness = Maximizing ? c.Evaluation / averageEvaluation : averageEvaluation / c.Evaluation);
         }
 
+        public void UpdateChampion(Chromosome<TGene> chromosome, ref Chromosome<TGene> champion)
+        {
+            if (champion == null
+                || Maximizing && chromosome.Evaluation > champion.Evaluation
+                || Minimizing && chromosome.Evaluation < champion.Evaluation)
+            {
+                champion = chromosome;
+            }
+        }
+
         public bool IsAcceptable(double evaluation, double acceptableEvaluation)
             => Maximizing ? evaluation >= acceptableEvaluation : evaluation <= acceptableEvaluation;
     }
