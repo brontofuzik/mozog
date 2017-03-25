@@ -1,61 +1,20 @@
 ﻿using System.Collections.Generic;
-
 using NeuralNetwork.MultilayerPerceptron.Layers;
 using NeuralNetwork.MultilayerPerceptron.Synapses;
-
 
 namespace NeuralNetwork.MultilayerPerceptron.Neurons
 {
     /// <summary>
-    /// <para>
-    /// An interface of a neuron.
-    /// </para>
-    /// <para>
-    /// Definition: A neuron is the fundamental building block of a neural network.
-    /// </para>
+    /// A neuron is the fundamental building block of a neural network.
     /// </summary>
     public interface INeuron
     {
-        /// <summary>
-        /// Gets the ouput.
-        /// </summary>
-        /// 
-        /// <value>
-        /// The output.
-        /// </value>
-        double Output
-        {
-            get;
-        }
+        double Output { get; }
 
-        /// <summary>
-        /// Gets the list of target synapses.
-        /// </summary>
-        ///
-        /// <value>
-        /// The list of target synapses.
-        /// </value>
-        List<ISynapse> TargetSynapses
-        {
-            get;
-        }
+        List<ISynapse> TargetSynapses { get; }
 
-        /// <summary>
-        /// Gets or sets the parent layer.
-        /// </summary>
-        ///
-        /// <value>
-        /// The parent layer.
-        /// </value>
-        ILayer ParentLayer
-        {
-            get;
-            set;
-        }
+        ILayer ParentLayer { get; set; }
 
-        /// <summary>
-        /// Initializes the neuron.
-        /// </summary>
         void Initialize();
     }
 }

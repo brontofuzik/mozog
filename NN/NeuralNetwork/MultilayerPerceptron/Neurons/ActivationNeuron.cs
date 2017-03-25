@@ -1,158 +1,50 @@
-﻿using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Mozog.Utils;
 using NeuralNetwork.MultilayerPerceptron.Layers;
 using NeuralNetwork.MultilayerPerceptron.Synapses;
-
 
 namespace NeuralNetwork.MultilayerPerceptron.Neurons
 {
     /// <summary>
     /// A hidden neuron.
     /// </summary>
-    public class ActivationNeuron
-        : IActivationNeuron
+    public class ActivationNeuron : IActivationNeuron
     {
-        /// <summary>
-        /// The input (or inner potential).
-        /// </summary>
-        private double input;
-
-        /// <summary>
-        /// The output (or state).
-        /// </summary>
-        private double output;
-
-        /// <summary>
-        /// The source synapses.
-        /// </summary>
-        private List< ISynapse > sourceSynapses;
-
-        /// <summary>
-        /// The target synapses.
-        /// </summary>
-        private List< ISynapse > targetSynapses;
-
-        /// <summary>
-        /// The parent layer.
-        /// </summary>
         private IActivationLayer parentLayer;
 
-        /// <summary>
-        /// Gets the input.
-        /// </summary>
-        /// 
-        /// <value>
-        /// The input.
-        /// </value>
-        public double Input
-        {
-            get
-            {
-                return input;
-            }
-        }
-
-        /// <summary>
-        /// Gets the ouput.
-        /// </summary>
-        /// 
-        /// <value>
-        /// The output.
-        /// </value>
-        public double Output
-        {
-            get
-            {
-                return output;
-            }
-        }
-
-        /// <summary>
-        /// Gets the list of source synapses.
-        /// </summary>
-        ///
-        /// <value>
-        /// The list of source synapses.
-        /// </value>
-        public List< ISynapse > SourceSynapses
-        {
-            get
-            {
-                return sourceSynapses;
-            }
-        }
-
-        /// <summary>
-        /// Gets the list of target synapses.
-        /// </summary>
-        ///
-        /// <value>
-        /// The list of target synapses.
-        /// </value>
-        public List< ISynapse > TargetSynapses
-        {
-            get
-            {
-                return targetSynapses;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the parent layer.
-        /// </summary>
-        ///
-        /// <value>
-        /// The parent layer.
-        /// </value>
-        public ILayer ParentLayer
-        {
-            get
-            {
-                return parentLayer;
-            }
-            set
-            {
-                parentLayer = value as IActivationLayer;
-            }
-        }
-
-        /// <summary>
-        /// Creates a new hidden neuron.
-        /// </summary>
-        /// <param name="parentLayer">The parnet layer.</param>
         public ActivationNeuron(IActivationLayer parentLayer)
         {
-            sourceSynapses = new List<ISynapse>();
-            targetSynapses = new List<ISynapse>();
-
-            // Validate the parent layer.
-            Require.IsNotNull(parentLayer, "parentLayer");
+            Require.IsNotNull(parentLayer, nameof(parentLayer));
             this.parentLayer = parentLayer;
         }
 
-        /// <summary>
-        /// Initializes the neuron.
-        /// </summary>
-        public void Initialize()
+        public double Input { get; private set; }
+
+        public double Output { get; private set; }
+
+        public List< ISynapse > SourceSynapses { get; } = new List<ISynapse>();
+
+        public List< ISynapse > TargetSynapses { get; } = new List<ISynapse>();
+
+        public ILayer ParentLayer
         {
-            input = 0.0;
-            output = 0.0;
+            get { return parentLayer; }
+            set { parentLayer = value as IActivationLayer; }
         }
 
-        /// <summary>
-        /// Evaluates the neuron.
-        /// </summary>
+        public void Initialize()
+        {
+            Input = 0.0;
+            Output = 0.0;
+        }
+
         public virtual void Evaluate()
         {
-            input = 0.0;
-
-            foreach (ISynapse sourceSynapse in SourceSynapses)
-            {
-                input += sourceSynapse.SourceNeuron.Output * sourceSynapse.Weight;
-            }
-
-            output = (parentLayer as IActivationLayer).ActivationFunction.Evaluate(input);
+            // Ref
+            Input = SourceSynapses.Sum(s => s.SourceNeuron.Output * s.Weight);
+            Output = parentLayer.ActivationFunction.Evaluate(Input);
         }
 
         /// <summary>
@@ -163,20 +55,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Neurons
         /// </returns>
         public override string ToString()
         {
-            StringBuilder activationNeuronSB = new StringBuilder();
-
-            activationNeuronSB.Append("AN([");
-            foreach (ISynapse synapse in sourceSynapses)
-            {
-                activationNeuronSB.Append(synapse + ", ");
-            }
-            if (sourceSynapses.Count != 0)
-            {
-                activationNeuronSB.Remove(activationNeuronSB.Length - 2, 2);
-            }
-            activationNeuronSB.Append("]), " + input.ToString("F2") + ", " + output.ToString("F2") + ")");
-
-            return activationNeuronSB.ToString();
+            var synapses = String.Join(", ", SourceSynapses);
+            return $"AN([{synapses}]), {Input:F2}, {Output:F2})";
         }
     }
 }
