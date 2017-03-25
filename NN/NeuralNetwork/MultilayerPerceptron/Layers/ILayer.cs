@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-
 using NeuralNetwork.MultilayerPerceptron.Connectors;
 using NeuralNetwork.MultilayerPerceptron.Networks;
 using NeuralNetwork.MultilayerPerceptron.Neurons;
@@ -7,71 +6,20 @@ using NeuralNetwork.MultilayerPerceptron.Neurons;
 namespace NeuralNetwork.MultilayerPerceptron.Layers
 {
     /// <summary>
-    /// An interface of a layer.
+    /// A layer is a collection of neurons.
     /// </summary>
     public interface ILayer
     {
-        /// <summary>
-        /// Gets the list of neurons comprising the layer.
-        /// </summary>
-        /// 
-        /// <value>
-        /// The list of neurons comprising the layer.
-        /// </value>
-        List<INeuron> Neurons
-        {
-            get;
-        }
+        List<INeuron> Neurons { get; }
 
-        /// <summary>
-        /// Gets the number of neurons comprising the layer.
-        /// </summary>
-        /// 
-        /// <value>
-        /// The number of neurons comprising the layer.
-        /// </value>
-        int NeuronCount
-        {
-            get;
-        }
+        int NeuronCount { get; }
 
-        /// <summary>
-        /// Gets the list of target connectors associated with the layer.
-        /// </summary>
-        /// 
-        /// <value>
-        /// The list of target connectors associated with the layer.
-        /// </value>
-        List<IConnector> TargetConnectors
-        {
-            get;
-        }
+        List<IConnector> TargetConnectors { get; }
 
-        /// <summary>
-        /// Gets or sets the parent network.
-        /// </summary>
-        /// 
-        /// <value>
-        /// The parent network.
-        /// </value>
-        INetwork ParentNetwork
-        {
-            get;
-            set;
-        }
+        INetwork ParentNetwork { get; set; }
 
-        /// <summary>
-        /// Gets a neuron (specified by its index within the layer).
-        /// </summary>
-        /// <param name="sourceNeuronIndex">The index of the neuron.</param>
-        /// <returns>
-        /// The neuron.
-        /// </returns>
         INeuron GetNeuronByIndex(int neuronIndex);
 
-        /// <summary>
-        /// Initializes the layer.
-        /// </summary>
         void Initialize();
     }
 }

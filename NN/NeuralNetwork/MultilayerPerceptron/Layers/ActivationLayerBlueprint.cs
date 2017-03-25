@@ -2,31 +2,19 @@
 
 namespace NeuralNetwork.MultilayerPerceptron.Layers
 {
-    /// <summary>
-    /// A bluepring of an actiavtion layer. 
-    /// </summary>
-    public class ActivationLayerBlueprint
-        : LayerBlueprint
+    public class ActivationLayerBlueprint : LayerBlueprint
     {
-        private IActivationFunction activationFunction;
-
-        public IActivationFunction ActivationFunction
-        {
-            get
-            {
-                return activationFunction;
-            }
-        }
-
         public ActivationLayerBlueprint(int neuronCount, IActivationFunction activationFunction)
             : base(neuronCount)
         {
-            this.activationFunction = activationFunction;
+            ActivationFunction = activationFunction;
         }
 
         public ActivationLayerBlueprint(int neuronCount)
             : this(neuronCount, new LogisticActivationFunction())
         {
         }
+
+        public IActivationFunction ActivationFunction { get; }
     }
 }

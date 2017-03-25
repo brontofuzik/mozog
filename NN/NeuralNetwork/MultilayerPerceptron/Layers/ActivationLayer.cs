@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Mozog.Utils;
 using NeuralNetwork.MultilayerPerceptron.Connectors;
@@ -7,49 +7,35 @@ using NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions;
 using NeuralNetwork.MultilayerPerceptron.Networks;
 using NeuralNetwork.MultilayerPerceptron.Neurons;
 
-
 namespace NeuralNetwork.MultilayerPerceptron.Layers
 {
-    /// <remarks>
-    /// An activation layer.
-    /// </remarks>
-    public class ActivationLayer
-        : IActivationLayer
+    public class ActivationLayer : IActivationLayer
     {
-        /// <summary>
-        /// The neurons of the layer.
-        /// </summary>
-        private List<IActivationNeuron> neurons;
+        public ActivationLayer(ActivationLayerBlueprint blueprint, INetwork parentNetwork)
+        {
+            // Create the neurons.
+            Neurons = new List<IActivationNeuron>(blueprint.NeuronCount);
+            for (int i = 0; i < blueprint.NeuronCount; i++)
+            {
+                IActivationNeuron neuron = new ActivationNeuron(this);
+                Neurons.Add(neuron);
+            }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        private IActivationFunction activationFunction;
+            Require.IsNotNull(blueprint.ActivationFunction, nameof(blueprint.ActivationFunction));
+            ActivationFunction = blueprint.ActivationFunction;
 
-        /// <summary>
-        /// The source connector of the layer.
-        /// </summary>
-        private List<IConnector> sourceConnectors;
+            Require.IsNotNull(parentNetwork, nameof(parentNetwork));
+            this.ParentNetwork = parentNetwork;
+        }
 
-        /// <summary>
-        /// The target connector of the layer.
-        /// </summary>
-        private List<IConnector> targetConnectors;
+        public List<IActivationNeuron > Neurons { get; }
 
-        /// <summary>
-        /// The parent network of the layer.
-        /// </summary>
-        private INetwork parentNetwork;
-
-        /// <summary>
-        /// 
-        /// </summary>
         List<INeuron> ILayer.Neurons
         {
             get
             {
-                List<INeuron> iNeurons = new List<INeuron>(neurons.Count);
-                foreach (INeuron neuron in neurons)
+                List<INeuron> iNeurons = new List<INeuron>(Neurons.Count);
+                foreach (INeuron neuron in Neurons)
                 {
                     iNeurons.Add(neuron);
                 }
@@ -57,215 +43,54 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
             }
         }
 
-        /// <summary>
-        /// Gets the list of neurons comprising the layer.
-        /// </summary>
-        ///
-        /// <value>
-        /// The list of neurons comprising the layer.
-        /// </value>
-        public List<IActivationNeuron > Neurons
-        {
-            get
-            {
-                return neurons;
-            }
-        }
+        public int NeuronCount => Neurons.Count;
 
-        /// <summary>
-        /// The layer indexer.
-        /// </summary>
-        ///
-        /// <param name="sourceNeuronIndex">The index of the neuron.</param>
-        ///
-        /// <returns>
-        /// The neuron at the given index.
-        /// </returns>
-        /// 
-        /// <exception cref="IndexOutOfRangeException">
-        /// Condition: <c>sourceNeuronIndex</c> is out of range.
-        /// </exception>
         public INeuron this[int neuronIndex]
         {
             get
             {
-                return neurons[neuronIndex];
+                return Neurons[neuronIndex];
             }
         }
 
-        /// <summary>
-        /// Gets the number of neurons comprising the layer.
-        /// </summary>
-        /// 
-        /// <value>
-        /// The number of neurons comprising the layer.
-        /// </value>
-        public int NeuronCount
-        {
-            get
-            {
-                return neurons.Count;
-            }
-        }
+        public IActivationFunction ActivationFunction { get; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public IActivationFunction ActivationFunction
-        {
-            get
-            {
-                return activationFunction;
-            }
-        }
+        public List<IConnector> SourceConnectors { get; } = new List<IConnector>();
 
-        /// <summary>
-        /// Gets the source connector.
-        /// </summary>
-        /// 
-        /// <value>
-        /// The source connector.
-        /// </value>
-        public List<IConnector> SourceConnectors
-        {
-            get
-            {
-                return sourceConnectors;
-            }
-        }
+        public List<IConnector> TargetConnectors { get; } = new List<IConnector>();
 
-        /// <summary>
-        /// Gets the target connector.
-        /// </summary>
-        /// 
-        /// <value>
-        /// The target connector.
-        /// </value>
-        public List<IConnector> TargetConnectors
-        {
-            get
-            {
-                return targetConnectors;
-            }
-        }
+        public INetwork ParentNetwork { get; set; }
 
-        /// <summary>
-        /// Gets or sets the parent network.
-        /// </summary>
-        /// 
-        /// <value>
-        /// The parent network.
-        /// </value>
-        public INetwork ParentNetwork
-        {
-            get
-            {
-                return parentNetwork;
-            }
-            set
-            {
-                parentNetwork = value;
-            }
-        }
+        public INeuron GetNeuronByIndex(int neuronIndex) => Neurons[neuronIndex];
 
-        /// <summary>
-        /// Creates a new activation layer.
-        /// </summary>
-        /// 
-        /// <param name="neuronCount">The number of (activation) neurons.</param>
-        /// <param name="activationFunction">The activation function</param>
-        ///<param name="parentNetwork">The parnet network.</param>
-        public ActivationLayer(ActivationLayerBlueprint blueprint, INetwork parentNetwork)
-        {
-            // Create the neurons.
-            neurons = new List<IActivationNeuron >(blueprint.NeuronCount);
-            for (int i = 0; i < blueprint.NeuronCount; i++)
-            {
-                IActivationNeuron neuron = new ActivationNeuron(this);
-                neurons.Add(neuron);
-            }
-
-            sourceConnectors = new List<IConnector >();
-            targetConnectors = new List<IConnector >();
-
-            // Validate the activation function.
-            Require.IsNotNull(blueprint.ActivationFunction, "activationFunction");
-            activationFunction = blueprint.ActivationFunction;
-
-            // Validate the parent network.
-            Require.IsNotNull(parentNetwork, "parentNetwork");
-            this.parentNetwork = parentNetwork;
-        }
-
-        /// <summary>
-        /// Gets a neuron (specified by its index within the layer).
-        /// </summary>
-        /// <param name="sourceNeuronIndex">The index of the neuron.</param>
-        /// <returns>
-        /// The neuron.
-        /// </returns>
-        public INeuron GetNeuronByIndex(int neuronIndex)
-        {
-            return neurons[neuronIndex];
-        }
-
-        /// <summary>
-        /// Initializes the layer.
-        /// </summary>
         public void Initialize()
         {
-            foreach (IActivationNeuron hiddenNeuron in neurons)
-            {
-                hiddenNeuron.Initialize();
-            }
+            // Ref
+            Neurons.AsEnumerable().ForEach(n => n.Initialize());
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public void Evaluate()
         {
-            foreach (IActivationNeuron hiddenNeuron in neurons)
-            {
-                hiddenNeuron.Evaluate();
-            }
+            // Ref
+            Neurons.AsEnumerable().ForEach(n => n.Evaluate());
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public double[] GetOutputVector()
-        {
-            double[] outputVector = new double[NeuronCount];
+        // Ref
+        public double[] GetOutputVector() => Neurons.Select(n => n.Output).ToArray();
 
-            for (int i = 0; i < NeuronCount; i++)
-            {
-                outputVector[i] = neurons[i].Output;
-            }
-
-            return outputVector;
-        }
-
-        /// <summary>
-        /// Returns a string representation of the activation layer.
-        /// </summary>
-        /// <returns>
-        /// A string representation of the activation layer.
-        /// </returns>
+        // TODO
         public override string ToString()
         {
-            StringBuilder activationLayerSB = new StringBuilder();
+            var sb = new StringBuilder("AL\n[\n");
 
-            activationLayerSB.Append("AL\n[\n");
             int neuronIndex = 0;
-            foreach (IActivationNeuron neuron in neurons)
+            foreach (IActivationNeuron neuron in Neurons)
             {
-                activationLayerSB.Append("  " + neuronIndex++ + " : " + neuron + "\n");
+                sb.Append("  " + neuronIndex++ + " : " + neuron + "\n");
             }
-            activationLayerSB.Append("]");
+            sb.Append("]");
 
-            return activationLayerSB.ToString();
+            return sb.ToString();
         }
     }
 }
