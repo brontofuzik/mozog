@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26206.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{1F76D577-5340-432E-89EB-9CC0A1A596C1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GA", "GA", "{39012F6D-52C4-401E-9832-49C0C071302A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticAlgorithm", "GA\GeneticAlgorithm\GeneticAlgorithm.csproj", "{04CE86E3-CEEC-4CA7-A2DB-BA24F4430A64}"
