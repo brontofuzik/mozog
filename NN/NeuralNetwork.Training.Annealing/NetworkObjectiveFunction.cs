@@ -1,14 +1,14 @@
 ﻿using NeuralNetwork.MultilayerPerceptron.Networks;
 using NeuralNetwork.MultilayerPerceptron.Training;
+using SimulatedAnnealing;
 
 namespace NeuralNetwork.Training.Annealing
 {
-    internal class NetworkObjectiveFunction
-        : ObjectiveFunction<double>
+    internal class NetworkObjectiveFunction : ObjectiveFunction<double>
     {
-        private INetwork network;
+        private readonly INetwork network;
 
-        private TrainingSet trainingSet;
+        private readonly TrainingSet trainingSet;
 
         public NetworkObjectiveFunction(INetwork network, TrainingSet trainingSet)
             : base(network.SynapseCount, Objective.Minimize)

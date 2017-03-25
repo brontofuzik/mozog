@@ -1,4 +1,5 @@
-﻿using NeuralNetwork.MultilayerPerceptron.Networks;
+﻿using Mozog.Utils;
+using NeuralNetwork.MultilayerPerceptron.Networks;
 using NeuralNetwork.MultilayerPerceptron.Training;
 
 namespace NeuralNetwork.Training.Evolutionary
@@ -8,8 +9,8 @@ namespace NeuralNetwork.Training.Evolutionary
     /// </summary>
     internal static class NetworkGeneticAlgorithm
     {
-        public static GeneticAlgorithm<double> Algorithm(INetwork network, TrainingSet trainingSet, double acceptableEvaluation, int maxIterationCount)
-            => new GeneticAlgorithm<double>(network.SynapseCount).Configure(cfg => cfg
+        public static GeneticAlgorithm.GeneticAlgorithm<double> Algorithm(INetwork network, TrainingSet trainingSet, double acceptableEvaluation, int maxIterationCount)
+            => new GeneticAlgorithm.GeneticAlgorithm<double>(network.SynapseCount).Configure(cfg => cfg
             .Fitness.Minimize(chromosome =>
             {
                 network.SetWeights(chromosome);

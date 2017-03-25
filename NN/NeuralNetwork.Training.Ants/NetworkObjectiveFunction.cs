@@ -1,14 +1,14 @@
-﻿using NeuralNetwork.MultilayerPerceptron.Networks;
+﻿using AntColonyOptimization;
+using NeuralNetwork.MultilayerPerceptron.Networks;
 using NeuralNetwork.MultilayerPerceptron.Training;
 
 namespace NeuralNetwork.Training.Ants
 {
-    internal class NetworkObjectiveFunction
-        : ObjectiveFunction
+    internal class NetworkObjectiveFunction : ObjectiveFunction
     {
-        private INetwork network;
+        private readonly INetwork network;
 
-        private TrainingSet trainingSet;
+        private readonly TrainingSet trainingSet;
 
         public NetworkObjectiveFunction(INetwork network, TrainingSet trainingSet)
             : base(network.SynapseCount, Objective.Minimize)

@@ -3,49 +3,17 @@ using NeuralNetwork.MultilayerPerceptron.Training;
 
 namespace NeuralNetwork.Training.Ants
 {
-    /// <summary>
-    /// An ant colony optimization teacher.
-    /// </summary>
-    public class AntColonyOptimizationTeacher
-        : TeacherBase
+    public class AntColonyOptimizationTeacher : TeacherBase
     {
-        /// <summary>
-        /// The ant colony optimization;
-        /// </summary>
-        private NetworkAntColonyOptimization networkAntColonyOptimization;
+        private readonly NetworkAntColonyOptimization networkAntColonyOptimization = new NetworkAntColonyOptimization();
 
-        /// <summary>
-        /// Gets the name of the teacher.
-        /// </summary>
-        /// <value>
-        /// The name of the teacher.
-        /// </value>
-        public override string Name
-        {
-            get
-            {
-                return "AntColonyOptimizationTeacher";
-            }
-        }
-
-        /// <summary>
-        /// Creates a new ant colony teacher.
-        /// </summary>
-        /// <param name="trainingSet">The training set.</param>
-        /// <param name="validationSet">The validation set.</param>
-        /// <param name="testSet">The test set.</param>
         public AntColonyOptimizationTeacher(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
             : base(trainingSet, validationSet, testSet)
         {
-            networkAntColonyOptimization = new NetworkAntColonyOptimization();
         }
 
-        /// <summary>
-        /// Trains a network.
-        /// </summary>
-        /// <param name="network">The network to train.</param>
-        /// <param name="maxIterationCount">The maximum number of iterations.</param>
-        /// <param name="maxTolerableNetworkError">The maximum tolerable network error.</param>
+        public override string Name => "AntColonyOptimizationTeacher";
+
         public override TrainingLog Train(INetwork network, int maxIterationCount, double maxTolerableNetworkError)
         {
             // The network ant colony optimiaztion parameters.

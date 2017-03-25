@@ -1,12 +1,12 @@
 ﻿using System;
+using SimulatedAnnealing;
 
 namespace NeuralNetwork.Training.Annealing
 {
     /// <summary>
     /// A simulated annealing designed to train a neural network.
     /// </summary>
-    internal class NetworkSimlatedAnnealing
-        : SimulatedAnnealing<double>
+    internal class NetworkSimlatedAnnealing : SimulatedAnnealing<double>
     {
         /// <summary>
         /// The generator function.

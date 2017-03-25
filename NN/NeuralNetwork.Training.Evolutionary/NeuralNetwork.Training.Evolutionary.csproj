@@ -59,6 +59,10 @@
       <Project>{04ce86e3-ceec-4ca7-a2db-ba24f4430a64}</Project>
       <Name>GeneticAlgorithm</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Mozog.Utils\Mozog.Utils.csproj">
+      <Project>{47cb5c11-3dce-4768-ab1f-ffc1cfd55167}</Project>
+      <Name>Mozog.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NeuralNetwork\NeuralNetwork.csproj">
       <Project>{2a2e21b8-78f7-42bf-9351-97e611967baf}</Project>
       <Name>NeuralNetwork</Name>

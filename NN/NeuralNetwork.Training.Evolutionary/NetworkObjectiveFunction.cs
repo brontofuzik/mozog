@@ -1,5 +1,10 @@
-﻿namespace NeuralNetwork.Training.Evolutionary
+﻿using GeneticAlgorithm.Functions.Fitness;
+using NeuralNetwork.MultilayerPerceptron.Networks;
+using NeuralNetwork.MultilayerPerceptron.Training;
+
+namespace NeuralNetwork.Training.Evolutionary
 {
+    // TODO
     //internal class NetworkObjectiveFunction : ObjectiveFunction<double>
     //{
     //    private INetwork network;
