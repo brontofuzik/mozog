@@ -1,8 +1,7 @@
-﻿using NeuralNetwork.KohonenNetwork;
+﻿using System;
 using NeuralNetwork.MultilayerPerceptron.Training;
-using System;
 
-namespace OCR
+namespace NeuralNetwork.Examples.MultilayerPerceptron.OCR
 {
     class Program
     {
@@ -29,7 +28,7 @@ namespace OCR
 
             int inputLayerNeuronCount = trainingSet.InputVectorLength;
             int[] outputLayerDimensions = new int[] { 26 };
-            KohonenNetwork network = new KohonenNetwork(inputLayerNeuronCount, outputLayerDimensions);
+            NeuralNetwork.KohonenNetwork.KohonenNetwork network = new NeuralNetwork.KohonenNetwork.KohonenNetwork(inputLayerNeuronCount, outputLayerDimensions);
 
             // --------------------------
             // Step 2: Train the network.

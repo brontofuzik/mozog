@@ -46,9 +46,19 @@
     <Compile Include="HopfieldNetwork\EightQueensHopfieldNetwork.cs" />
     <Compile Include="HopfieldNetwork\EightRooksHopfieldNetwork.cs" />
     <Compile Include="HopfieldNetwork\Examples.cs" />
+    <Compile Include="HopfieldNetwork\INS03\GrayscaleDitheringNetwork.cs" />
+    <Compile Include="HopfieldNetwork\INS03\Program.cs" />
+    <Compile Include="HopfieldNetwork\INS04\ColourDitheringNetwork.cs" />
+    <Compile Include="HopfieldNetwork\INS04\PalettingNetwork.cs" />
+    <Compile Include="HopfieldNetwork\INS04\Program.cs" />
     <Compile Include="HopfieldNetwork\MultiflopHopfieldNetwork.cs" />
     <Compile Include="KohonenNetwork\Examples.cs" />
     <Compile Include="MultilayerPerceptron\Examples.cs" />
+    <Compile Include="MultilayerPerceptron\INS01\INS01BackpropagationTrainingStrategy.cs" />
+    <Compile Include="MultilayerPerceptron\INS01\Program.cs" />
+    <Compile Include="MultilayerPerceptron\INS02\INS02BackpropagationTrainingStrategy.cs" />
+    <Compile Include="MultilayerPerceptron\INS02\Program.cs" />
+    <Compile Include="MultilayerPerceptron\OCR\Program.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

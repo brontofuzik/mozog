@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Text;
-
 using NeuralNetwork.MultilayerPerceptron.Layers;
 using NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions;
 using NeuralNetwork.MultilayerPerceptron.Networks;
 using NeuralNetwork.MultilayerPerceptron.Training;
 using NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher;
 
-namespace INS02
+namespace NeuralNetwork.Examples.MultilayerPerceptron.INS02
 {
     class Program
     {

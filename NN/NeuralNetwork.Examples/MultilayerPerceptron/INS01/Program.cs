@@ -6,7 +6,7 @@ using NeuralNetwork.MultilayerPerceptron.Networks;
 using NeuralNetwork.MultilayerPerceptron.Training;
 using NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher;
 
-namespace INS01
+namespace NeuralNetwork.Examples.MultilayerPerceptron.INS01
 {
     class Program
     {

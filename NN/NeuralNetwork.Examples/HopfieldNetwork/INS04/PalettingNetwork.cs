@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
-
-using NeuralNetwork.KohonenNetwork;
 using NeuralNetwork.MultilayerPerceptron.Training;
 
-namespace INS04
+namespace NeuralNetwork.Examples.HopfieldNetwork.INS04
 {
     class PalettingNetwork
     {
@@ -15,7 +13,7 @@ namespace INS04
         /// <param name="paletteSize">The size of the palette (i.e. the number of colours in the palette).</param>
         public PalettingNetwork(int paletteSize)
         {
-            _underlyingKohonenNetwork = new KohonenNetwork(3, new int[] { paletteSize });
+            _underlyingKohonenNetwork = new NeuralNetwork.KohonenNetwork.KohonenNetwork(3, new int[] { paletteSize });
         }
 
         /// <summary>
@@ -302,6 +300,6 @@ namespace INS04
         /// <summary>
         /// The underlying Kohonen network.
         /// </summary>
-        private KohonenNetwork _underlyingKohonenNetwork;
+        private NeuralNetwork.KohonenNetwork.KohonenNetwork _underlyingKohonenNetwork;
     }
 }

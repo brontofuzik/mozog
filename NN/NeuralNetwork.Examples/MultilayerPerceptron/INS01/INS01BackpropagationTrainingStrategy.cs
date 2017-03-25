@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using NeuralNetwork.MultilayerPerceptron.Training;
 using NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher;
 
-namespace INS01
+namespace NeuralNetwork.Examples.MultilayerPerceptron.INS01
 {
     /// <summary>
     /// A INS01 backpropagation training strategy.
