@@ -1,7 +1,4 @@
-﻿using GeneticAlgorithm;
-using NeuralNetwork.MultilayerPerceptron.Networks;
-
-namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmTeacher
+﻿namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmTeacher
 {
     //internal class NetworkObjectiveFunction : ObjectiveFunction<double>
     //{
