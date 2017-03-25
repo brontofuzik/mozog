@@ -2,8 +2,7 @@
 using NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions;
 using NeuralNetwork.MultilayerPerceptron.Neurons;
 
-
-namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher.Decorators
+namespace NeuralNetwork.MultilayerPerceptron.Training.Backpropagation.Decorators
 {
     /// <summary>
     /// A backpropagation neuron.

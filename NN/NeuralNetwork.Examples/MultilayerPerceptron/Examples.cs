@@ -3,7 +3,7 @@ using NeuralNetwork.MultilayerPerceptron.Layers;
 using NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions;
 using NeuralNetwork.MultilayerPerceptron.Networks;
 using NeuralNetwork.MultilayerPerceptron.Training;
-using NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher;
+using NeuralNetwork.MultilayerPerceptron.Training.Backpropagation;
 
 namespace NeuralNetwork.Examples.MultilayerPerceptron
 {

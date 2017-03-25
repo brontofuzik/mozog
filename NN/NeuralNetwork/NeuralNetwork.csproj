@@ -120,23 +120,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MultilayerPerceptron\Synapses\SynapseBlueprint.cs" />
     <Compile Include="MultilayerPerceptron\Synapses\SynapseDecorator.cs" />
-    <Compile Include="MultilayerPerceptron\Training\Teachers\AntColonyOptimizationTeacher\AntColonyOptimizationTeacher.cs" />
-    <Compile Include="MultilayerPerceptron\Training\Teachers\AntColonyOptimizationTeacher\NetworkAntColonyOptimization.cs" />
-    <Compile Include="MultilayerPerceptron\Training\Teachers\AntColonyOptimizationTeacher\NetworkObjectiveFunction.cs" />
-    <Compile Include="MultilayerPerceptron\Training\Teachers\BackpropagationTeacher\Decorators\BackpropagationConnector.cs" />
-    <Compile Include="MultilayerPerceptron\Training\Teachers\BackpropagationTeacher\Decorators\BackpropagationLayer.cs" />
-    <Compile Include="MultilayerPerceptron\Training\Teachers\BackpropagationTeacher\Decorators\BackpropagationNetwork.cs" />
-    <Compile Include="MultilayerPerceptron\Training\Teachers\BackpropagationTeacher\Decorators\BackpropagationNeuron.cs" />
-    <Compile Include="MultilayerPerceptron\Training\Teachers\BackpropagationTeacher\Decorators\BackpropagationSynapse.cs" />
-    <Compile Include="MultilayerPerceptron\Training\Teachers\BackpropagationTeacher\BackpropagationTeacher.cs" />
-    <Compile Include="MultilayerPerceptron\Training\Teachers\BackpropagationTeacher\BackpropagationTrainingStrategy.cs" />
-    <Compile Include="MultilayerPerceptron\Training\Teachers\GeneticAlgorithmTeacher\NetworkGeneticAlgorithm.cs" />
-    <Compile Include="MultilayerPerceptron\Training\Teachers\GeneticAlgorithmTeacher\NetworkObjectiveFunction.cs" />
-    <Compile Include="MultilayerPerceptron\Training\Teachers\GeneticAlgorithmTeacher\GeneticAlgorithmTeacher.cs" />
-    <Compile Include="MultilayerPerceptron\Training\Teachers\SimulatedAnnealingTeacher\NetworkObjectiveFunction.cs" />
-    <Compile Include="MultilayerPerceptron\Training\Teachers\SimulatedAnnealingTeacher\NetworkSimlatedAnnealing.cs" />
-    <Compile Include="MultilayerPerceptron\Training\Teachers\SimulatedAnnealingTeacher\SimulatedAnnealingTeacher.cs" />
-    <Compile Include="MultilayerPerceptron\Training\Teachers\TeacherBase.cs" />
+    <Compile Include="MultilayerPerceptron\Training\Backpropagation\Decorators\BackpropagationConnector.cs" />
+    <Compile Include="MultilayerPerceptron\Training\Backpropagation\Decorators\BackpropagationLayer.cs" />
+    <Compile Include="MultilayerPerceptron\Training\Backpropagation\Decorators\BackpropagationNetwork.cs" />
+    <Compile Include="MultilayerPerceptron\Training\Backpropagation\Decorators\BackpropagationNeuron.cs" />
+    <Compile Include="MultilayerPerceptron\Training\Backpropagation\Decorators\BackpropagationSynapse.cs" />
+    <Compile Include="MultilayerPerceptron\Training\Backpropagation\BackpropagationTeacher.cs" />
+    <Compile Include="MultilayerPerceptron\Training\Backpropagation\BackpropagationTrainingStrategy.cs" />
+    <Compile Include="MultilayerPerceptron\Training\TeacherBase.cs" />
     <Compile Include="MultilayerPerceptron\Training\TrainingLog.cs" />
     <Compile Include="MultilayerPerceptron\Training\SupervisedTrainingPattern.cs" />
     <Compile Include="MultilayerPerceptron\Training\TrainingSet.cs" />
@@ -162,21 +153,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ACO\AntColonyOptimization\AntColonyOptimization.csproj">
-      <Project>{b9e7eb39-f473-4b70-b3d1-ce574baed120}</Project>
-      <Name>AntColonyOptimization</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\GA\GeneticAlgorithm\GeneticAlgorithm.csproj">
-      <Project>{04ce86e3-ceec-4ca7-a2db-ba24f4430a64}</Project>
-      <Name>GeneticAlgorithm</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Mozog.Utils\Mozog.Utils.csproj">
       <Project>{47cb5c11-3dce-4768-ab1f-ffc1cfd55167}</Project>
       <Name>Mozog.Utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SA\SimulatedAnnealing\SimulatedAnnealing.csproj">
-      <Project>{e5f97d52-c842-4376-935f-c8132805c735}</Project>
-      <Name>SimulatedAnnealing</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

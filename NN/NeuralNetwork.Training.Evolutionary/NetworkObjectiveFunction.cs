@@ -1,4 +1,4 @@
-﻿namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmTeacher
+﻿namespace NeuralNetwork.Training.Evolutionary
 {
     //internal class NetworkObjectiveFunction : ObjectiveFunction<double>
     //{

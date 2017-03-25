@@ -1,7 +1,7 @@
-﻿using SimulatedAnnealing;
-using NeuralNetwork.MultilayerPerceptron.Networks;
+﻿using NeuralNetwork.MultilayerPerceptron.Networks;
+using NeuralNetwork.MultilayerPerceptron.Training;
 
-namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealingTeacher
+namespace NeuralNetwork.Training.Annealing
 {
     internal class NetworkObjectiveFunction
         : ObjectiveFunction<double>

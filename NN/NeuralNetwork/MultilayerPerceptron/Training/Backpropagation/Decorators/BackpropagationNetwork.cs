@@ -1,7 +1,7 @@
 ﻿using System;
 using NeuralNetwork.MultilayerPerceptron.Networks;
 
-namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher.Decorators
+namespace NeuralNetwork.MultilayerPerceptron.Training.Backpropagation.Decorators
 {
     /// <summary>
     /// A backpropagation network.

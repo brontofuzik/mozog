@@ -5,7 +5,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.OCR
 {
     class Program
     {
-        static void Main(string[] args)
+        static void _Main(string[] args)
         {
             // ------------------------------
             // Step 0: Adjust the parameters.

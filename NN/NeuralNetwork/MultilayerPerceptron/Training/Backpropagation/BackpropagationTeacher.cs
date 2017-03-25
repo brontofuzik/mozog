@@ -1,8 +1,8 @@
 ﻿using System;
 using NeuralNetwork.MultilayerPerceptron.Networks;
-using NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher.Decorators;
+using NeuralNetwork.MultilayerPerceptron.Training.Backpropagation.Decorators;
 
-namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher
+namespace NeuralNetwork.MultilayerPerceptron.Training.Backpropagation
 {
     /// <summary>
     /// A backpropagation teacher.

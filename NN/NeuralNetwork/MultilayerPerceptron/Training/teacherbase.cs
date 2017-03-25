@@ -2,7 +2,7 @@
 using Mozog.Utils;
 using NeuralNetwork.MultilayerPerceptron.Networks;
 
-namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers
+namespace NeuralNetwork.MultilayerPerceptron.Training
 {
     public abstract class TeacherBase
     {

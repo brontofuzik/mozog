@@ -1,7 +1,7 @@
-﻿using AntColonyOptimization;
-using NeuralNetwork.MultilayerPerceptron.Networks;
+﻿using NeuralNetwork.MultilayerPerceptron.Networks;
+using NeuralNetwork.MultilayerPerceptron.Training;
 
-namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.AntColonyOptimizationTeacher
+namespace NeuralNetwork.Training.Ants
 {
     internal class NetworkObjectiveFunction
         : ObjectiveFunction

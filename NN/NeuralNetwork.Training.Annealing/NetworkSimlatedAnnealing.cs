@@ -1,8 +1,6 @@
 ﻿using System;
 
-using SimulatedAnnealing;
-
-namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealingTeacher
+namespace NeuralNetwork.Training.Annealing
 {
     /// <summary>
     /// A simulated annealing designed to train a neural network.
@@ -39,7 +37,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealin
         protected override double[] PerturbationFunction(double[] currentWeights)
         {
             double[] newWeights = new double[Dimension];
-            Array.Copy(currentWeights, newWeights, Dimension);
+            Array.Copy((Array) currentWeights, (Array) newWeights, (int) Dimension);
 
             int index = random.Next(0, Dimension);
             newWeights[index] = (newWeights[index] + (random.NextDouble() + random.Next(-20, +20))) / 2.0;

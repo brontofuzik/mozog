@@ -4,7 +4,7 @@ using NeuralNetwork.MultilayerPerceptron.Layers;
 using NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions;
 using NeuralNetwork.MultilayerPerceptron.Networks;
 using NeuralNetwork.MultilayerPerceptron.Training;
-using NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher;
+using NeuralNetwork.MultilayerPerceptron.Training.Backpropagation;
 
 namespace NeuralNetwork.Examples.MultilayerPerceptron.INS01
 {
@@ -30,7 +30,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS01
 
         static Network network;
 
-        static void Main(string[] args)
+        static void _Main(string[] args)
         {
             // --------------------------------
             // Step 1: Create the training set.

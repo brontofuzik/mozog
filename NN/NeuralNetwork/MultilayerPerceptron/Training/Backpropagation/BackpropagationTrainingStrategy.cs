@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
+using NeuralNetwork.MultilayerPerceptron.Training.Backpropagation.Decorators;
 
-using NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher.Decorators;
-
-namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher
+namespace NeuralNetwork.MultilayerPerceptron.Training.Backpropagation
 {
     /// <summary>
     /// A backpropagation training strategy.

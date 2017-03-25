@@ -5,7 +5,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork.INS04
 {
     class Program
     {
-        static void Main(string[] args)
+        static void _Main(string[] args)
         {
             string imageName = "monika";
 

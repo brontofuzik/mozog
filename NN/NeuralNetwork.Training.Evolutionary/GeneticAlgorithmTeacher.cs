@@ -1,7 +1,7 @@
-﻿using GeneticAlgorithm;
-using NeuralNetwork.MultilayerPerceptron.Networks;
+﻿using NeuralNetwork.MultilayerPerceptron.Networks;
+using NeuralNetwork.MultilayerPerceptron.Training;
 
-namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmTeacher
+namespace NeuralNetwork.Training.Evolutionary
 {
     /// <remarks>
     /// A genetic algorithm teacher.

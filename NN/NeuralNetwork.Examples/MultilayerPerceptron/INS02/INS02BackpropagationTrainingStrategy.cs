@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using NeuralNetwork.MultilayerPerceptron.Training;
-using NeuralNetwork.MultilayerPerceptron.Training.Teachers.BackpropagationTeacher;
+using NeuralNetwork.MultilayerPerceptron.Training.Backpropagation;
 
 namespace NeuralNetwork.Examples.MultilayerPerceptron.INS02
 {

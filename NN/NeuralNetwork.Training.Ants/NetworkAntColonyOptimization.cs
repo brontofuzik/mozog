@@ -1,4 +1,4 @@
-﻿namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.AntColonyOptimizationTeacher
+﻿namespace NeuralNetwork.Training.Ants
 {
     /// <summary>
     /// An ant colony optimization designed to train a neural network.

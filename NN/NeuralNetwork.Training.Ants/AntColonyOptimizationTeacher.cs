@@ -1,17 +1,18 @@
 ﻿using NeuralNetwork.MultilayerPerceptron.Networks;
+using NeuralNetwork.MultilayerPerceptron.Training;
 
-namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealingTeacher
+namespace NeuralNetwork.Training.Ants
 {
     /// <summary>
-    /// A simulated annealing teacher.
+    /// An ant colony optimization teacher.
     /// </summary>
-    public class SimulatedAnnealingTeacher
+    public class AntColonyOptimizationTeacher
         : TeacherBase
     {
         /// <summary>
-        /// The network simulated annealing.
+        /// The ant colony optimization;
         /// </summary>
-        private NetworkSimlatedAnnealing networkSimulatedAnnealing;
+        private NetworkAntColonyOptimization networkAntColonyOptimization;
 
         /// <summary>
         /// Gets the name of the teacher.
@@ -23,20 +24,20 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealin
         {
             get
             {
-                return "SimulatedAnnealingTeacher";
+                return "AntColonyOptimizationTeacher";
             }
         }
 
         /// <summary>
-        /// Creates a new simulated annealing teacher.
+        /// Creates a new ant colony teacher.
         /// </summary>
         /// <param name="trainingSet">The training set.</param>
-        /// <param name="validationSet">The validationSet.</param>
+        /// <param name="validationSet">The validation set.</param>
         /// <param name="testSet">The test set.</param>
-        public SimulatedAnnealingTeacher(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
+        public AntColonyOptimizationTeacher(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
             : base(trainingSet, validationSet, testSet)
         {
-            networkSimulatedAnnealing = new NetworkSimlatedAnnealing();
+            networkAntColonyOptimization = new NetworkAntColonyOptimization();
         }
 
         /// <summary>
@@ -47,17 +48,18 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.SimulatedAnnealin
         /// <param name="maxTolerableNetworkError">The maximum tolerable network error.</param>
         public override TrainingLog Train(INetwork network, int maxIterationCount, double maxTolerableNetworkError)
         {
-            // The network simulated annealing parameters.
+            // The network ant colony optimiaztion parameters.
             NetworkObjectiveFunction networkObjectiveFunction = new NetworkObjectiveFunction(network, trainingSet);
-            double initialTemperature = 1000.0;
-            double finalTemperature = 0.001;
+            int antCount = 100;
+            int normalPDFCount = 10;
+            double requiredAccuracy = 0.001;
 
             // Train the network.
             int iterationCount;
             double networkError;
-            double[] weights = networkSimulatedAnnealing.Run(networkObjectiveFunction,
+            double[] weights = networkAntColonyOptimization.Run(networkObjectiveFunction,
                 maxIterationCount, out iterationCount, maxTolerableNetworkError, out networkError,
-                initialTemperature, finalTemperature 
+                antCount, normalPDFCount, requiredAccuracy
            );
             network.SetWeights(weights);
 

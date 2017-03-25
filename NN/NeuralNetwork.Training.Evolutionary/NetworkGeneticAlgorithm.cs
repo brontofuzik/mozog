@@ -1,8 +1,7 @@
-﻿using GeneticAlgorithm;
-using Mozog.Utils;
-using NeuralNetwork.MultilayerPerceptron.Networks;
+﻿using NeuralNetwork.MultilayerPerceptron.Networks;
+using NeuralNetwork.MultilayerPerceptron.Training;
 
-namespace NeuralNetwork.MultilayerPerceptron.Training.Teachers.GeneticAlgorithmTeacher
+namespace NeuralNetwork.Training.Evolutionary
 {
     /// <summary>
     /// A genetic algorithm designed to train a neural network.

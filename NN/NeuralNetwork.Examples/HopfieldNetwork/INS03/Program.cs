@@ -5,7 +5,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork.INS03
 {
     class Program
     {
-        static void Main(string[] args)
+        static void _Main(string[] args)
         {
             string[] imageFileNames = new string[] { "square" };
             int[] radii = new int[] { 0, 1, 2, 3, 4 };
