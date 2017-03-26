@@ -1,5 +1,6 @@
 ﻿namespace NeuralNetwork.MultilayerPerceptron.Synapses
 {
+    /* TODO Remove
     public class SynapseBlueprint
     {
         public SynapseBlueprint(int sourceNeuronIndex, int targetNeuronIndex)
@@ -12,4 +13,5 @@
 
         public int TargetNeuronIndex { get; }
     }
+    */
 }

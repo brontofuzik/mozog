@@ -5,7 +5,7 @@ using System.Drawing;
 using Mozog.Utils;
 using NeuralNetwork.KohonenNetwork.LearningRateFunctions;
 using NeuralNetwork.KohonenNetwork.NeighbourhoodFunctions;
-using NeuralNetwork.MultilayerPerceptron.Training;
+using NeuralNetwork.Training;
 
 namespace NeuralNetwork.KohonenNetwork
 {

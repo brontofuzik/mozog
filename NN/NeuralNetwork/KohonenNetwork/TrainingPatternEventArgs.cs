@@ -1,4 +1,5 @@
-﻿using NeuralNetwork.MultilayerPerceptron.Training;
+﻿using NeuralNetwork.Training;
+
 namespace NeuralNetwork.KohonenNetwork
 {
     public delegate void TrainingPatternEventhandler(object sender, TrainingPatternEventArgs trainingPatternEventArgs);

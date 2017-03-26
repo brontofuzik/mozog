@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
-using NeuralNetwork.MultilayerPerceptron.Connectors;
-using NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions;
-using NeuralNetwork.MultilayerPerceptron.Networks;
-using NeuralNetwork.MultilayerPerceptron.Neurons;
 
 namespace NeuralNetwork.MultilayerPerceptron.Layers
 {
+    /* TODO Remove
     public abstract class ActivationLayerDecorator : IActivationLayer
     {
         protected IActivationLayer decoratedActivationLayer;
@@ -63,4 +60,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
 
         public override string ToString() => decoratedActivationLayer.ToString();
     }
+    */
 }

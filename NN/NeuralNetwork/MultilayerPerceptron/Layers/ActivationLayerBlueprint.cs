@@ -1,7 +1,6 @@
-﻿using NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions;
-
-namespace NeuralNetwork.MultilayerPerceptron.Layers
+﻿namespace NeuralNetwork.MultilayerPerceptron.Layers
 {
+    /* TODO Remove
     public class ActivationLayerBlueprint : LayerBlueprint
     {
         public ActivationLayerBlueprint(int neuronCount, IActivationFunction activationFunction)
@@ -17,4 +16,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Layers
 
         public IActivationFunction ActivationFunction { get; }
     }
+    */
 }

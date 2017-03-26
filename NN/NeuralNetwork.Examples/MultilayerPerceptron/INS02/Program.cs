@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Text;
-using NeuralNetwork.MultilayerPerceptron.Layers;
-using NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions;
-using NeuralNetwork.MultilayerPerceptron.Networks;
-using NeuralNetwork.MultilayerPerceptron.Training;
-using NeuralNetwork.MultilayerPerceptron.Training.Backpropagation;
+using NeuralNetwork.MultilayerPerceptron;
+using NeuralNetwork.MultilayerPerceptron.ActivationFunctions;
+using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Examples.MultilayerPerceptron.INS02
 {
     class Program
     {
-        /// <summary>
-        /// The keywords.
-        /// </summary>
-        static StringCollection keywords = new StringCollection() {
+        static readonly StringCollection keywords = new StringCollection() {
             "abstract", "as",
             "base", "bool", "break", "byte",
             "case", "catch", "char", "checked", "class", "const", "continue",
@@ -35,30 +30,15 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS02
             "while"
         };
 
-        /// <summary>
-        /// The maximum length of a keyword.
-        /// </summary>
         static int maxKeywordLength = 10;
 
-        /// <summary>
-        /// The number of keywords to recognize.
-        /// </summary>
         static int keywordCount = 10;
 
-        /// <summary>
-        /// The topology of the network.
-        /// </summary>
-        static int[] networkTopology = new int[] { maxKeywordLength * 5, 20, keywordCount };
+        static readonly int[] networkTopology = { maxKeywordLength * 5, 20, keywordCount };
         
-        /// <summary>
-        /// The network.
-        /// </summary>
         static Network network;
 
-        /// <summary>
-        /// The pseudo-random number generator.
-        /// </summary>
-        static Random random = new Random();
+        static readonly Random random = new Random();
 
         /// <summary>
         /// The application's entry point.
@@ -70,53 +50,22 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS02
             // Step 1: Create the training set.
             // --------------------------------
 
-            // 1.1. Create the trainig set.
-            int inputVectorLength = networkTopology[0];
-            int outputVectorLength = networkTopology[networkTopology.Length - 1];
-            TrainingSet trainingSet = new TrainingSet(inputVectorLength, outputVectorLength, keywords);
-
-            // 1.2. Create the training patterns.
+            TrainingSet trainingSet = new TrainingSet(networkTopology[0], networkTopology[networkTopology.Length - 1], keywords);
             for (int i = 0; i < keywordCount; i++)
             {
-                // Create the input vector.
                 double[] inputVector = KeywordToVector(keywords[i]);
-
-                // Create the output vector.
                 double[] outputVector = KeywordIndexToVector(i);
-
-                // Create the training pattern, ...
-                SupervisedTrainingPattern trainingPattern = new SupervisedTrainingPattern(inputVector, outputVector, keywords[i]);
-                
-                // ... and add it to the training set.
-                trainingSet.Add(trainingPattern);
+                trainingSet.Add(new SupervisedTrainingPattern(inputVector, outputVector, keywords[i]));
             }
 
             // ---------------------------
             // Step 2: Create the network.
             // ---------------------------
 
-            // 2.1. Create the blueprint of the network.
-
-            // 2.1.1. Create the blueprint of the input layer.
-            LayerBlueprint inputLayerBlueprint = new LayerBlueprint(networkTopology[0]);
-
-            // 2.1.2. Create the blueprints of the hidden layers.
-            int hiddenLayerCount = networkTopology.Length - 2;
-            ActivationLayerBlueprint[] hiddenLayerBlueprints = new ActivationLayerBlueprint[hiddenLayerCount];
-            for (int i = 0; i < hiddenLayerCount; i++)
-            {
-                hiddenLayerBlueprints[i] = new ActivationLayerBlueprint(networkTopology[1 + i], new LogisticActivationFunction());
-            }
-
-            // 2.1.3. Create the blueprints of the output layer.
-            ActivationLayerBlueprint outputLayerBlueprint = new ActivationLayerBlueprint(networkTopology[networkTopology.Length - 1], new LogisticActivationFunction());
-
-            // 2.1.4. Create the blueprint of the network.
-            NetworkBlueprint networkBlueprint = new NetworkBlueprint(inputLayerBlueprint, hiddenLayerBlueprints, outputLayerBlueprint);
-
             // 2.2. Create the network.
-            network = new Network(networkBlueprint);
+            network = new Network(networkTopology, new LogisticActivationFunction());
 
+            /* TODO Backprop
             // --------------------------
             // Step 3: Train the network.
             // --------------------------
@@ -140,6 +89,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS02
             // 3.4. Inspect the training log.
             Console.WriteLine("Number of iterations used : " + trainingLog.IterationCount);
             Console.WriteLine("Minimum network error achieved : " + trainingLog.NetworkError);
+            */
 
             // -------------------------
             // Step 4: Test the network.

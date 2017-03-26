@@ -1,5 +1,4 @@
-﻿using NeuralNetwork.MultilayerPerceptron.Networks;
-using NeuralNetwork.MultilayerPerceptron.Training;
+﻿using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.Training.Annealing
 {

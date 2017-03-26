@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using NeuralNetwork.MultilayerPerceptron.Training;
+using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Examples.KohonenNetwork
 {

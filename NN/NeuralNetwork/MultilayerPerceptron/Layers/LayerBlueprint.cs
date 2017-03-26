@@ -1,5 +1,6 @@
 ﻿namespace NeuralNetwork.MultilayerPerceptron.Layers
 {
+    /* TODO Remove
     public class LayerBlueprint
     {
         public LayerBlueprint(int neuronCount)
@@ -11,4 +12,5 @@
 
         public override string ToString() => NeuronCount.ToString();
     }
+    */
 }

@@ -1,9 +1,7 @@
 ﻿using System;
-using NeuralNetwork.MultilayerPerceptron.Layers;
-using NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions;
-using NeuralNetwork.MultilayerPerceptron.Networks;
-using NeuralNetwork.MultilayerPerceptron.Training;
-using NeuralNetwork.MultilayerPerceptron.Training.Backpropagation;
+using NeuralNetwork.MultilayerPerceptron;
+using NeuralNetwork.MultilayerPerceptron.ActivationFunctions;
+using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Examples.MultilayerPerceptron
 {
@@ -20,44 +18,21 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron
             // Step 1: Create the training set.
             // --------------------------------
 
-            // 1.1. Create the training set.
-            int inputVectorLength = 2;
-            int outputVectorLength = 1;
+            const int inputVectorLength = 2;
+            const int outputVectorLength = 1;
             TrainingSet trainingSet = new TrainingSet(inputVectorLength, outputVectorLength);
-
-            // 1.2. Create the training patterns.
-            SupervisedTrainingPattern trainingPattern;
-            trainingPattern = new SupervisedTrainingPattern(new double[2] { 0.0, 0.0 }, new double[1] { 0.0 });
-            trainingSet.Add(trainingPattern);
-            trainingPattern = new SupervisedTrainingPattern(new double[2] { 0.0, 1.0 }, new double[1] { 1.0 });
-            trainingSet.Add(trainingPattern);
-            trainingPattern = new SupervisedTrainingPattern(new double[2] { 1.0, 0.0 }, new double[1] { 1.0 });
-            trainingSet.Add(trainingPattern);
-            trainingPattern = new SupervisedTrainingPattern(new double[2] { 1.0, 1.0 }, new double[1] { 0.0 });
-            trainingSet.Add(trainingPattern);
+            trainingSet.Add(new SupervisedTrainingPattern(new[] { 0.0, 0.0 }, new[] { 0.0 }));
+            trainingSet.Add(new SupervisedTrainingPattern(new[] { 0.0, 1.0 }, new[] { 1.0 }));
+            trainingSet.Add(new SupervisedTrainingPattern(new[] { 1.0, 0.0 }, new[] { 1.0 }));
+            trainingSet.Add(new SupervisedTrainingPattern(new[] { 1.0, 1.0 }, new[] { 0.0 }));
 
             // ---------------------------
             // Step 2: Create the network.
             // ---------------------------
 
-            // 2.1. Create the blueprint of the netowork.
+            Network network = new Network(new[] {2, 2, 1}, new LinearActivationFunction());
 
-            // 2.1.1. Create the blueprint of the input layer.
-            LayerBlueprint inputLayerBlueprint = new LayerBlueprint(inputVectorLength);
-
-            // 2.1.2. Create the blueprints of the hidden layers.
-            ActivationLayerBlueprint[] hiddenLayerBlueprints = new ActivationLayerBlueprint[1];
-            hiddenLayerBlueprints[0] = new ActivationLayerBlueprint(2, new LogisticActivationFunction());
-
-            // 2.1.3. Create the blueprints of the output layer.
-            ActivationLayerBlueprint outputLayerBlueprint = new ActivationLayerBlueprint(outputVectorLength, new LogisticActivationFunction());
-
-            // 2.1.4. Create the blueprint of the network.
-            NetworkBlueprint networkBlueprint = new NetworkBlueprint(inputLayerBlueprint, hiddenLayerBlueprints, outputLayerBlueprint);
-
-            // 2.2. : Create the network.
-            Network network = new Network(networkBlueprint);
-
+            /* TODO Backprop
             // --------------------------
             // Step 3: Train the network.
             // --------------------------
@@ -81,16 +56,17 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron
             // 3.4. Inspect the training log.
             Console.WriteLine("Number of iterations used : " + trainingLog.IterationCount);
             Console.WriteLine("Minimum network error achieved : " + trainingLog.NetworkError);
+            */
 
             // ---------------------------------
             // Step 4: Test the trained network.
             // ---------------------------------
 
-            foreach (SupervisedTrainingPattern tp in trainingSet)
+            foreach (var pattern in trainingSet)
             {
-                double[] inputVector = tp.InputVector;
+                double[] inputVector = pattern.InputVector;
                 double[] outputVector = network.Evaluate(inputVector);
-                Console.WriteLine(tp + " -> " + UnsupervisedTrainingPattern.VectorToString(outputVector));
+                Console.WriteLine(pattern + " -> " + UnsupervisedTrainingPattern.VectorToString(outputVector));
             }
         }
     }

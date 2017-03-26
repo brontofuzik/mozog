@@ -1,6 +1,4 @@
 ﻿using GeneticAlgorithm.Functions.Fitness;
-using NeuralNetwork.MultilayerPerceptron.Networks;
-using NeuralNetwork.MultilayerPerceptron.Training;
 
 namespace NeuralNetwork.Training.Evolutionary
 {

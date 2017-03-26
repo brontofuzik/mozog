@@ -1,5 +1,5 @@
 ﻿using System;
-using NeuralNetwork.MultilayerPerceptron.Training;
+using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Examples.MultilayerPerceptron.OCR
 {

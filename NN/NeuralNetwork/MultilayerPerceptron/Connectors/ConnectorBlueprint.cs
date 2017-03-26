@@ -1,7 +1,6 @@
-﻿using NeuralNetwork.MultilayerPerceptron.Synapses;
-
-namespace NeuralNetwork.MultilayerPerceptron.Connectors
+﻿namespace NeuralNetwork.MultilayerPerceptron.Connectors
 {
+    /* TODO Remove
     public class ConnectorBlueprint
     {
         public ConnectorBlueprint(int sourceLayerIndex, int sourceLayerNeuronCount, int targetLayerIndex, int targetLayerNeuronCount)
@@ -32,4 +31,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
 
         public int TargetLayerIndex { get; }
     }
+    */
 }

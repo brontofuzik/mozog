@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using NeuralNetwork.MultilayerPerceptron.Layers;
-using NeuralNetwork.MultilayerPerceptron.Networks;
-using NeuralNetwork.MultilayerPerceptron.Synapses;
 
 namespace NeuralNetwork.MultilayerPerceptron.Connectors
 {
+    /* TODO Remove
     public abstract class ConnectorDecorator : IConnector
     {
         protected IConnector decoratedConnector;
@@ -90,4 +89,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Connectors
 
         public override string ToString() => decoratedConnector.ToString();
     }
+    */
 }

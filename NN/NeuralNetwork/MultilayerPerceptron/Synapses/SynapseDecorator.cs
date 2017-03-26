@@ -1,8 +1,6 @@
-﻿using NeuralNetwork.MultilayerPerceptron.Connectors;
-using NeuralNetwork.MultilayerPerceptron.Neurons;
-
-namespace NeuralNetwork.MultilayerPerceptron.Synapses
+﻿namespace NeuralNetwork.MultilayerPerceptron.Synapses
 {
+    /* TODO Remove
     public abstract class SynapseDecorator : ISynapse
     {
         protected ISynapse decoratedSynapse;
@@ -72,4 +70,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Synapses
 
         public override string ToString() => decoratedSynapse.ToString();
     }
+    */
 }

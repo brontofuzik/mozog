@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using NeuralNetwork.Training;
 
 namespace NeuralNetwork.KohonenNetwork
 {
@@ -27,7 +28,7 @@ namespace NeuralNetwork.KohonenNetwork
         /// </summary>
         /// <param name="trainingSet">The training set.</param>
         /// <param name="trainingIterationCount">The number of training iterations.</param>
-        void Train(MultilayerPerceptron.Training.TrainingSet trainingSet, int trainingIterationCount);
+        void Train(TrainingSet trainingSet, int trainingIterationCount);
 
         /// <summary>
         /// Evaluates the network.

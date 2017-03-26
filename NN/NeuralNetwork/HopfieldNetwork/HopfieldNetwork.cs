@@ -4,7 +4,7 @@ using System.Text;
 using Mozog.Utils;
 using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps;
 using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp;
-using NeuralNetwork.MultilayerPerceptron.Training;
+using NeuralNetwork.Training;
 
 namespace NeuralNetwork.HopfieldNetwork
 {

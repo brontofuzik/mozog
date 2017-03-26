@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using NeuralNetwork.MultilayerPerceptron.Training;
-using NeuralNetwork.MultilayerPerceptron.Training.Backpropagation;
+using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Examples.MultilayerPerceptron.INS01
 {
+    /* TODO Backprop
     /// <summary>
     /// A INS01 backpropagation training strategy.
     /// </summary>
-    class INS01BackpropagationTrainingStrategy
-        : BackpropagationTrainingStrategy
+    class INS01BackpropagationTrainingStrategy : BackpropagationTrainingStrategy
     {
         /// <summary>
         /// Creates a new INS01 backpropagation learning strategy.
@@ -55,4 +54,5 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS01
             }
         }
     }
+    */
 }

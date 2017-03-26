@@ -1,7 +1,7 @@
 ﻿using System;
 using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps;
 using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkImp;
-using NeuralNetwork.MultilayerPerceptron.Training;
+using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Examples.HopfieldNetwork
 {

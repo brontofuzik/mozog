@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using Mozog.Utils;
-using NeuralNetwork.MultilayerPerceptron.Connectors;
 using NeuralNetwork.MultilayerPerceptron.Layers;
 
 namespace NeuralNetwork.MultilayerPerceptron.Networks
 {
+    /* TODO Remove
     public class NetworkBlueprint
     {
         public NetworkBlueprint(LayerBlueprint inputLayerBlueprint, ActivationLayerBlueprint[] hiddenLayerBlueprints, ActivationLayerBlueprint outputLayerBlueprint)
@@ -138,4 +138,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Networks
             return $"MLP({InputLayerBlueprint}, {hiddenLayers}, {OutputLayerBlueprint}";
         }
     }
+    */
 }

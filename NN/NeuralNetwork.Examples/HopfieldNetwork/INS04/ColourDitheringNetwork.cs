@@ -479,16 +479,15 @@ namespace NeuralNetwork.Examples.HopfieldNetwork.INS04
             {
                 case ColorComponent.Red:
                     return color.R;
-                    break;
+
                 case ColorComponent.Green:
                     return color.G;
-                    break;
+
                 case ColorComponent.Blue:
                     return color.B;
-                    break;
+
                 default:
                     throw new ArgumentException("colorComponent");
-                    break;
             }
         }
 

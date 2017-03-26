@@ -1,16 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
-using NeuralNetwork.MultilayerPerceptron.Layers;
-using NeuralNetwork.MultilayerPerceptron.Layers.ActivationFunctions;
-using NeuralNetwork.MultilayerPerceptron.Networks;
-using NeuralNetwork.MultilayerPerceptron.Training;
-using NeuralNetwork.MultilayerPerceptron.Training.Backpropagation;
+using NeuralNetwork.MultilayerPerceptron;
+using NeuralNetwork.MultilayerPerceptron.ActivationFunctions;
+using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Examples.MultilayerPerceptron.INS01
 {
     class Program
     {
-        static int[] networkTopology = new int[] { 100, 4, 9, 100 };
         static int iterationCount = 500;
 
         static string fileName = "litter_disposal";
@@ -25,8 +23,10 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS01
         static int tileHeight = 10;
 
         // Mosaic dimensions.
-        static int rowCount = pictureHeight / tileHeight;
-        static int columnCount = pictureWidth / tileWidth;
+        static readonly int rowCount = pictureHeight / tileHeight;
+        static readonly int columnCount = pictureWidth / tileWidth;
+
+        static readonly int[] topology = {100, 4, 9, 100};
 
         static Network network;
 
@@ -36,22 +36,12 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS01
             // Step 1: Create the training set.
             // --------------------------------
 
-            // Load the (source) picture.
             string sourcePictureFileName = fileName + "." + fileExtension;
             Bitmap sourcePicture = new Bitmap(sourcePictureFileName);
-
-            // Crop the (source) picture.
             sourcePicture = CropBitmap(sourcePicture, 0, 0, pictureWidth, pictureHeight);
-
-            // Split the (source) picture into the (source) tiles.
             Bitmap[,] sourceTiles = SplitPictureIntoTiles(sourcePicture);
 
-            // 1.1. Create the training set.
-            int inputVectorLength = tileWidth * tileHeight;
-            int outputVectorLength = inputVectorLength;
-            TrainingSet trainingSet = new TrainingSet(inputVectorLength, outputVectorLength);
-
-            // 1.2. Create the training patterns.
+            TrainingSet trainingSet = new TrainingSet(tileWidth * tileHeight, tileWidth * tileHeight);
             for (int rowIndex = 0; rowIndex < rowCount; ++rowIndex)
             {
                 for (int columnIndex = 0; columnIndex < columnCount; ++columnIndex)
@@ -62,10 +52,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS01
                     for (int i = 0; i < 4; ++i)
                     {
                         double[] inputVector = TileToVector(sourceTile);
-                        SupervisedTrainingPattern trainingPattern = new SupervisedTrainingPattern(inputVector, outputVector);
-                        trainingSet.Add(trainingPattern);
+                        trainingSet.Add(new SupervisedTrainingPattern(inputVector, outputVector));
 
-                        // Rotate the tile.
                         sourceTile.RotateFlip(RotateFlipType.Rotate90FlipNone);
                     }
                 }
@@ -75,28 +63,9 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS01
             // Step 2: Create the network.
             // ---------------------------
 
-            // 2.1. Create the blueprint of the network.
+            network = new Network(topology, new LogisticActivationFunction());
 
-            // 2.1.1. Create the blueprint of the input layer.
-            LayerBlueprint inputLayerBlueprint = new LayerBlueprint(networkTopology[0]);
-
-            // 2.1.2. Create the blueprints of the hidden layers.
-            int hiddenLayerCount = networkTopology.Length - 2;
-            ActivationLayerBlueprint[] hiddenLayerBlueprints = new ActivationLayerBlueprint[hiddenLayerCount];
-            for (int i = 0; i < hiddenLayerCount; i++)
-            {
-                hiddenLayerBlueprints[i] = new ActivationLayerBlueprint(networkTopology[1 + i], new LogisticActivationFunction());
-            }
-
-            // 2.1.3. Create the blueprints of the output layer.
-            ActivationLayerBlueprint outputLayerBlueprint = new ActivationLayerBlueprint(networkTopology[networkTopology.Length - 1], new LogisticActivationFunction());
-
-            // 2.1.4. Create the blueprint of the network.
-            NetworkBlueprint networkBlueprint = new NetworkBlueprint(inputLayerBlueprint, hiddenLayerBlueprints, outputLayerBlueprint);
-
-            // 2.2. Create the network.
-            network = new Network(networkBlueprint);
-
+            /* TODO Backprop
             // --------------------------
             // Step 3: Train the network.
             // --------------------------
@@ -120,6 +89,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS01
             // 3.4. Inspect the training log.
             Console.WriteLine("Number of iterations used : " + trainingLog.IterationCount);
             Console.WriteLine("Minimum network error achieved : " + trainingLog.NetworkError);
+            */
 
             // -------------------------
             // Step 4: Test the network.

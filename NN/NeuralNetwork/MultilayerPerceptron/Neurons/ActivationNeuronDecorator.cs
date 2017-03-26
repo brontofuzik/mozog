@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using NeuralNetwork.MultilayerPerceptron.Layers;
-using NeuralNetwork.MultilayerPerceptron.Synapses;
 
 namespace NeuralNetwork.MultilayerPerceptron.Neurons
 {
+    /* TODO Remove
     public abstract class ActivationNeuronDecorator : IActivationNeuron
     {
         protected IActivationNeuron decoratedActivationNeuron;
@@ -47,4 +47,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Neurons
 
         public override string ToString() => decoratedActivationNeuron.ToString();
     }
+    */
 }
