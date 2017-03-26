@@ -4,13 +4,13 @@ using NeuralNetwork.MultilayerPerceptron.Networks;
 
 namespace NeuralNetwork.MultilayerPerceptron.Training
 {
-    public abstract class TeacherBase
+    public abstract class TrainerBase
     {
         protected TrainingSet trainingSet;
         protected TrainingSet validationSet;
         protected TrainingSet testSet;
 
-        protected TeacherBase(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
+        protected TrainerBase(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
         {
             Require.IsNotNull(trainingSet, nameof(trainingSet));
             this.trainingSet = trainingSet;

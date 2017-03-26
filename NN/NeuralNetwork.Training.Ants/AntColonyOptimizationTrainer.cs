@@ -1,32 +1,34 @@
 ﻿using NeuralNetwork.MultilayerPerceptron.Networks;
 using NeuralNetwork.MultilayerPerceptron.Training;
 
-namespace NeuralNetwork.Training.Annealing
+namespace NeuralNetwork.Training.Ants
 {
-    public class SimulatedAnnealingTeacher : TeacherBase
+    public class AntColonyOptimizationTrainer : TrainerBase
     {
-        private readonly NetworkSimlatedAnnealing networkSimulatedAnnealing = new NetworkSimlatedAnnealing();
+        private readonly NetworkAntColonyOptimization networkAntColonyOptimization = new NetworkAntColonyOptimization();
 
-        public SimulatedAnnealingTeacher(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
+        public AntColonyOptimizationTrainer(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
             : base(trainingSet, validationSet, testSet)
         {
         }
 
-        public override string Name => "SimulatedAnnealingTeacher";
+        public override string Name => "AntColonyOptimizationTrainer";
 
         public override TrainingLog Train(INetwork network, int maxIterationCount, double maxTolerableNetworkError)
         {
-            // The network simulated annealing parameters.
+            // The network ant colony optimiaztion parameters.
             NetworkObjectiveFunction networkObjectiveFunction = new NetworkObjectiveFunction(network, trainingSet);
-            double initialTemperature = 1000.0;
-            double finalTemperature = 0.001;
+            int antCount = 100;
+            int normalPDFCount = 10;
+            double requiredAccuracy = 0.001;
 
             // Train the network.
             int iterationCount;
             double networkError;
-            double[] weights = networkSimulatedAnnealing.Run(networkObjectiveFunction,
+            double[] weights = networkAntColonyOptimization.Run(networkObjectiveFunction,
                 maxIterationCount, out iterationCount, maxTolerableNetworkError, out networkError,
-                initialTemperature, finalTemperature);
+                antCount, normalPDFCount, requiredAccuracy
+           );
             network.SetWeights(weights);
 
             // LOGGING

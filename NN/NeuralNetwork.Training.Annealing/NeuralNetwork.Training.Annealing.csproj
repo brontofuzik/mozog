@@ -49,7 +49,7 @@
     <Compile Include="NetworkObjectiveFunction.cs" />
     <Compile Include="NetworkSimlatedAnnealing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimulatedAnnealingTeacher.cs" />
+    <Compile Include="SimulatedAnnealingTrainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

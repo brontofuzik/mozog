@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AntColonyOptimizationTeacher.cs" />
+    <Compile Include="AntColonyOptimizationTrainer.cs" />
     <Compile Include="NetworkAntColonyOptimization.cs" />
     <Compile Include="NetworkObjectiveFunction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

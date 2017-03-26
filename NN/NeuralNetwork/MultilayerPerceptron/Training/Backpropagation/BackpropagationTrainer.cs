@@ -7,8 +7,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Backpropagation
     /// <summary>
     /// A backpropagation teacher.
     /// </summary>
-    public class BackpropagationTeacher
-        : TeacherBase
+    public class BackpropagationTrainer
+        : TrainerBase
     {
         /// <summary>
         /// Creates a new backpropagation teacher.
@@ -16,7 +16,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Training.Backpropagation
         /// <param name="trainingSet">The training set.</param>
         /// <param name="validationSet">The validation set.</param>
         /// <param name="testSet">The test set.</param>
-        public BackpropagationTeacher(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
+        public BackpropagationTrainer(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
             : base(trainingSet, validationSet, testSet)
         {
         }

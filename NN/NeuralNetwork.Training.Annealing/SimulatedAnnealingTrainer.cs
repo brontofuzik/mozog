@@ -1,34 +1,32 @@
 ﻿using NeuralNetwork.MultilayerPerceptron.Networks;
 using NeuralNetwork.MultilayerPerceptron.Training;
 
-namespace NeuralNetwork.Training.Ants
+namespace NeuralNetwork.Training.Annealing
 {
-    public class AntColonyOptimizationTeacher : TeacherBase
+    public class SimulatedAnnealingTrainer : TrainerBase
     {
-        private readonly NetworkAntColonyOptimization networkAntColonyOptimization = new NetworkAntColonyOptimization();
+        private readonly NetworkSimlatedAnnealing networkSimulatedAnnealing = new NetworkSimlatedAnnealing();
 
-        public AntColonyOptimizationTeacher(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
+        public SimulatedAnnealingTrainer(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
             : base(trainingSet, validationSet, testSet)
         {
         }
 
-        public override string Name => "AntColonyOptimizationTeacher";
+        public override string Name => "SimulatedAnnealingTrainer";
 
         public override TrainingLog Train(INetwork network, int maxIterationCount, double maxTolerableNetworkError)
         {
-            // The network ant colony optimiaztion parameters.
+            // The network simulated annealing parameters.
             NetworkObjectiveFunction networkObjectiveFunction = new NetworkObjectiveFunction(network, trainingSet);
-            int antCount = 100;
-            int normalPDFCount = 10;
-            double requiredAccuracy = 0.001;
+            double initialTemperature = 1000.0;
+            double finalTemperature = 0.001;
 
             // Train the network.
             int iterationCount;
             double networkError;
-            double[] weights = networkAntColonyOptimization.Run(networkObjectiveFunction,
+            double[] weights = networkSimulatedAnnealing.Run(networkObjectiveFunction,
                 maxIterationCount, out iterationCount, maxTolerableNetworkError, out networkError,
-                antCount, normalPDFCount, requiredAccuracy
-           );
+                initialTemperature, finalTemperature);
             network.SetWeights(weights);
 
             // LOGGING

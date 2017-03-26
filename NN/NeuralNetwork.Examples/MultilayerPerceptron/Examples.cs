@@ -62,8 +62,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron
             // Step 3: Train the network.
             // --------------------------
 
-            // 3.1. Create the teacher.
-            BackpropagationTeacher teacher = new BackpropagationTeacher(trainingSet, null, null);
+            // 3.1. Create the trainer.
+            BackpropagationTrainer trainer = new BackpropagationTrainer(trainingSet, null, null);
 
             // 3.2. Create the training strategy.
             int maxIterationCount = 10000;
@@ -76,7 +76,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron
             BackpropagationTrainingStrategy backpropagationTrainingStrategy = new BackpropagationTrainingStrategy(maxIterationCount, maxNetworkError, batchLearning, synapseLearningRate, connectorMomentum);
 
             // 3.3. Train the network.
-            TrainingLog trainingLog = teacher.Train(network, backpropagationTrainingStrategy);
+            TrainingLog trainingLog = trainer.Train(network, backpropagationTrainingStrategy);
 
             // 3.4. Inspect the training log.
             Console.WriteLine("Number of iterations used : " + trainingLog.IterationCount);

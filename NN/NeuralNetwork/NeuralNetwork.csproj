@@ -125,9 +125,9 @@
     <Compile Include="MultilayerPerceptron\Training\Backpropagation\Decorators\BackpropagationNetwork.cs" />
     <Compile Include="MultilayerPerceptron\Training\Backpropagation\Decorators\BackpropagationNeuron.cs" />
     <Compile Include="MultilayerPerceptron\Training\Backpropagation\Decorators\BackpropagationSynapse.cs" />
-    <Compile Include="MultilayerPerceptron\Training\Backpropagation\BackpropagationTeacher.cs" />
+    <Compile Include="MultilayerPerceptron\Training\Backpropagation\BackpropagationTrainer.cs" />
     <Compile Include="MultilayerPerceptron\Training\Backpropagation\BackpropagationTrainingStrategy.cs" />
-    <Compile Include="MultilayerPerceptron\Training\TeacherBase.cs" />
+    <Compile Include="MultilayerPerceptron\Training\TrainerBase.cs" />
     <Compile Include="MultilayerPerceptron\Training\TrainingLog.cs" />
     <Compile Include="MultilayerPerceptron\Training\SupervisedTrainingPattern.cs" />
     <Compile Include="MultilayerPerceptron\Training\TrainingSet.cs" />
