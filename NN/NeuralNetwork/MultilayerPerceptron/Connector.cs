@@ -12,6 +12,11 @@ namespace NeuralNetwork.MultilayerPerceptron
             Network = network;
         }
 
+        // Factory
+        internal Connector()
+        {
+        }
+
         public List<ISynapse> Synapses { get; } = new List<ISynapse>();
 
         public int SynapseCount => Synapses.Count;

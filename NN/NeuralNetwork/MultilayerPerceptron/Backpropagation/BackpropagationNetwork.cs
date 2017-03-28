@@ -1,14 +1,11 @@
-﻿namespace NeuralNetwork.MultilayerPerceptron.Backpropagation.Decorators
+﻿using System;
+using NeuralNetwork.Interfaces;
+
+namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
-    /* TODO Backprop
-    public class BackpropagationNetwork : NetworkDecorator
+    public class BackpropagationNetwork
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="network"></param>
         public BackpropagationNetwork(INetwork network)
-            : base(network)
         {
             // 1. Disconnect the network.
             Disconnect();
@@ -40,10 +37,8 @@
             Connect();
         }
 
-        /// <summary>
-        /// Sets the learning rates of all synapses in the network.
-        /// </summary>
-        /// <param name="synapseLearningRate"></param>
+        public double Error { get; private set; }
+
         public void SetSynapseLearningRates(double synapseLearningRate)
         {
             foreach (BackpropagationConnector connector in Connectors)
@@ -52,10 +47,6 @@
             }
         }
 
-        /// <summary>
-        /// Sets the momenta of all connectors in the network.
-        /// </summary>
-        /// <param name="connectorMomentum"></param>
         public void SetConnectorMomenta(double connectorMomentum)
         {
             foreach (BackpropagationConnector connector in Connectors)
@@ -64,17 +55,11 @@
             }
         }
 
-        /// <summary>
-        /// Resets the error.
-        /// </summary>
         public void ResetError()
         {
-            _error = 0.0;
+            Error = 0.0;
         }
 
-        /// <summary>
-        /// Resets the partial derivatives of all synapses in the network.
-        /// </summary>
         public void ResetSynapsePartialDerivatives()
         {
             foreach (BackpropagationConnector connector in Connectors)
@@ -83,9 +68,6 @@
             }
         }
 
-        /// <summary>
-        /// Updates the error.
-        /// </summary>
         public void UpdateError()
         {
             double partialError = 0.0;
@@ -94,7 +76,7 @@
                 partialError += Math.Pow(outputNeuron.PartialDerivative, 2);
             }
 
-            _error += 0.5 * partialError;
+            Error += 0.5 * partialError;
         }
 
         // Replaces three steps - (b), (c) and (d) - with one.
@@ -110,9 +92,6 @@
             }
         }
 
-        /// <summary>
-        /// Updates the partial derivatives of all synapses in the netowork.
-        /// </summary>
         public void UpdateSynapsePartialDerivatives()
         {
             foreach (BackpropagationConnector connector in Connectors)
@@ -121,9 +100,6 @@
             }
         }
 
-        /// <summary>
-        /// Updates the weights of all synapses in the network.
-        /// </summary>
         public void UpdateSynapseWeights()
         {
             foreach (BackpropagationConnector connector in Connectors)
@@ -132,9 +108,6 @@
             }
         }
 
-        /// <summary>
-        /// Updates the learning rates of all synapses in the network.
-        /// </summary>
         public void UpdateSynapseLearningRates()
         {
             foreach (BackpropagationConnector connector in Connectors)
@@ -143,37 +116,7 @@
             }
         }
 
-        /// <summary>
-        /// Returns a string representation of the backpropagation network.
-        /// </summary>
-        /// 
-        /// <returns>
-        /// A string representation of the backpropagation network.
-        /// </returns>
-        public override string ToString()
-        {
-            return "BP" + base.ToString();
-        }
-
-        /// <summary>
-        /// Gets the error.
-        /// </summary>
-        /// <value>
-        /// The error.
-        /// </value>
-        public double Error
-        {
-            get
-            {
-                return _error;
-            }
-        }
-
-        /// <summary>
-        /// The error of the network.
-        /// </summary>
-        private double _error;
+        public override string ToString() => "BP" + base.ToString();
     }
-    */
 }
 

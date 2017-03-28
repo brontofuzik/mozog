@@ -11,6 +11,11 @@ namespace NeuralNetwork.MultilayerPerceptron
             Layer = parentLayer;
         }
 
+        // Factory
+        internal InputNeuron()
+        {
+        }
+
         public IInputLayer Layer { get; set; }
 
         public override string ToString() => $"IN({Output:F2})";

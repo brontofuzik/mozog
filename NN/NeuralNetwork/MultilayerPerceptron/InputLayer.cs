@@ -15,6 +15,11 @@ namespace NeuralNetwork.MultilayerPerceptron
             neuronCount.Times(() => Neurons.Add(new InputNeuron(this)));
         }
 
+        // Factory
+        internal InputLayer()
+        {
+        }
+
         public IEnumerable<INeuron> Ns => Neurons;
 
         public void Initialize()

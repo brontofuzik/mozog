@@ -12,6 +12,11 @@ namespace NeuralNetwork.MultilayerPerceptron
             Connector = connector;
         }
 
+        // Factory
+        internal Synapse()
+        {
+        }
+
         public double Weight { get; set; }
 
         public INeuron SourceNeuron { get; set; }

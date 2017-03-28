@@ -16,6 +16,11 @@ namespace NeuralNetwork.MultilayerPerceptron
             ActivationFunction = activationFunction;
         }
 
+        // Factory
+        internal ActivationLayer()
+        {
+        }
+
         public IEnumerable<INeuron> Ns => Neurons;
 
         public IActivationFunction ActivationFunction { get; }

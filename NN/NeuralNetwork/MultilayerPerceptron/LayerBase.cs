@@ -11,6 +11,11 @@ namespace NeuralNetwork.MultilayerPerceptron
             Network = network;
         }
 
+        // Factory
+        internal LayerBase()
+        {
+        }
+
         public IList<TNeuron> Neurons { get; } = new List<TNeuron>();
 
         public int NeuronCount => Neurons.Count;

@@ -22,6 +22,11 @@ namespace NeuralNetwork.MultilayerPerceptron
             Construct(topology[0], topology.Skip(1).Select(n => (n, activation)));
         }
 
+        // Factory
+        internal Network()
+        {
+        }
+
         private void Construct(int inputLayerNeurons, IEnumerable<(int neurons, IActivationFunction activation)> activationLayers)
         {
             // Layers

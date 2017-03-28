@@ -13,6 +13,11 @@ namespace NeuralNetwork.MultilayerPerceptron
             Layer = parentLayer;
         }
 
+        // Factory
+        internal ActivationNeuron()
+        {
+        }
+
         public IActivationLayer Layer { get; set; }
 
         public virtual void Evaluate()

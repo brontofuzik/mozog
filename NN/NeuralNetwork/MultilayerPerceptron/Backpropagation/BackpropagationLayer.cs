@@ -1,15 +1,13 @@
-﻿namespace NeuralNetwork.MultilayerPerceptron.Backpropagation.Decorators
+﻿using System;
+using NeuralNetwork.HopfieldNetwork;
+using NeuralNetwork.Interfaces;
+using NeuralNetwork.MultilayerPerceptron.ActivationFunctions;
+
+namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
-    /* TODO Backprop
-    internal class BackpropagationLayer : ActivationLayerDecorator
+    class BackpropagationLayer
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="layer">The (activation) layer to be decorated as backpropagation (activation) layer.</param>
-        /// <param name="parnetNetwork">The parnet network.</param>
         public BackpropagationLayer(IActivationLayer activationLayer, INetwork parnetNetwork)
-            : base(activationLayer,parnetNetwork)
         {
             // Ensure the activation function of the neuron is derivable.
             if (!(ActivationFunction is IDerivableActivationFunction))
@@ -58,16 +56,6 @@
             }
         }
 
-        /// <summary>
-        /// Returns a string representation of the backpropagation layer.
-        /// </summary>
-        /// <returns>
-        /// A string representation of the backpropagation layer.
-        /// </returns>
-        public override string ToString()
-        {
-            return "BP" + base.ToString();
-        }
+        public override string ToString() => "BP" + base.ToString();
     }
-    */
 }
