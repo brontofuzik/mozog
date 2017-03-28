@@ -5,7 +5,7 @@ using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
-    class BackpropagationLayer
+    class BackpropagationLayer : IActivationLayer
     {
         public BackpropagationLayer(IActivationLayer activationLayer, INetwork parnetNetwork)
         {
@@ -23,6 +23,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             {
                 Neurons[i] = new BackpropagationNeuron(Neurons[i],this);
             }
+        }
+
+        // Factory
+        internal BackpropagationLayer()
+        {
         }
 
         // Replaces three steps - (b), (c) and (d) - with one.

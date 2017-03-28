@@ -3,7 +3,7 @@ using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
-    public class BackpropagationNetwork
+    public class BackpropagationNetwork : INetwork
     {
         public BackpropagationNetwork(INetwork network)
         {
@@ -35,6 +35,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
             // 3. Connect the network.
             Connect();
+        }
+
+        // Factory
+        internal BackpropagationNetwork()
+        {
         }
 
         public double Error { get; private set; }

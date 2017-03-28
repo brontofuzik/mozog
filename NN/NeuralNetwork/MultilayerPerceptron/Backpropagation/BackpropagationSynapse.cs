@@ -2,7 +2,7 @@
 
 namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
-    public class BackpropagationSynapse
+    public class BackpropagationSynapse : ISynapse
     {
         private double _partialDerivative;
         private double _weightChange;
@@ -13,6 +13,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         public BackpropagationSynapse(ISynapse synapse, IConnector parentConnector)
         {
             _k = 1.01;
+        }
+
+        // Factory
+        internal BackpropagationSynapse()
+        {
         }
 
         public override void Initialize()

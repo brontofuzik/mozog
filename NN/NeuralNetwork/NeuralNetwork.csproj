@@ -71,6 +71,8 @@
   <ItemGroup>
     <Compile Include="Construction\INetworkBuilder.cs" />
     <Compile Include="Construction\INetworkFactory.cs" />
+    <Compile Include="Construction\NetworkArchitecture.cs" />
+    <Compile Include="MultilayerPerceptron\Backpropagation\BackpropagationNetworkFactory.cs" />
     <Compile Include="MultilayerPerceptron\NetworkFactory.cs" />
     <Compile Include="HopfieldNetwork\HopfieldNetwork.cs" />
     <Compile Include="HopfieldNetwork\ActivationFunction.cs" />

@@ -3,9 +3,14 @@ using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
-    public class BackpropagationNeuron
+    public class BackpropagationNeuron : IActivationNeuron
     {
         public BackpropagationNeuron(IActivationNeuron activationNeuron, IActivationLayer parentLayer)
+        {
+        }
+
+        // Factory
+        internal BackpropagationNeuron()
         {
         }
 

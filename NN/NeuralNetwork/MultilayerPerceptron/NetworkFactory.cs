@@ -5,18 +5,18 @@ namespace NeuralNetwork.MultilayerPerceptron
 {
     public class NetworkFactory : INetworkFactory
     {
-        public INetwork MakeNetwork() => new Network();
+        public virtual INetwork MakeNetwork() => new Network();
 
-        public IInputLayer MakeInputLayer() => new InputLayer();
+        public virtual IInputLayer MakeInputLayer() => new InputLayer();
 
-        public IActivationLayer MakeActivationLayer() => new ActivationLayer();
+        public virtual IActivationLayer MakeActivationLayer() => new ActivationLayer();
 
-        public IInputNeuron MakeInputNeuron() => new InputNeuron();
+        public virtual IInputNeuron MakeInputNeuron() => new InputNeuron();
 
-        public IActivationNeuron MakeActivationNeuron() => new ActivationNeuron();
+        public virtual IActivationNeuron MakeActivationNeuron() => new ActivationNeuron();
 
-        public IConnector MakeConnector() => new Connector();
+        public virtual IConnector MakeConnector() => new Connector();
 
-        public ISynapse MakeSynapse() => new Synapse();
+        public virtual ISynapse MakeSynapse() => new Synapse();
     }
 }

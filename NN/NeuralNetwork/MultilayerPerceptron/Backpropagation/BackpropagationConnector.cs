@@ -2,7 +2,7 @@
 
 namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
-    public class BackpropagationConnector
+    public class BackpropagationConnector : IConnector
     {
         public BackpropagationConnector(IConnector connector, INetwork parentNetwork)
         {
@@ -11,6 +11,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             {
                 Synapses[i] = new BackpropagationSynapse(Synapses[i],this);
             }
+        }
+
+        // Factory
+        internal BackpropagationConnector()
+        {
         }
 
         public double Momentum { get; set; }
