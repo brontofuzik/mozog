@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using NeuralNetwork.MultilayerPerceptron.ActivationFunctions;
+using NeuralNetwork.ActivationFunctions;
 
 namespace NeuralNetwork.Interfaces
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NeuralNetwork.MultilayerPerceptron.ActivationFunctions
+namespace NeuralNetwork.ActivationFunctions
 {
     /// <remarks>
     /// http://en.wikipedia.org/wiki/Hyperbolic_tangent</c>

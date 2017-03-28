@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Text;
 using Mozog.Utils;
+using NeuralNetwork.ActivationFunctions;
 using NeuralNetwork.Interfaces;
-using NeuralNetwork.MultilayerPerceptron.ActivationFunctions;
 
 namespace NeuralNetwork.MultilayerPerceptron
 {

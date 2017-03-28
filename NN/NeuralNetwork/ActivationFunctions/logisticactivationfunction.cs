@@ -1,7 +1,7 @@
 ﻿using System;
 using Mozog.Utils;
 
-namespace NeuralNetwork.MultilayerPerceptron.ActivationFunctions
+namespace NeuralNetwork.ActivationFunctions
 {
     /// <remarks>
     /// <para>

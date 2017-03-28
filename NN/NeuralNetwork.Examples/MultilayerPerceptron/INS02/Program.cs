@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Text;
+using NeuralNetwork.ActivationFunctions;
 using NeuralNetwork.MultilayerPerceptron;
-using NeuralNetwork.MultilayerPerceptron.ActivationFunctions;
 using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Examples.MultilayerPerceptron.INS02

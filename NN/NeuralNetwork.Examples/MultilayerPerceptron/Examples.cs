@@ -1,6 +1,6 @@
 ﻿using System;
+using NeuralNetwork.ActivationFunctions;
 using NeuralNetwork.MultilayerPerceptron;
-using NeuralNetwork.MultilayerPerceptron.ActivationFunctions;
 using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Examples.MultilayerPerceptron

@@ -1,7 +1,7 @@
 ﻿using System;
+using NeuralNetwork.ActivationFunctions;
 using NeuralNetwork.HopfieldNetwork;
 using NeuralNetwork.Interfaces;
-using NeuralNetwork.MultilayerPerceptron.ActivationFunctions;
 
 namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {

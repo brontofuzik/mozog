@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using NeuralNetwork.ActivationFunctions;
 using NeuralNetwork.MultilayerPerceptron;
-using NeuralNetwork.MultilayerPerceptron.ActivationFunctions;
 using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Examples.MultilayerPerceptron.INS01

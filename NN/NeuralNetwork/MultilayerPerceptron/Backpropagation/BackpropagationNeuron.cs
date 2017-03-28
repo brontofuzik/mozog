@@ -1,5 +1,5 @@
-﻿using NeuralNetwork.Interfaces;
-using NeuralNetwork.MultilayerPerceptron.ActivationFunctions;
+﻿using NeuralNetwork.ActivationFunctions;
+using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {

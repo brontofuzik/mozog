@@ -1,4 +1,4 @@
-﻿namespace NeuralNetwork.MultilayerPerceptron.ActivationFunctions
+﻿namespace NeuralNetwork.ActivationFunctions
 {
     public class LinearActivationFunction : IDerivableActivationFunction
     {
