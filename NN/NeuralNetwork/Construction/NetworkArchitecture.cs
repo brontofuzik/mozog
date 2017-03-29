@@ -7,11 +7,9 @@ namespace NeuralNetwork.Construction
     {
     }
 
-    public abstract class NetworkArchitecture : INetworkArchitecture
+    public class NetworkArchitecture : INetworkArchitecture
     {
-        public Layer[] Layers { get; protected set; }
-
-        //public Connector[] Connectors { get; protected set; }
+        public Layer[] Layers { get; set; }
 
         // Shortcut
         public static INetworkArchitecture Feedforward(int[] layers, IActivationFunction activation)
@@ -19,41 +17,34 @@ namespace NeuralNetwork.Construction
 
         public class Layer
         {
-            public Layer(int neurons, IActivationFunction activation)
+            public Layer(int neurons)
             {
                 Neurons = neurons;
-                Activation = activation;
             }
 
-            public int Neurons { get; private set; }
+            public int Neurons { get; set; }
 
-            public IActivationFunction Activation { get; private set; }
-        }
+            // Default is no source layers, indicating an input layer.
+            public int[] SourceLayers { get; set; } = new int[0];
 
-        public class Connector
-        {
-            public Connector(int source, int target)
-            {
-                Source = source;
-                Target = target;
-            }
-
-            public int Source { get; private set; }
-
-            public int Target { get; private set; }
+            // Default is no activation function, indicating an input layer.
+            public IActivationFunction Activation { get; set; }
         }
     }
 
     public class FeedforwardArchitecture : NetworkArchitecture
     {
-        public FeedforwardArchitecture(Layer[] layers)
+        public FeedforwardArchitecture((int neurons, IActivationFunction activation)[] layers)
         {
-            Layers = layers;
-            Connectors = Enumerable.Range(0, layers.Length - 1).Select(l => new Connector(l, l + 1)).ToArray();
+            Layers = layers.Select((l, i) => new Layer(l.neurons)
+            {
+                SourceLayers = l.activation != null ? new[] {i - 1} : new int[0],
+                Activation = l.activation
+            }).ToArray();
         }
 
         public FeedforwardArchitecture(int[] neurons, IActivationFunction activation)
-            : this(neurons.Select(n => new Layer(n, activation)).ToArray())
+            : this(neurons.Select(n => (n, activation)).ToArray())
         {      
         }
     }

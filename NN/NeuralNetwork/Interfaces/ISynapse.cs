@@ -8,12 +8,9 @@
 
         INeuron TargetNeuron { get; set; }
 
-        IConnector Connector { get; set; }
-
-        void Connect();
-
         void Initialize();
 
-        void Jitter(double jitterNoiseLimit);
+        // TODO Jitter
+        //void Jitter(double noiseLimit);
     }
 }

@@ -10,14 +10,17 @@ namespace NeuralNetwork.MultilayerPerceptron
 {
     public class ActivationLayer : LayerBase<IActivationNeuron>, IActivationLayer
     {
+        #region Construction
+
         internal ActivationLayer(NetworkArchitecture.Layer layer)
             : base(layer)
         {
             ActivationFunction = layer.Activation;
         }
 
-        protected override IActivationNeuron MakeNeuron()
-            => new ActivationNeuron();
+        protected override IActivationNeuron MakeNeuron() => new ActivationNeuron();
+
+        #endregion // Construction
 
         public IList<IActivationNeuron> Neurons_Typed => Neurons;
 
@@ -25,20 +28,23 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public override void Initialize()
         {
-            // Ref
             Neurons.AsEnumerable().ForEach(n => n.Initialize());
         }
 
         public void Evaluate()
         {
-            // Ref
             Neurons.AsEnumerable().ForEach(n => n.Evaluate());
         }
 
-        // Ref
+        // TODO Jitter
+        //public void Jitter(double noiseLimit)
+        //{
+        //    Neurons.ForEach(n => n.Jitter(noiseLimit));
+        //}
+
         public double[] GetOutputVector() => Neurons.Select(n => n.Output).ToArray();
 
-        // TODO
+        // TODO ToString
         public override string ToString()
         {
             var sb = new StringBuilder("AL\n[\n");

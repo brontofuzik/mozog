@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
-using NeuralNetwork.MultilayerPerceptron;
+using NeuralNetwork.Construction;
 using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Interfaces
 {
     public interface INetwork
     {
+        NetworkArchitecture Architecture { get; }
+
         List<ILayer> Layers { get; }
 
         int LayerCount { get; }
 
-        List<IConnector> Connectors { get; }
-
-        int ConnectorCount { get; }
+        //int NeuronCount { get; }
 
         int SynapseCount { get; }
 
@@ -23,10 +23,6 @@ namespace NeuralNetwork.Interfaces
         double CalculateError(TrainingSet trainingSet);
 
         double CalculateError(SupervisedTrainingPattern trainingPattern);
-
-        void SaveWeights(string weightFileName);
-
-        void LoadWeights(string weightFileName);
 
         double[] GetWeights();
 

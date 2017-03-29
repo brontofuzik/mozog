@@ -82,7 +82,7 @@ namespace NeuralNetwork.Training
             Require.IsNotNull(trainingSet, nameof(trainingSet));
             if (InputVectorLength != trainingSet.InputVectorLength || OutputVectorLength != trainingSet.OutputVectorLength)
             {
-                // TODO: Incompatible sets.
+                // TODO Incompatible sets.
                 throw new ArgumentException();
             }
 

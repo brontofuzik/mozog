@@ -6,9 +6,15 @@ namespace NeuralNetwork.MultilayerPerceptron
 {
     public class ActivationNeuron : NeuronBase, IActivationNeuron
     {
+        #region Construction
+
         internal ActivationNeuron()
         {
         }
+
+        protected override ISynapse MakeSynapse() => new Synapse();
+
+        #endregion // Construction
 
         private new IActivationLayer Layer => (IActivationLayer)base.Layer;
 
@@ -19,12 +25,12 @@ namespace NeuralNetwork.MultilayerPerceptron
             Output = Layer.ActivationFunction.Evaluate(Input);
         }
 
-        /// <summary>
-        /// Returns a string representation of the activation neuron.
-        /// </summary>
-        /// <returns>
-        /// A string representation of the activation neuron.
-        /// </returns>
+        // Jitter
+        //public void Jitter(double noiseLimit)
+        //{
+        //    SourceSynapses.ForEach(s => s.Jitter(noiseLimit));
+        //}
+
         public override string ToString()
         {
             var synapses = String.Join(", ", SourceSynapses);

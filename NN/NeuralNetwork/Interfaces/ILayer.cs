@@ -7,7 +7,11 @@ namespace NeuralNetwork.Interfaces
     {
         IEnumerable<INeuron> Neurons_Untyped { get; }
 
+        int NeuronCount { get; }
+
         INetwork Network { get; set; }
+
+        void Connect(ILayer layer);
 
         void Initialize();
     }
@@ -16,12 +20,11 @@ namespace NeuralNetwork.Interfaces
         where TNeuron : INeuron
     {
         IList<TNeuron> Neurons_Typed { get; }
+    }
 
-        int NeuronCount { get; }
-
-        List<IConnector> SourceConnectors { get; }
-
-        List<IConnector> TargetConnectors { get; }
+    public interface IInputLayer : ILayer<IInputNeuron>
+    {
+        void SetOutputVector(double[] outputVector);
     }
 
     public interface IActivationLayer : ILayer<IActivationNeuron>
@@ -30,11 +33,9 @@ namespace NeuralNetwork.Interfaces
 
         void Evaluate();
 
-        double[] GetOutputVector();
-    }
+        // TODO Jitter
+        //void Jitter(double noiseLimit)
 
-    public interface IInputLayer : ILayer<IInputNeuron>
-    {
-        void SetOutputVector(double[] outputVector);
+        double[] GetOutputVector();
     }
 }

@@ -5,13 +5,13 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
     public class BackpropagationTrainingStrategy
     {
-        public BackpropagationTrainingStrategy(int maxIterationCount, double maxNetworkError, bool batchLearning, double synapseLearningRate, double connectorMomentum)
+        public BackpropagationTrainingStrategy(int maxIterationCount, double maxNetworkError, bool batchLearning, double learningRate, double momentum)
         {
             MaxIterationCount = maxIterationCount;
             MaxNetworkError = maxNetworkError;
             BatchLearning = batchLearning;
-            SynapseLearningRate = synapseLearningRate;
-            ConnectorMomentum = connectorMomentum;
+            LearningRate = learningRate;
+            Momentum = momentum;
         }
 
         public int MaxIterationCount { get; }
@@ -20,26 +20,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         public bool BatchLearning { get; }
 
-        public double SynapseLearningRate { get; }
+        public double LearningRate { get; }
 
-        public double ConnectorMomentum { get; }
+        public double Momentum { get; }
 
-        public BackpropagationNetwork BackpropagationNetwork { get; set; }
-
-        public TrainingSet TrainingSet { get; set; }
-
-        public virtual IEnumerable<SupervisedTrainingPattern> TrainingPatterns
-        {
-            get
-            {
-                foreach (var trainingPattern in TrainingSet)
-                {
-                    yield return trainingPattern;
-                }
-            }
-        }
-
-        public virtual bool IsStoppingCriterionMet(int iterationCount, double networkError)
+        public virtual bool IsDone(int iterationCount, double networkError)
             => iterationCount >= MaxIterationCount || networkError <= MaxNetworkError;
     }
 }

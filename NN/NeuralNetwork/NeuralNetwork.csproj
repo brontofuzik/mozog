@@ -69,13 +69,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Construction\INetworkBuilder.cs" />
-    <Compile Include="Construction\INetworkFactory.cs" />
     <Compile Include="Construction\NetworkArchitecture.cs" />
-    <Compile Include="MultilayerPerceptron\Backpropagation\BackpropagationNetworkBuilder.cs" />
+    <Compile Include="Interfaces\ISerializer.cs" />
     <Compile Include="MultilayerPerceptron\Backpropagation\BackpropagationNetworkFactory.cs" />
-    <Compile Include="MultilayerPerceptron\NetworkBuilder.cs" />
-    <Compile Include="MultilayerPerceptron\NetworkFactory.cs" />
     <Compile Include="HopfieldNetwork\HopfieldNetwork.cs" />
     <Compile Include="HopfieldNetwork\ActivationFunction.cs" />
     <Compile Include="HopfieldNetwork\IHopfieldNetwork.cs" />
@@ -99,7 +95,6 @@
     <Compile Include="KohonenNetwork\KohonenNetwork.cs" />
     <Compile Include="KohonenNetwork\TrainingPatternEventArgs.cs" />
     <Compile Include="KohonenNetwork\TrainingSetEventArgs.cs" />
-    <Compile Include="Interfaces\IConnector.cs" />
     <Compile Include="ActivationFunctions\HyperbolicTangentActivationFunction.cs" />
     <Compile Include="ActivationFunctions\LinearActivationFunction.cs" />
     <Compile Include="Interfaces\ILayer.cs" />
@@ -108,7 +103,6 @@
     <Compile Include="ActivationFunctions\IDerivableActivationFunction.cs" />
     <Compile Include="ActivationFunctions\IActivationFunction.cs" />
     <Compile Include="ActivationFunctions\LogisticActivationFunction.cs" />
-    <Compile Include="MultilayerPerceptron\Connector.cs" />
     <Compile Include="MultilayerPerceptron\ActivationLayer.cs" />
     <Compile Include="MultilayerPerceptron\LayerBase.cs" />
     <Compile Include="MultilayerPerceptron\Network.cs" />
@@ -117,10 +111,10 @@
     <Compile Include="MultilayerPerceptron\ActivationNeuron.cs" />
     <Compile Include="Interfaces\ISynapse.cs" />
     <Compile Include="MultilayerPerceptron\NeuronBase.cs" />
+    <Compile Include="MultilayerPerceptron\Serializer.cs" />
     <Compile Include="MultilayerPerceptron\Synapse.cs" />
     <Compile Include="Training\UnsupervisedTrainingPattern.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MultilayerPerceptron\Backpropagation\BackpropagationConnector.cs" />
     <Compile Include="MultilayerPerceptron\Backpropagation\BackpropagationLayer.cs" />
     <Compile Include="MultilayerPerceptron\Backpropagation\BackpropagationNetwork.cs" />
     <Compile Include="MultilayerPerceptron\Backpropagation\BackpropagationNeuron.cs" />
@@ -161,6 +155,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

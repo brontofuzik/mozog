@@ -9,19 +9,36 @@ namespace NeuralNetwork.MultilayerPerceptron
     public abstract class LayerBase<TNeuron> : ILayer
         where TNeuron : INeuron
     {
-        // Factory
-        internal LayerBase(NetworkArchitecture.Layer layer)
+        private readonly NetworkArchitecture.Layer layerPlan;
+
+        #region Construction
+
+        internal LayerBase(NetworkArchitecture.Layer layerPlan)
         {
-            layer.Neurons.Times(() => AddNeuron(MakeNeuron()));
+            this.layerPlan = layerPlan;
+            layerPlan.Neurons.Times(() => AddNeuron(MakeNeuron()));
         }
 
-        protected void AddNeuron(TNeuron neuron)
+        public void Connect(ILayer sourceLayer)
+        {
+            foreach (var neuron in Neurons_Untyped)
+            {
+                foreach (var sourceNeuron in sourceLayer.Neurons_Untyped)
+                {
+                    neuron.Connect(sourceNeuron);
+                }
+            }
+        }
+
+        protected abstract TNeuron MakeNeuron();
+
+        private void AddNeuron(TNeuron neuron)
         {
             Neurons.Add(neuron);
             neuron.Layer = this;
         }
 
-        protected abstract TNeuron MakeNeuron();
+        #endregion // Construction
 
         public IList<TNeuron> Neurons { get; } = new List<TNeuron>();
 
@@ -29,15 +46,11 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public int NeuronCount => Neurons.Count;
 
-        public List<IConnector> SourceConnectors { get; } = new List<IConnector>();
-
-        public List<IConnector> TargetConnectors { get; } = new List<IConnector>();
-
         public INetwork Network { get; set; }
 
         public virtual void Initialize()
         {
-            // Override if necessary.
+            Neurons_Untyped.ForEach(n => n.Initialize());
         }
     }
 }

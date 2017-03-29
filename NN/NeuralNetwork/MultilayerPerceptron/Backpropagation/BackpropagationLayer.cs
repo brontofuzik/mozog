@@ -10,6 +10,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
     class BackpropagationLayer : ActivationLayer
     {
+        #region Construction
+
         internal BackpropagationLayer(NetworkArchitecture.Layer layer)
             : base(layer)
         {
@@ -17,6 +19,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         protected override IActivationNeuron MakeNeuron()
             => new BackpropagationNeuron();
+
+        #endregion // Construction
 
         private new IEnumerable<BackpropagationNeuron> Neurons
             => base.Neurons.Cast<BackpropagationNeuron>();

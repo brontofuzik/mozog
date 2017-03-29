@@ -10,12 +10,16 @@ namespace NeuralNetwork.MultilayerPerceptron
 {
     public class InputLayer : LayerBase<IInputNeuron>, IInputLayer
     {
+        #region Construction
+
         internal InputLayer(NetworkArchitecture.Layer layer)
             : base(layer)
         {
         }
 
         protected override IInputNeuron MakeNeuron() => new InputNeuron();
+
+        #endregion // Construction
 
         public IList<IInputNeuron> Neurons_Typed => Neurons;
 
@@ -26,7 +30,7 @@ namespace NeuralNetwork.MultilayerPerceptron
             outputVector.Select((e, i) => Neurons[i].Output = e);
         }
 
-        // TODO
+        // TODO ToString
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder("IL\n[\n");
