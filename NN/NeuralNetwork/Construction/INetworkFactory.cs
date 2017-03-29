@@ -2,6 +2,7 @@
 
 namespace NeuralNetwork.Construction
 {
+    /* TODO Remove
     public interface INetworkFactory
     {
         INetwork MakeNetwork();
@@ -18,4 +19,5 @@ namespace NeuralNetwork.Construction
 
         ISynapse MakeSynapse();
     }
+    */
 }

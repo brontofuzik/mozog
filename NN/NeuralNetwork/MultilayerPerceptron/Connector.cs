@@ -1,20 +1,16 @@
 ﻿using System.Collections.Generic;
+using NeuralNetwork.Construction;
 using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron
 {
     public class Connector : IConnector
     {
-        public Connector(ILayer sourceLayer, IActivationLayer targetLayer, INetwork network)
-        {
-            SourceLayer = sourceLayer;
-            TargetLayer = targetLayer;
-            Network = network;
-        }
+        private readonly NetworkArchitecture.Connector blueprint;
 
-        // Factory
-        internal Connector()
+        internal Connector(NetworkArchitecture.Connector blueprint)
         {
+            this.blueprint = blueprint;
         }
 
         public List<ISynapse> Synapses { get; } = new List<ISynapse>();
@@ -29,9 +25,9 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public void Connect()
         {
-            foreach (var targetNeuron in TargetLayer.Ns)
+            foreach (var targetNeuron in TargetLayer.Neurons_Untyped)
             {
-                foreach (var sourceNeuron in SourceLayer.Ns)
+                foreach (var sourceNeuron in SourceLayer.Neurons_Untyped)
                 {
                     var synapse = new Synapse(sourceNeuron, targetNeuron, this);
                     synapse.Connect();

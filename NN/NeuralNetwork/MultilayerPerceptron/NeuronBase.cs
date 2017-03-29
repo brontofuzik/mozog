@@ -3,8 +3,10 @@ using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron
 {
-    public abstract class NeuronBase
+    public abstract class NeuronBase : INeuron
     {
+        public ILayer Layer { get; set; }
+
         public double Input { get; protected set; }
 
         public double Output { get; set; }
@@ -13,7 +15,7 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public List<ISynapse> TargetSynapses { get; } = new List<ISynapse>();
 
-        public void Initialize()
+        public virtual void Initialize()
         {
             Input = 0.0;
             Output = 0.0;

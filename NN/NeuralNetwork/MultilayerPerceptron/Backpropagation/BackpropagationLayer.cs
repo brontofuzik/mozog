@@ -1,64 +1,49 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Mozog.Utils;
 using NeuralNetwork.ActivationFunctions;
-using NeuralNetwork.HopfieldNetwork;
+using NeuralNetwork.Construction;
 using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
-    class BackpropagationLayer : IActivationLayer
+    class BackpropagationLayer : ActivationLayer
     {
-        public BackpropagationLayer(IActivationLayer activationLayer, INetwork parnetNetwork)
-        {
-            // Ensure the activation function of the neuron is derivable.
-            if (!(ActivationFunction is IDerivableActivationFunction))
-            {
-                // TODO: Throw an exception informing the client that in order for the neuron to undergo training
-                // using the error backpropagation algorithm, its activation function has to be derivable
-                // (i.e. it has to implement the IDerivableActivationFunction interface)
-                throw new Exception();
-            }
-
-            // Decorate the neurons.
-            for (int i = 0; i < NeuronCount; i++)
-            {
-                Neurons[i] = new BackpropagationNeuron(Neurons[i],this);
-            }
-        }
-
-        // Factory
-        internal BackpropagationLayer()
+        internal BackpropagationLayer(NetworkArchitecture.Layer layer)
+            : base(layer)
         {
         }
 
-        // Replaces three steps - (b), (c) and (d) - with one.
+        protected override IActivationNeuron MakeNeuron()
+            => new BackpropagationNeuron();
+
+        private new IEnumerable<BackpropagationNeuron> Neurons
+            => base.Neurons.Cast<BackpropagationNeuron>();
+
+        internal new IDerivableActivationFunction ActivationFunction
+            => (IDerivableActivationFunction) base.ActivationFunction;
+
+        // Replaces steps b, c, d with one.
         public void Backpropagate(double[] desiredOutputVector)
         {
-            // Validate the arguments.
             if (desiredOutputVector == null)
             {
                 throw new ArgumentNullException(nameof(desiredOutputVector));
             }
 
-            // Validate the length of the desired output vector.
             if (desiredOutputVector.Length != NeuronCount)
             {
-                throw new ArgumentException("desiredOutputException");
+                throw new ArgumentException(nameof(desiredOutputVector));
             }
 
-            int i = 0;
-            foreach (BackpropagationNeuron neuron in Neurons)
-            {
-                neuron.Backpropagate(desiredOutputVector[i++]);
-            }
+            Neurons.ForEach((n, i) => n.Backpropagate(desiredOutputVector[i]));
         }
 
-        // Replaces three steps - (b), (c) and (d) - with one.
+        // Replaces steps b, c, d with one.
         public void Backpropagate()
         {
-            foreach (BackpropagationNeuron neuron in Neurons)
-            {
-                neuron.Backpropagate();
-            }
+            Neurons.ForEach(n => n.Backpropagate());
         }
 
         public override string ToString() => "BP" + base.ToString();

@@ -1,63 +1,38 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Mozog.Utils;
+using NeuralNetwork.Construction;
 using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
-    public class BackpropagationNetwork : INetwork
+    public class BackpropagationNetwork : Network
     {
-        public BackpropagationNetwork(INetwork network)
-        {
-            // 1. Disconnect the network.
-            Disconnect();
-
-            // 2. Decorate the network components.
-            // 2.1. Decorate the layers.
-            // 2.1.1. Decorate the bias layer.
-            BiasLayer.ParentNetwork = this;
-
-            // 2.1.2. Decorate the input layer.
-            InputLayer.ParentNetwork = this;
-
-            // 2.1.3. Decorate the hidden layers.
-            for (int i = 0; i < HiddenLayerCount; i++)
-            {
-                HiddenLayers[i] = new BackpropagationLayer(HiddenLayers[i], this);
-            }
-
-            // 2.1.4. Decorate the output layer.
-            OutputLayer = new BackpropagationLayer(OutputLayer, this);
-
-            // 2.2. Decorate the connectors.
-            for (int i = 0; i < ConnectorCount; i++)
-            {
-                Connectors[i] = new BackpropagationConnector(Connectors[i], this);
-            }
-
-            // 3. Connect the network.
-            Connect();
-        }
-
-        // Factory
-        internal BackpropagationNetwork()
+        internal BackpropagationNetwork(NetworkArchitecture architecture)
+            : base(architecture)
         {
         }
+
+        protected override ILayer MakeLayer(NetworkArchitecture.Layer layer)
+            => layer.Activation != null ? (ILayer)new BackpropagationLayer(layer) : (ILayer)new InputLayer(layer);
+
+        protected override IConnector MakeConnector(NetworkArchitecture.Connector connector)
+            => new BackpropagationConnector(connector);
 
         public double Error { get; private set; }
 
+        private new IEnumerable<BackpropagationConnector> Connectors
+            => base.Connectors.Cast<BackpropagationConnector>();
+
         public void SetSynapseLearningRates(double synapseLearningRate)
         {
-            foreach (BackpropagationConnector connector in Connectors)
-            {
-                connector.SetSynapseLearningRates(synapseLearningRate);
-            }
+            Connectors.ForEach(c => c.SetLearningRates(synapseLearningRate));
         }
 
         public void SetConnectorMomenta(double connectorMomentum)
         {
-            foreach (BackpropagationConnector connector in Connectors)
-            {
-                connector.SetMomentum(connectorMomentum);
-            }
+            Connectors.ForEach(c => c.Momentum = connectorMomentum);
         }
 
         public void ResetError()
@@ -69,7 +44,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         {
             foreach (BackpropagationConnector connector in Connectors)
             {
-                connector.ResetSynapsePartialDerivatives();
+                connector.ResetPartialDerivatives();
             }
         }
 
@@ -87,13 +62,12 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         // Replaces three steps - (b), (c) and (d) - with one.
         public void Backpropagate(double[] desiredOutputVector)
         {
-            // Output layer.
             (OutputLayer as BackpropagationLayer).Backpropagate(desiredOutputVector);
 
             // Hidden layers (backwards).
-            for (int i = HiddenLayers.Count - 1; i >= 0; i--)
+            for (int i = Layers.Count - 2; i > 0; i--)
             {
-                (HiddenLayers[i] as BackpropagationLayer).Backpropagate();
+                (Layers[i] as BackpropagationLayer).Backpropagate();
             }
         }
 
@@ -101,7 +75,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         {
             foreach (BackpropagationConnector connector in Connectors)
             {
-                connector.UpdateSynapsePartialDerivatives();
+                connector.UpdatePartialDerivatives();
             }
         }
 
@@ -109,7 +83,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         {
             foreach (BackpropagationConnector connector in Connectors)
             {
-                connector.UpdateSynapseWeights();
+                connector.UpdateWeights();
             }
         }
 
@@ -117,7 +91,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         {
             foreach (BackpropagationConnector connector in Connectors)
             {
-                connector.UpdateSynapseLearningRates();
+                connector.UpdateLearningRates();
             }
         }
 

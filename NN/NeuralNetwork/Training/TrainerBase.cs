@@ -33,12 +33,12 @@ namespace NeuralNetwork.Training
         public void LogNetworkStatistics(TrainingLog trainingLog, INetwork network)
         {
             // Calculate and log the measures of fit.
-            trainingLog.CalculateMeasuresOfFit(network, trainingSet);
+            trainingLog.CalculateMeasuresOfFit(network, TrainingSet);
 
             // Calculate and log the forecast accuracy.
-            if (testSet != null)
+            if (TestSet != null)
             {
-                trainingLog.CalculateForecastAccuracy(network, testSet);
+                trainingLog.CalculateForecastAccuracy(network, TestSet);
             }
         }
     }

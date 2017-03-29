@@ -5,7 +5,9 @@ namespace NeuralNetwork.Interfaces
 {
     public interface ILayer
     {
-        IEnumerable<INeuron> Ns { get; }
+        IEnumerable<INeuron> Neurons_Untyped { get; }
+
+        INetwork Network { get; set; }
 
         void Initialize();
     }
@@ -13,15 +15,13 @@ namespace NeuralNetwork.Interfaces
     public interface ILayer<TNeuron> : ILayer
         where TNeuron : INeuron
     {
-        IList<TNeuron> Neurons { get; }
+        IList<TNeuron> Neurons_Typed { get; }
 
         int NeuronCount { get; }
 
         List<IConnector> SourceConnectors { get; }
 
         List<IConnector> TargetConnectors { get; }
-
-        INetwork Network { get; set; }
     }
 
     public interface IActivationLayer : ILayer<IActivationNeuron>

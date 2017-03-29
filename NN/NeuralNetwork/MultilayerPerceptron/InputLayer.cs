@@ -3,29 +3,21 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Mozog.Utils;
+using NeuralNetwork.Construction;
 using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron
 {
     public class InputLayer : LayerBase<IInputNeuron>, IInputLayer
     {
-        public InputLayer(int neuronCount, INetwork parentNetwork)
-            : base(parentNetwork)
-        {
-            neuronCount.Times(() => Neurons.Add(new InputNeuron(this)));
-        }
-
-        // Factory
-        internal InputLayer()
+        internal InputLayer(NetworkArchitecture.Layer layer)
+            : base(layer)
         {
         }
 
-        public IEnumerable<INeuron> Ns => Neurons;
+        protected override IInputNeuron MakeNeuron() => new InputNeuron();
 
-        public void Initialize()
-        {
-            // Do nothing.
-        }
+        public IList<IInputNeuron> Neurons_Typed => Neurons;
 
         public void SetOutputVector(double[] outputVector)
         {

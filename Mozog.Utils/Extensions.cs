@@ -22,6 +22,15 @@ namespace Mozog.Utils
             }
         }
 
+        public static void ForEach<T>(this IEnumerable<T> source, Action<T, int> action)
+        {
+            int i = 0;
+            foreach (T item in source)
+            {
+                action(item, i++);
+            }
+        }
+
         public static void ForEachWithinRange<T>(this T[] array, int from, int to, Action<int> action)
         {
             for (int i = from; i < to; i++)

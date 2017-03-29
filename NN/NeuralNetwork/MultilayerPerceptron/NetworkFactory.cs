@@ -3,6 +3,7 @@ using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron
 {
+    /* TODO Remove
     public class NetworkFactory : INetworkFactory
     {
         public virtual INetwork MakeNetwork() => new Network();
@@ -19,4 +20,5 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public virtual ISynapse MakeSynapse() => new Synapse();
     }
+    */
 }

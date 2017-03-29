@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Mozog.Utils;
-using NeuralNetwork.ActivationFunctions;
+using NeuralNetwork.Construction;
 using NeuralNetwork.Interfaces;
 using NeuralNetwork.Training;
 
@@ -12,46 +12,57 @@ namespace NeuralNetwork.MultilayerPerceptron
 {
     public class Network : INetwork
     {
-        public Network(int inputLayerNeurons, params (int neurons, IActivationFunction activation)[] activationLayers)
+        private readonly NetworkArchitecture architecture;
+        private InputLayer biasLayer;
+
+        internal Network(NetworkArchitecture architecture)
         {
-            Construct(inputLayerNeurons, activationLayers);
+            this.architecture = architecture;
+
+            architecture.Layers.ForEach(l => AddLayer(MakeLayer(l)));
+            architecture.Connectors.ForEach(c => AddConnector(MakeConnector(c)));
+
+            // Bias (fake) layer
+            CreateBiasLayer();
         }
 
-        public Network(int[] topology, IActivationFunction activation)
+        protected virtual ILayer MakeLayer(NetworkArchitecture.Layer layer)
+            => layer.Activation != null ? (ILayer)new ActivationLayer(layer) : (ILayer)new InputLayer(layer);
+
+        private void AddLayer(ILayer layer)
         {
-            Construct(topology[0], topology.Skip(1).Select(n => (n, activation)));
+            Layers.Add(layer);
+            layer.Network = this;
         }
 
-        // Factory
-        internal Network()
+        private void CreateBiasLayer()
         {
+            biasLayer = (InputLayer)MakeLayer(new NetworkArchitecture.Layer(1, null));
+            ActivationLayers.ForEach(l => ConnectLayers(biasLayer, l));
         }
 
-        private void Construct(int inputLayerNeurons, IEnumerable<(int neurons, IActivationFunction activation)> activationLayers)
+        protected virtual IConnector MakeConnector(NetworkArchitecture.Connector connector)
+            => new Connector(connector);
+
+        private void AddConnector(IConnector connector)
         {
-            // Layers
-            BiasLayer = new InputLayer(1, this);
-            BiasLayer.SetOutputVector(new[] { 1.0 }); // TODO Move
+            ConnectLayers(connector.S, connector.)
 
-            Layers.Add(new InputLayer(inputLayerNeurons, this));
-            Layers.AddRange(activationLayers.Select(l => new ActivationLayer(l.neurons, l.activation, this)));
+            Connectors.Add(connector);
+            connector.Network = this;
+        }
 
-            // Connectors
-            for (int l = 1; l < LayerCount; l++)
-            {
-                var connector = new Connector(Layers[l - 1], (IActivationLayer)Layers[l], this);
-                connector.Connect();
-                Connectors.Add(connector);
+        private void ConnectLayers()
+        {
 
-                connector = new Connector(BiasLayer, (IActivationLayer)Layers[l], this);
-                connector.Connect();
-                Connectors.Add(connector);
-            }
+        }
+
+        private static void ConnectLayers(ILayer sourceLayer, ILayer targetLayer)
+        {
+
         }
 
         #region Layers
-
-        public InputLayer BiasLayer { get; private set; }
 
         public List<ILayer> Layers { get; } = new List<ILayer>();
 
@@ -154,7 +165,7 @@ namespace NeuralNetwork.MultilayerPerceptron
             // 1. Save the weights of source synapses of the hidden neurons.
             foreach (IActivationLayer hiddenLayer in ActivationLayers)
             {
-                foreach (IActivationNeuron hiddenNeuron in hiddenLayer.Neurons)
+                foreach (IActivationNeuron hiddenNeuron in hiddenLayer.Neurons_Typed)
                 {
                     lineSB = new StringBuilder();
                     for (int i = 0; i < hiddenNeuron.SourceSynapses.Count; i++)
@@ -214,7 +225,7 @@ namespace NeuralNetwork.MultilayerPerceptron
 
             foreach (IActivationLayer hiddenLayer in ActivationLayers)
             {
-                foreach (IActivationNeuron hiddenNeuron in hiddenLayer.Neurons)
+                foreach (IActivationNeuron hiddenNeuron in hiddenLayer.Neurons_Typed)
                 {
                     line = fileReader.ReadLine();
                     words = line.Split(separator);
@@ -255,7 +266,7 @@ namespace NeuralNetwork.MultilayerPerceptron
             // Hidden neurons
             foreach (IActivationLayer hiddenLayer in ActivationLayers)
             {
-                foreach (IActivationNeuron hiddenNeuron in hiddenLayer.Neurons)
+                foreach (IActivationNeuron hiddenNeuron in hiddenLayer.Neurons_Typed)
                 {
                     foreach (ISynapse sourceSynapse in hiddenNeuron.SourceSynapses)
                     {
@@ -283,7 +294,7 @@ namespace NeuralNetwork.MultilayerPerceptron
             // Hidden neurons
             foreach (IActivationLayer hiddenLayer in ActivationLayers)
             {
-                foreach (IActivationNeuron hiddenNeuron in hiddenLayer.Neurons)
+                foreach (IActivationNeuron hiddenNeuron in hiddenLayer.Neurons_Typed)
                 {
                     foreach (ISynapse sourceSynapse in hiddenNeuron.SourceSynapses)
                     {

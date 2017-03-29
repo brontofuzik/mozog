@@ -1,15 +1,10 @@
-﻿using NeuralNetwork.ActivationFunctions;
-using NeuralNetwork.Interfaces;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
-    public class BackpropagationNeuron : IActivationNeuron
+    public class BackpropagationNeuron : ActivationNeuron
     {
-        public BackpropagationNeuron(IActivationNeuron activationNeuron, IActivationLayer parentLayer)
-        {
-        }
-
-        // Factory
         internal BackpropagationNeuron()
         {
         }
@@ -18,13 +13,12 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         public double Error { get; private set; }
 
-        public double ActivationFunctionDerivative
-        {
-            get
-            {
-                return ((ParentLayer as IActivationLayer).ActivationFunction as IDerivableActivationFunction).EvaluateDerivative(Input);
-            }
-        }
+        public double ActivationFunctionDerivative => Layer.ActivationFunction.EvaluateDerivative(Input);
+
+        private new IEnumerable<BackpropagationSynapse> TargetSynapses
+            => base.TargetSynapses.Cast<BackpropagationSynapse>();
+
+        private new BackpropagationLayer Layer => (BackpropagationLayer)base.Layer;
 
         public override void Initialize()
         {
@@ -45,7 +39,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         public void Backpropagate()
         {
             PartialDerivative = 0.0;
-            foreach (BackpropagationSynapse targetSynapse in TargetSynapses)
+            foreach (var targetSynapse in TargetSynapses)
             {
                 BackpropagationNeuron targetNeuron = targetSynapse.TargetNeuron as BackpropagationNeuron;
                 PartialDerivative += targetNeuron.Error * targetSynapse.Weight;

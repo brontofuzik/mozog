@@ -1,9 +1,13 @@
-﻿using NeuralNetwork.Interfaces;
+﻿using System.Linq;
+using Mozog.Utils;
+using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.Construction
 {
+    /* TODO Remove
     interface INetworkBuilder
     {
-        INetwork Build(NetworkArchitecture architecture, INetworkFactory factory);
+        INetwork MakeNetwork(NetworkArchitecture architecture);
     }
+    */
 }

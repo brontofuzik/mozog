@@ -1,22 +1,31 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Mozog.Utils;
+using NeuralNetwork.Construction;
 using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron
 {
-    public class LayerBase<TNeuron>
+    public abstract class LayerBase<TNeuron> : ILayer
         where TNeuron : INeuron
     {
-        public LayerBase(INetwork network)
+        // Factory
+        internal LayerBase(NetworkArchitecture.Layer layer)
         {
-            Network = network;
+            layer.Neurons.Times(() => AddNeuron(MakeNeuron()));
         }
 
-        // Factory
-        internal LayerBase()
+        protected void AddNeuron(TNeuron neuron)
         {
+            Neurons.Add(neuron);
+            neuron.Layer = this;
         }
+
+        protected abstract TNeuron MakeNeuron();
 
         public IList<TNeuron> Neurons { get; } = new List<TNeuron>();
+
+        public IEnumerable<INeuron> Neurons_Untyped => Neurons.AsEnumerable().Cast<INeuron>();
 
         public int NeuronCount => Neurons.Count;
 
@@ -25,5 +34,10 @@ namespace NeuralNetwork.MultilayerPerceptron
         public List<IConnector> TargetConnectors { get; } = new List<IConnector>();
 
         public INetwork Network { get; set; }
+
+        public virtual void Initialize()
+        {
+            // Override if necessary.
+        }
     }
 }

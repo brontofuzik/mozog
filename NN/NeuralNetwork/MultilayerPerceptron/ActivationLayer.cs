@@ -3,29 +3,27 @@ using System.Linq;
 using System.Text;
 using Mozog.Utils;
 using NeuralNetwork.ActivationFunctions;
+using NeuralNetwork.Construction;
 using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron
 {
     public class ActivationLayer : LayerBase<IActivationNeuron>, IActivationLayer
     {
-        public ActivationLayer(int neuronCount, IActivationFunction activationFunction, INetwork network)
-            : base(network)
+        internal ActivationLayer(NetworkArchitecture.Layer layer)
+            : base(layer)
         {
-            neuronCount.Times(() => Neurons.Add(new ActivationNeuron(this)));
-            ActivationFunction = activationFunction;
+            ActivationFunction = layer.Activation;
         }
 
-        // Factory
-        internal ActivationLayer()
-        {
-        }
+        protected override IActivationNeuron MakeNeuron()
+            => new ActivationNeuron();
 
-        public IEnumerable<INeuron> Ns => Neurons;
+        public IList<IActivationNeuron> Neurons_Typed => Neurons;
 
         public IActivationFunction ActivationFunction { get; }
 
-        public void Initialize()
+        public override void Initialize()
         {
             // Ref
             Neurons.AsEnumerable().ForEach(n => n.Initialize());

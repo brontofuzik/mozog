@@ -1,24 +1,16 @@
 ﻿using System;
 using System.Linq;
-using Mozog.Utils;
 using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron
 {
     public class ActivationNeuron : NeuronBase, IActivationNeuron
     {
-        public ActivationNeuron(IActivationLayer parentLayer)
-        {
-            Require.IsNotNull(parentLayer, nameof(parentLayer));
-            Layer = parentLayer;
-        }
-
-        // Factory
         internal ActivationNeuron()
         {
         }
 
-        public IActivationLayer Layer { get; set; }
+        private new IActivationLayer Layer => (IActivationLayer)base.Layer;
 
         public virtual void Evaluate()
         {

@@ -17,6 +17,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             return Train(network, trainingStrategy);
         }
 
+        // TODO Backprop
         public TrainingLog Train(INetwork network, BackpropagationTrainingStrategy strategy)
         {
             // The interval between two consecutive updates of the cumulative network error (CNR).
@@ -29,14 +30,14 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
             // 2. Update the training strategy.
             strategy.BackpropagationNetwork = backpropagationNetwork;
-            strategy.TrainingSet = trainingSet;
+            strategy.TrainingSet = TrainingSet;
 
             // 3. Initialize the backpropagation network.
             backpropagationNetwork.Initialize();
 
             // 4. Train the backpropagation network while the stopping criterion is not met.
             int iterationCount = 0;
-            double networkError = backpropagationNetwork.CalculateError(trainingSet);
+            double networkError = backpropagationNetwork.CalculateError(TrainingSet);
             double cumulativeNetworkError = Double.MaxValue;
 
             while (!strategy.IsStoppingCriterionMet(iterationCount, cumulativeNetworkError))
@@ -46,7 +47,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
                 iterationCount++;
 
                 // Calculate the network error.
-                networkError = backpropagationNetwork.CalculateError(trainingSet);
+                networkError = backpropagationNetwork.CalculateError(TrainingSet);
 
                 // Calculate the cumulative network error.
                 int i = iterationCount % cumulativeNetworkErrorUpdateInterval;

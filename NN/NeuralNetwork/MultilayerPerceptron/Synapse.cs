@@ -31,7 +31,7 @@ namespace NeuralNetwork.MultilayerPerceptron
             TargetNeuron.SourceSynapses.Add(this);
         }
 
-        public void Initialize()
+        public virtual void Initialize()
         {
             Weight = StaticRandom.Double(-1, +1);
         }

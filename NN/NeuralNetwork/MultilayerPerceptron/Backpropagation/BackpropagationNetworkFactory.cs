@@ -2,6 +2,7 @@
 
 namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
+    /*
     internal class BackpropagationNetworkFactory : NetworkFactory
     {
         public override INetwork MakeNetwork() => new BackpropagationNetwork();
@@ -14,4 +15,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         public override ISynapse MakeSynapse() => new BackpropagationSynapse();
     }
+    */
 }

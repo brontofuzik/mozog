@@ -1,77 +1,52 @@
-﻿using NeuralNetwork.Interfaces;
-
-namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
+﻿namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
-    public class BackpropagationSynapse : ISynapse
+    public class BackpropagationSynapse : Synapse
     {
-        private double _partialDerivative;
-        private double _weightChange;
-        private double _previousWeightChange;
-        private double _learningRate;
-        private double _k;
+        private double partialDerivative;
+        private double weightChange;
+        private double previousWeightChange;
 
-        public BackpropagationSynapse(ISynapse synapse, IConnector parentConnector)
-        {
-            _k = 1.01;
-        }
-
-        // Factory
         internal BackpropagationSynapse()
         {
         }
+
+        public double LearningRate { get; set; }
+
+        private new BackpropagationNeuron TargetNeuron => (BackpropagationNeuron)base.TargetNeuron;
+
+        private new BackpropagationConnector Connector => (BackpropagationConnector)base.Connector;
 
         public override void Initialize()
         {
             base.Initialize();
 
-            _partialDerivative = 0.0;
-            _weightChange = 0.0;
-            _previousWeightChange = 0.0;
-        }
-
-        /// <summary>
-        /// Sets the learning rate of the synapse.
-        /// </summary>
-        /// <param name="learningRate"></param>
-        public void SetLearningRate(double learningRate)
-        {
-            _learningRate = learningRate;
+            partialDerivative = 0.0;
+            weightChange = 0.0;
+            previousWeightChange = 0.0;
         }
 
         public void ResetPartialDerivative()
         {
-            _partialDerivative = 0.0;
+            partialDerivative = 0.0;
         }
 
         public void UpdatePartialDerivative()
         {
-            BackpropagationNeuron targetNeuron = TargetNeuron as BackpropagationNeuron;
-            _partialDerivative += SourceNeuron.Output * targetNeuron.Error;
+            partialDerivative += SourceNeuron.Output * TargetNeuron.Error;
         }
 
         public void UpdateWeight()
         {
-            // Update the previous weight change and the current weight change.
-            _previousWeightChange = _weightChange;
-            _weightChange = -_learningRate * _partialDerivative;
-
-            // Update the weight.
-            Weight += _weightChange + (ParentConnector as BackpropagationConnector).Momentum * _previousWeightChange;
-
-            // Update the learning rate.
-
+            previousWeightChange = weightChange;
+            weightChange = -LearningRate * partialDerivative;
+            Weight += weightChange + Connector.Momentum * previousWeightChange;
         }
 
         public void UpdateLearningRate()
         {
-            if (_previousWeightChange * _weightChange > 0)
-            {
-                _learningRate *= _k;
-            }
-            else
-            {
-                _learningRate /= 2.0;
-            }
+            LearningRate = previousWeightChange * weightChange > 0
+                ? LearningRate * 1.01 // Speed up
+                : LearningRate / 2.0; // Slow down
         }
 
         public override string ToString() => "BP" + base.ToString();
