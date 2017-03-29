@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mozog.Utils;
-using NeuralNetwork.Construction;
 using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron.Backpropagation

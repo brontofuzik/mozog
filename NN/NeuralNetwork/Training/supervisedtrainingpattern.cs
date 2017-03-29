@@ -2,10 +2,6 @@
 
 namespace NeuralNetwork.Training
 {
-	/// <remarks>
-    /// A supervised training pattern is a pair <em>(inputVector, outputVector)</em> where
-    /// <em>inputVector</em> is the input vector and <em>outputVector</em> is the desired output vector of the pattern.
-	/// </remarks>
     public class SupervisedTrainingPattern : UnsupervisedTrainingPattern
     {
         public SupervisedTrainingPattern(double[] inputVector, double[] outputVector, object tag)
@@ -14,7 +10,7 @@ namespace NeuralNetwork.Training
             Require.IsNotNull(outputVector, nameof(outputVector));
 
             OutputVector = outputVector;
-            NormalizedOutputVector = NormalizeVector(outputVector);
+            NormalizedOutputVector = Vector.Normalize(outputVector);
         }
 
         public SupervisedTrainingPattern(double[] inputVector, double[] outputVector)
@@ -22,10 +18,15 @@ namespace NeuralNetwork.Training
         {
         }
 
+        public SupervisedTrainingPattern((double[] input, double[] output) pattern)
+            : this(pattern.input, pattern.output)
+        {
+        }
+
         public double[] OutputVector { get; }
 
         public double[] NormalizedOutputVector { get; }
 
-        public override string ToString() => $"({VectorToString(InputVector)}, {VectorToString(OutputVector)})";
+        public override string ToString() => $"({Vector.ToString(InputVector)}, {Vector.ToString(OutputVector)})";
     }
 }

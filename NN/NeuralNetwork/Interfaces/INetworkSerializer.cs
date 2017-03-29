@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NeuralNetwork.Interfaces
 {
-    internal interface ISerializer
+    internal interface INetworkSerializer
     {
         void Serialize(INetwork network, string fileName);
 

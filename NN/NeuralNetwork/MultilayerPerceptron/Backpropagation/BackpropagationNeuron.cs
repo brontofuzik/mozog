@@ -5,9 +5,13 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
     public class BackpropagationNeuron : ActivationNeuron
     {
+        #region Construction
+
         internal BackpropagationNeuron()
         {
         }
+
+        #endregion // Construction
 
         public double PartialDerivative { get; private set; }
 

@@ -311,7 +311,7 @@ namespace NeuralNetwork.KohonenNetwork
             // Invoke the beginning-training-set event.
             InvokeBeginTrainingSetEvent(trainingSet, trainingIterationIndex);
 
-            foreach (SupervisedTrainingPattern trainingPattern in trainingSet.TrainingPatternsRandomOrder)
+            foreach (SupervisedTrainingPattern trainingPattern in trainingSet.RandomPatterns)
             {
                 TrainPattern(trainingPattern, trainingIterationIndex, learningRate, neighbourhoodRadius);
             }

@@ -2,7 +2,7 @@
 
 namespace NeuralNetwork.MultilayerPerceptron
 {
-    internal class Serializer : ISerializer
+    internal class NetworkSerializer : INetworkSerializer
     {
         public void Serialize(INetwork network, string fileName)
         {

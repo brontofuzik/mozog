@@ -50,7 +50,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
             while (!strategy.IsDone(iterationCount, cumulativeNetworkError))
             {
-                TrainWithSet(network, TrainingSet.TrainingPatternsRandomOrder, strategy.BatchLearning);
+                TrainWithSet(network, TrainingSet.RandomPatterns, strategy.BatchLearning);
                 iterationCount++;
 
                 // Calculate the network error.

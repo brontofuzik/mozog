@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using NeuralNetwork.ActivationFunctions;
 
-namespace NeuralNetwork.Construction
+namespace NeuralNetwork.Interfaces
 {
     public interface INetworkArchitecture
     {

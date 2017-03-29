@@ -4,7 +4,7 @@ using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.Training
 {
-    public abstract class TrainerBase
+    public abstract class TrainerBase : ITrainer
     {
         protected TrainerBase(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
         {

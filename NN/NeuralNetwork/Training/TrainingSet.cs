@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Text;
 using Mozog.Utils;
 
@@ -9,9 +10,9 @@ namespace NeuralNetwork.Training
     /// <remarks>
     /// A (labeled) training set is a set of (labeled) training patterns.
     /// </remarks>
-    public class TrainingSet
+    public class TrainingSet : IEnumerable<SupervisedTrainingPattern>
     {
-        private readonly List<SupervisedTrainingPattern> trainingPatterns = new List<SupervisedTrainingPattern>();
+        private readonly List<SupervisedTrainingPattern> patterns = new List<SupervisedTrainingPattern>();
 
         public TrainingSet(int inputVectorLength, int outputVectorLength, object tag)
         {
@@ -40,41 +41,43 @@ namespace NeuralNetwork.Training
 
         public object Tag { get; }
 
-        public IEnumerable<SupervisedTrainingPattern> TrainingPatternsRandomOrder
+        public IEnumerable<SupervisedTrainingPattern> RandomPatterns
         {
             get
             {
-                SupervisedTrainingPattern[] shuffledTrainingPatterns = trainingPatterns.ToArray();
+                SupervisedTrainingPattern[] shuffledTrainingPatterns = patterns.ToArray();
                 StaticRandom.Shuffle(shuffledTrainingPatterns);
-                foreach (var trainingPattern in shuffledTrainingPatterns)
-                {
-                    yield return trainingPattern;
-                }
+                return shuffledTrainingPatterns.AsEnumerable();
             }
         }
 
-        public int Size => trainingPatterns.Count;
+        public int Size => patterns.Count;
 
-        public SupervisedTrainingPattern this[int trainingPatternIndex] => trainingPatterns[trainingPatternIndex];
+        public SupervisedTrainingPattern this[int patternIndex] => patterns[patternIndex];
 
-        public IEnumerator<SupervisedTrainingPattern> GetEnumerator() => trainingPatterns.GetEnumerator();
+        public IEnumerator<SupervisedTrainingPattern> GetEnumerator() => patterns.GetEnumerator();
 
-        public bool Contains(SupervisedTrainingPattern trainingPattern) => trainingPatterns.Contains(trainingPattern);
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public void Add(SupervisedTrainingPattern trainingPattern)
+        public void Add(SupervisedTrainingPattern pattern)
         {
-            Require.IsNotNull(trainingPattern, nameof(trainingPattern));
-            if (InputVectorLength != trainingPattern.InputVector.Length)
+            Require.IsNotNull(pattern, nameof(pattern));
+            if (InputVectorLength != pattern.InputVector.Length)
             {
-                throw new ArgumentException("The input vector must be of size " + InputVectorLength, nameof(trainingPattern));
+                throw new ArgumentException("The input vector must be of size " + InputVectorLength, nameof(pattern));
             }
               
-            if (OutputVectorLength != trainingPattern.OutputVector.Length)
+            if (OutputVectorLength != pattern.OutputVector.Length)
             {
-                throw new ArgumentException("The output vector must be of size " + OutputVectorLength, nameof(trainingPattern));
+                throw new ArgumentException("The output vector must be of size " + OutputVectorLength, nameof(pattern));
             }
 
-            trainingPatterns.Add(trainingPattern);
+            this.patterns.Add(pattern);
+        }
+
+        public void Add((double[] input, double[] output) pattern)
+        {
+            Add(new SupervisedTrainingPattern(pattern));
         }
 
         public void Add(TrainingSet trainingSet)
@@ -86,123 +89,27 @@ namespace NeuralNetwork.Training
                 throw new ArgumentException();
             }
 
-            trainingPatterns.AddRange(trainingSet.trainingPatterns);
+            patterns.AddRange(trainingSet.patterns);
         }
 
-        public bool Remove(SupervisedTrainingPattern trainingPattern) => trainingPatterns.Remove(trainingPattern);
+        public bool Contains(SupervisedTrainingPattern pattern) => patterns.Contains(pattern);
+
+        public bool Remove(SupervisedTrainingPattern pattern)
+            => patterns.Remove(pattern);
 
         public void Clear()
         {
-            trainingPatterns.Clear();
+            patterns.Clear();
         }
 
-        public TrainingSet SeparateTestSet(int index, int size)
-        {
-            TrainingSet testSet = new TrainingSet(InputVectorLength, OutputVectorLength);
-            testSet.trainingPatterns.AddRange(trainingPatterns.GetRange(index, size));
-            trainingPatterns.RemoveRange(index, size);
-            return testSet;
-        }
-
-        public void Save(string fileName)
-        {
-            TextWriter textWriter = new StreamWriter(fileName);
-            const char separator = ' ';
-
-            //
-            // 1. Write the input vector length and the input vector length.
-            //
-
-            string line = InputVectorLength.ToString() + separator + OutputVectorLength;
-            textWriter.WriteLine(line);
-
-            // Write the blank line.
-            textWriter.WriteLine();
-
-            //
-            // 2. Write the training patterns.
-            //
-
-            foreach (SupervisedTrainingPattern trainingPattern in trainingPatterns)
-            {
-                // 2.1. Write the input vector.
-                foreach (double d in trainingPattern.InputVector)
-                {
-                    textWriter.Write(d.ToString() + separator);
-                }
-
-                // 2.2. Write the output vector.
-                foreach (double d in trainingPattern.OutputVector)
-                {
-                    textWriter.Write(d.ToString() + separator);
-                }
-
-                textWriter.WriteLine();
-            }
-
-            textWriter.Close();
-        }
-
-        public static TrainingSet Load(string fileName)
-        {
-            TextReader textReader = new StreamReader(fileName);
-            const char separator = ' ';
-
-            //
-            // 1. Read the input vector length and the output vector length.
-            //
-
-            string line = textReader.ReadLine();
-            string[] words = line.Trim().Split(separator);
-
-            // Validate the input vector length.
-            int inputVectorLength = Int32.Parse(words[0]);
-            Require.IsPositive(inputVectorLength, "inputVectorLength");
-
-            // Validate the output vector length.
-            int outputVectorLength = Int32.Parse(words[1]);
-            Require.IsPositive(outputVectorLength, "outputVectorLength");
-
-            TrainingSet trainingSet = new TrainingSet(inputVectorLength, outputVectorLength);
-
-            // Read the blank line.
-            textReader.ReadLine();
-
-            //
-            // 2. Read and create the training patterns.
-            //
-
-            while ((line = textReader.ReadLine()) != null)
-            {
-                if (line.Length == 0)
-                {
-                    continue;
-                }
-
-                words = line.Trim().Split(separator);
-
-                // 2.1. Read and create the input vector.
-                double[] inputVector = new double[inputVectorLength];
-                for (int i = 0; i < inputVectorLength; i++)
-                {
-                    inputVector[i] = Double.Parse(words[i]);
-                }
-
-                // 2.2. Read and create the output vector.
-                double[] outputVector = new double[outputVectorLength];
-                for (int i = 0; i < outputVectorLength; i++)
-                {
-                    outputVector[i] = Double.Parse(words[inputVectorLength + i]);
-                }
-
-                // 2.3. Add the training pattern into the training set.
-                SupervisedTrainingPattern trainingPattern = new SupervisedTrainingPattern(inputVector, outputVector);
-                trainingSet.Add(trainingPattern);
-            }
-
-            textReader.Close();
-            return trainingSet;
-        }
+        // TODO ???
+        //public TrainingSet SeparateTestSet(int index, int size)
+        //{
+        //    TrainingSet testSet = new TrainingSet(InputVectorLength, OutputVectorLength);
+        //    testSet.pattern.AddRange(pattern.GetRange(index, size));
+        //    pattern.RemoveRange(index, size);
+        //    return testSet;
+        //}
 
         public override string ToString()
         {
@@ -213,7 +120,7 @@ namespace NeuralNetwork.Training
             trainingSetStringBuilder.Append("{\n");
 
             int trainingPatternIndex = 0;
-            foreach (SupervisedTrainingPattern trainingPattern in trainingPatterns)
+            foreach (SupervisedTrainingPattern trainingPattern in patterns)
             {
                 trainingSetStringBuilder.Append("\t" + trainingPatternIndex++ + " : " + trainingPattern + "\n");
             }

@@ -5,14 +5,9 @@ using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Examples.MultilayerPerceptron
 {
-    static class Examples
+    static class Xor
     {
         public static void Run()
-        {
-            Example();
-        }
-
-        private static void Example()
         {
             // --------------------------------
             // Step 1: Create the training set.
@@ -20,11 +15,13 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron
 
             const int inputVectorLength = 2;
             const int outputVectorLength = 1;
-            TrainingSet trainingSet = new TrainingSet(inputVectorLength, outputVectorLength);
-            trainingSet.Add(new SupervisedTrainingPattern(new[] { 0.0, 0.0 }, new[] { 0.0 }));
-            trainingSet.Add(new SupervisedTrainingPattern(new[] { 0.0, 1.0 }, new[] { 1.0 }));
-            trainingSet.Add(new SupervisedTrainingPattern(new[] { 1.0, 0.0 }, new[] { 1.0 }));
-            trainingSet.Add(new SupervisedTrainingPattern(new[] { 1.0, 1.0 }, new[] { 0.0 }));
+            var trainingSet = new TrainingSet(inputVectorLength, outputVectorLength)
+            {
+                (new[] {0.0, 0.0}, new[] {0.0}),
+                (new[] {0.0, 1.0}, new[] {1.0}),
+                (new[] {1.0, 0.0}, new[] {1.0}),
+                (new[] {1.0, 1.0}, new[] {0.0})
+            };
 
             // ---------------------------
             // Step 2: Create the network.

@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            MultilayerPerceptron.Examples.Run();
+            MultilayerPerceptron.Xor.Run();
 
             HopfieldNetwork.Examples.Run();
 

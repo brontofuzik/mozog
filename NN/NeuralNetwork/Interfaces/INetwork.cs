@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using NeuralNetwork.Construction;
 using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Interfaces

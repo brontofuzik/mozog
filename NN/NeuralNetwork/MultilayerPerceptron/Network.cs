@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mozog.Utils;
-using NeuralNetwork.Construction;
 using NeuralNetwork.Interfaces;
 using NeuralNetwork.Training;
 
@@ -15,7 +14,7 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         #region Construction
 
-        internal Network(NetworkArchitecture architecture)
+        public Network(INetworkArchitecture architecture)
         {
             Architecture = architecture;
             architecture.Layers.ForEach(AddLayer);
@@ -52,7 +51,7 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         #endregion // Construction
 
-        public NetworkArchitecture Architecture { get; private set; }
+        public INetworkArchitecture Architecture { get; }
 
         #region Layers
 
