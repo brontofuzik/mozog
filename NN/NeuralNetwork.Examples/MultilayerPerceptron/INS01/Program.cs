@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using NeuralNetwork.ActivationFunctions;
+using NeuralNetwork.Interfaces;
 using NeuralNetwork.MultilayerPerceptron;
 using NeuralNetwork.Training;
 
@@ -25,8 +26,6 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS01
         // Mosaic dimensions.
         static readonly int rowCount = pictureHeight / tileHeight;
         static readonly int columnCount = pictureWidth / tileWidth;
-
-        static readonly int[] topology = {100, 4, 9, 100};
 
         static Network network;
 
@@ -63,7 +62,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS01
             // Step 2: Create the network.
             // ---------------------------
 
-            network = new Network(topology, new LogisticActivationFunction());
+            var architecture = NetworkArchitecture.Feedforward(new[] { 100, 4, 9, 100 }, new LogisticActivationFunction());
+            network = new Network(architecture);
 
             /* TODO Backprop
             // --------------------------

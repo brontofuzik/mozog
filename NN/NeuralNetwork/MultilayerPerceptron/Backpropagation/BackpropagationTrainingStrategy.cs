@@ -3,6 +3,7 @@ using NeuralNetwork.Training;
 
 namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
+    /* TODO Remove
     public class BackpropagationTrainingStrategy
     {
         public BackpropagationTrainingStrategy(int maxIterationCount, double maxNetworkError, bool batchLearning, double learningRate, double momentum)
@@ -27,4 +28,5 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         public virtual bool IsDone(int iterationCount, double networkError)
             => iterationCount >= MaxIterationCount || networkError <= MaxNetworkError;
     }
+    */
 }

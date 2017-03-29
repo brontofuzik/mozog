@@ -4,7 +4,8 @@ using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.Training
 {
-    public abstract class TrainerBase : ITrainer
+    public abstract class TrainerBase<TTrainingArgs> : ITrainer<TTrainingArgs>
+        where TTrainingArgs : ITrainingArgs
     {
         protected TrainerBase(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
         {
@@ -14,21 +15,21 @@ namespace NeuralNetwork.Training
             TestSet = testSet;
         }
 
-        //public abstract string Name { get; }
+        public TrainingSet TrainingSet { get; }
 
-        public TrainingSet TrainingSet { get; set; }
+        public TrainingSet ValidationSet { get; }
 
-        public TrainingSet ValidationSet { get; set; }
+        public TrainingSet TestSet { get; }
 
-        public TrainingSet TestSet { get; set; }
+        public abstract TrainingLog Train(INetwork network, TTrainingArgs args);
 
-        public abstract TrainingLog Train(INetwork network, int maxIterationCount, double maxNetworkError);
+        public abstract TrainingLog Train(INetwork network, int maxIterations, double maxError);
 
-        public TrainingLog Train(INetwork network, int maxIterationCount)
-            => Train(network, maxIterationCount, 0);
+        public TrainingLog Train(INetwork network, int maxIterations)
+            => Train(network, maxIterations, 0.0);
 
-        public TrainingLog Train(INetwork network, double maxNetworkError)
-            => Train(network, Int32.MaxValue, maxNetworkError);
+        public TrainingLog Train(INetwork network, double maxError)
+            => Train(network, Int32.MaxValue, maxError);
 
         public void LogNetworkStatistics(TrainingLog trainingLog, INetwork network)
         {

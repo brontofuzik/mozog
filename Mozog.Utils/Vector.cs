@@ -63,6 +63,28 @@ namespace Mozog.Utils
             return vector.Select(e => e * factor).ToArray();
         }
 
+        // TODO Optimize
+        public static double[] IndexToVector(int length, int n)
+            => Enumerable.Range(0, length).Select(e => e == n ? 1.0 : 0.0).ToArray();
+
+        // TODO Optimize
+        public static int VectorToIndex(double[] vector, double threshold = 0.8)
+        {
+            int keywordIndex = -1;
+            int activeNeuronCount = 0;
+
+            for (int i = 0; i < vector.Length; i++)
+            {
+                if (vector[i] >= threshold)
+                {
+                    keywordIndex = i;
+                    activeNeuronCount++;
+                }
+            }
+
+            return activeNeuronCount == 1 ? keywordIndex : -1;
+        }
+
         public static string ToString(double[] vector)
         {
             Require.IsNotNull(vector, nameof(vector));

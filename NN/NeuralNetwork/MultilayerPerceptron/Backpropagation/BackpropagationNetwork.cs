@@ -10,7 +10,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
     {
         #region Construction
 
-        internal BackpropagationNetwork(NetworkArchitecture architecture)
+        internal BackpropagationNetwork(INetworkArchitecture architecture)
             : base(architecture)
         {
         }

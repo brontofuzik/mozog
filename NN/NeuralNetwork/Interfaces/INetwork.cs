@@ -5,7 +5,7 @@ namespace NeuralNetwork.Interfaces
 {
     public interface INetwork
     {
-        NetworkArchitecture Architecture { get; }
+        INetworkArchitecture Architecture { get; }
 
         List<ILayer> Layers { get; }
 

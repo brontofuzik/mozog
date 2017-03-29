@@ -2,8 +2,9 @@
 
 namespace NeuralNetwork.Training
 {
-    public interface ITrainer
+    public interface ITrainer<in TTrainingArgs>
+        where TTrainingArgs : ITrainingArgs
     {
-        TrainingLog Train(INetwork network, int maxIterationCount, double maxNetworkError);
+        TrainingLog Train(INetwork network, TTrainingArgs args);
     }
 }

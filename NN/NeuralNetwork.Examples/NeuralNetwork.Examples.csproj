@@ -60,8 +60,8 @@
     <Compile Include="MultilayerPerceptron\INS01\INS01BackpropagationTrainingStrategy.cs" />
     <Compile Include="MultilayerPerceptron\INS01\Program.cs" />
     <Compile Include="MultilayerPerceptron\INS02\INS02BackpropagationTrainingStrategy.cs" />
-    <Compile Include="MultilayerPerceptron\INS02\Program.cs" />
-    <Compile Include="MultilayerPerceptron\OCR\Program.cs" />
+    <Compile Include="MultilayerPerceptron\INS02\INS02.cs" />
+    <Compile Include="KohonenNetwork\OCR.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -70,6 +70,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Mozog.Utils\Mozog.Utils.csproj">
+      <Project>{47cb5c11-3dce-4768-ab1f-ffc1cfd55167}</Project>
+      <Name>Mozog.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NeuralNetwork\NeuralNetwork.csproj">
       <Project>{2a2e21b8-78f7-42bf-9351-97e611967baf}</Project>
       <Name>NeuralNetwork</Name>

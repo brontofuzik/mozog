@@ -6,7 +6,7 @@ using NeuralNetwork.Training;
 
 namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
-    public class BackpropagationTrainer : TrainerBase
+    public class BackpropagationTrainer : TrainerBase<BackpropagationArgs>
     {
         // The interval between two consecutive updates of the cumulative network error (CNR).
         const int cumulativeNetworkErrorUpdateInterval = 1;
@@ -16,19 +16,12 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         {
         }
 
-        public override TrainingLog Train(INetwork network, int maxIterationCount, double maxNetworkError)
+        public override TrainingLog Train(INetwork network, BackpropagationArgs args)
         {
-            BackpropagationTrainingStrategy trainingStrategy = new BackpropagationTrainingStrategy(
-                maxIterationCount, 
-                maxNetworkError,
-                batchLearning: false,
-                learningRate: 0.01,
-                momentum: 0.9);
-
             var architecture = network.Architecture;
             BackpropagationNetwork backpropagationNetwork = new BackpropagationNetwork(architecture);
 
-            var log = Train(backpropagationNetwork, trainingStrategy);
+            var log = Train(backpropagationNetwork, args);
 
             var weights = backpropagationNetwork.GetWeights();
             network.SetWeights(weights);
@@ -36,9 +29,13 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             return log;
         }
 
-        private TrainingLog Train(BackpropagationNetwork network, BackpropagationTrainingStrategy strategy)
+        // Defaults
+        public override TrainingLog Train(INetwork network, int maxIterations, double maxError)
+            => Train(network, new BackpropagationArgs(maxIterations, maxError, learningRate: 0.01, momentum: 0.9, batchLearning: false));
+
+        private TrainingLog Train(BackpropagationNetwork network, BackpropagationArgs args)
         {
-            network.SetLearningRates(strategy.LearningRate);
+            network.SetLearningRates(args.LearningRate);
             // TODO Momentum
             //backpropagationNetwork.SetConnectorMomenta(strategy.Momentum);
 
@@ -48,9 +45,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             double networkError = network.CalculateError(TrainingSet);
             double cumulativeNetworkError = Double.MaxValue;
 
-            while (!strategy.IsDone(iterationCount, cumulativeNetworkError))
+            while (!args.IsDone(iterationCount, cumulativeNetworkError))
             {
-                TrainWithSet(network, TrainingSet.RandomPatterns, strategy.BatchLearning);
+                TrainWithSet(network, TrainingSet.RandomPatterns, args.BatchLearning);
                 iterationCount++;
 
                 // Calculate the network error.
@@ -114,5 +111,22 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
                 network.UpdateWeights();
             }
         }
+    }
+
+    public class BackpropagationArgs : TrainingArgs
+    {
+        public BackpropagationArgs(int maxIterations, double maxError, double learningRate, double momentum, bool batchLearning)
+            : base(maxIterations, maxError)
+        {
+            LearningRate = learningRate;
+            Momentum = momentum;
+            BatchLearning = batchLearning;
+        }
+
+        public double LearningRate { get; }
+
+        public double Momentum { get; }
+
+        public bool BatchLearning { get; }
     }
 }

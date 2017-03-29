@@ -1,4 +1,5 @@
 ﻿using System;
+using Mozog.Utils;
 using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps;
 using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkImp;
 using NeuralNetwork.Training;
@@ -33,7 +34,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
 
             // Create the training patterns.
 
-            SupervisedTrainingPattern trainingPattern = new SupervisedTrainingPattern(new double[] { 1.0, 1.0, 1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, -1.0 }, new double[0]);
+            SupervisedTrainingPattern trainingPattern = new SupervisedTrainingPattern(new[] { 1.0, 1.0, 1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, -1.0 }, new double[0]);
             trainingSet.Add(trainingPattern);
 
             // ---------------------------
@@ -54,11 +55,11 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
             // Step 4: Test the network.
             // -------------------------
 
-            double[] patternToRecall = new double[] { -1.0, 1.0, 1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0 };
+            double[] patternToRecall = { -1.0, 1.0, 1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0 };
             int iterationCount = 10;
             double[] recalledPattern = defaultNetwork.Evaluate(patternToRecall, iterationCount);
 
-            Console.WriteLine(UnsupervisedTrainingPattern.VectorToString(recalledPattern));
+            Console.WriteLine(Vector.ToString(recalledPattern));
 
             Console.WriteLine();
         }
@@ -97,7 +98,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
             int iterationCount = 10;
             double[] recalledPattern = multiflopNetwork.Evaluate(iterationCount);
 
-            Console.WriteLine(UnsupervisedTrainingPattern.VectorToString(recalledPattern));
+            Console.WriteLine(Vector.ToString(recalledPattern));
 
             Console.WriteLine();
         }
@@ -135,7 +136,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
             int iterationCount = 10;
             double[] recalledPattern = eightRooksNetwork.Evaluate(iterationCount);
 
-            Console.WriteLine(UnsupervisedTrainingPattern.VectorToString(recalledPattern));
+            Console.WriteLine(Vector.ToString(recalledPattern));
 
             Console.WriteLine();
         }
@@ -173,7 +174,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
             int iterationCount = 10;
             double[] recalledPattern = eightQueensNetwork.Evaluate(iterationCount);
 
-            Console.WriteLine(UnsupervisedTrainingPattern.VectorToString(recalledPattern));
+            Console.WriteLine(Vector.ToString(recalledPattern));
 
             Console.WriteLine("TestEightQueensNetwork finished");
             Console.WriteLine();

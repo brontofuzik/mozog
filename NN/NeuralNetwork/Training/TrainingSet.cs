@@ -75,6 +75,11 @@ namespace NeuralNetwork.Training
             this.patterns.Add(pattern);
         }
 
+        public void Add((double[] input, double[] output, object tag) pattern)
+        {
+            Add(new SupervisedTrainingPattern(pattern));
+        }
+
         public void Add((double[] input, double[] output) pattern)
         {
             Add(new SupervisedTrainingPattern(pattern));

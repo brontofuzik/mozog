@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Mozog.Utils;
-
-namespace NeuralNetwork.Training
+﻿namespace NeuralNetwork.Training
 {
-    class TrainingSetSerializer : ITrainingSetSerializer
+    public class TrainingSetSerializer : ITrainingSetSerializer
     {
         // TODO Serialization
         public void Serialize(TrainingSet trainingSet, string fileName)

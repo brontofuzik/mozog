@@ -1,6 +1,9 @@
 ﻿using System;
+using Mozog.Utils;
 using NeuralNetwork.ActivationFunctions;
+using NeuralNetwork.Interfaces;
 using NeuralNetwork.MultilayerPerceptron;
+using NeuralNetwork.MultilayerPerceptron.Backpropagation;
 using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Examples.MultilayerPerceptron
@@ -13,9 +16,9 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron
             // Step 1: Create the training set.
             // --------------------------------
 
-            const int inputVectorLength = 2;
-            const int outputVectorLength = 1;
-            var trainingSet = new TrainingSet(inputVectorLength, outputVectorLength)
+            const int inputLength = 2;
+            const int outputLength = 1;
+            var trainingSet = new TrainingSet(inputLength, outputLength)
             {
                 (new[] {0.0, 0.0}, new[] {0.0}),
                 (new[] {0.0, 1.0}, new[] {1.0}),
@@ -27,33 +30,25 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron
             // Step 2: Create the network.
             // ---------------------------
 
-            Network network = new Network(new[] {2, 2, 1}, new LinearActivationFunction());
+            var architecture = NetworkArchitecture.Feedforward(new[] {inputLength, 2, outputLength}, new LinearActivationFunction());
+            Network network = new Network(architecture);
 
-            /* TODO Backprop
             // --------------------------
             // Step 3: Train the network.
             // --------------------------
 
-            // 3.1. Create the trainer.
             BackpropagationTrainer trainer = new BackpropagationTrainer(trainingSet, null, null);
 
-            // 3.2. Create the training strategy.
-            int maxIterationCount = 10000;
-            double maxNetworkError = 0.001;
-            bool batchLearning = true;
+            var args = new BackpropagationArgs(
+                maxIterations: 10000,
+                maxError: 0.001,
+                learningRate: 0.01,
+                momentum: 0.9,
+                batchLearning: true);      
+            var trainingLog = trainer.Train(network, args);
 
-            double synapseLearningRate = 0.01;
-            double connectorMomentum = 0.9;
-
-            BackpropagationTrainingStrategy backpropagationTrainingStrategy = new BackpropagationTrainingStrategy(maxIterationCount, maxNetworkError, batchLearning, synapseLearningRate, connectorMomentum);
-
-            // 3.3. Train the network.
-            TrainingLog trainingLog = trainer.Train(network, backpropagationTrainingStrategy);
-
-            // 3.4. Inspect the training log.
-            Console.WriteLine("Number of iterations used : " + trainingLog.IterationCount);
-            Console.WriteLine("Minimum network error achieved : " + trainingLog.NetworkError);
-            */
+            Console.WriteLine($"Number of iterations used: {trainingLog.IterationCount}");
+            Console.WriteLine($"Minimum network error achieved: {trainingLog.NetworkError}");
 
             // ---------------------------------
             // Step 4: Test the trained network.
@@ -63,7 +58,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron
             {
                 double[] inputVector = pattern.InputVector;
                 double[] outputVector = network.Evaluate(inputVector);
-                Console.WriteLine(pattern + " -> " + UnsupervisedTrainingPattern.VectorToString(outputVector));
+                Console.WriteLine(pattern + " -> " + Vector.ToString(outputVector));
             }
         }
     }

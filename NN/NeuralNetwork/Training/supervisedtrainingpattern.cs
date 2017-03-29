@@ -13,11 +13,18 @@ namespace NeuralNetwork.Training
             NormalizedOutputVector = Vector.Normalize(outputVector);
         }
 
+        // Tuple
+        public SupervisedTrainingPattern((double[] input, double[] output, object tag) pattern)
+            : this(pattern.input, pattern.output, pattern.tag)
+        {
+        }
+
         public SupervisedTrainingPattern(double[] inputVector, double[] outputVector)
             : this(inputVector, outputVector, null)
         {
         }
 
+        // Tuple
         public SupervisedTrainingPattern((double[] input, double[] output) pattern)
             : this(pattern.input, pattern.output)
         {

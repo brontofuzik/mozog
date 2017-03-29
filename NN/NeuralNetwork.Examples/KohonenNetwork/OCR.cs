@@ -1,25 +1,19 @@
 ﻿using System;
 using NeuralNetwork.Training;
 
-namespace NeuralNetwork.Examples.MultilayerPerceptron.OCR
+namespace NeuralNetwork.Examples.KohonenNetwork
 {
-    class Program
+    static class OCR
     {
-        static void _Main(string[] args)
+        public static void Run()
         {
-            // ------------------------------
-            // Step 0: Adjust the parameters.
-            // ------------------------------
-
-            // The number of training iterations.
-            int trainingIterationCount = 10000;
-
             // --------------------------------
             // Step 1: Create the training set.
             // --------------------------------
 
-            TrainingSet trainingSet = TrainingSet.Load("training.txt");
-            TrainingSet validationSet = TrainingSet.Load("validation.txt");
+            var trainingSetSerializer = new TrainingSetSerializer();
+            TrainingSet trainingSet = trainingSetSerializer.Deserialize("training.txt");
+            TrainingSet validationSet = trainingSetSerializer.Deserialize("validation.txt");
             trainingSet.Add(validationSet);
 
             // ---------------------------
@@ -34,13 +28,13 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.OCR
             // Step 2: Train the network.
             // --------------------------
 
-            network.Train(trainingSet, trainingIterationCount);
+            network.Train(trainingSet, trainingIterationCount: 10000);
 
             // -------------------------
             // Step 2: Test the network.
             // -------------------------
 
-            TrainingSet testSet = TrainingSet.Load("test.txt");
+            TrainingSet testSet = trainingSetSerializer.Deserialize("test.txt");
 
             for (int letterIndex = 0; letterIndex < 26; letterIndex++)
             {
