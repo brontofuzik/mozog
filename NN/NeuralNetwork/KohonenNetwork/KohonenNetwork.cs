@@ -236,25 +236,13 @@ namespace NeuralNetwork.KohonenNetwork
 
         #region Events
 
-        /// <summary>
-        /// The event invoked at the beginning of training with a training set.
-        /// </summary>
-        public event DataSetEventHandler BeginTrainingSetEvent;
+        public event EventHandler<DataSetEventArgs> BeforeTrainingSet;
 
-        /// <summary>
-        /// The event invoked at the end of training with a training set.
-        /// </summary>
-        public event DataSetEventHandler EndTrainingSetEvent;
+        public event EventHandler<DataSetEventArgs> AfterTrainingSet;
 
-        /// <summary>
-        /// The event invoked at the beginning of training with a training pattern.
-        /// </summary>
-        public event TrainingPatternEventhandler BeginTrainingPatternEvent;
+        public event EventHandler<DataPointEventArgs> BeforeTrainingPoint;
 
-        /// <summary>
-        /// The event invoked at the end of training with a training pattern.
-        /// </summary>
-        public event TrainingPatternEventhandler EndTrainingPatternEvent;
+        public event EventHandler<DataPointEventArgs> AfterTrainingPoint;
 
         #endregion // Events
 
@@ -308,16 +296,14 @@ namespace NeuralNetwork.KohonenNetwork
         /// <param name="neighbourhoodRadius">The neighbourhood neighbourhoodRadius.</param>
         private void TrainSet(DataSet trainingSet, int trainingIterationIndex, double learningRate, double neighbourhoodRadius)
         {
-            // Invoke the beginning-training-set event.
-            InvokeBeginTrainingSetEvent(trainingSet, trainingIterationIndex);
+            BeforeTrainingSet?.Invoke(this, new DataSetEventArgs(trainingSet, trainingIterationIndex));
 
-            foreach (LabeledDataPoint trainingPattern in trainingSet.RandomPoints)
+            foreach (var point in trainingSet.RandomPoints)
             {
-                TrainPattern(trainingPattern, trainingIterationIndex, learningRate, neighbourhoodRadius);
+                TrainPattern(point, trainingIterationIndex, learningRate, neighbourhoodRadius);
             }
 
-            // Invoke the end-training-set event.
-            InvokeEndTrainingSetEvent(trainingSet, trainingIterationIndex);
+            AfterTrainingSet?.Invoke(this, new DataSetEventArgs(trainingSet, trainingIterationIndex));
         }
 
         /// <summary>
@@ -329,17 +315,12 @@ namespace NeuralNetwork.KohonenNetwork
         /// <param name="neighbourhoodRadius">The neighbourhood neighbourhoodRadius.</param>
         private void TrainPattern(LabeledDataPoint trainingPattern, int trainingIterationIndex, double learningRate, double neighbourhoodRadius)
         {
-            // Invoke the beginning-training-pattern event.
-            InvokeBeginTrainingPatternEvent(trainingPattern, trainingIterationIndex);
+            BeforeTrainingPoint?.Invoke(this, new DataPointEventArgs(trainingPattern, trainingIterationIndex));
 
-            // Evaluate the network.
             int[] winnerOutputNeuronCoordinates = Evaluate(trainingPattern.Input);
-
-            // Adapt the weights of the output neurons.
             AdaptOutputLayerNeuronWeights(trainingPattern, winnerOutputNeuronCoordinates, learningRate, neighbourhoodRadius);
 
-            // Invoke the end-training-pattern event.
-            InvokeEndTrainingPatternEvent(trainingPattern, trainingIterationIndex);
+            AfterTrainingPoint?.Invoke(this, new DataPointEventArgs(trainingPattern, trainingIterationIndex));
         }
 
         /// <summary>
@@ -455,62 +436,6 @@ namespace NeuralNetwork.KohonenNetwork
 
             return neighbourOutputNeuronsIndices;
         }
-
-        #region Event invokers
-
-        /// <summary>
-        /// Invokes the begin-training-set event.
-        /// </summary>
-        /// <param name="trainingSet">The training set.</param>
-        /// <param name="trainingIterationIndex">The index of the trianing iteration.</param>
-        private void InvokeBeginTrainingSetEvent(DataSet trainingSet, int trainingIterationIndex)
-        {
-            if (BeginTrainingSetEvent != null)
-            {
-                BeginTrainingSetEvent(this, new DataSetEventArgs(trainingSet, trainingIterationIndex));
-            }
-        }
-
-        /// <summary>
-        /// Invokes the end-training-set event.
-        /// </summary>
-        /// <param name="trianingSet">The training set.</param>
-        /// <param name="trainingIterationIndex">The index of the trianing iteration.</param>
-        private void InvokeEndTrainingSetEvent(DataSet trianingSet, int trainingIterationIndex)
-        {
-            if (EndTrainingSetEvent != null)
-            {
-                EndTrainingSetEvent(this, new DataSetEventArgs(trianingSet, trainingIterationIndex));
-            }
-        }
-
-        /// <summary>
-        /// Invokes the begin-training-pattern event.
-        /// </summary>
-        /// <param name="trainingPattern">The training pattern.</param>
-        /// <param name="trainingIterationIndex">The index of the training iteration.</param>
-        private void InvokeBeginTrainingPatternEvent(LabeledDataPoint trainingPattern, int trainingIterationIndex)
-        {
-            if (BeginTrainingPatternEvent != null)
-            {
-                BeginTrainingPatternEvent(this, new DataPointEventArgs(trainingPattern, trainingIterationIndex));
-            }
-        }
-
-        /// <summary>
-        /// Invokes the end-training-pattern event.
-        /// </summary>
-        /// <param name="trainingPattern">The training pattern.</param>
-        /// <param name="trainingIterationIndex">The index of the training iteration.</param>
-        private void InvokeEndTrainingPatternEvent(LabeledDataPoint trainingPattern, int trainingIterationIndex)
-        {
-            if (EndTrainingPatternEvent != null)
-            {
-                EndTrainingPatternEvent(this, new DataPointEventArgs(trainingPattern, trainingIterationIndex));
-            }
-        }
-
-        #endregion Event invokers
 
         #region Input layer
 
