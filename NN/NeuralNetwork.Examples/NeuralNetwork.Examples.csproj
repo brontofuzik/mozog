@@ -59,8 +59,7 @@
     <Compile Include="MultilayerPerceptron\Xor.cs" />
     <Compile Include="MultilayerPerceptron\INS01\INS01BackpropagationTrainingStrategy.cs" />
     <Compile Include="MultilayerPerceptron\INS01\Program.cs" />
-    <Compile Include="MultilayerPerceptron\INS02\INS02BackpropagationTrainingStrategy.cs" />
-    <Compile Include="MultilayerPerceptron\INS02\INS02.cs" />
+    <Compile Include="MultilayerPerceptron\INS02.cs" />
     <Compile Include="KohonenNetwork\OCR.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

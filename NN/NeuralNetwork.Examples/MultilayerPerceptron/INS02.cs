@@ -8,7 +8,7 @@ using NeuralNetwork.MultilayerPerceptron;
 using NeuralNetwork.MultilayerPerceptron.Backpropagation;
 using NeuralNetwork.Training;
 
-namespace NeuralNetwork.Examples.MultilayerPerceptron.INS02
+namespace NeuralNetwork.Examples.MultilayerPerceptron
 {
     class INS02
     {
@@ -34,11 +34,11 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS02
             "while"
         };
 
-        private const int maxKeywordLength = 10;
-        private const int keywordCount = 10;
+        public const int maxKeywordLength = 10;
+        public const int keywordCount = 10;
 
+        private static readonly IEncoder<string, int> encoder = new INS02Encoder();
         private static DataSet data;
-
         private static Network network;
 
         public static void Run()
@@ -68,23 +68,19 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS02
 
             Console.WriteLine($"Iterations: {log.IterationCount}, Error:{log.NetworkError}");
 
-            // -------------------------
             // Step 4: Test the network.
-            // -------------------------
 
             foreach (string keyword in keywords)
             {
-                Console.WriteLine(keyword + " {");
+                // Original keyword
+                var index = network.EvaluateEncoded(keyword, encoder);
 
-                TestNetwork(keyword);
-                5.Times(() =>
+                // Mutated keywords
+                4.Times(() =>
                 {
                     string mutatedKeyword = MutateKeyword(keyword);
-                    TestNetwork(mutatedKeyword);
+                    index = network.EvaluateEncoded(mutatedKeyword, encoder);
                 });
-
-                Console.WriteLine("}");
-                Console.WriteLine();
             }
         }
 
@@ -93,17 +89,64 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS02
             var dataSet = new DataSet(maxKeywordLength * 5, keywordCount, keywords);
             for (int i = 0; i < keywordCount; i++)
             {
-                var inputVector = KeywordToVector(keywords[i]);
-                var outputVector = Vector.IndexToVector(keywordCount, i);
-                dataSet.Add((inputVector, outputVector, keywords[i]));
+                // Original keyword
+                string originalKeyword = keywords[i];
+                var input = encoder.EncodeInput(originalKeyword);
+                var output = encoder.EncodeOutput(i);
+                dataSet.Add((input, output, originalKeyword));
+
+                // Mutated keywords
+                4.Times(() =>
+                {
+                    string mutatedKeyword = MutateKeyword(originalKeyword);
+                    input = encoder.EncodeInput(mutatedKeyword);
+                    output = encoder.EncodeOutput(-1);
+                    dataSet.Add((input, output, mutatedKeyword));
+                });
             }
             return dataSet;
         }
 
-        // TODO
-        public static double[] KeywordToVector(string keyword)
+        #region Keyword mutation
+
+        private static string MutateKeyword(string keyword)
         {
-            keyword = keyword.PadRight(maxKeywordLength);
+            string mutatedKeyword;
+            do
+            {
+                mutatedKeyword = NewKeyword(keyword);
+            }
+            while (keyword.Contains(mutatedKeyword));
+            return mutatedKeyword;
+        }
+
+        private static string NewKeyword(string keyword)
+        {
+            int index = StaticRandom.Int(0, keyword.Length);
+            return new StringBuilder(keyword) { [index] = MutateCharacter(keyword[index]) }.ToString();
+        }
+
+        private static char MutateCharacter(char character)
+        {
+            char mutatedCharacter;
+            do
+            {
+                mutatedCharacter = RandomLetter();
+            }
+            while (mutatedCharacter == character);
+            return mutatedCharacter;
+        }
+
+        private static char RandomLetter() => (char)('a' + StaticRandom.Int(0, 26));
+
+        #endregion // Keyword mutation
+    }
+
+    internal class INS02Encoder : IEncoder<string, int>
+    {
+        public double[] EncodeInput(string keyword)
+        {
+            keyword = keyword.PadRight(INS02.maxKeywordLength);
 
             StringBuilder sb = new StringBuilder();
             foreach (char letter in keyword)
@@ -120,43 +163,19 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS02
                 sb.Append(binary);
             }
             string inputVectorString = sb.ToString();
-            
+
             double[] vector = new double[inputVectorString.Length];
             for (int i = 0; i < vector.Length; i++)
             {
-                vector[i] = inputVectorString[i] == '1' ? 1.0 : 0.0; 
+                vector[i] = inputVectorString[i] == '1' ? 1.0 : 0.0;
             }
             return vector;
         }
 
-        private static string MutateKeyword(string keyword)
-        {
-            int index = StaticRandom.Int(0, keyword.Length);
-            return new StringBuilder(keyword) {[index] = MutateCharacter(keyword[index])}.ToString();
-        }
+        public double[] EncodeOutput(int index)
+            => Vector.IndexToVector(INS02.keywordCount, index);
 
-        private static char MutateCharacter(char character)
-        {
-            int i = character - 'a';
-            int mutatedI;
-            do
-            {
-                mutatedI = StaticRandom.Int(0, 26);
-            }
-            while (mutatedI == i);
-            return (char)('a' + mutatedI);
-        }
-        
-        private static void TestNetwork(string keyword)
-        {
-            var inputVector = KeywordToVector(keyword);
-            var outputVector = network.Evaluate(inputVector);
-            int keywordIndex = Vector.VectorToIndex(outputVector, 0.5);
-
-            if (keywordIndex != -1)
-            {
-                Console.WriteLine("\t{0} : {1}", keyword, keywordIndex);
-            }
-        }
+        public int DecodeOutput(double[] output)
+            => Vector.VectorToIndex(output, 0.5);
     }
 }

@@ -106,6 +106,9 @@ namespace NeuralNetwork.MultilayerPerceptron
             return GetOutputVector();
         }
 
+        public TOutput EvaluateEncoded<TInput, TOutput>(TInput input, IEncoder<TInput, TOutput> encoder)
+            => encoder.DecodeOutput(Evaluate(encoder.EncodeInput(input)));
+
         // TODO Jitter
         //private void Jitter(double noiseLimit)
         //{
@@ -128,10 +131,10 @@ namespace NeuralNetwork.MultilayerPerceptron
         public double CalculateError(DataSet dataSet)
             => 0.5 * dataSet.Sum(point => CalculateError(point));
 
-        public double CalculateError(LabeledDataPoint point)
+        public double CalculateError(LabeledDataPoint dataPoint)
         {
-            double[] output = Evaluate(point.Input);
-            double[] desiredOutput = point.Output;
+            double[] output = Evaluate(dataPoint.Input);
+            double[] desiredOutput = dataPoint.Output;
 
             // TODO Use Vector utils.
             return output.Select((o, i) => Math.Pow(o - desiredOutput[i], 2)).Sum();

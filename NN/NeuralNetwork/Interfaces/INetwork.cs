@@ -17,11 +17,13 @@ namespace NeuralNetwork.Interfaces
 
         void Initialize();
 
-        double[] Evaluate(double[] inputVector);
+        double[] Evaluate(double[] input);
+
+        TOutput EvaluateEncoded<TInput, TOutput>(TInput input, IEncoder<TInput, TOutput> encoder);
 
         double CalculateError(DataSet dataSet);
 
-        double CalculateError(LabeledDataPoint point);
+        double CalculateError(LabeledDataPoint dataPoint);
 
         double[] GetWeights();
 
