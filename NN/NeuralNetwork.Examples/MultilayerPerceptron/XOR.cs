@@ -10,34 +10,26 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron
 {
     static class Xor
     {
+        private static readonly IEncoder<(int A, int B), int> encoder = new XorEncoder();
+        private static DataSet data;    
+        private static INetwork network;
+
         public static void Run()
         {
-            // --------------------------------
             // Step 1: Create the training set.
-            // --------------------------------
 
-            const int inputLength = 2;
-            const int outputLength = 1;
-            var trainingSet = new TrainingSet(inputLength, outputLength)
-            {
-                (new[] {0.0, 0.0}, new[] {0.0}),
-                (new[] {0.0, 1.0}, new[] {1.0}),
-                (new[] {1.0, 0.0}, new[] {1.0}),
-                (new[] {1.0, 1.0}, new[] {0.0})
-            };
+            data = CreateDataSet();
 
-            // ---------------------------
             // Step 2: Create the network.
-            // ---------------------------
 
-            var architecture = NetworkArchitecture.Feedforward(new[] {inputLength, 2, outputLength}, new LinearActivationFunction());
-            Network network = new Network(architecture);
+            var architecture = NetworkArchitecture.Feedforward(
+                new[] {data.InputSize, 2, data.OutputSize},
+                new LinearActivationFunction());
+            network = new Network(architecture);
 
-            // --------------------------
             // Step 3: Train the network.
-            // --------------------------
 
-            BackpropagationTrainer trainer = new BackpropagationTrainer(trainingSet, null, null);
+            var trainer = new BackpropagationTrainer(data, null, null);
 
             var args = new BackpropagationArgs(
                 maxIterations: 10000,
@@ -45,21 +37,40 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron
                 learningRate: 0.01,
                 momentum: 0.9,
                 batchLearning: true);      
-            var trainingLog = trainer.Train(network, args);
+            var log = trainer.Train(network, args);
 
-            Console.WriteLine($"Number of iterations used: {trainingLog.IterationCount}");
-            Console.WriteLine($"Minimum network error achieved: {trainingLog.NetworkError}");
+            Console.WriteLine($"Iterations: {log.IterationCount}, Error:{log.NetworkError}");
 
-            // ---------------------------------
             // Step 4: Test the trained network.
-            // ---------------------------------
 
-            foreach (var pattern in trainingSet)
+            foreach (var point in data)
             {
-                double[] inputVector = pattern.InputVector;
-                double[] outputVector = network.Evaluate(inputVector);
-                Console.WriteLine(pattern + " -> " + Vector.ToString(outputVector));
+                double[] output = network.Evaluate(point.Input);
+                Console.WriteLine($"{Vector.ToString(point.Input)} -> {Vector.ToString(output)}");
             }
         }
+
+        private static DataSet CreateDataSet()
+        {
+            return new DataSet(2, 1)
+            {
+                (encoder.EncodeInput((0, 0)), encoder.EncodeOutput(0)),
+                (encoder.EncodeInput((0, 1)), encoder.EncodeOutput(1)),
+                (encoder.EncodeInput((1, 0)), encoder.EncodeOutput(1)),
+                (encoder.EncodeInput((1, 1)), encoder.EncodeOutput(0))
+            };
+        }
+    }
+
+    class XorEncoder : IEncoder<(int A, int B), int>
+    {
+        public double[] EncodeInput((int A, int B) input)
+            => new double[] {input.A, input.B};
+
+        public double[] EncodeOutput(int output)
+            => new double[] {output};
+
+        public int DecodeOutput(double[] output)
+            => (int)Math.Round(output[0]);
     }
 }

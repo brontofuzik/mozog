@@ -1,9 +1,9 @@
 ﻿namespace NeuralNetwork.Training
 {
-    public class TrainingSetSerializer : ITrainingSetSerializer
+    public class DataSetSerializer : IDataSetSerializer
     {
         // TODO Serialization
-        public void Serialize(TrainingSet trainingSet, string fileName)
+        public void Serialize(DataSet dataSet, string fileName)
         {
             /*
             TextWriter textWriter = new StreamWriter(fileName);
@@ -32,7 +32,7 @@
                 }
 
                 // 2.2. Write the output vector.
-                foreach (double d in trainingPattern.OutputVector)
+                foreach (double d in trainingPattern.Output)
                 {
                     textWriter.Write(d.ToString() + separator);
                 }
@@ -45,7 +45,7 @@
         }
 
         // TODO Serialization
-        public TrainingSet Deserialize(string fileName)
+        public DataSet Deserialize(string fileName)
         {
             return null;
 
@@ -111,10 +111,10 @@
         }
     }
 
-    interface ITrainingSetSerializer
+    interface IDataSetSerializer
     {
-        void Serialize(TrainingSet trainingSet, string fileName);
+        void Serialize(DataSet dataSet, string fileName);
 
-        TrainingSet Deserialize(string fileName);
+        DataSet Deserialize(string fileName);
     }
 }

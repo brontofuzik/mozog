@@ -79,7 +79,7 @@ namespace NeuralNetwork.Training
         /// </value>
         public double RSD_TestSet { get; private set; }
 
-        public void CalculateMeasuresOfFit(INetwork network, TrainingSet trainingSet)
+        public void CalculateMeasuresOfFit(INetwork network, DataSet trainingSet)
         {
             int n = trainingSet.Size;
             int p = network.SynapseCount;
@@ -103,7 +103,7 @@ namespace NeuralNetwork.Training
             SBC = n * Math.Log(RSS_TrainingSet / (double)n) + p * Math.Log(n);
         }
 
-        public void CalculateForecastAccuracy(INetwork network, TrainingSet testSet)
+        public void CalculateForecastAccuracy(INetwork network, DataSet testSet)
         {
             int n = testSet.Size;
             int p = network.SynapseCount;
@@ -115,15 +115,16 @@ namespace NeuralNetwork.Training
             RSD_TestSet = Math.Sqrt(RSS_TestSet / (double)n);
         }
 
-        private static double CalculateRSS(INetwork network, TrainingSet trainingSet)
+        // TODO Optimize.
+        private static double CalculateRSS(INetwork network, DataSet dataSet)
         {
             double rss = 0.0;
-            foreach (SupervisedTrainingPattern trainingPattern in trainingSet)
+            foreach (var point in dataSet)
             {
-                double[] outputVector = network.Evaluate(trainingPattern.InputVector);
-                double[] desiredOutputVector = trainingPattern.OutputVector;
+                double[] output = network.Evaluate(point.Input);
+                double[] desiredOutput = point.Output;
 
-                rss += Math.Pow(outputVector[0] - desiredOutputVector[0], 2);
+                rss += Math.Pow(output[0] - desiredOutput[0], 2);
             }
             return rss;
         }

@@ -40,7 +40,7 @@ namespace NeuralNetwork.Examples.KohonenNetwork
             // Step 1: Create the training set.
             // --------------------------------
 
-            TrainingSet trainingSet = new TrainingSet(1);
+            DataSet dataSet = new DataSet(1);
             for (int trainingSampleIndex = 0; trainingSampleIndex < trainingSampleCount; ++trainingSampleIndex)
             {
                 double[] vector = new double[1];
@@ -48,8 +48,8 @@ namespace NeuralNetwork.Examples.KohonenNetwork
                 {
                     vector[i] = _random.NextDouble();
                 }
-                SupervisedTrainingPattern trainingSample = new SupervisedTrainingPattern(vector, new double[0]);
-                trainingSet.Add(trainingSample);
+                LabeledDataPoint trainingSample = new LabeledDataPoint(vector, new double[0]);
+                dataSet.Add(trainingSample);
             }
 
             // ---------------------------
@@ -62,7 +62,7 @@ namespace NeuralNetwork.Examples.KohonenNetwork
             // Step 3: Train the network.
             // --------------------------
 
-            network.Train(trainingSet, trainingIterationCount);
+            network.Train(dataSet, trainingIterationCount);
 
             // -------------------------
             // Step 4: Test the network.
@@ -102,7 +102,7 @@ namespace NeuralNetwork.Examples.KohonenNetwork
             // Step 1: Create the training set.
             // --------------------------------
 
-            TrainingSet trainingSet = new TrainingSet(1);
+            DataSet dataSet = new DataSet(1);
             for (int trainingSampleIndex = 0; trainingSampleIndex < trainingSampleCount; ++trainingSampleIndex)
             {
                 double[] vector = new double[1];
@@ -110,8 +110,8 @@ namespace NeuralNetwork.Examples.KohonenNetwork
                 {
                     vector[i] = _random.NextDouble();
                 }
-                SupervisedTrainingPattern trainingSample = new SupervisedTrainingPattern(vector, new double[0]);
-                trainingSet.Add(trainingSample);
+                LabeledDataPoint trainingSample = new LabeledDataPoint(vector, new double[0]);
+                dataSet.Add(trainingSample);
             }
 
             // ---------------------------
@@ -124,7 +124,7 @@ namespace NeuralNetwork.Examples.KohonenNetwork
             // Step 3: Train the network.
             // --------------------------
 
-            network.Train(trainingSet, trainingIterationCount);
+            network.Train(dataSet, trainingIterationCount);
 
             // -------------------------
             // Step 4: Test the network.
@@ -164,7 +164,7 @@ namespace NeuralNetwork.Examples.KohonenNetwork
             // Step 1: Create the training set.
             // --------------------------------
 
-            TrainingSet trainingSet = new TrainingSet(2);
+            DataSet dataSet = new DataSet(2);
             for (int trainingSampleIndex = 0; trainingSampleIndex < trainingSampleCount; ++trainingSampleIndex)
             {
                 double[] vector = new double[2];
@@ -172,8 +172,8 @@ namespace NeuralNetwork.Examples.KohonenNetwork
                 {
                     vector[i] = _random.NextDouble();
                 }
-                SupervisedTrainingPattern trainingSample = new SupervisedTrainingPattern(vector, new double[0]);
-                trainingSet.Add(trainingSample);
+                LabeledDataPoint trainingSample = new LabeledDataPoint(vector, new double[0]);
+                dataSet.Add(trainingSample);
             }
 
             // ---------------------------
@@ -186,7 +186,7 @@ namespace NeuralNetwork.Examples.KohonenNetwork
             // Step 3: Train the network.
             // --------------------------
 
-            network.Train(trainingSet, trainingIterationCount);
+            network.Train(dataSet, trainingIterationCount);
 
             // -------------------------
             // Step 4: Test the network.
@@ -226,7 +226,7 @@ namespace NeuralNetwork.Examples.KohonenNetwork
             // Step 1: Create the training set.
             // --------------------------------
 
-            TrainingSet trainingSet = new TrainingSet(2);
+            DataSet dataSet = new DataSet(2);
             for (int trainingSampleIndex = 0; trainingSampleIndex < trainingSampleCount; ++trainingSampleIndex)
             {
                 double[] vector = new double[2];
@@ -234,8 +234,8 @@ namespace NeuralNetwork.Examples.KohonenNetwork
                 {
                     vector[i] = _random.NextDouble();
                 }
-                SupervisedTrainingPattern trainingSample = new SupervisedTrainingPattern(vector, new double[0]);
-                trainingSet.Add(trainingSample);
+                LabeledDataPoint trainingSample = new LabeledDataPoint(vector, new double[0]);
+                dataSet.Add(trainingSample);
             }
 
             // ---------------------------
@@ -248,7 +248,7 @@ namespace NeuralNetwork.Examples.KohonenNetwork
             // Step 3: Train the network.
             // --------------------------
 
-            network.Train(trainingSet, trainingIterationCount);
+            network.Train(dataSet, trainingIterationCount);
 
             // -------------------------
             // Step 4: Test the network.

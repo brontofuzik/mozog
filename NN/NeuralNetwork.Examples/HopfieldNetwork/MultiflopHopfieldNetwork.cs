@@ -13,10 +13,6 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
             _hopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(neuronCount, multiflopNetworkActivationFunction, new FullHopfieldNetworkImpFactory());
         }
 
-        /// <summary>
-        /// Trains the multiflop network.
-        /// </summary>
-        /// <param name="trainingSet">The training set.</param>
         public void Train()
         {
             // Train the neurons.

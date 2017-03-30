@@ -54,22 +54,22 @@ namespace NeuralNetwork.HopfieldNetwork
         /// <summary>
         /// Trains the network.
         /// </summary>
-        /// <param name="trainingSet">The training set.</param>
-        public void Train(TrainingSet trainingSet)
+        /// <param name="dataSet">The training set.</param>
+        public void Train(DataSet dataSet)
         {
             // The training set mmust be provided.
-            Require.IsNotNull(trainingSet, "trainingSet");
+            Require.IsNotNull(dataSet, "trainingSet");
 
             // The training set must be compatible with the network.
-            if (trainingSet.InputVectorLength != NeuronCount)
+            if (dataSet.InputSize != NeuronCount)
             {
-                throw new ArgumentException("The training set is not compatible with the network.", nameof(trainingSet));
+                throw new ArgumentException("The training set is not compatible with the network.", nameof(dataSet));
             }
 
             // Train the neurons.
             for (int neuronIndex = 0; neuronIndex < NeuronCount; ++neuronIndex)
             {
-                TrainNeuron(neuronIndex, trainingSet);
+                TrainNeuron(neuronIndex, dataSet);
             }
         }
 
@@ -243,7 +243,7 @@ namespace NeuralNetwork.HopfieldNetwork
         /// </summary>
         /// <param name="neuronIndex">The index of the neuron.</param>
         /// <param name="trainingSet">The training set.</param>
-        private void TrainNeuron(int neuronIndex, TrainingSet trainingSet)
+        private void TrainNeuron(int neuronIndex, DataSet trainingSet)
         {
             // No validation here.
 
@@ -267,15 +267,15 @@ namespace NeuralNetwork.HopfieldNetwork
         /// </summary>
         /// <param name="neuronIndex">The index of the neuron</param>
         /// <param name="sourceNeuronIndex">The index of the source neuron.</param>
-        /// <param name="trainingSet">The training set.</param>
-        private void TrainSynapse(int neuronIndex, int sourceNeuronIndex, TrainingSet trainingSet)
+        /// <param name="data">The training set.</param>
+        private void TrainSynapse(int neuronIndex, int sourceNeuronIndex, DataSet data)
         {
             // No validation here.
 
             double synapseWeight = 0.0;
-            foreach (SupervisedTrainingPattern trainingPattern in trainingSet)
+            foreach (var point in data)
             {
-                synapseWeight += trainingPattern.InputVector[neuronIndex] * trainingPattern.InputVector[sourceNeuronIndex];
+                synapseWeight += point.Input[neuronIndex] * point.Input[sourceNeuronIndex];
             }
             SetSynapseWeight(neuronIndex, sourceNeuronIndex, synapseWeight);
         }

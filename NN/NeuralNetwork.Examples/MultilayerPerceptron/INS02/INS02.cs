@@ -12,7 +12,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS02
 {
     class INS02
     {
-        static readonly StringCollection keywords = new StringCollection
+        private static readonly StringCollection keywords = new StringCollection
         {
             "abstract", "as",
             "base", "bool", "break", "byte",
@@ -34,39 +34,29 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS02
             "while"
         };
 
-        static int maxKeywordLength = 10;
-        static int keywordCount = 10;
-        
+        private const int maxKeywordLength = 10;
+        private const int keywordCount = 10;
+
+        private static DataSet data;
+
         private static Network network;
 
         public static void Run()
         {
-            // --------------------------------
             // Step 1: Create the training set.
-            // --------------------------------
 
-            var inputLength = maxKeywordLength * 5;
-            var outputLength = keywordCount;
-            var trainingSet = new TrainingSet(inputLength, outputLength, keywords);
-            for (int i = 0; i < keywordCount; i++)
-            {
-                var inputVector = KeywordToVector(keywords[i]);
-                var outputVector = Vector.IndexToVector(keywordCount, i);
-                trainingSet.Add((inputVector, outputVector, keywords[i]));
-            }
+            data = CreateDataSet();
 
-            // ---------------------------
             // Step 2: Create the network.
-            // ---------------------------
 
-            var architecture = NetworkArchitecture.Feedforward(new[] { inputLength, 20, outputLength }, new LogisticActivationFunction());
+            var architecture = NetworkArchitecture.Feedforward(
+                new[] { data.InputSize, 20, data.OutputSize },
+                new LogisticActivationFunction());
             network = new Network(architecture);
 
-            // --------------------------
             // Step 3: Train the network.
-            // --------------------------
 
-            var trainer = new BackpropagationTrainer(trainingSet, null, null);
+            var trainer = new BackpropagationTrainer(data, null, null);
             
             var args = new BackpropagationArgs(
                 maxIterations: Int32.MaxValue,
@@ -74,10 +64,9 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS02
                 learningRate: 0.05,
                 momentum: 0.9,
                 batchLearning: false);
-            TrainingLog trainingLog = trainer.Train(network, args);
+            var log = trainer.Train(network, args);
 
-            Console.WriteLine("Number of iterations used : " + trainingLog.IterationCount);
-            Console.WriteLine("Minimum network error achieved : " + trainingLog.NetworkError);
+            Console.WriteLine($"Iterations: {log.IterationCount}, Error:{log.NetworkError}");
 
             // -------------------------
             // Step 4: Test the network.
@@ -97,6 +86,18 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS02
                 Console.WriteLine("}");
                 Console.WriteLine();
             }
+        }
+
+        private static DataSet CreateDataSet()
+        {
+            var dataSet = new DataSet(maxKeywordLength * 5, keywordCount, keywords);
+            for (int i = 0; i < keywordCount; i++)
+            {
+                var inputVector = KeywordToVector(keywords[i]);
+                var outputVector = Vector.IndexToVector(keywordCount, i);
+                dataSet.Add((inputVector, outputVector, keywords[i]));
+            }
+            return dataSet;
         }
 
         // TODO

@@ -7,7 +7,7 @@ namespace NeuralNetwork.Training
     public abstract class TrainerBase<TTrainingArgs> : ITrainer<TTrainingArgs>
         where TTrainingArgs : ITrainingArgs
     {
-        protected TrainerBase(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
+        protected TrainerBase(DataSet trainingSet, DataSet validationSet, DataSet testSet)
         {
             Require.IsNotNull(trainingSet, nameof(trainingSet));
             TrainingSet = trainingSet;
@@ -15,11 +15,11 @@ namespace NeuralNetwork.Training
             TestSet = testSet;
         }
 
-        public TrainingSet TrainingSet { get; }
+        public DataSet TrainingSet { get; }
 
-        public TrainingSet ValidationSet { get; }
+        public DataSet ValidationSet { get; }
 
-        public TrainingSet TestSet { get; }
+        public DataSet TestSet { get; }
 
         public abstract TrainingLog Train(INetwork network, TTrainingArgs args);
 

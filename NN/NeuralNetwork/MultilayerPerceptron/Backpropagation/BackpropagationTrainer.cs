@@ -11,7 +11,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         // The interval between two consecutive updates of the cumulative network error (CNR).
         const int cumulativeNetworkErrorUpdateInterval = 1;
 
-        public BackpropagationTrainer(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
+        public BackpropagationTrainer(DataSet trainingSet, DataSet validationSet, DataSet testSet)
             : base(trainingSet, validationSet, testSet)
         {
         }
@@ -47,7 +47,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
             while (!args.IsDone(iterationCount, cumulativeNetworkError))
             {
-                TrainWithSet(network, TrainingSet.RandomPatterns, args.BatchLearning);
+                TrainWithSet(network, TrainingSet.RandomPoints, args.BatchLearning);
                 iterationCount++;
 
                 // Calculate the network error.
@@ -77,14 +77,14 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             return new TrainingLog(iterationCount, networkError);
         }
 
-        private void TrainWithSet(BackpropagationNetwork network, IEnumerable<SupervisedTrainingPattern> set, bool batch)
+        private void TrainWithSet(BackpropagationNetwork network, IEnumerable<LabeledDataPoint> set, bool batch)
         {
             if (batch)
             {
                 network.ResetPartialDerivatives();
             }
 
-            set.ForEach(p => TrainWithPattern(network, p, batch));
+            set.ForEach(p => TrainWithPoint(network, p, batch));
 
             if (batch)
             {
@@ -93,15 +93,15 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             }
         }
 
-        private void TrainWithPattern(BackpropagationNetwork network, SupervisedTrainingPattern pattern, bool batch)
+        private void TrainWithPoint(BackpropagationNetwork network, LabeledDataPoint point, bool batch)
         {
             if (!batch)
             {
                 network.ResetPartialDerivatives();
             }
 
-            network.Evaluate(pattern.InputVector);
-            network.Backpropagate(pattern.OutputVector);
+            network.Evaluate(point.Input);
+            network.Backpropagate(point.Output);
 
             network.UpdateError();
             network.UpdatePartialDerivatives();

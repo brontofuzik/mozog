@@ -125,23 +125,16 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         private double[] GetOutputVector() => OutputLayer.GetOutputVector();
 
-        public double CalculateError(TrainingSet trainingSet)
-        {
-            double networkError = 0.0;
-            foreach (SupervisedTrainingPattern trainingPattern in trainingSet)
-            {
-                networkError += CalculateError(trainingPattern);
-            }
-            return 0.5 * networkError;
-        }
+        public double CalculateError(DataSet dataSet)
+            => 0.5 * dataSet.Sum(point => CalculateError(point));
 
-        public double CalculateError(SupervisedTrainingPattern trainingPattern)
+        public double CalculateError(LabeledDataPoint point)
         {
-            double[] outputVector = Evaluate(trainingPattern.InputVector);
-            double[] desiredOutputVector = trainingPattern.OutputVector;
+            double[] output = Evaluate(point.Input);
+            double[] desiredOutput = point.Output;
 
-            // Ref
-            return outputVector.Select((o, i) => Math.Pow(o - desiredOutputVector[i], 2)).Sum();
+            // TODO Use Vector utils.
+            return output.Select((o, i) => Math.Pow(o - desiredOutput[i], 2)).Sum();
         }
 
         public double[] GetWeights() => Synapses.Select(s => s.Weight).ToArray();

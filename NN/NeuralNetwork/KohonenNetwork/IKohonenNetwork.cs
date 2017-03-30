@@ -1,34 +1,29 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using NeuralNetwork.Training;
 
 namespace NeuralNetwork.KohonenNetwork
 {
     public interface IKohonenNetwork
     {
-        event TrainingPatternEventhandler BeginTrainingPatternEvent;
+        event EventHandler<DataSetEventArgs> BeforeTrainingSet;
 
-        event TrainingSetEventHandler BeginTrainingSetEvent;
+        event EventHandler<DataSetEventArgs> AfterTrainingSet;
 
-        event TrainingPatternEventhandler EndTrainingPatternEvent;
+        event EventHandler<DataPointEventArgs> BeforeTrainingPoint;
 
-        event TrainingSetEventHandler EndTrainingSetEvent;
+        event EventHandler<DataPointEventArgs> AfterTrainingPoint;
 
-        int InputNeuronCount
-        {
-            get;
-        }
+        int InputNeuronCount { get; }
 
-        int OutputNeuronCount
-        {
-            get;
-        }
+        int OutputNeuronCount { get; }
 
         /// <summary>
         /// Trains the network with a training set for a number of iterations.
         /// </summary>
         /// <param name="trainingSet">The training set.</param>
         /// <param name="trainingIterationCount">The number of training iterations.</param>
-        void Train(TrainingSet trainingSet, int trainingIterationCount);
+        void Train(DataSet trainingSet, int trainingIterationCount);
 
         /// <summary>
         /// Evaluates the network.

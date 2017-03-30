@@ -3,6 +3,7 @@ using NeuralNetwork.ActivationFunctions;
 
 namespace NeuralNetwork.Interfaces
 {
+    // Network topology
     public interface INetworkArchitecture
     {
         NetworkArchitecture.Layer[] Layers { get; set; }

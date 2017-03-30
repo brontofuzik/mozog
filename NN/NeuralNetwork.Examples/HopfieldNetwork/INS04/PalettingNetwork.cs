@@ -130,7 +130,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork.INS04
             }
 
             // Build the training set.
-            TrainingSet trainingSet = buildTrainingSet(trainingImage);
+            DataSet trainingSet = buildTrainingSet(trainingImage);
 
             // Train the underlying Kohonen network.
             _underlyingKohonenNetwork.Train(trainingSet, _trainingIterationCount);
@@ -235,13 +235,13 @@ namespace NeuralNetwork.Examples.HopfieldNetwork.INS04
         /// </summary>
         /// <param name="trainingImage">The training image.</param>
         /// <returns>The training set.</returns>
-        private static TrainingSet buildTrainingSet(Bitmap trainingImage)
+        private static DataSet buildTrainingSet(Bitmap trainingImage)
         {
             // Build an empty training set.
             // TODO: Change the current supervised sed for an unsupervised set.
             int inputVectorLength = 3;
             int outputVectorLength = 0;
-            TrainingSet trainingSet = new TrainingSet(inputVectorLength, outputVectorLength);
+            DataSet trainingSet = new DataSet(inputVectorLength, outputVectorLength);
 
             int trainingImageWidth = trainingImage.Width;
             int trainingImageHeight = trainingImage.Height;
@@ -252,10 +252,10 @@ namespace NeuralNetwork.Examples.HopfieldNetwork.INS04
                     Color color = trainingImage.GetPixel(x, y);
 
                     // Build a new training pattern and add it to the training set.
-                    double[] inputVector = colorToVector(color);
-                    double[] outputVector = new double[0];
-                    SupervisedTrainingPattern trainingPattern = new SupervisedTrainingPattern(inputVector, outputVector);
-                    trainingSet.Add(trainingPattern);
+                    double[] input = colorToVector(color);
+                    double[] output = new double[0];
+                    var point = new LabeledDataPoint(input, output);
+                    trainingSet.Add(point);
                 }
             }
 

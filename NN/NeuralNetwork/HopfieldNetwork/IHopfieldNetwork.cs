@@ -40,8 +40,8 @@ namespace NeuralNetwork.HopfieldNetwork
         /// <summary>
         /// Trains the Hopfield network.
         /// </summary>
-        /// <param name="trainingSet">The training set.</param>
-        void Train(TrainingSet trainingSet);
+        /// <param name="dataSet">The training set.</param>
+        void Train(DataSet dataSet);
 
         /// <summary>
         /// Gets the bias of a neuron.

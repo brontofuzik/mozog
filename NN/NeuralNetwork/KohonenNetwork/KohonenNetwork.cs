@@ -78,11 +78,11 @@ namespace NeuralNetwork.KohonenNetwork
         /// </summary>
         /// <param name="trainingSet">The training set.</param>
         /// <param name="trainingIterationCount">The number of training iterations.</param>
-        public void Train(TrainingSet trainingSet, int trainingIterationCount)
+        public void Train(DataSet trainingSet, int trainingIterationCount)
         {
             Require.IsNotNull(trainingSet, nameof(trainingSet));
 
-            if (trainingSet.InputVectorLength != _inputLayerNeuronCount)
+            if (trainingSet.InputSize != _inputLayerNeuronCount)
             {
                 throw new ArgumentException("The training set is not compatible with the network (i.e. the length of the input vector does not match the number of neurons in the input layer).", nameof(trainingSet));
             }
@@ -239,12 +239,12 @@ namespace NeuralNetwork.KohonenNetwork
         /// <summary>
         /// The event invoked at the beginning of training with a training set.
         /// </summary>
-        public event TrainingSetEventHandler BeginTrainingSetEvent;
+        public event DataSetEventHandler BeginTrainingSetEvent;
 
         /// <summary>
         /// The event invoked at the end of training with a training set.
         /// </summary>
-        public event TrainingSetEventHandler EndTrainingSetEvent;
+        public event DataSetEventHandler EndTrainingSetEvent;
 
         /// <summary>
         /// The event invoked at the beginning of training with a training pattern.
@@ -306,12 +306,12 @@ namespace NeuralNetwork.KohonenNetwork
         /// <param name="trainingIterationIndex">The index of the trianing iteration.</param>
         /// <param name="learningRate">The learning rate.</param>
         /// <param name="neighbourhoodRadius">The neighbourhood neighbourhoodRadius.</param>
-        private void TrainSet(TrainingSet trainingSet, int trainingIterationIndex, double learningRate, double neighbourhoodRadius)
+        private void TrainSet(DataSet trainingSet, int trainingIterationIndex, double learningRate, double neighbourhoodRadius)
         {
             // Invoke the beginning-training-set event.
             InvokeBeginTrainingSetEvent(trainingSet, trainingIterationIndex);
 
-            foreach (SupervisedTrainingPattern trainingPattern in trainingSet.RandomPatterns)
+            foreach (LabeledDataPoint trainingPattern in trainingSet.RandomPoints)
             {
                 TrainPattern(trainingPattern, trainingIterationIndex, learningRate, neighbourhoodRadius);
             }
@@ -327,13 +327,13 @@ namespace NeuralNetwork.KohonenNetwork
         /// <param name="trainingIterationIndex">The index of the trianing iteration.</param>
         /// <param name="learningRate">The learning rate.</param>
         /// <param name="neighbourhoodRadius">The neighbourhood neighbourhoodRadius.</param>
-        private void TrainPattern(SupervisedTrainingPattern trainingPattern, int trainingIterationIndex, double learningRate, double neighbourhoodRadius)
+        private void TrainPattern(LabeledDataPoint trainingPattern, int trainingIterationIndex, double learningRate, double neighbourhoodRadius)
         {
             // Invoke the beginning-training-pattern event.
             InvokeBeginTrainingPatternEvent(trainingPattern, trainingIterationIndex);
 
             // Evaluate the network.
-            int[] winnerOutputNeuronCoordinates = Evaluate(trainingPattern.InputVector);
+            int[] winnerOutputNeuronCoordinates = Evaluate(trainingPattern.Input);
 
             // Adapt the weights of the output neurons.
             AdaptOutputLayerNeuronWeights(trainingPattern, winnerOutputNeuronCoordinates, learningRate, neighbourhoodRadius);
@@ -349,7 +349,7 @@ namespace NeuralNetwork.KohonenNetwork
         /// <param name="winnerOutputNeuronCoordinates">The coordinates of the winner output neuron.</param>
         /// <param name="learningRate">The learning rate.</param>
         /// <param name="neighbourhoodRadius">The neighbourhood neighbourhoodRadius.</param>
-        private void AdaptOutputLayerNeuronWeights(SupervisedTrainingPattern trainingPattern, int[] winnerOutputNeuronCoordinates, double learningRate, double neighbourhoodRadius)
+        private void AdaptOutputLayerNeuronWeights(LabeledDataPoint trainingPattern, int[] winnerOutputNeuronCoordinates, double learningRate, double neighbourhoodRadius)
         {
             // (OPTIMIZATION) No need to adapt if the learning rate is zero.
             if (learningRate == 0.0)
@@ -376,7 +376,7 @@ namespace NeuralNetwork.KohonenNetwork
 
                 for (int weightIndex = 0; weightIndex < _inputLayerNeuronCount; ++weightIndex)
                 {
-                    double weightDelta = learningRate * neighbourhood * (trainingPattern.InputVector[weightIndex] - _outputLayerNeuronWeights[outputNeuronIndex][weightIndex]);
+                    double weightDelta = learningRate * neighbourhood * (trainingPattern.Input[weightIndex] - _outputLayerNeuronWeights[outputNeuronIndex][weightIndex]);
                     _outputLayerNeuronWeights[outputNeuronIndex][weightIndex] += weightDelta;
                 }
             }
@@ -463,11 +463,11 @@ namespace NeuralNetwork.KohonenNetwork
         /// </summary>
         /// <param name="trainingSet">The training set.</param>
         /// <param name="trainingIterationIndex">The index of the trianing iteration.</param>
-        private void InvokeBeginTrainingSetEvent(TrainingSet trainingSet, int trainingIterationIndex)
+        private void InvokeBeginTrainingSetEvent(DataSet trainingSet, int trainingIterationIndex)
         {
             if (BeginTrainingSetEvent != null)
             {
-                BeginTrainingSetEvent(this, new TrainingSetEventArgs(trainingSet, trainingIterationIndex));
+                BeginTrainingSetEvent(this, new DataSetEventArgs(trainingSet, trainingIterationIndex));
             }
         }
 
@@ -476,11 +476,11 @@ namespace NeuralNetwork.KohonenNetwork
         /// </summary>
         /// <param name="trianingSet">The training set.</param>
         /// <param name="trainingIterationIndex">The index of the trianing iteration.</param>
-        private void InvokeEndTrainingSetEvent(TrainingSet trianingSet, int trainingIterationIndex)
+        private void InvokeEndTrainingSetEvent(DataSet trianingSet, int trainingIterationIndex)
         {
             if (EndTrainingSetEvent != null)
             {
-                EndTrainingSetEvent(this, new TrainingSetEventArgs(trianingSet, trainingIterationIndex));
+                EndTrainingSetEvent(this, new DataSetEventArgs(trianingSet, trainingIterationIndex));
             }
         }
 
@@ -489,11 +489,11 @@ namespace NeuralNetwork.KohonenNetwork
         /// </summary>
         /// <param name="trainingPattern">The training pattern.</param>
         /// <param name="trainingIterationIndex">The index of the training iteration.</param>
-        private void InvokeBeginTrainingPatternEvent(SupervisedTrainingPattern trainingPattern, int trainingIterationIndex)
+        private void InvokeBeginTrainingPatternEvent(LabeledDataPoint trainingPattern, int trainingIterationIndex)
         {
             if (BeginTrainingPatternEvent != null)
             {
-                BeginTrainingPatternEvent(this, new TrainingPatternEventArgs(trainingPattern, trainingIterationIndex));
+                BeginTrainingPatternEvent(this, new DataPointEventArgs(trainingPattern, trainingIterationIndex));
             }
         }
 
@@ -502,11 +502,11 @@ namespace NeuralNetwork.KohonenNetwork
         /// </summary>
         /// <param name="trainingPattern">The training pattern.</param>
         /// <param name="trainingIterationIndex">The index of the training iteration.</param>
-        private void InvokeEndTrainingPatternEvent(SupervisedTrainingPattern trainingPattern, int trainingIterationIndex)
+        private void InvokeEndTrainingPatternEvent(LabeledDataPoint trainingPattern, int trainingIterationIndex)
         {
             if (EndTrainingPatternEvent != null)
             {
-                EndTrainingPatternEvent(this, new TrainingPatternEventArgs(trainingPattern, trainingIterationIndex));
+                EndTrainingPatternEvent(this, new DataPointEventArgs(trainingPattern, trainingIterationIndex));
             }
         }
 

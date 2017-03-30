@@ -28,20 +28,16 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
             // Step 1: Create the training set.
             // --------------------------------
 
-            // Create the training set.
-
-            TrainingSet trainingSet = new TrainingSet(10, 0);
-
-            // Create the training patterns.
-
-            SupervisedTrainingPattern trainingPattern = new SupervisedTrainingPattern(new[] { 1.0, 1.0, 1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, -1.0 }, new double[0]);
-            trainingSet.Add(trainingPattern);
+            var dataSet = new DataSet(10, 0)
+            {
+                new LabeledDataPoint(new[] { 1.0, 1.0, 1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, -1.0 }, new double[0])
+            };
 
             // ---------------------------
             // Step 2: Create the network.
             // ---------------------------
 
-            int neuronCount = trainingSet.InputVectorLength;
+            int neuronCount = dataSet.InputSize;
             IHopfieldNetworkImpFactory networkImpFactory = new FullHopfieldNetworkImpFactory();
             NeuralNetwork.HopfieldNetwork.HopfieldNetwork defaultNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(neuronCount, networkImpFactory);
 
@@ -49,7 +45,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
             // Step 3: Train the network.
             // --------------------------
 
-            defaultNetwork.Train(trainingSet);
+            defaultNetwork.Train(dataSet);
 
             // -------------------------
             // Step 4: Test the network.

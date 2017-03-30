@@ -19,9 +19,9 @@ namespace NeuralNetwork.Interfaces
 
         double[] Evaluate(double[] inputVector);
 
-        double CalculateError(TrainingSet trainingSet);
+        double CalculateError(DataSet dataSet);
 
-        double CalculateError(SupervisedTrainingPattern trainingPattern);
+        double CalculateError(LabeledDataPoint point);
 
         double[] GetWeights();
 

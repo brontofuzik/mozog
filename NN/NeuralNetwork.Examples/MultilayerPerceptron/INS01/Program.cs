@@ -40,7 +40,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS01
             sourcePicture = CropBitmap(sourcePicture, 0, 0, pictureWidth, pictureHeight);
             Bitmap[,] sourceTiles = SplitPictureIntoTiles(sourcePicture);
 
-            TrainingSet trainingSet = new TrainingSet(tileWidth * tileHeight, tileWidth * tileHeight);
+            DataSet trainingSet = new DataSet(tileWidth * tileHeight, tileWidth * tileHeight);
             for (int rowIndex = 0; rowIndex < rowCount; ++rowIndex)
             {
                 for (int columnIndex = 0; columnIndex < columnCount; ++columnIndex)
@@ -51,7 +51,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.INS01
                     for (int i = 0; i < 4; ++i)
                     {
                         double[] inputVector = TileToVector(sourceTile);
-                        trainingSet.Add(new SupervisedTrainingPattern(inputVector, outputVector));
+                        trainingSet.Add(new LabeledDataPoint(inputVector, outputVector));
 
                         sourceTile.RotateFlip(RotateFlipType.Rotate90FlipNone);
                     }
