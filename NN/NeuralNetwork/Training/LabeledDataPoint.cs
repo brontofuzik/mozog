@@ -5,6 +5,7 @@ namespace NeuralNetwork.Training
     // Supervised learning
     public class LabeledDataPoint : DataPoint
     {
+        // Tagged
         public LabeledDataPoint(double[] input, double[] output, object tag)
             : base(input, tag)
         {
@@ -14,20 +15,9 @@ namespace NeuralNetwork.Training
             NormalizedOutput = Vector.Normalize(output);
         }
 
-        // Tuple
-        public LabeledDataPoint((double[] input, double[] output, object tag) point)
-            : this(point.input, point.output, point.tag)
-        {
-        }
-
+        // Untagged
         public LabeledDataPoint(double[] input, double[] output)
             : this(input, output, null)
-        {
-        }
-
-        // Tuple
-        public LabeledDataPoint((double[] input, double[] output) pattern)
-            : this(pattern.input, pattern.output)
         {
         }
 

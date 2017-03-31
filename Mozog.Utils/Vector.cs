@@ -85,6 +85,9 @@ namespace Mozog.Utils
             return activeNeuronCount == 1 ? keywordIndex : -1;
         }
 
+        public static int HammingDistance(double[] vector1, double[] vector2)
+            => vector1.Zip(vector2, (d1, d2) => d1 != d2 ? 1 : 0).Sum();
+
         public static string ToString(double[] vector)
         {
             Require.IsNotNull(vector, nameof(vector));

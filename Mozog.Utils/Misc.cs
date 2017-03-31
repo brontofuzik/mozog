@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Mozog.Utils
 {
@@ -23,6 +24,20 @@ namespace Mozog.Utils
 
             // temp -> array2
             Array.Copy(temp, 0, array2, origin2, length);
+        }
+
+        public static T[] FlattenArray<T>(T[,] array)
+        {
+            var flattened = new T[array.GetLength(0) * array.GetLength(1)];
+            int i = 0;
+            for (int row = 0; row < array.GetLength(0); row++)
+            {
+                for (int column = 0; column < array.GetLength(1); column++)
+                {
+                    flattened[i++] = array[row, column];
+                }
+            }
+            return flattened;
         }
     }
 }

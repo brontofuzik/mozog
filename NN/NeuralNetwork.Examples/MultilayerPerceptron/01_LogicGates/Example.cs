@@ -6,11 +6,12 @@ using NeuralNetwork.MultilayerPerceptron;
 using NeuralNetwork.MultilayerPerceptron.Backpropagation;
 using NeuralNetwork.Training;
 
-namespace NeuralNetwork.Examples.MultilayerPerceptron
+namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
 {
-    static class Xor
+    // TODO Split into files.
+    // TODO Add more logic gates.
+    static class Example
     {
-        private static readonly IEncoder<(int A, int B), int> encoder = new XorEncoder();
         private static DataSet data;    
         private static INetwork network;
 
@@ -18,7 +19,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron
         {
             // Step 1: Create the training set.
 
-            data = CreateDataSet();
+            data = Data.CreateXOR();
 
             // Step 2: Create the network.
 
@@ -49,28 +50,5 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron
                 Console.WriteLine($"{Vector.ToString(point.Input)} -> {Vector.ToString(output)}");
             }
         }
-
-        private static DataSet CreateDataSet()
-        {
-            return new DataSet(2, 1)
-            {
-                (encoder.EncodeInput((0, 0)), encoder.EncodeOutput(0)),
-                (encoder.EncodeInput((0, 1)), encoder.EncodeOutput(1)),
-                (encoder.EncodeInput((1, 0)), encoder.EncodeOutput(1)),
-                (encoder.EncodeInput((1, 1)), encoder.EncodeOutput(0))
-            };
-        }
-    }
-
-    class XorEncoder : IEncoder<(int A, int B), int>
-    {
-        public double[] EncodeInput((int A, int B) input)
-            => new double[] {input.A, input.B};
-
-        public double[] EncodeOutput(int output)
-            => new double[] {output};
-
-        public int DecodeOutput(double[] output)
-            => (int)Math.Round(output[0]);
     }
 }

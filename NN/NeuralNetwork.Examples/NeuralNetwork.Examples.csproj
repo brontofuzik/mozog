@@ -56,10 +56,12 @@
     <Compile Include="HopfieldNetwork\INS04\Program.cs" />
     <Compile Include="HopfieldNetwork\MultiflopHopfieldNetwork.cs" />
     <Compile Include="KohonenNetwork\Examples.cs" />
-    <Compile Include="MultilayerPerceptron\Xor.cs" />
-    <Compile Include="MultilayerPerceptron\INS01\INS01BackpropagationTrainingStrategy.cs" />
-    <Compile Include="MultilayerPerceptron\INS01\Program.cs" />
-    <Compile Include="MultilayerPerceptron\INS02.cs" />
+    <Compile Include="MultilayerPerceptron\02_Keywords\Data.cs" />
+    <Compile Include="MultilayerPerceptron\01_LogicGates\Data.cs" />
+    <Compile Include="MultilayerPerceptron\01_LogicGates\Example.cs" />
+    <Compile Include="MultilayerPerceptron\03_Tiling\Data.cs" />
+    <Compile Include="MultilayerPerceptron\03_Tiling\Example.cs" />
+    <Compile Include="MultilayerPerceptron\02_Keywords\Example.cs" />
     <Compile Include="KohonenNetwork\OCR.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

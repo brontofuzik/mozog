@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Mozog.Utils;
+using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.Training
 {
@@ -11,32 +11,25 @@ namespace NeuralNetwork.Training
     {
         private readonly List<LabeledDataPoint> points = new List<LabeledDataPoint>();
 
-        public DataSet(int inputSize, int outputSize, object tag)
+        // Labeled data for supervised training
+        public DataSet(int inputSize, int outputSize)
         {
             Require.IsPositive(inputSize, nameof(inputSize));
             InputSize = inputSize;
 
             Require.IsNonNegative(outputSize, nameof(outputSize));
             OutputSize = outputSize;
-
-            Tag = tag;
         }
 
-        public DataSet(int inputSize, int outputSize)
-            : this(inputSize, outputSize, null)
-        {    
-        }
-
-        public DataSet(int vectorLength)
-            : this(vectorLength, 0, null)
+        // Unlabeled data for unsupervised training
+        public DataSet(int inputSize)
+            : this(inputSize, 0)
         {
         }
 
         public int InputSize { get; }
 
         public int OutputSize { get; }
-
-        public object Tag { get; }
 
         public IEnumerable<LabeledDataPoint> RandomPoints
         {
@@ -69,17 +62,19 @@ namespace NeuralNetwork.Training
                 throw new ArgumentException("The output vector must be of size " + OutputSize, nameof(point));
             }
 
-            this.points.Add(point);
+            points.Add(point);
         }
 
-        public void Add((double[] input, double[] output, object tag) point)
+        // Tagged
+        public void Add(double[] input, double[] output, object tag)
         {
-            Add(new LabeledDataPoint(point));
+            Add(new LabeledDataPoint(input, output, tag));
         }
 
-        public void Add((double[] input, double[] output) point)
+        // Untagged
+        public void Add(double[] input, double[] output)
         {
-            Add(new LabeledDataPoint(point));
+            Add(new LabeledDataPoint(input, output));
         }
 
         public void Add(DataSet dataSet)

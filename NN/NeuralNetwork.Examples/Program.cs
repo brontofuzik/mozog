@@ -1,10 +1,12 @@
-﻿namespace NeuralNetwork.Examples
+﻿using NeuralNetwork.Examples.MultilayerPerceptron.LogicGates;
+
+namespace NeuralNetwork.Examples
 {
     class Program
     {
         static void Main(string[] args)
         {
-            MultilayerPerceptron.Xor.Run();
+            Example.Run();
 
             HopfieldNetwork.Examples.Run();
 
