@@ -1,16 +1,14 @@
-﻿using NeuralNetwork.Examples.MultilayerPerceptron.LogicGates;
-
-namespace NeuralNetwork.Examples
+﻿namespace NeuralNetwork.Examples
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Example.Run();
+            MultilayerPerceptron.LogicGates.Example.Run();
 
-            HopfieldNetwork.Examples.Run();
+            //MultilayerPerceptron.Keywords.Example.Run();
 
-            KohonenNetwork.Examples.Run();
+            //MultilayerPerceptron.Tiling.Example.Run();
         }
     }
 }

@@ -49,6 +49,9 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
 
         public static Bitmap[,] OriginalTiles { get; private set; }
 
+        public static IEnumerable<(int row, int column, int index)> TileCoordinates
+            => Coordinates(Rows, Columns);
+
         private static Bitmap CropBitmap(Bitmap bitmap, int x, int y, int width, int height)
             => bitmap.Clone(new Rectangle(x, y, width, height), bitmap.PixelFormat);
 
@@ -83,9 +86,6 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
         public static Bitmap CloneTile(Bitmap tile)
             => tile.Clone(new Rectangle(0, 0, tile.Width, tile.Height), tile.PixelFormat);
 
-        public static IEnumerable<(int row, int column, int index)> TileCoordinates
-            => Coordinates(Rows, Columns);
-
         private static IEnumerable<(int row, int column, int index)> Coordinates(int rows, int columns)
         {
             int index = 0;
@@ -98,16 +98,16 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
             }
         }
 
-        class _Encoder : IEncoder<Bitmap, Bitmap>
+        private class _Encoder : IEncoder<Bitmap, Bitmap>
         {
             public double[] EncodeInput(Bitmap tile)
             {
-                double[] vector = new double[TilePixels];
+                var input = new double[TilePixels];
                 foreach (var c in Coordinates(TileSize, TileSize))
                 {
-                    vector[c.index] = tile.GetPixel(c.column, c.row).GetBrightness() > 0.5 ? 1.0 : 0.0;
+                    input[c.index] = tile.GetPixel(c.column, c.row).GetBrightness() > 0.5 ? 1.0 : 0.0;
                 }
-                return vector;
+                return input;
             }
 
             public double[] EncodeOutput(Bitmap tile)

@@ -19,7 +19,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
         {
             // Step 1: Create the training set.
 
-            data = Data.CreateXOR();
+            data = Data.XOR;
 
             // Step 2: Create the network.
 
@@ -46,7 +46,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
 
             foreach (var point in data)
             {
-                double[] output = network.Evaluate(point.Input);
+                var output = network.Evaluate(point.Input);
                 Console.WriteLine($"{Vector.ToString(point.Input)} -> {Vector.ToString(output)}");
             }
         }

@@ -8,18 +8,31 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
     {
         public static readonly IEncoder<(int, int), int> Encoder = new _Encoder();
 
-        public static DataSet CreateXOR()
+        public static DataSet AND => new EncodedDataSet<(int, int), int>(2, 1, Encoder)
         {
-            return new EncodedDataSet<(int, int), int>(2, 1, Encoder)
-            {
-                {(0, 0), 0},
-                {(0, 1), 1},
-                {(1, 0), 1},
-                {(1, 1), 0}
-            };
-        }
+            {(0, 0), 0},
+            {(0, 1), 0},
+            {(1, 0), 0},
+            {(1, 1), 1}
+        };
 
-        class _Encoder : IEncoder<(int A, int B), int>
+        public static DataSet OR => new EncodedDataSet<(int, int), int>(2, 1, Encoder)
+        {
+            {(0, 0), 0},
+            {(0, 1), 1},
+            {(1, 0), 1},
+            {(1, 1), 1}
+        };
+
+        public static DataSet XOR => new EncodedDataSet<(int, int), int>(2, 1, Encoder)
+        {
+            {(0, 0), 0},
+            {(0, 1), 1},
+            {(1, 0), 1},
+            {(1, 1), 0}
+        };
+
+        private class _Encoder : IEncoder<(int A, int B), int>
         {
             public double[] EncodeInput((int A, int B) input)
                 => new double[] { input.A, input.B };

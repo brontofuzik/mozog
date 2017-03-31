@@ -85,7 +85,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
         private static char RandomLetter() => (char)('a' + StaticRandom.Int(0, 26));
 
-        class _Encoder : IEncoder<string, int>
+        private class _Encoder : IEncoder<string, int>
         {
             public double[] EncodeInput(string keyword)
             {
