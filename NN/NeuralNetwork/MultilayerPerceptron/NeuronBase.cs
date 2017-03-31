@@ -13,20 +13,24 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public List<ISynapse> SourceSynapses { get; } = new List<ISynapse>();
 
-        // TODO Move to BackpropagationNeuron.
+        // TODO Move to BackpropagationNeuron?
         public List<ISynapse> TargetSynapses { get; } = new List<ISynapse>();
 
         public void Connect(INeuron sourceNeuron)
         {
             var synapse = MakeSynapse();
-            AddSynapse(synapse);
+            AddSynapse(synapse, sourceNeuron);
         }
 
         protected abstract ISynapse MakeSynapse();
 
-        private void AddSynapse(ISynapse synapse)
+        private void AddSynapse(ISynapse synapse, INeuron sourceNeuron)
         {
-            
+            SourceSynapses.Add(synapse);
+            synapse.TargetNeuron = this;
+
+            sourceNeuron.TargetSynapses.Add(synapse);
+            synapse.SourceNeuron = sourceNeuron;
         }
 
         public virtual void Initialize()

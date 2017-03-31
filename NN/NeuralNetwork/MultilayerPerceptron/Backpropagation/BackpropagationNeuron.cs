@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
@@ -10,6 +11,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         internal BackpropagationNeuron()
         {
         }
+
+        protected override ISynapse MakeSynapse() => new BackpropagationSynapse();
 
         #endregion // Construction
 
@@ -52,6 +55,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             Error = PartialDerivative * ActivationFunctionDerivative;
         }
 
-        public override string ToString() => "BP" + base.ToString();
+        public override string ToString() => "Bp-" + base.ToString();
     }
 }

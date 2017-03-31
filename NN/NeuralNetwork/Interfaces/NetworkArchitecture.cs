@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NeuralNetwork.ActivationFunctions;
 
 namespace NeuralNetwork.Interfaces
@@ -31,6 +32,8 @@ namespace NeuralNetwork.Interfaces
 
             // Default is no activation function, indicating an input layer.
             public IActivationFunction Activation { get; set; }
+
+            public override string ToString() => $"({Neurons}, {Activation})";
         }
     }
 
@@ -46,8 +49,10 @@ namespace NeuralNetwork.Interfaces
         }
 
         public FeedforwardArchitecture(int[] neurons, IActivationFunction activation)
-            : this(neurons.Select(n => (n, activation)).ToArray())
+            : this(neurons.Select((n, i) => (n, i > 0 ? activation : null)).ToArray())
         {      
         }
+
+        public override string ToString() => $"[{String.Join(", ", Layers.AsEnumerable())}]";
     }
 }

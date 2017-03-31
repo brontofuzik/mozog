@@ -2,9 +2,6 @@
 {
     public class BackpropagationSynapse : Synapse
     {
-        // TODO Momentum
-        private const double momentum = 0.9;
-
         private double partialDerivative;
         private double weightChange;
         private double previousWeightChange;
@@ -18,6 +15,8 @@
         #endregion // Construction
 
         public double LearningRate { get; set; }
+
+        public double Momentum { get; set; }
 
         private new BackpropagationNeuron TargetNeuron => (BackpropagationNeuron)base.TargetNeuron;
 
@@ -44,7 +43,7 @@
         {
             previousWeightChange = weightChange;
             weightChange = -LearningRate * partialDerivative;
-            Weight += weightChange + momentum * previousWeightChange;
+            Weight += weightChange + Momentum * previousWeightChange;
         }
 
         public void UpdateLearningRate()
@@ -54,6 +53,6 @@
                 : LearningRate / 2.0; // Slow down
         }
 
-        public override string ToString() => "BP" + base.ToString();
+        public override string ToString() => "Bp:" + base.ToString();
     }
 }

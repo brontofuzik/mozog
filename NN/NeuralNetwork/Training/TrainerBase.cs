@@ -31,15 +31,13 @@ namespace NeuralNetwork.Training
         public TrainingLog Train(INetwork network, double maxError)
             => Train(network, Int32.MaxValue, maxError);
 
-        public void LogNetworkStatistics(TrainingLog trainingLog, INetwork network)
+        public void LogNetworkStatistics(TrainingLog log, INetwork network)
         {
-            // Calculate and log the measures of fit.
-            trainingLog.CalculateMeasuresOfFit(network, TrainingSet);
+            log.CalculateMeasuresOfFit(network, TrainingSet);
 
-            // Calculate and log the forecast accuracy.
             if (TestSet != null)
             {
-                trainingLog.CalculateForecastAccuracy(network, TestSet);
+                log.CalculateForecastAccuracy(network, TestSet);
             }
         }
     }

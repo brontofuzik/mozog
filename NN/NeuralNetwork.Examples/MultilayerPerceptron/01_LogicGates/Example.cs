@@ -8,8 +8,6 @@ using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
 {
-    // TODO Split into files.
-    // TODO Add more logic gates.
     static class Example
     {
         private static DataSet data;    
@@ -25,7 +23,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
 
             var architecture = NetworkArchitecture.Feedforward(
                 new[] {data.InputSize, 2, data.OutputSize},
-                new LinearActivationFunction());
+                new LogisticActivationFunction());
             network = new Network(architecture);
 
             // Step 3: Train the network.
@@ -33,7 +31,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             var trainer = new BackpropagationTrainer(data, null, null);
 
             var args = new BackpropagationArgs(
-                maxIterations: 10000,
+                maxIterations: 1000,
                 maxError: 0.001,
                 learningRate: 0.01,
                 momentum: 0.9,

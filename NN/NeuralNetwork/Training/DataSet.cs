@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Mozog.Utils;
-using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.Training
 {
@@ -98,15 +97,6 @@ namespace NeuralNetwork.Training
         {
             points.Clear();
         }
-
-        // TODO ???
-        //public TrainingSet SeparateTestSet(int index, int size)
-        //{
-        //    TrainingSet testSet = new TrainingSet(InputVectorLength, OutputVectorLength);
-        //    testSet.pattern.AddRange(pattern.GetRange(index, size));
-        //    pattern.RemoveRange(index, size);
-        //    return testSet;
-        //}
 
         public override string ToString() => $"{{\n{String.Join("\n", points.Select((p, i) => $"\t{i}: {p}"))}\n}}";
     }

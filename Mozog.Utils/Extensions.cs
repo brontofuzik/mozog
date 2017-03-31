@@ -31,6 +31,16 @@ namespace Mozog.Utils
             }
         }
 
+        public static void ForEach<T>(this IList<T> list, Action<T> action)
+        {
+            list.AsEnumerable().ForEach(action);
+        }
+
+        public static void ForEach<T>(this IList<T> list, Action<T, int> action)
+        {
+            list.AsEnumerable().ForEach(action);
+        }
+
         public static void ForEachWithinRange<T>(this T[] array, int from, int to, Action<int> action)
         {
             for (int i = from; i < to; i++)

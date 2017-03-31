@@ -8,8 +8,6 @@ using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 {
-    // TODO Rename to 'keywords'.
-    // TODO Split into files.
     static class Example
     {
         private static DataSet data;

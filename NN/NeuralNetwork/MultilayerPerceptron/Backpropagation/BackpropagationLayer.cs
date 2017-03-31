@@ -49,6 +49,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             Neurons.ForEach(n => n.Backpropagate());
         }
 
-        public override string ToString() => "BP" + base.ToString();
+        public override string ToString() => "Bp-" + base.ToString();
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Mozog.Utils;
 using NeuralNetwork.ActivationFunctions;
 using NeuralNetwork.Interfaces;
@@ -27,12 +26,12 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public override void Initialize()
         {
-            Neurons.AsEnumerable().ForEach(n => n.Initialize());
+            Neurons.ForEach(n => n.Initialize());
         }
 
         public void Evaluate()
         {
-            Neurons.AsEnumerable().ForEach(n => n.Evaluate());
+            Neurons.ForEach(n => n.Evaluate());
         }
 
         // TODO Jitter
@@ -41,21 +40,8 @@ namespace NeuralNetwork.MultilayerPerceptron
         //    Neurons.ForEach(n => n.Jitter(noiseLimit));
         //}
 
-        public double[] GetOutputVector() => Neurons.Select(n => n.Output).ToArray();
+        public double[] GetOutput() => Neurons.Select(n => n.Output).ToArray();
 
-        // TODO ToString
-        public override string ToString()
-        {
-            var sb = new StringBuilder("AL\n[\n");
-
-            int neuronIndex = 0;
-            foreach (IActivationNeuron neuron in Neurons)
-            {
-                sb.Append("  " + neuronIndex++ + " : " + neuron + "\n");
-            }
-            sb.Append("]");
-
-            return sb.ToString();
-        }
+        public override string ToString() => "AL" + base.ToString();
     }
 }

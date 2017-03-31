@@ -31,10 +31,6 @@ namespace NeuralNetwork.MultilayerPerceptron
         //    SourceSynapses.ForEach(s => s.Jitter(noiseLimit));
         //}
 
-        public override string ToString()
-        {
-            var synapses = String.Join(", ", SourceSynapses);
-            return $"AN([{synapses}]), {Input:F2}, {Output:F2})";
-        }
+        public override string ToString() => $"AN([{String.Join(", ", SourceSynapses)}], {Input:F2}, {Output:F2})";
     }
 }

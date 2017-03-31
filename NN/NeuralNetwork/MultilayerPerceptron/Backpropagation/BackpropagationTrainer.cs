@@ -19,11 +19,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         public override TrainingLog Train(INetwork network, BackpropagationArgs args)
         {
             var architecture = network.Architecture;
-            BackpropagationNetwork backpropagationNetwork = new BackpropagationNetwork(architecture);
+            var backpropNetwork = new BackpropagationNetwork(architecture);
 
-            var log = Train(backpropagationNetwork, args);
+            var log = Train(backpropNetwork, args);
 
-            var weights = backpropagationNetwork.GetWeights();
+            var weights = backpropNetwork.GetWeights();
             network.SetWeights(weights);
 
             return log;
@@ -35,16 +35,15 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         private TrainingLog Train(BackpropagationNetwork network, BackpropagationArgs args)
         {
-            network.SetLearningRates(args.LearningRate);
-            // TODO Momentum
-            //backpropagationNetwork.SetConnectorMomenta(strategy.Momentum);
+            network.SetLearningRate(args.LearningRate);
+            network.SetMomentum(args.Momentum);
 
             network.Initialize();
 
-            int iterationCount = 0;
-            double networkError = network.CalculateError(TrainingSet);
-            double cumulativeNetworkError = Double.MaxValue;
+            double networkError = 0.0;
 
+            int iterationCount = 0;
+            double cumulativeNetworkError = Double.MaxValue;
             while (!args.IsDone(iterationCount, cumulativeNetworkError))
             {
                 TrainWithSet(network, TrainingSet.RandomPoints, args.BatchLearning);
@@ -70,21 +69,21 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
                 // DEBUG
                 if (iterationCount % 10 == 0)
                 {
-                    Console.WriteLine("{0:D5} : {1:F2}, {2:F2}", iterationCount, networkError, cumulativeNetworkError);
+                    Console.WriteLine($"{iterationCount:D5}: {networkError:F2}, {cumulativeNetworkError:F2}");
                 }
             }
 
             return new TrainingLog(iterationCount, networkError);
         }
 
-        private void TrainWithSet(BackpropagationNetwork network, IEnumerable<LabeledDataPoint> set, bool batch)
+        private void TrainWithSet(BackpropagationNetwork network, IEnumerable<LabeledDataPoint> data, bool batch)
         {
             if (batch)
             {
                 network.ResetPartialDerivatives();
             }
 
-            set.ForEach(p => TrainWithPoint(network, p, batch));
+            data.ForEach(p => TrainWithPoint(network, p, batch));
 
             if (batch)
             {

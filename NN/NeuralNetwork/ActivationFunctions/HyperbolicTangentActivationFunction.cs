@@ -14,5 +14,7 @@ namespace NeuralNetwork.ActivationFunctions
             double y = Evaluate(x);
             return 1 - Math.Pow(y, 2);
         }
+
+        public override string ToString() => "Tanh";
     }
 }

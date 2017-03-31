@@ -116,7 +116,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
             }
 
             public double[] EncodeOutput(int index)
-                => Vector.IndexToVector(KeywordCount, index);
+                => Vector.IndexToVector(index, KeywordCount);
 
             // Index
             public int DecodeOutput(double[] output)

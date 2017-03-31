@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Mozog.Utils;
 using NeuralNetwork.Interfaces;
 using NeuralNetwork.Training;
@@ -46,6 +45,7 @@ namespace NeuralNetwork.MultilayerPerceptron
         {
             biasLayer = (InputLayer)MakeLayer(new NetworkArchitecture.Layer(1));
             biasLayer.Network = this;
+            biasLayer.SetOutput(new[] {-1.0});
             ActivationLayers.ForEach(l => l.Connect(biasLayer));
         }
 
@@ -99,11 +99,11 @@ namespace NeuralNetwork.MultilayerPerceptron
             Layers.ForEach(l => l.Initialize());
         }
 
-        public double[] Evaluate(double[] inputVector)
+        public double[] Evaluate(double[] input)
         {
-            SetInputVector(inputVector);
+            SetInput(input);
             Evaluate();
-            return GetOutputVector();
+            return GetOutput();
         }
 
         public TOutput EvaluateEncoded<TInput, TOutput>(TInput input, IEncoder<TInput, TOutput> encoder)
@@ -115,9 +115,9 @@ namespace NeuralNetwork.MultilayerPerceptron
         //    Synapses.ForEach(s => Jitter(noiseLimit));
         //}
 
-        private void SetInputVector(double[] inputVector)
+        private void SetInput(double[] input)
         {
-            InputLayer.SetOutputVector(inputVector);
+            InputLayer.SetOutput(input);
         }
 
         private void Evaluate()
@@ -126,18 +126,16 @@ namespace NeuralNetwork.MultilayerPerceptron
             OutputLayer.Evaluate();
         }
 
-        private double[] GetOutputVector() => OutputLayer.GetOutputVector();
+        private double[] GetOutput() => OutputLayer.GetOutput();
 
         public double CalculateError(DataSet dataSet)
             => 0.5 * dataSet.Sum(point => CalculateError(point));
 
-        public double CalculateError(LabeledDataPoint dataPoint)
+        public double CalculateError(LabeledDataPoint point)
         {
-            double[] output = Evaluate(dataPoint.Input);
-            double[] desiredOutput = dataPoint.Output;
-
-            // TODO Use Vector utils.
-            return output.Select((o, i) => Math.Pow(o - desiredOutput[i], 2)).Sum();
+            var actualOutput = Evaluate(point.Input);
+            var expectedOutput = point.Output;
+            return Vector.Distance(actualOutput, expectedOutput);
         }
 
         public double[] GetWeights() => Synapses.Select(s => s.Weight).ToArray();
@@ -147,25 +145,7 @@ namespace NeuralNetwork.MultilayerPerceptron
             Synapses.ForEach((s, i) => s.Weight = weights[i]);
         }
 
-        // TODO ToString
         public override string ToString()
-        {
-            StringBuilder sb = new StringBuilder("MLP\n[\n");
-
-            // The input layer.
-            int layerIndex = 0;
-            sb.Append(layerIndex++ + " : " + InputLayer + "\n");
-
-            // The hidden layers.
-            foreach (IActivationLayer hiddenLayer in ActivationLayers)
-            {
-                sb.Append(layerIndex++ + " : " + hiddenLayer + "\n");
-            }
-
-            // The output layer.
-            sb.Append(layerIndex + " : " + OutputLayer + "\n]");
-
-            return sb.ToString();
-        }
+            => $"MLP[\n{String.Join(",\n", Layers.Select((l, i) => $"\t{i}: {l}"))}\n]";
     }
 }

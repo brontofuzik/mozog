@@ -50,5 +50,7 @@ namespace NeuralNetwork.ActivationFunctions
             double y = Evaluate(x);
             return Gain * y * (1 - y);
         }
+
+        public override string ToString() => "Log";
     }
 }

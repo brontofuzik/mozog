@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Mozog.Utils;
 using NeuralNetwork.Interfaces;
@@ -41,7 +42,7 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public IList<TNeuron> Neurons { get; } = new List<TNeuron>();
 
-        public IEnumerable<INeuron> Neurons_Untyped => Neurons.AsEnumerable().Cast<INeuron>();
+        public IEnumerable<INeuron> Neurons_Untyped => Neurons.Cast<INeuron>();
 
         public int NeuronCount => Neurons.Count;
 
@@ -51,5 +52,8 @@ namespace NeuralNetwork.MultilayerPerceptron
         {
             Neurons_Untyped.ForEach(n => n.Initialize());
         }
+
+        public override string ToString()
+            => $"[\n{String.Join(",\n", Neurons.Select((n, i) => $"\t\t{i}: {n}"))}\n\t]";
     }
 }

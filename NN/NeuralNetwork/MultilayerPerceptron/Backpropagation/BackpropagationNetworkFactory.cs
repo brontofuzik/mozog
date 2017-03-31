@@ -1,6 +1,4 @@
-﻿using NeuralNetwork.Interfaces;
-
-namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
+﻿namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
     /*
     internal class BackpropagationNetworkFactory : NetworkFactory

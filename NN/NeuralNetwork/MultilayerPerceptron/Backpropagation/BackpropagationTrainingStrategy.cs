@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using NeuralNetwork.Training;
-
-namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
+﻿namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
     /* TODO Remove
     public class BackpropagationTrainingStrategy

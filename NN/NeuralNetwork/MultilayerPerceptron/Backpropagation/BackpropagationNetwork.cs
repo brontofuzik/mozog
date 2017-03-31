@@ -20,13 +20,28 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         #endregion // Construction
 
+        private new BackpropagationLayer OutputLayer => (BackpropagationLayer)base.OutputLayer;
+
+        private IEnumerable<BackpropagationLayer> HiddenLayersReverse()
+        {
+            for (int i = Layers.Count - 2; i > 0; i--)
+            {
+                yield return Layers[i] as BackpropagationLayer;
+            }
+        }
+
         private new IEnumerable<BackpropagationSynapse> Synapses => base.Synapses.Cast<BackpropagationSynapse>();
 
         public double Error { get; private set; }
 
-        public void SetLearningRates(double learningRate)
+        public void SetLearningRate(double learningRate)
         {
             Synapses.ForEach(s => s.LearningRate = learningRate);
+        }
+
+        public void SetMomentum(double momentum)
+        {
+            Synapses.ForEach(s => s.Momentum = momentum);
         }
 
         public void ResetError()
@@ -41,25 +56,14 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         public void UpdateError()
         {
-            double partialError = 0.0;
-            foreach (BackpropagationNeuron outputNeuron in OutputLayer.Neurons)
-            {
-                partialError += Math.Pow(outputNeuron.PartialDerivative, 2);
-            }
-
-            Error += 0.5 * partialError;
+            Error += 0.5 * OutputLayer.Neurons.Cast<BackpropagationNeuron>().Sum(n => Math.Pow(n.PartialDerivative, 2));
         }
 
         // Replaces three steps - (b), (c) and (d) - with one.
-        public void Backpropagate(double[] desiredOutputVector)
+        public void Backpropagate(double[] expectedOutput)
         {
-            (OutputLayer as BackpropagationLayer).Backpropagate(desiredOutputVector);
-
-            // Hidden layers (backwards).
-            for (int i = Layers.Count - 2; i > 0; i--)
-            {
-                (Layers[i] as BackpropagationLayer).Backpropagate();
-            }
+            OutputLayer.Backpropagate(expectedOutput);
+            HiddenLayersReverse().ForEach(l => l.Backpropagate());
         }
 
         public void UpdatePartialDerivatives()
@@ -77,7 +81,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             Synapses.ForEach(s => s.UpdateLearningRate());
         }
 
-        public override string ToString() => "BP" + base.ToString();
+        public override string ToString() => "Bp-" + base.ToString();
     }
 }
 

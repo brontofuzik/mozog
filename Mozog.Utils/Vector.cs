@@ -63,26 +63,31 @@ namespace Mozog.Utils
             return vector.Select(e => e * factor).ToArray();
         }
 
-        // TODO Optimize
-        public static double[] IndexToVector(int length, int n)
-            => Enumerable.Range(0, length).Select(e => e == n ? 1.0 : 0.0).ToArray();
+        // None active if index -1.
+        public static double[] IndexToVector(int index, int length)
+        {
+            var vector = new double[length];
+            if (index >= 0)
+            {
+                vector[index] = 1.0;
+            }
+            return vector;
+        }
 
-        // TODO Optimize
+        // Index is -1 if none/>1 active. 
         public static int VectorToIndex(double[] vector, double threshold = 0.8)
         {
-            int keywordIndex = -1;
-            int activeNeuronCount = 0;
-
+            int index = -1;
+            int activeCount = 0;
             for (int i = 0; i < vector.Length; i++)
             {
                 if (vector[i] >= threshold)
                 {
-                    keywordIndex = i;
-                    activeNeuronCount++;
+                    index = i;
+                    activeCount++;
                 }
             }
-
-            return activeNeuronCount == 1 ? keywordIndex : -1;
+            return activeCount == 1 ? index : -1;
         }
 
         public static int HammingDistance(double[] vector1, double[] vector2)

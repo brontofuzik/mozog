@@ -32,10 +32,10 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             {(1, 1), 0}
         };
 
-        private class _Encoder : IEncoder<(int A, int B), int>
+        private class _Encoder : IEncoder<(int a, int b), int>
         {
-            public double[] EncodeInput((int A, int B) input)
-                => new double[] { input.A, input.B };
+            public double[] EncodeInput((int a, int b) input)
+                => new double[] { input.a, input.b };
 
             public double[] EncodeOutput(int output)
                 => new double[] { output };

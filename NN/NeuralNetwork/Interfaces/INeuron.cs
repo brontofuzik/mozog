@@ -12,7 +12,7 @@ namespace NeuralNetwork.Interfaces
 
         List<ISynapse> SourceSynapses { get; }
 
-        // TODO Move to BackpropagationNeuron.
+        // TODO Move to BackpropagationNeuron?
         List<ISynapse> TargetSynapses { get; }
 
         void Connect(INeuron sourceNeuron);

@@ -24,7 +24,7 @@ namespace NeuralNetwork.Interfaces
 
     public interface IInputLayer : ILayer<IInputNeuron>
     {
-        void SetOutputVector(double[] outputVector);
+        void SetOutput(double[] outputVector);
     }
 
     public interface IActivationLayer : ILayer<IActivationNeuron>
@@ -36,6 +36,6 @@ namespace NeuralNetwork.Interfaces
         // TODO Jitter
         //void Jitter(double noiseLimit)
 
-        double[] GetOutputVector();
+        double[] GetOutput();
     }
 }
