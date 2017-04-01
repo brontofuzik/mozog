@@ -23,7 +23,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
 
             var architecture = NetworkArchitecture.Feedforward(
                 new[] {data.InputSize, 2, data.OutputSize},
-                new LogisticActivationFunction());
+                new HyperbolicTangent());
             network = new Network(architecture);
 
             // Step 3: Train the network.

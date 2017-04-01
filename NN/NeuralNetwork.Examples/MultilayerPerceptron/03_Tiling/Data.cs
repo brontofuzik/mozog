@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using Mozog.Utils;
 using NeuralNetwork.Interfaces;
 using NeuralNetwork.Training;
@@ -24,7 +25,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
         public const int Rows = imageHeight / TileSize;
         public const int Columns = imageWidth / TileSize;
 
-        public static readonly IEncoder<Bitmap, Bitmap> Encoder = new _Encoder();
+        public static readonly IEncoder<Bitmap, Bitmap> Encoder = new TilingEncoder();
 
         public static DataSet Create()
         {          
@@ -33,21 +34,23 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
 
             OriginalTiles = SplitImage(originalImage);
 
-            var trainingSet = new EncodedDataSet<Bitmap, Bitmap>(TilePixels, TilePixels, Encoder);
-            foreach (var c in TileCoordinates)
+            var data = EncodedDataSet.New(TilePixels, TilePixels, Encoder);
+            foreach (var originalTile in OriginalTileList)
             {
-                var originalTile = OriginalTiles[c.row, c.column];
                 var rotatedTile = CloneTile(originalTile);
                 4.Times(() =>
                 {
-                    trainingSet.Add(rotatedTile, originalTile);
+                    data.Add(rotatedTile, originalTile);
                     rotatedTile.RotateFlip(RotateFlipType.Rotate90FlipNone);
                 });
             }
-            return trainingSet;
+            return data;
         }
 
         public static Bitmap[,] OriginalTiles { get; private set; }
+
+        public static IEnumerable<Bitmap> OriginalTileList
+            => TileCoordinates.Select(c => OriginalTiles[c.Item1, c.Item2]);
 
         public static IEnumerable<(int row, int column, int index)> TileCoordinates
             => Coordinates(Rows, Columns);
@@ -55,7 +58,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
         private static Bitmap CropBitmap(Bitmap bitmap, int x, int y, int width, int height)
             => bitmap.Clone(new Rectangle(x, y, width, height), bitmap.PixelFormat);
 
-        private static Bitmap[,] SplitImage(Bitmap picture)
+        public static Bitmap[,] SplitImage(Bitmap picture)
         {
             var tiles = new Bitmap[Rows, Columns];
             foreach (var c in TileCoordinates)
@@ -98,7 +101,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
             }
         }
 
-        private class _Encoder : IEncoder<Bitmap, Bitmap>
+        private class TilingEncoder : IEncoder<Bitmap, Bitmap>
         {
             public double[] EncodeInput(Bitmap tile)
             {

@@ -14,9 +14,20 @@ namespace NeuralNetwork.Interfaces
     {
         public Layer[] Layers { get; set; }
 
-        // Shortcut
-        public static INetworkArchitecture Feedforward(int[] layers, IActivationFunction activation)
-            => new FeedforwardArchitecture(layers, activation);
+        public static INetworkArchitecture Feedforward((int neurons, IActivationFunction activation)[] layers)
+            => new NetworkArchitecture
+                {
+                    Layers = layers.Select((l, i) => new Layer(l.neurons)
+                    {
+                        SourceLayers = l.activation != null ? new[] {i - 1} : new int[0],
+                        Activation = l.activation
+                    }).ToArray()
+                };
+
+        public static INetworkArchitecture Feedforward(int[] neurons, IActivationFunction activation)
+            => Feedforward(neurons.Select((n, i) => (n, i > 0 ? activation : null)).ToArray());
+
+        public override string ToString() => $"[{String.Join(", ", Layers.AsEnumerable())}]";
 
         public class Layer
         {
@@ -35,24 +46,5 @@ namespace NeuralNetwork.Interfaces
 
             public override string ToString() => $"({Neurons}, {Activation})";
         }
-    }
-
-    public class FeedforwardArchitecture : NetworkArchitecture
-    {
-        public FeedforwardArchitecture((int neurons, IActivationFunction activation)[] layers)
-        {
-            Layers = layers.Select((l, i) => new Layer(l.neurons)
-            {
-                SourceLayers = l.activation != null ? new[] {i - 1} : new int[0],
-                Activation = l.activation
-            }).ToArray();
-        }
-
-        public FeedforwardArchitecture(int[] neurons, IActivationFunction activation)
-            : this(neurons.Select((n, i) => (n, i > 0 ? activation : null)).ToArray())
-        {      
-        }
-
-        public override string ToString() => $"[{String.Join(", ", Layers.AsEnumerable())}]";
     }
 }

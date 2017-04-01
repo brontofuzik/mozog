@@ -1,47 +1,60 @@
-﻿using System;
-using NeuralNetwork.Interfaces;
+﻿using NeuralNetwork.Interfaces;
 using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
 {
     static class Data
     {
-        public static readonly IEncoder<(int, int), int> Encoder = new _Encoder();
+        private const bool F = false;
+        private const bool T = true;
 
-        public static DataSet AND => new EncodedDataSet<(int, int), int>(2, 1, Encoder)
+        public static readonly IEncoder<(bool, bool), bool> Encoder = new LogicGatesEncoder();
+
+        public static DataSet AND => new LogicGatesData
         {
-            {(0, 0), 0},
-            {(0, 1), 0},
-            {(1, 0), 0},
-            {(1, 1), 1}
+            {(F, F), F},
+            {(F, T), F},
+            {(T, F), F},
+            {(T, T), T}
         };
 
-        public static DataSet OR => new EncodedDataSet<(int, int), int>(2, 1, Encoder)
+        public static DataSet OR => new LogicGatesData
         {
-            {(0, 0), 0},
-            {(0, 1), 1},
-            {(1, 0), 1},
-            {(1, 1), 1}
+            {(F, F), F},
+            {(F, T), T},
+            {(T, F), T},
+            {(T, T), T}
         };
 
-        public static DataSet XOR => new EncodedDataSet<(int, int), int>(2, 1, Encoder)
+        public static DataSet XOR => new LogicGatesData
         {
-            {(0, 0), 0},
-            {(0, 1), 1},
-            {(1, 0), 1},
-            {(1, 1), 0}
+            {(F, F), F},
+            {(F, T), T},
+            {(T, F), T},
+            {(T, T), F}
         };
 
-        private class _Encoder : IEncoder<(int a, int b), int>
+        private class LogicGatesData : EncodedDataSet<(bool, bool), bool>
         {
-            public double[] EncodeInput((int a, int b) input)
-                => new double[] { input.a, input.b };
+            public LogicGatesData() : base(2, 1, Encoder)
+            {
+            }
+        }
 
-            public double[] EncodeOutput(int output)
-                => new double[] { output };
+        private class LogicGatesEncoder : IEncoder<(bool a, bool b), bool>
+        {
+            public double[] EncodeInput((bool a, bool b) input)
+                => new[] { BoolToReal(input.a), BoolToReal(input.b) };
 
-            public int DecodeOutput(double[] output)
-                => (int)Math.Round(output[0]);
+            public double[] EncodeOutput(bool output)
+                => new[] { BoolToReal(output) };
+
+            public bool DecodeOutput(double[] output)
+                => RealToBool(output[0]);
+
+            private static double BoolToReal(bool b) => b ? 1.0 : 0.0;
+
+            private static bool RealToBool(double d) => d > 0.5;
         }
     }
 }

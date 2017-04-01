@@ -34,25 +34,25 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
         public const int MaxKeywordLength = 10;
         public const int KeywordCount = 10;
 
-        public static readonly IEncoder<string, int> Encoder = new _Encoder();
+        public static readonly IEncoder<string, int> Encoder = new KeywordsEncoder();
 
         public static DataSet Create()
         {
-            var dataSet = new EncodedDataSet<string, int>(MaxKeywordLength * 5, KeywordCount, Encoder);
+            var data = EncodedDataSet.New(MaxKeywordLength * 5, KeywordCount, Encoder);
             for (int i = 0; i < KeywordCount; i++)
             {
                 // Original keyword
                 string originalKeyword = Keywords[i];
-                dataSet.Add(originalKeyword, i, originalKeyword);
+                data.Add(originalKeyword, i, tag: originalKeyword);
 
                 // Mutated keywords
                 4.Times(() =>
                 {
                     string mutatedKeyword = MutateKeyword(originalKeyword);
-                    dataSet.Add(mutatedKeyword, -1, mutatedKeyword);
+                    data.Add(mutatedKeyword, -1, tag: mutatedKeyword);
                 });
             }
-            return dataSet;
+            return data;
         }
 
         public static string MutateKeyword(string keyword)
@@ -85,7 +85,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
         private static char RandomLetter() => (char)('a' + StaticRandom.Int(0, 26));
 
-        private class _Encoder : IEncoder<string, int>
+        private class KeywordsEncoder : IEncoder<string, int>
         {
             public double[] EncodeInput(string keyword)
             {

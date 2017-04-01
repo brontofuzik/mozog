@@ -24,8 +24,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         private new IEnumerable<BackpropagationNeuron> Neurons
             => base.Neurons.Cast<BackpropagationNeuron>();
 
-        internal new IDerivableActivationFunction ActivationFunction
-            => (IDerivableActivationFunction) base.ActivationFunction;
+        internal new IDifferentiableActivationFunction ActivationFunction
+            => (IDifferentiableActivationFunction) base.ActivationFunction;
 
         // Replaces steps b, c, d with one.
         public void Backpropagate(double[] desiredOutputVector)

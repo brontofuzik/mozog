@@ -1,6 +1,6 @@
 ﻿namespace NeuralNetwork.ActivationFunctions
 {
-    public class LinearActivationFunction : IDerivableActivationFunction
+    public class LinearFunction : IDifferentiableActivationFunction
     {
         public double Evaluate(double x) => x;
 

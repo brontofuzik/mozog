@@ -23,7 +23,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
             var architecture = NetworkArchitecture.Feedforward(
                 new[] { data.InputSize, 20, data.OutputSize },
-                new LogisticActivationFunction());
+                new LogisticFunction());
             network = new Network(architecture);
 
             // Step 3: Train the network.

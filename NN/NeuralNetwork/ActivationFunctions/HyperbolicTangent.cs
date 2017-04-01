@@ -2,10 +2,10 @@
 
 namespace NeuralNetwork.ActivationFunctions
 {
-    /// <remarks>
+    /// <summary>
     /// http://en.wikipedia.org/wiki/Hyperbolic_tangent</c>
-    /// </remarks>
-    public class HyperbolicTangentActivationFunction : IDerivableActivationFunction
+    /// </summary>
+    public class HyperbolicTangent : IDifferentiableActivationFunction
     {
         public double Evaluate(double x) => Math.Tanh(x);
 

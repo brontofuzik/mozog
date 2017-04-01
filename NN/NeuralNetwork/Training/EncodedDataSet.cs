@@ -31,4 +31,13 @@ namespace NeuralNetwork.Training
             Add(input, output, null);
         }
     }
+
+    public static class EncodedDataSet
+    {
+        public static EncodedDataSet<TInput, TOutput> New<TInput, TOutput>(int inputSize, int outputSize, IEncoder<TInput, TOutput> encoder)
+            => new EncodedDataSet<TInput, TOutput>(inputSize, outputSize, encoder);
+
+        public static EncodedDataSet<TInput, TOutput> New<TInput, TOutput>(int inputSize, IEncoder<TInput, TOutput> encoder)
+            => new EncodedDataSet<TInput, TOutput>(inputSize, encoder);
+    }
 }
