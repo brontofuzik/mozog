@@ -72,7 +72,6 @@
     <Compile Include="ActivationFunctions\LogisticFunction.cs" />
     <Compile Include="Interfaces\NetworkArchitecture.cs" />
     <Compile Include="Interfaces\INetworkSerializer.cs" />
-    <Compile Include="MultilayerPerceptron\Backpropagation\BackpropagationNetworkFactory.cs" />
     <Compile Include="HopfieldNetwork\HopfieldNetwork.cs" />
     <Compile Include="HopfieldNetwork\ActivationFunction.cs" />
     <Compile Include="HopfieldNetwork\IHopfieldNetwork.cs" />
@@ -126,7 +125,6 @@
     <Compile Include="MultilayerPerceptron\Backpropagation\BackpropagationNeuron.cs" />
     <Compile Include="MultilayerPerceptron\Backpropagation\BackpropagationSynapse.cs" />
     <Compile Include="MultilayerPerceptron\Backpropagation\BackpropagationTrainer.cs" />
-    <Compile Include="MultilayerPerceptron\Backpropagation\BackpropagationTrainingStrategy.cs" />
     <Compile Include="Training\TrainerBase.cs" />
     <Compile Include="Training\TrainingLog.cs" />
     <Compile Include="Training\LabeledDataPoint.cs" />
