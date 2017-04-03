@@ -21,9 +21,9 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public void Connect(ILayer sourceLayer)
         {
-            foreach (var neuron in Neurons_Untyped)
+            foreach (var neuron in Neurons)
             {
-                foreach (var sourceNeuron in sourceLayer.Neurons_Untyped)
+                foreach (var sourceNeuron in sourceLayer.Neurons)
                 {
                     neuron.Connect(sourceNeuron);
                 }
@@ -34,28 +34,28 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         private void AddNeuron(TNeuron neuron)
         {
-            Neurons.Add(neuron);
+            NeuronList.Add(neuron);
             neuron.Layer = this;
         }
 
         #endregion // Construction
 
-        protected IList<TNeuron> Neurons { get; } = new List<TNeuron>();
+        protected IList<TNeuron> NeuronList { get; } = new List<TNeuron>();
 
-        public IEnumerable<INeuron> Neurons_Untyped => Neurons.Cast<INeuron>();
+        public IEnumerable<TNeuron> Neurons => NeuronList;
 
-        public IEnumerable<TNeuron> Neurons_Typed => Neurons;
+        IEnumerable<INeuron> ILayer.Neurons => Neurons.Cast<INeuron>();
 
-        public int NeuronCount => Neurons.Count;
+        public int NeuronCount => NeuronList.Count;
 
         public INetwork Network { get; set; }
 
         public virtual void Initialize()
         {
-            Neurons_Untyped.ForEach(n => n.Initialize());
+            NeuronList.ForEach(n => n.Initialize());
         }
 
         public override string ToString()
-            => $"[\n{String.Join(",\n", Neurons.Select((n, i) => $"\t\t{i}: {n}"))}\n\t]";
+            => $"[\n{String.Join(",\n", NeuronList.Select((n, i) => $"\t\t{i}: {n}"))}\n\t]";
     }
 }

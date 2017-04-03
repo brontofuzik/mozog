@@ -19,15 +19,13 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         #endregion // Construction
 
-        //public new IList<InputNeuron> Neurons_Typed => Neurons;
-
-        IEnumerable<IInputNeuron> ILayer<IInputNeuron>.Neurons_Typed => Neurons;
+        public new IEnumerable<IInputNeuron> Neurons => base.Neurons;
 
         public void SetOutput(double[] output)
         {
             Debug.Assert(output.Length == NeuronCount);
 
-            output.ForEach((e, i) => Neurons[i].Output = e);
+            output.ForEach((e, i) => NeuronList[i].Output = e);
         }
 
         public override string ToString() => "IL" + base.ToString();

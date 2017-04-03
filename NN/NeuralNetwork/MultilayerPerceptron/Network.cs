@@ -79,10 +79,10 @@ namespace NeuralNetwork.MultilayerPerceptron
         #region Neurons
 
         protected IEnumerable<IInputNeuron> InputNeurons
-            => InputLayer.Neurons_Typed;
+            => InputLayer.Neurons;
 
         protected IEnumerable<IActivationNeuron> ActivationNeurons
-            => ActivationLayers.SelectMany(l => l.Neurons_Typed);
+            => ActivationLayers.SelectMany(l => l.Neurons);
 
         #endregion // Neurons
 

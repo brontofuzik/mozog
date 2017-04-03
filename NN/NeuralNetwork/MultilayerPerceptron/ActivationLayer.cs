@@ -21,19 +21,18 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         #endregion // Construction
 
-        IEnumerable<IActivationNeuron> ILayer<IActivationNeuron>.Neurons_Typed => Neurons;
+        public new IEnumerable<IActivationNeuron> Neurons => base.Neurons;
 
         public IActivationFunction ActivationFunction { get; }
-
-        
+    
         public override void Initialize()
         {
-            Neurons.ForEach(n => n.Initialize());
+            NeuronList.ForEach(n => n.Initialize());
         }
 
         public void Evaluate()
         {
-            Neurons.ForEach(n => n.Evaluate());
+            NeuronList.ForEach(n => n.Evaluate());
         }
 
         // TODO Jitter
@@ -42,7 +41,7 @@ namespace NeuralNetwork.MultilayerPerceptron
         //    Neurons.ForEach(n => n.Jitter(noiseLimit));
         //}
 
-        public double[] GetOutput() => Neurons.Select(n => n.Output).ToArray();
+        public double[] GetOutput() => NeuronList.Select(n => n.Output).ToArray();
 
         public override string ToString() => "AL" + base.ToString();
     }

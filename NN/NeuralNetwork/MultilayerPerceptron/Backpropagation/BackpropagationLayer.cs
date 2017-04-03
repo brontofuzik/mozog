@@ -21,10 +21,10 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         #endregion // Construction
 
-        public new IEnumerable<BackpropagationNeuron> Neurons_Typed => Neurons;
+        public new IEnumerable<BackpropagationNeuron> Neurons => NeuronList;
 
-        private new IEnumerable<BackpropagationNeuron> Neurons
-            => base.Neurons.Cast<BackpropagationNeuron>();
+        private new IEnumerable<BackpropagationNeuron> NeuronList
+            => base.NeuronList.Cast<BackpropagationNeuron>();
 
         public new IDifferentiableActivationFunction ActivationFunction
             => (IDifferentiableActivationFunction) base.ActivationFunction;
@@ -42,13 +42,13 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
                 throw new ArgumentException(nameof(desiredOutputVector));
             }
 
-            Neurons.ForEach((n, i) => n.Backpropagate(desiredOutputVector[i]));
+            NeuronList.ForEach((n, i) => n.Backpropagate(desiredOutputVector[i]));
         }
 
         // Replaces steps b, c, d with one.
         public void Backpropagate()
         {
-            Neurons.ForEach(n => n.Backpropagate());
+            NeuronList.ForEach(n => n.Backpropagate());
         }
 
         public override string ToString() => "Bp-" + base.ToString();

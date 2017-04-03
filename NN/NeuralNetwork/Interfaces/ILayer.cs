@@ -5,7 +5,7 @@ namespace NeuralNetwork.Interfaces
 {
     public interface ILayer
     {
-        IEnumerable<INeuron> Neurons_Untyped { get; }
+        IEnumerable<INeuron> Neurons { get; }
 
         int NeuronCount { get; }
 
@@ -19,7 +19,7 @@ namespace NeuralNetwork.Interfaces
     public interface ILayer<TNeuron> : ILayer
         where TNeuron : INeuron
     {
-        IEnumerable<TNeuron> Neurons_Typed { get; }
+        new IEnumerable<TNeuron> Neurons { get; }
     }
 
     public interface IInputLayer : ILayer<IInputNeuron>
