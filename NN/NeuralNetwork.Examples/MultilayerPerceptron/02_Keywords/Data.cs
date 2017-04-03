@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Text;
 using Mozog.Utils;
 using NeuralNetwork.Interfaces;
@@ -33,12 +34,13 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
         public const int MaxKeywordLength = 10;
         public const int KeywordCount = 10;
+        private const int Width = 5;
 
         public static readonly IEncoder<string, int> Encoder = new KeywordsEncoder();
 
         public static DataSet Create()
         {
-            var data = EncodedDataSet.New(MaxKeywordLength * 5, KeywordCount, Encoder);
+            var data = EncodedDataSet.New(MaxKeywordLength * Width, KeywordCount, Encoder);
             for (int i = 0; i < KeywordCount; i++)
             {
                 // Original keyword
@@ -89,30 +91,10 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
         {
             public double[] EncodeInput(string keyword)
             {
-                keyword = keyword.PadRight(MaxKeywordLength);
-
-                StringBuilder sb = new StringBuilder();
-                foreach (char letter in keyword)
-                {
-                    string binary;
-                    if (letter != ' ')
-                    {
-                        binary = Convert.ToString(letter - 'a', 2).PadLeft(5, '0');
-                    }
-                    else
-                    {
-                        binary = new String('1', 5);
-                    }
-                    sb.Append(binary);
-                }
-                string inputVectorString = sb.ToString();
-
-                double[] vector = new double[inputVectorString.Length];
-                for (int i = 0; i < vector.Length; i++)
-                {
-                    vector[i] = inputVectorString[i] == '1' ? 1.0 : 0.0;
-                }
-                return vector;
+                var sb = new StringBuilder();
+                keyword.ForEach(c => sb.Append(EncodeChar(c)));
+                string encoding = sb.ToString().PadRight(MaxKeywordLength * Width, '0');
+                return encoding.Select(c => c == '1' ? 1.0 : 0.0).ToArray();
             }
 
             public double[] EncodeOutput(int index)
@@ -120,7 +102,10 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
             // Index
             public int DecodeOutput(double[] output)
-                => Vector.VectorToIndex(output, 0.5);
+                => Vector.VectorToIndex(output);
+
+            private static string EncodeChar(char c)
+                => Convert.ToString(c - 'a', 2).PadLeft(Width, '0');
         }
     }
 }

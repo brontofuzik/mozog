@@ -3,7 +3,7 @@
 namespace NeuralNetwork.ActivationFunctions
 {
     /// <summary>
-    /// http://en.wikipedia.org/wiki/Hyperbolic_tangent</c>
+    /// http://en.wikipedia.org/wiki/Hyperbolic_tangent
     /// </summary>
     public class HyperbolicTangent : IDifferentiableActivationFunction
     {

@@ -23,7 +23,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
             var architecture = NetworkArchitecture.Feedforward(
                 new[] { data.InputSize, 20, data.OutputSize },
-                new LogisticFunction());
+                new SigmoidFunction());
             network = new Network(architecture);
 
             // Step 3: Train the network.
@@ -35,24 +35,28 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
                 maxError: 0.01,
                 learningRate: 0.05,
                 momentum: 0.9,
-                batchLearning: false);
+                batchLearning: true);
             var log = trainer.Train(network, args);
 
             Console.WriteLine($"Iterations: {log.IterationCount}, Error:{log.NetworkError}");
 
             // Step 4: Test the network.
 
-            foreach (string keyword in Data.Keywords)
+            for (int i = 0; i < Data.KeywordCount; i++)
             {
                 // Original keyword
-                var index = network.EvaluateEncoded(keyword, Data.Encoder);
+                string originalKeyword = Data.Keywords[i];
+                var index = network.EvaluateEncoded(originalKeyword, Data.Encoder);
+                Console.Write($"{originalKeyword}: {index}");
 
                 // Mutated keywords
                 4.Times(() =>
                 {
-                    string mutatedKeyword = Data.MutateKeyword(keyword);
+                    string mutatedKeyword = Data.MutateKeyword(originalKeyword);
                     index = network.EvaluateEncoded(mutatedKeyword, Data.Encoder);
+                    Console.Write($", {mutatedKeyword}: {index}");
                 });
+                Console.WriteLine();
             }
         }
     }

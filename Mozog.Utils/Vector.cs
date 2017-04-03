@@ -75,19 +75,27 @@ namespace Mozog.Utils
         }
 
         // Index is -1 if none/>1 active. 
-        public static int VectorToIndex(double[] vector, double threshold = 0.8)
+        public static int VectorToIndex(double[] vector, double threshold = 0.0)
         {
-            int index = -1;
-            int activeCount = 0;
-            for (int i = 0; i < vector.Length; i++)
+            if (threshold == 0.0)
             {
-                if (vector[i] >= threshold)
-                {
-                    index = i;
-                    activeCount++;
-                }
+                return vector.Select((e, i) => (element: e, index: i))
+                    .Aggregate((t1, t2) => t2.element > t1.element ? t2 : t1).index;
             }
-            return activeCount == 1 ? index : -1;
+            else
+            {
+                int index = -1;
+                int activeCount = 0;
+                for (int i = 0; i < vector.Length; i++)
+                {
+                    if (vector[i] >= threshold)
+                    {
+                        index = i;
+                        activeCount++;
+                    }
+                }
+                return activeCount == 1 ? index : -1;
+            }
         }
 
         public static int HammingDistance(double[] vector1, double[] vector2)

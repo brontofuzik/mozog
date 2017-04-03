@@ -1,32 +1,34 @@
 ﻿using System;
-using Mozog.Utils;
 
 namespace NeuralNetwork.ActivationFunctions
 {
     /// <summary>
-    /// http://en.wikipedia.org/wiki/Logistic_function">
+    /// https://en.wikipedia.org/wiki/Logistic_function
     /// </summary>
     public class LogisticFunction : IDifferentiableActivationFunction
     {
-        public LogisticFunction(double gain)
+        // Maximum value
+        private readonly double L;
+
+        // Steepness/gain
+        private readonly double k;
+
+        // Midpoint
+        private readonly double x0;
+
+        public LogisticFunction(double L = 1.0, double k = 1.0, double x0 = 0.0)
         {
-            Require.IsPositive(gain, nameof(gain));
-            Gain = gain;
+            this.L = L;
+            this.k = k;
+            this.x0 = x0;
         }
 
-        public LogisticFunction()
-            : this(1.0)
-        {
-        }
-
-        public double Gain { get; }
-
-        public double Evaluate(double x) => 1 / (1 + Math.Exp(-Gain * x));
+        public double Evaluate(double x) => L / (1 + Math.Exp(-k * (x - x0)));
 
         public double EvaluateDerivative(double x)
         {
-            double y = Evaluate(x);
-            return Gain * y * (1 - y);
+            double ex = Math.Exp(x);
+            return ex / (1 + ex);
         }
 
         public override string ToString() => "Log";

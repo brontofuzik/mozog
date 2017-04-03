@@ -18,7 +18,7 @@
 
         public double Momentum { get; set; }
 
-        private new BackpropagationNeuron TargetNeuron => (BackpropagationNeuron)base.TargetNeuron;
+        public new BackpropagationNeuron TargetNeuron => (BackpropagationNeuron)base.TargetNeuron;
 
         public override void Initialize()
         {
@@ -46,6 +46,7 @@
             Weight += weightChange + Momentum * previousWeightChange;
         }
 
+        // Only used during batch training
         public void UpdateLearningRate()
         {
             LearningRate = previousWeightChange * weightChange > 0

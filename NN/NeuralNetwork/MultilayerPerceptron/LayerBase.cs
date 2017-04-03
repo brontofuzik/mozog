@@ -6,7 +6,7 @@ using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron
 {
-    public abstract class LayerBase<TNeuron> : ILayer
+    public abstract class LayerBase<TNeuron> : ILayer<TNeuron>
         where TNeuron : INeuron
     {
         private readonly NetworkArchitecture.Layer layerPlan;
@@ -43,6 +43,8 @@ namespace NeuralNetwork.MultilayerPerceptron
         public IList<TNeuron> Neurons { get; } = new List<TNeuron>();
 
         public IEnumerable<INeuron> Neurons_Untyped => Neurons.Cast<INeuron>();
+
+        public IEnumerable<TNeuron> Neurons_Typed => Neurons;
 
         public int NeuronCount => Neurons.Count;
 

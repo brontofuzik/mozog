@@ -35,23 +35,15 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             Error = 0.0;
         }
 
-        // Replaces three steps - (b), (c) and (d) - with one.
         public void Backpropagate(double desiredOutput)
         {
             PartialDerivative = Output - desiredOutput;
             Error =  PartialDerivative * ActivationFunctionDerivative;
         }
 
-        // Replaces three steps - (b), (c) and (d) - with one.
         public void Backpropagate()
         {
-            PartialDerivative = 0.0;
-            foreach (var targetSynapse in TargetSynapses)
-            {
-                BackpropagationNeuron targetNeuron = targetSynapse.TargetNeuron as BackpropagationNeuron;
-                PartialDerivative += targetNeuron.Error * targetSynapse.Weight;
-            }
-
+            PartialDerivative = TargetSynapses.Select(s => s.TargetNeuron.Error * s.Weight).Sum();
             Error = PartialDerivative * ActivationFunctionDerivative;
         }
 

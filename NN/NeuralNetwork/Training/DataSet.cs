@@ -30,16 +30,6 @@ namespace NeuralNetwork.Training
 
         public int OutputSize { get; }
 
-        public IEnumerable<LabeledDataPoint> RandomPoints
-        {
-            get
-            {
-                LabeledDataPoint[] shuffledPoints = points.ToArray();
-                StaticRandom.Shuffle(shuffledPoints);
-                return shuffledPoints.AsEnumerable();
-            }
-        }
-
         public int Size => points.Count;
 
         public LabeledDataPoint this[int index] => points[index];
@@ -47,6 +37,13 @@ namespace NeuralNetwork.Training
         public IEnumerator<LabeledDataPoint> GetEnumerator() => points.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public IEnumerable<LabeledDataPoint> GetPointsInRandomOrder()
+        {
+            var shuffledPoints = points.ToArray();
+            StaticRandom.Shuffle(shuffledPoints);
+            return shuffledPoints.AsEnumerable();
+        }
 
         public void Add(LabeledDataPoint point)
         {

@@ -19,7 +19,7 @@ namespace NeuralNetwork.Interfaces
     public interface ILayer<TNeuron> : ILayer
         where TNeuron : INeuron
     {
-        IList<TNeuron> Neurons_Typed { get; }
+        IEnumerable<TNeuron> Neurons_Typed { get; }
     }
 
     public interface IInputLayer : ILayer<IInputNeuron>

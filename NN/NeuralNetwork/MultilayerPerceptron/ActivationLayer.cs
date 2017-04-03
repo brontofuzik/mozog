@@ -20,7 +20,7 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         #endregion // Construction
 
-        public IList<IActivationNeuron> Neurons_Typed => Neurons;
+        public new IEnumerable<IActivationNeuron> Neurons_Typed => Neurons;
 
         public IActivationFunction ActivationFunction { get; }
 

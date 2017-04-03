@@ -23,7 +23,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
 
             var architecture = NetworkArchitecture.Feedforward(
                 new[] {data.InputSize, 2, data.OutputSize},
-                new HyperbolicTangent());
+                new SigmoidFunction());
             network = new Network(architecture);
 
             // Step 3: Train the network.
@@ -33,7 +33,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             var args = new BackpropagationArgs(
                 maxIterations: 1000,
                 maxError: 0.001,
-                learningRate: 0.01,
+                learningRate: 0.05,
                 momentum: 0.9,
                 batchLearning: true);      
             var log = trainer.Train(network, args);

@@ -21,7 +21,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         #endregion // Construction
 
-        private new IEnumerable<BackpropagationNeuron> Neurons
+        public new IEnumerable<BackpropagationNeuron> Neurons
             => base.Neurons.Cast<BackpropagationNeuron>();
 
         internal new IDifferentiableActivationFunction ActivationFunction

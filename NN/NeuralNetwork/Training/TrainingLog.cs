@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.Training
@@ -18,8 +19,11 @@ namespace NeuralNetwork.Training
         // Residual sum of squares (within-sample)
         public double RSS_TrainingSet { get; private set; }
 
-        // Fesidual standard deviation (within-sample)
+        // Residual standard deviation (within-sample)
         public double RSD_TrainingSet { get; private set; }
+
+        // Mean squared error
+        public double MSE_TrainingSet { get; private set; }
 
         // Akaike information criterion
         public double AIC { get; private set; }
@@ -29,9 +33,6 @@ namespace NeuralNetwork.Training
 
         // Bayesian information criterion
         public double BIC { get; private set; }
-
-        // Schwarz Bayesian criterion.
-        public double SBC { get; private set; }
 
         /// Residual sum of squares (out-of-sample)
         public double RSS_TestSet { get; private set; }
@@ -46,11 +47,11 @@ namespace NeuralNetwork.Training
             int p = network.SynapseCount;
 
             RSS_TrainingSet = CalculateRSS(network, trainingSet);
-            RSD_TrainingSet = Math.Sqrt(RSS_TrainingSet / (double)n);
-            AIC = n * Math.Log(RSS_TrainingSet / (double)n) + 2 * p;
+            RSD_TrainingSet = Math.Sqrt(RSS_TrainingSet / (n - 2));
+            MSE_TrainingSet = RSS_TrainingSet / n;
+            AIC = n * Math.Log(MSE_TrainingSet) + 2 * p;
             AICC = AIC + 2 * (p + 1) * (p + 2) / (n - p - 2);
-            BIC = n * Math.Log(RSS_TrainingSet / (double)n) + p + p * Math.Log(n);
-            SBC = n * Math.Log(RSS_TrainingSet / (double)n) + p * Math.Log(n);
+            BIC = n * Math.Log(MSE_TrainingSet) + p * Math.Log(n);
         }
 
         // Test set performance
@@ -63,18 +64,16 @@ namespace NeuralNetwork.Training
             RSD_TestSet = Math.Sqrt(RSS_TestSet / (double)n);
         }
 
-        // TODO Fix
         private static double CalculateRSS(INetwork network, DataSet data)
         {
-            double rss = 0.0;
-            foreach (var point in data)
+            double SinglePoint(LabeledDataPoint point)
             {
-                double[] output = network.Evaluate(point.Input);
-                double[] desiredOutput = point.Output;
-
-                rss += Math.Pow(output[0] - desiredOutput[0], 2);
+                var output = network.Evaluate(point.Input);
+                var expectedOutput = point.Output;
+                return Math.Pow(output[0] - expectedOutput[0], 2);
             }
-            return rss;
+
+            return data.Sum(point => SinglePoint(point));
         }
     }
 }

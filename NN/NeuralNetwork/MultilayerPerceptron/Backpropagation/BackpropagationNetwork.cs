@@ -54,9 +54,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             Synapses.ForEach(s => s.ResetPartialDerivative());
         }
 
+        // Mean-squared error
         public void UpdateError()
         {
-            Error += 0.5 * OutputLayer.Neurons.Cast<BackpropagationNeuron>().Sum(n => Math.Pow(n.PartialDerivative, 2));
+            // TODO Remove casting.
+            Error += 0.5 * OutputLayer.Neurons.Sum(n => Math.Pow(n.PartialDerivative, 2));
         }
 
         // Replaces three steps - (b), (c) and (d) - with one.
@@ -76,7 +78,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             Synapses.ForEach(s => s.UpdateWeight());
         }
 
-        public void UpdateSynapseLearningRates()
+        public void UpdateLearningRates()
         {
             Synapses.ForEach(s => s.UpdateLearningRate());
         }

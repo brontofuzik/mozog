@@ -18,7 +18,7 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         #endregion // Construction
 
-        public IList<IInputNeuron> Neurons_Typed => Neurons;
+        public new IList<IInputNeuron> Neurons_Typed => Neurons;
 
         public void SetOutput(double[] output)
         {

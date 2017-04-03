@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivationFunctions\LogisticFunction.cs" />
     <Compile Include="Interfaces\NetworkArchitecture.cs" />
     <Compile Include="Interfaces\INetworkSerializer.cs" />
     <Compile Include="MultilayerPerceptron\Backpropagation\BackpropagationNetworkFactory.cs" />
@@ -102,7 +103,7 @@
     <Compile Include="Interfaces\INetwork.cs" />
     <Compile Include="ActivationFunctions\IDifferentiableActivationFunction.cs" />
     <Compile Include="ActivationFunctions\IActivationFunction.cs" />
-    <Compile Include="ActivationFunctions\LogisticFunction.cs" />
+    <Compile Include="ActivationFunctions\SigmoidFunction.cs" />
     <Compile Include="MultilayerPerceptron\ActivationLayer.cs" />
     <Compile Include="MultilayerPerceptron\LayerBase.cs" />
     <Compile Include="MultilayerPerceptron\Network.cs" />

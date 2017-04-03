@@ -23,7 +23,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
 
             // Step 2: Create the network.
 
-            var architecture = NetworkArchitecture.Feedforward(new[] { 100, 4, 9, 100 }, new LogisticFunction());
+            var architecture = NetworkArchitecture.Feedforward(new[] { 100, 4, 9, 100 }, new SigmoidFunction());
             network = new Network(architecture);
 
             // Step 3: Train the network.

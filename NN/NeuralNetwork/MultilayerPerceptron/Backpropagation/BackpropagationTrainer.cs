@@ -46,7 +46,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             double cumulativeNetworkError = Double.MaxValue;
             while (!args.IsDone(iterationCount, cumulativeNetworkError))
             {
-                TrainWithSet(network, TrainingSet.RandomPoints, args.BatchLearning);
+                TrainWithSet(network, TrainingSet, args.BatchLearning);
                 iterationCount++;
 
                 // Calculate the network error.
@@ -76,10 +76,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             return new TrainingLog(iterationCount, networkError);
         }
 
-        private void TrainWithSet(BackpropagationNetwork network, IEnumerable<LabeledDataPoint> data, bool batch)
+        private void TrainWithSet(BackpropagationNetwork network, DataSet data, bool batch)
         {
             if (batch)
             {
+                // Synapses
                 network.ResetPartialDerivatives();
             }
 
@@ -87,8 +88,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
             if (batch)
             {
+                // Synapses
                 network.UpdateWeights();
-                network.UpdateSynapseLearningRates();
+                network.UpdateLearningRates();
             }
         }
 
@@ -96,17 +98,19 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         {
             if (!batch)
             {
+                // Synapses
                 network.ResetPartialDerivatives();
             }
 
-            network.Evaluate(point.Input);
-            network.Backpropagate(point.Output);
+            network.Evaluate(point.Input); // Neurons
+            network.Backpropagate(point.Output); // Neurons
 
-            network.UpdateError();
-            network.UpdatePartialDerivatives();
+            network.UpdateError(); // Network
+            network.UpdatePartialDerivatives(); // Synapses
 
             if (!batch)
             {
+                // Synapses
                 network.UpdateWeights();
             }
         }
