@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Mozog.Utils;
 using NeuralNetwork.ActivationFunctions;
@@ -6,7 +7,7 @@ using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron
 {
-    public class ActivationLayer : LayerBase<IActivationNeuron>, IActivationLayer
+    public class ActivationLayer : LayerBase<ActivationNeuron>, IActivationLayer
     {
         #region Construction
 
@@ -16,14 +17,15 @@ namespace NeuralNetwork.MultilayerPerceptron
             ActivationFunction = layer.Activation;
         }
 
-        protected override IActivationNeuron MakeNeuron() => new ActivationNeuron();
+        protected override ActivationNeuron MakeNeuron() => new ActivationNeuron();
 
         #endregion // Construction
 
-        public new IEnumerable<IActivationNeuron> Neurons_Typed => Neurons;
+        IEnumerable<IActivationNeuron> ILayer<IActivationNeuron>.Neurons_Typed => Neurons;
 
         public IActivationFunction ActivationFunction { get; }
 
+        
         public override void Initialize()
         {
             Neurons.ForEach(n => n.Initialize());

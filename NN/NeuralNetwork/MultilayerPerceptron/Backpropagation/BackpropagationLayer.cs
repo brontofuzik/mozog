@@ -16,15 +16,17 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         {
         }
 
-        protected override IActivationNeuron MakeNeuron()
+        protected override ActivationNeuron MakeNeuron()
             => new BackpropagationNeuron();
 
         #endregion // Construction
 
-        public new IEnumerable<BackpropagationNeuron> Neurons
+        public new IEnumerable<BackpropagationNeuron> Neurons_Typed => Neurons;
+
+        private new IEnumerable<BackpropagationNeuron> Neurons
             => base.Neurons.Cast<BackpropagationNeuron>();
 
-        internal new IDifferentiableActivationFunction ActivationFunction
+        public new IDifferentiableActivationFunction ActivationFunction
             => (IDifferentiableActivationFunction) base.ActivationFunction;
 
         // Replaces steps b, c, d with one.

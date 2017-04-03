@@ -58,7 +58,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         public void UpdateError()
         {
             // TODO Remove casting.
-            Error += 0.5 * OutputLayer.Neurons.Sum(n => Math.Pow(n.PartialDerivative, 2));
+            Error += 0.5 * OutputLayer.Neurons_Typed.Sum(n => Math.Pow(n.PartialDerivative, 2));
         }
 
         // Replaces three steps - (b), (c) and (d) - with one.

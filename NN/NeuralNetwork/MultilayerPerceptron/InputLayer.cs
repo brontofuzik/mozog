@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Mozog.Utils;
 using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron
 {
-    public class InputLayer : LayerBase<IInputNeuron>, IInputLayer
+    public class InputLayer : LayerBase<InputNeuron>, IInputLayer
     {
         #region Construction
 
@@ -14,11 +15,13 @@ namespace NeuralNetwork.MultilayerPerceptron
         {
         }
 
-        protected override IInputNeuron MakeNeuron() => new InputNeuron();
+        protected override InputNeuron MakeNeuron() => new InputNeuron();
 
         #endregion // Construction
 
-        public new IList<IInputNeuron> Neurons_Typed => Neurons;
+        //public new IList<InputNeuron> Neurons_Typed => Neurons;
+
+        IEnumerable<IInputNeuron> ILayer<IInputNeuron>.Neurons_Typed => Neurons;
 
         public void SetOutput(double[] output)
         {

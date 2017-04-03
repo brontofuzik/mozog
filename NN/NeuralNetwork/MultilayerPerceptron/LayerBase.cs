@@ -40,7 +40,7 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         #endregion // Construction
 
-        public IList<TNeuron> Neurons { get; } = new List<TNeuron>();
+        protected IList<TNeuron> Neurons { get; } = new List<TNeuron>();
 
         public IEnumerable<INeuron> Neurons_Untyped => Neurons.Cast<INeuron>();
 
