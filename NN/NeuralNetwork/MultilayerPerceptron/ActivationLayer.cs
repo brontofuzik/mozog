@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Mozog.Utils;
 using NeuralNetwork.ActivationFunctions;
 using NeuralNetwork.Interfaces;
@@ -9,12 +7,14 @@ namespace NeuralNetwork.MultilayerPerceptron
 {
     public class ActivationLayer : LayerBase<ActivationNeuron>, IActivationLayer
     {
+        protected readonly IActivationFunction activationFunc;
+
         #region Construction
 
         internal ActivationLayer(NetworkArchitecture.Layer layer)
             : base(layer)
         {
-            Activation = layer.Activation;
+            activationFunc = layer.Activation;
         }
 
         protected override ActivationNeuron MakeNeuron() => new ActivationNeuron();
@@ -23,11 +23,11 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public new IEnumerable<IActivationNeuron> Neurons => base.Neurons;
 
-        private IActivationFunction Activation { get; }
+        // TODO
+        public IActivationFunction1 ActivationFunc1 => activationFunc as IActivationFunction1;
 
-        public IActivationFunction1 Activation1 => Activation as IActivationFunction1;
-
-        public IActivationFunction2 Activation2 => Activation as IActivationFunction2;
+        // TODO
+        public IActivationFunction2 ActivationFunc2 => activationFunc as IActivationFunction2;
 
         public override void Initialize()
         {
@@ -36,7 +36,7 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public void Evaluate()
         {
-            if (Activation is IActivationFunction1)
+            if (activationFunc is IActivationFunction1)
             {
                 Evaluate1();
             }
@@ -54,7 +54,7 @@ namespace NeuralNetwork.MultilayerPerceptron
         private void Evaluate2()
         {
             Neurons.ForEach(n => n.EvaluateInput());
-            Output = Activation2.Evaluate(Input);
+            Output = ActivationFunc2.Evaluate(Input);
         }
 
         // TODO Jitter

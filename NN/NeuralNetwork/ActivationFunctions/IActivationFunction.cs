@@ -24,4 +24,9 @@
     {
         double[] EvaluateDerivative(double[] input);
     }
+
+    public static class Activation
+    {
+        public static IActivationFunction Sigmoid => new SigmoidFunction();
+    }
 }

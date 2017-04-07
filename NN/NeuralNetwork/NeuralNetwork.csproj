@@ -71,6 +71,9 @@
   <ItemGroup>
     <Compile Include="ActivationFunctions\LogisticFunction.cs" />
     <Compile Include="ActivationFunctions\SoftmaxFunction.cs" />
+    <Compile Include="ErrorFunctions\CrossEntropyError.cs" />
+    <Compile Include="ErrorFunctions\IErrorFunction.cs" />
+    <Compile Include="ErrorFunctions\MeanSquaredError.cs" />
     <Compile Include="Interfaces\NetworkArchitecture.cs" />
     <Compile Include="Interfaces\INetworkSerializer.cs" />
     <Compile Include="HopfieldNetwork\HopfieldNetwork.cs" />

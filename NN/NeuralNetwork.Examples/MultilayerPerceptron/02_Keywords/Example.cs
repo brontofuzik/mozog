@@ -1,6 +1,7 @@
 ﻿using System;
 using Mozog.Utils;
 using NeuralNetwork.ActivationFunctions;
+using NeuralNetwork.ErrorFunctions;
 using NeuralNetwork.Interfaces;
 using NeuralNetwork.MultilayerPerceptron;
 using NeuralNetwork.MultilayerPerceptron.Backpropagation;
@@ -23,7 +24,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
             var architecture = NetworkArchitecture.Feedforward(
                 new[] { data.InputSize, 20, data.OutputSize },
-                new SigmoidFunction());
+                Activation.Sigmoid,
+                Error.MSE);
             network = new Network(architecture);
 
             // Step 3: Train the network.

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Mozog.Utils;
 using NeuralNetwork.ActivationFunctions;
+using NeuralNetwork.ErrorFunctions;
 using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
-    class BackpropagationLayer : ActivationLayer
+    public class BackpropagationLayer : ActivationLayer
     {
         #region Construction
 
@@ -26,8 +27,10 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         private new IEnumerable<BackpropagationNeuron> NeuronList
             => base.NeuronList.Cast<BackpropagationNeuron>();
 
-        public new IDifferentiableActivationFunction1 Activation1
-            => (IDifferentiableActivationFunction1)base.Activation1;
+        public new IDifferentiableActivationFunction1 ActivationFunc1
+            => (IDifferentiableActivationFunction1)base.ActivationFunc1;
+
+        public new BackpropagationNetwork Network => base.Network as BackpropagationNetwork;
 
         // Replaces steps b, c, d with one.
         public void Backpropagate(double[] desiredOutputVector)

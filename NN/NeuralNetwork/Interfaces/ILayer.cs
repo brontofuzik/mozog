@@ -35,9 +35,9 @@ namespace NeuralNetwork.Interfaces
     {
         //IActivationFunction Activation { get; }
 
-        IActivationFunction1 Activation1 { get; }
+        IActivationFunction1 ActivationFunc1 { get; }
 
-        IActivationFunction2 Activation2 { get; }
+        IActivationFunction2 ActivationFunc2 { get; }
 
         void Evaluate();
 

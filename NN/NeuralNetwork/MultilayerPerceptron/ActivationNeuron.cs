@@ -17,7 +17,7 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         #endregion // Construction
 
-        private new IActivationLayer Layer => (IActivationLayer)base.Layer;
+        private new IActivationLayer Layer => base.Layer as IActivationLayer;
 
         public virtual void Evaluate()
         {
@@ -32,7 +32,7 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public void EvaluateOutput()
         {
-            Output = Layer.Activation1.Evaluate(Input);
+            Output = Layer.ActivationFunc1.Evaluate(Input);
         }
 
         // Jitter

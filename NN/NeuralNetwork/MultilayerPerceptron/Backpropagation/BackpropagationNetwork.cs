@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mozog.Utils;
+using NeuralNetwork.ErrorFunctions;
 using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
@@ -20,7 +21,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         #endregion // Construction
 
-        private new BackpropagationLayer OutputLayer => (BackpropagationLayer)base.OutputLayer;
+        private new BackpropagationLayer OutputLayer => base.OutputLayer as BackpropagationLayer;
 
         private IEnumerable<BackpropagationLayer> HiddenLayersReverse()
         {
@@ -32,7 +33,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         private new IEnumerable<BackpropagationSynapse> Synapses => base.Synapses.Cast<BackpropagationSynapse>();
 
-        public double Error { get; private set; }
+        // TODO
+        public IDifferentiableErrorFunction ErrorFunc => errorFunc as IDifferentiableErrorFunction;
 
         public double LearningRate
         {
@@ -50,20 +52,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             }
         }
 
-        public void ResetError()
-        {
-            Error = 0.0;
-        }
-
         public void ResetPartialDerivatives()
         {
             Synapses.ForEach(s => s.ResetPartialDerivative());
-        }
-
-        // Mean-squared error
-        public void UpdateError()
-        {
-            Error += 0.5 * OutputLayer.Neurons.Sum(n => Math.Pow(n.PartialDerivative, 2));
         }
 
         // Replaces three steps - (b), (c) and (d) - with one.

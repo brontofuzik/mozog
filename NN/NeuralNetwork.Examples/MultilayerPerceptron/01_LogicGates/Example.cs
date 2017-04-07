@@ -1,6 +1,7 @@
 ﻿using System;
 using Mozog.Utils;
 using NeuralNetwork.ActivationFunctions;
+using NeuralNetwork.ErrorFunctions;
 using NeuralNetwork.Interfaces;
 using NeuralNetwork.MultilayerPerceptron;
 using NeuralNetwork.MultilayerPerceptron.Backpropagation;
@@ -22,8 +23,9 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             // Step 2: Create the network.
 
             var architecture = NetworkArchitecture.Feedforward(
-                new[] {data.InputSize, 2, data.OutputSize},
-                new SigmoidFunction());
+                new[] { data.InputSize, 2, data.OutputSize },
+                Activation.Sigmoid,
+                Error.MSE);
             network = new Network(architecture);
 
             // Step 3: Train the network.

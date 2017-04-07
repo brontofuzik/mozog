@@ -16,35 +16,34 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         #endregion // Construction
 
-        public double PartialDerivative { get; private set; }
+        //public double PartialDerivative { get; private set; }
 
-        public double Error { get; private set; }
+        // "Delta"
+        public double Error { get; set; }
 
-        public double ActivationFunctionDerivative => Layer.Activation1.EvaluateDerivative(Input);
+        //public double ActivationDerivative => Layer.ActivationFunc1.EvaluateDerivative(Input);
 
         private new IEnumerable<BackpropagationSynapse> TargetSynapses
             => base.TargetSynapses.Cast<BackpropagationSynapse>();
 
-        private new BackpropagationLayer Layer => (BackpropagationLayer)base.Layer;
+        public new BackpropagationLayer Layer => base.Layer as BackpropagationLayer;
 
         public override void Initialize()
         {
             base.Initialize();
 
-            PartialDerivative = 0.0;
             Error = 0.0;
         }
 
-        public void Backpropagate(double desiredOutput)
+        public void Backpropagate(double expectedOutput)
         {
-            PartialDerivative = Output - desiredOutput;
-            Error =  PartialDerivative * ActivationFunctionDerivative;
+            Error = Layer.Network.ErrorFunc.EvaluateDerivative(this, expectedOutput);
         }
 
         public void Backpropagate()
         {
-            PartialDerivative = TargetSynapses.Select(s => s.TargetNeuron.Error * s.Weight).Sum();
-            Error = PartialDerivative * ActivationFunctionDerivative;
+            var derivative = Layer.ActivationFunc1.EvaluateDerivative(Input);
+            Error = derivative * TargetSynapses.Select(s => s.TargetNeuron.Error * s.Weight).Sum();
         }
 
         public override string ToString() => "Bp-" + base.ToString();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mozog.Utils;
+using NeuralNetwork.ErrorFunctions;
 using NeuralNetwork.Interfaces;
 using NeuralNetwork.Training;
 
@@ -9,6 +10,7 @@ namespace NeuralNetwork.MultilayerPerceptron
 {
     public class Network : INetwork
     {
+        protected IErrorFunction errorFunc;
         private InputLayer biasLayer;
 
         #region Construction
@@ -18,6 +20,7 @@ namespace NeuralNetwork.MultilayerPerceptron
             Architecture = architecture;
             architecture.Layers.ForEach(AddLayer);
             CreateBiasLayer();
+            errorFunc = architecture.ErrorFunction;
         }
 
         protected virtual ILayer MakeLayer(NetworkArchitecture.Layer layerPlan)
@@ -70,9 +73,9 @@ namespace NeuralNetwork.MultilayerPerceptron
             }
         }
 
-        public InputLayer InputLayer => (InputLayer)Layers[0];
+        public InputLayer InputLayer => Layers[0] as InputLayer;
 
-        public ActivationLayer OutputLayer => (ActivationLayer)Layers[Layers.Count - 1];
+        public ActivationLayer OutputLayer => Layers[Layers.Count - 1] as ActivationLayer;
 
         #endregion // Layers
 
@@ -128,15 +131,28 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         private double[] Output => OutputLayer.Output;
 
+        #region Error function
+
+        public double Error { get; private set; }
+
+        public void ResetError()
+        {
+            Error = 0.0;
+        }
+
+        // Mean-squared error
+        public void UpdateError(double[] expectedOutput)
+        {
+            Error += errorFunc.Evaluate(OutputLayer.Output, expectedOutput);
+        }
+
         public double CalculateError(DataSet dataSet)
-            => 0.5 * dataSet.Sum(point => CalculateError(point));
+            => dataSet.Sum(point => CalculateError(point)) / dataSet.Size;
 
         public double CalculateError(LabeledDataPoint point)
-        {
-            var actualOutput = Evaluate(point.Input);
-            var expectedOutput = point.Output;
-            return Vector.Distance(actualOutput, expectedOutput);
-        }
+            => errorFunc.Evaluate(Evaluate(point.Input), point.Output);
+
+        #endregion // Error function
 
         public double[] GetWeights() => Synapses.Select(s => s.Weight).ToArray();
 

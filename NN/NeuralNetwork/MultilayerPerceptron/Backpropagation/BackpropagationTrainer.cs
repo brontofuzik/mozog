@@ -101,7 +101,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             network.Evaluate(point.Input); // Neurons
             network.Backpropagate(point.Output); // Neurons
 
-            network.UpdateError(); // Network
+            network.UpdateError(point.Output); // Network
             network.UpdatePartialDerivatives(); // Synapses
 
             if (!batch)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NeuralNetwork.ActivationFunctions;
+using NeuralNetwork.ErrorFunctions;
 
 namespace NeuralNetwork.Interfaces
 {
@@ -8,24 +9,29 @@ namespace NeuralNetwork.Interfaces
     public interface INetworkArchitecture
     {
         NetworkArchitecture.Layer[] Layers { get; set; }
+
+        IErrorFunction ErrorFunction { get; set; }
     }
 
     public class NetworkArchitecture : INetworkArchitecture
     {
         public Layer[] Layers { get; set; }
 
-        public static INetworkArchitecture Feedforward((int neurons, IActivationFunction1 activation)[] layers)
+        public IErrorFunction ErrorFunction { get; set; }
+
+        public static INetworkArchitecture Feedforward((int neurons, IActivationFunction activation)[] layers, IErrorFunction errorFunction)
             => new NetworkArchitecture
                 {
                     Layers = layers.Select((l, i) => new Layer(l.neurons)
                     {
                         SourceLayers = l.activation != null ? new[] {i - 1} : new int[0],
                         Activation = l.activation
-                    }).ToArray()
+                    }).ToArray(),
+                    ErrorFunction = errorFunction
                 };
 
-        public static INetworkArchitecture Feedforward(int[] neurons, IActivationFunction1 activation)
-            => Feedforward(neurons.Select((n, i) => (n, i > 0 ? activation : null)).ToArray());
+        public static INetworkArchitecture Feedforward(int[] neurons, IActivationFunction activation, IErrorFunction errorFunction)
+            => Feedforward(neurons.Select((n, i) => (n, i > 0 ? activation : null)).ToArray(), errorFunction);
 
         public override string ToString() => $"[{String.Join(", ", Layers.AsEnumerable())}]";
 
@@ -42,7 +48,7 @@ namespace NeuralNetwork.Interfaces
             public int[] SourceLayers { get; set; } = new int[0];
 
             // Default is no activation function, indicating an input layer.
-            public IActivationFunction1 Activation { get; set; }
+            public IActivationFunction Activation { get; set; }
 
             public override string ToString() => $"({Neurons}, {Activation})";
         }

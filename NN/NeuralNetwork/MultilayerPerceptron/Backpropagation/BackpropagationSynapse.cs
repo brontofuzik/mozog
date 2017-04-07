@@ -2,6 +2,7 @@
 {
     public class BackpropagationSynapse : Synapse
     {
+        // "Gradient"
         private double partialDerivative;
         private double weightChange;
         private double previousWeightChange;
@@ -18,7 +19,7 @@
 
         public double Momentum { get; set; }
 
-        public new BackpropagationNeuron TargetNeuron => (BackpropagationNeuron)base.TargetNeuron;
+        public new BackpropagationNeuron TargetNeuron => base.TargetNeuron as BackpropagationNeuron;
 
         public override void Initialize()
         {

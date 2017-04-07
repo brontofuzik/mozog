@@ -15,5 +15,7 @@ namespace NeuralNetwork.ActivationFunctions
         {
             throw new NotImplementedException();
         }
+
+        public override string ToString() => "Softmax";
     }
 }
