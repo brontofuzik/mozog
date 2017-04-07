@@ -5,7 +5,7 @@ namespace NeuralNetwork.ActivationFunctions
     /// <summary>
     /// https://en.wikipedia.org/wiki/Logistic_function
     /// </summary>
-    public class LogisticFunction : IDifferentiableActivationFunction
+    public class LogisticFunction : IDifferentiableActivationFunction1
     {
         // Maximum value
         private readonly double L;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NeuralNetwork.ActivationFunctions;
 using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron
@@ -20,9 +21,18 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public virtual void Evaluate()
         {
-            // Ref
+            EvaluateInput();
+            EvaluateOutput();
+        }
+
+        public void EvaluateInput()
+        {
             Input = SourceSynapses.Sum(s => s.SourceNeuron.Output * s.Weight);
-            Output = Layer.ActivationFunction.Evaluate(Input);
+        }
+
+        public void EvaluateOutput()
+        {
+            Output = Layer.Activation1.Evaluate(Input);
         }
 
         // Jitter

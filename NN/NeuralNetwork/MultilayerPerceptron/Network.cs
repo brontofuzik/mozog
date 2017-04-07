@@ -45,7 +45,7 @@ namespace NeuralNetwork.MultilayerPerceptron
         {
             biasLayer = (InputLayer)MakeLayer(new NetworkArchitecture.Layer(1));
             biasLayer.Network = this;
-            biasLayer.SetOutput(new[] {-1.0});
+            biasLayer.Output =new[] {-1.0};
             ActivationLayers.ForEach(l => l.Connect(biasLayer));
         }
 
@@ -101,9 +101,9 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public double[] Evaluate(double[] input)
         {
-            SetInput(input);
+            Input = input;
             Evaluate();
-            return GetOutput();
+            return Output;
         }
 
         public TOutput EvaluateEncoded<TInput, TOutput>(TInput input, IEncoder<TInput, TOutput> encoder)
@@ -115,9 +115,9 @@ namespace NeuralNetwork.MultilayerPerceptron
         //    Synapses.ForEach(s => Jitter(noiseLimit));
         //}
 
-        private void SetInput(double[] input)
+        private double[] Input
         {
-            InputLayer.SetOutput(input);
+            set { InputLayer.Output = value; }
         }
 
         private void Evaluate()
@@ -126,7 +126,7 @@ namespace NeuralNetwork.MultilayerPerceptron
             OutputLayer.Evaluate();
         }
 
-        private double[] GetOutput() => OutputLayer.GetOutput();
+        private double[] Output => OutputLayer.Output;
 
         public double CalculateError(DataSet dataSet)
             => 0.5 * dataSet.Sum(point => CalculateError(point));

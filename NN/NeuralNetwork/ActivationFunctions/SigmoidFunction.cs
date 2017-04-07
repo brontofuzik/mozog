@@ -5,7 +5,7 @@ namespace NeuralNetwork.ActivationFunctions
     /// <summary>
     /// https://en.wikipedia.org/wiki/Sigmoid_function
     /// </summary>
-    public class SigmoidFunction : IDifferentiableActivationFunction
+    public class SigmoidFunction : IDifferentiableActivationFunction1
     {
         public double Evaluate(double x) => 1 / (1 + Math.Exp(-x));
 

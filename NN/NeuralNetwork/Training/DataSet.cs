@@ -73,6 +73,12 @@ namespace NeuralNetwork.Training
             Add(new LabeledDataPoint(input, output));
         }
 
+        public DataSet AddRange(IEnumerable<LabeledDataPoint> points)
+        {
+            this.points.AddRange(points);
+            return this;
+        }
+
         public void Add(DataSet dataSet)
         {
             Require.IsNotNull(dataSet, nameof(dataSet));

@@ -14,7 +14,7 @@ namespace NeuralNetwork.MultilayerPerceptron
         internal ActivationLayer(NetworkArchitecture.Layer layer)
             : base(layer)
         {
-            ActivationFunction = layer.Activation;
+            Activation = layer.Activation;
         }
 
         protected override ActivationNeuron MakeNeuron() => new ActivationNeuron();
@@ -23,8 +23,12 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public new IEnumerable<IActivationNeuron> Neurons => base.Neurons;
 
-        public IActivationFunction ActivationFunction { get; }
-    
+        private IActivationFunction Activation { get; }
+
+        public IActivationFunction1 Activation1 => Activation as IActivationFunction1;
+
+        public IActivationFunction2 Activation2 => Activation as IActivationFunction2;
+
         public override void Initialize()
         {
             NeuronList.ForEach(n => n.Initialize());
@@ -32,7 +36,25 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public void Evaluate()
         {
-            NeuronList.ForEach(n => n.Evaluate());
+            if (Activation is IActivationFunction1)
+            {
+                Evaluate1();
+            }
+            else
+            {
+                Evaluate2();
+            }
+        }
+
+        private void Evaluate1()
+        {
+            Neurons.ForEach(n => n.Evaluate());
+        }
+
+        private void Evaluate2()
+        {
+            Neurons.ForEach(n => n.EvaluateInput());
+            Output = Activation2.Evaluate(Input);
         }
 
         // TODO Jitter
@@ -40,8 +62,6 @@ namespace NeuralNetwork.MultilayerPerceptron
         //{
         //    Neurons.ForEach(n => n.Jitter(noiseLimit));
         //}
-
-        public double[] GetOutput() => NeuronList.Select(n => n.Output).ToArray();
 
         public override string ToString() => "AL" + base.ToString();
     }

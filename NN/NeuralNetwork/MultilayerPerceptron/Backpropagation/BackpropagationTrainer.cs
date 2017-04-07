@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Mozog.Utils;
 using NeuralNetwork.Interfaces;
 using NeuralNetwork.Training;
@@ -11,29 +12,24 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         // The interval between two consecutive updates of the cumulative network error (CNR).
         const int cumulativeNetworkErrorUpdateInterval = 1;
 
-        public BackpropagationTrainer(DataSet trainingSet, DataSet validationSet, DataSet testSet)
-            : base(trainingSet, validationSet, testSet)
+        public override TrainingLog Train(INetwork network, DataSet data, BackpropagationArgs args)
         {
-        }
-
-        public override TrainingLog Train(INetwork network, BackpropagationArgs args)
-        {
+            // Convert to backprop network
             var architecture = network.Architecture;
             var backpropNetwork = new BackpropagationNetwork(architecture);
 
-            var log = Train(backpropNetwork, args);
+            var log = Train(backpropNetwork, data, args);
 
+            // Convert back to normal network
             var weights = backpropNetwork.GetWeights();
             network.SetWeights(weights);
+
+            log.TrainingSetStats = Test(network, data);
 
             return log;
         }
 
-        // Defaults
-        public override TrainingLog Train(INetwork network, int maxIterations, double maxError)
-            => Train(network, new BackpropagationArgs(maxIterations, maxError, learningRate: 0.01, momentum: 0.9, batchLearning: false));
-
-        private TrainingLog Train(BackpropagationNetwork network, BackpropagationArgs args)
+        private TrainingLog Train(BackpropagationNetwork network, DataSet data, BackpropagationArgs args)
         {
             network.SetLearningRate(args.LearningRate);
             network.SetMomentum(args.Momentum);
@@ -46,11 +42,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             double cumulativeNetworkError = Double.MaxValue;
             while (!args.IsDone(iterationCount, cumulativeNetworkError))
             {
-                TrainWithSet(network, TrainingSet, args.BatchLearning);
+                TrainWithSet(network, data, args.BatchLearning);
                 iterationCount++;
 
                 // Calculate the network error.
-                networkError = network.CalculateError(TrainingSet);
+                networkError = network.CalculateError(data);
 
                 // Calculate the cumulative network error.
                 int i = iterationCount % cumulativeNetworkErrorUpdateInterval;
@@ -114,22 +110,41 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
                 network.UpdateWeights();
             }
         }
+
+        public override DataStatistics Test(INetwork network, DataSet data)
+            => new DataStatistics(n: data.Size, p: network.SynapseCount)
+            {
+                RSS = CalculateRSS(network, data)
+            };
+
+        private static double CalculateRSS(INetwork network, DataSet data)
+        {
+            double SinglePoint(LabeledDataPoint point)
+            {
+                var output = network.Evaluate(point.Input);
+                var expectedOutput = point.Output;
+                return Math.Pow(output[0] - expectedOutput[0], 2);
+            }
+
+            return data.Sum(point => SinglePoint(point));
+        }
     }
 
     public class BackpropagationArgs : TrainingArgs
     {
-        public BackpropagationArgs(int maxIterations, double maxError, double learningRate, double momentum, bool batchLearning)
+        public BackpropagationArgs(int maxIterations, double maxError, bool batchLearning, double learningRate, double momentum)
             : base(maxIterations, maxError)
         {
+            BatchLearning = batchLearning;
             LearningRate = learningRate;
             Momentum = momentum;
-            BatchLearning = batchLearning;
+
         }
+
+        public bool BatchLearning { get; }
 
         public double LearningRate { get; }
 
         public double Momentum { get; }
-
-        public bool BatchLearning { get; }
     }
 }

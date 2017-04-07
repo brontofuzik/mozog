@@ -14,7 +14,7 @@ namespace NeuralNetwork.Interfaces
     {
         public Layer[] Layers { get; set; }
 
-        public static INetworkArchitecture Feedforward((int neurons, IActivationFunction activation)[] layers)
+        public static INetworkArchitecture Feedforward((int neurons, IActivationFunction1 activation)[] layers)
             => new NetworkArchitecture
                 {
                     Layers = layers.Select((l, i) => new Layer(l.neurons)
@@ -24,7 +24,7 @@ namespace NeuralNetwork.Interfaces
                     }).ToArray()
                 };
 
-        public static INetworkArchitecture Feedforward(int[] neurons, IActivationFunction activation)
+        public static INetworkArchitecture Feedforward(int[] neurons, IActivationFunction1 activation)
             => Feedforward(neurons.Select((n, i) => (n, i > 0 ? activation : null)).ToArray());
 
         public override string ToString() => $"[{String.Join(", ", Layers.AsEnumerable())}]";
@@ -42,7 +42,7 @@ namespace NeuralNetwork.Interfaces
             public int[] SourceLayers { get; set; } = new int[0];
 
             // Default is no activation function, indicating an input layer.
-            public IActivationFunction Activation { get; set; }
+            public IActivationFunction1 Activation { get; set; }
 
             public override string ToString() => $"({Neurons}, {Activation})";
         }

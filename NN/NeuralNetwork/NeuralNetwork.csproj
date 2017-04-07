@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivationFunctions\LogisticFunction.cs" />
+    <Compile Include="ActivationFunctions\SoftmaxFunction.cs" />
     <Compile Include="Interfaces\NetworkArchitecture.cs" />
     <Compile Include="Interfaces\INetworkSerializer.cs" />
     <Compile Include="HopfieldNetwork\HopfieldNetwork.cs" />
@@ -100,7 +101,6 @@
     <Compile Include="Interfaces\ILayer.cs" />
     <Compile Include="MultilayerPerceptron\InputLayer.cs" />
     <Compile Include="Interfaces\INetwork.cs" />
-    <Compile Include="ActivationFunctions\IDifferentiableActivationFunction.cs" />
     <Compile Include="ActivationFunctions\IActivationFunction.cs" />
     <Compile Include="ActivationFunctions\SigmoidFunction.cs" />
     <Compile Include="MultilayerPerceptron\ActivationLayer.cs" />
@@ -114,8 +114,10 @@
     <Compile Include="MultilayerPerceptron\NetworkSerializer.cs" />
     <Compile Include="MultilayerPerceptron\Synapse.cs" />
     <Compile Include="Interfaces\IEncoder.cs" />
+    <Compile Include="Training\DataStatistics.cs" />
     <Compile Include="Training\EncodedDataSet.cs" />
     <Compile Include="Training\ITrainer.cs" />
+    <Compile Include="Training\ValidationTrainer.cs" />
     <Compile Include="Training\TrainingArgs.cs" />
     <Compile Include="Training\DataSetSerializer.cs" />
     <Compile Include="Training\DataPoint.cs" />

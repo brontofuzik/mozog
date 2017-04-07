@@ -1,10 +1,27 @@
 ﻿namespace NeuralNetwork.ActivationFunctions
 {
-    /// <summary>
-    /// An activation function of a neuron is a function that calculates the output (or state) of a neuron.
-    /// </summary>
+    // Marker iface
     public interface IActivationFunction
     {
+    }
+
+    public interface IActivationFunction1 : IActivationFunction
+    {
         double Evaluate(double x);
+    }
+
+    public interface IDifferentiableActivationFunction1 : IActivationFunction1
+    {
+        double EvaluateDerivative(double x);
+    }
+
+    public interface IActivationFunction2 : IActivationFunction
+    {
+        double[] Evaluate(double[] inputs);
+    }
+
+    public interface IDifferentiableActivationFunction2 : IActivationFunction2
+    {
+        double[] EvaluateDerivative(double[] input);
     }
 }

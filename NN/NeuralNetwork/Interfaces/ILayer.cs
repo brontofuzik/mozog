@@ -11,6 +11,10 @@ namespace NeuralNetwork.Interfaces
 
         INetwork Network { get; set; }
 
+        double[] Input { get; }
+
+        double[] Output { get; set; }
+
         void Connect(ILayer layer);
 
         void Initialize();
@@ -24,18 +28,20 @@ namespace NeuralNetwork.Interfaces
 
     public interface IInputLayer : ILayer<IInputNeuron>
     {
-        void SetOutput(double[] outputVector);
+        //void SetOutput(double[] outputVector);
     }
 
     public interface IActivationLayer : ILayer<IActivationNeuron>
     {
-        IActivationFunction ActivationFunction { get; }
+        //IActivationFunction Activation { get; }
+
+        IActivationFunction1 Activation1 { get; }
+
+        IActivationFunction2 Activation2 { get; }
 
         void Evaluate();
 
         // TODO Jitter
         //void Jitter(double noiseLimit)
-
-        double[] GetOutput();
     }
 }

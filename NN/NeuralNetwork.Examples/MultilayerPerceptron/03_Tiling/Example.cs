@@ -28,19 +28,17 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
 
             // Step 3: Train the network.
 
-            var trainer = new BackpropagationTrainer(data, null, null);
+            var trainer = new BackpropagationTrainer();
 
             var iterations = 500;
             var args = new BackpropagationArgs(
                 maxIterations: iterations,
                 maxError: 0.0,
-                learningRate: 0.005,
-                momentum: 0.9,
-                batchLearning: false);
+                batchLearning: false, learningRate: 0.005, momentum: 0.9);
 
-            var log = trainer.Train(network, args);
+            var log = trainer.Train(network, data, args);
 
-            Console.WriteLine($"Iterations: {log.IterationCount}, Error:{log.NetworkError}");
+            Console.WriteLine($"Iterations: {log.TrainingIterations}, Error:{log.TrainingError}");
 
             // Step 4: Test the network.
 

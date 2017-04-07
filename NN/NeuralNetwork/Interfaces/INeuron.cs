@@ -28,6 +28,10 @@ namespace NeuralNetwork.Interfaces
     {
         void Evaluate();
 
+        void EvaluateInput();
+
+        void EvaluateOutput();
+
         // TODO Jitter
         //void Jitter(double noiseLimit);
     }

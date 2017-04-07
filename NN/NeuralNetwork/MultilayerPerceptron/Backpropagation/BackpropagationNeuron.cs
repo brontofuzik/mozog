@@ -20,7 +20,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         public double Error { get; private set; }
 
-        public double ActivationFunctionDerivative => Layer.ActivationFunction.EvaluateDerivative(Input);
+        public double ActivationFunctionDerivative => Layer.Activation1.EvaluateDerivative(Input);
 
         private new IEnumerable<BackpropagationSynapse> TargetSynapses
             => base.TargetSynapses.Cast<BackpropagationSynapse>();

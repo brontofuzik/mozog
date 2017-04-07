@@ -5,7 +5,7 @@ namespace NeuralNetwork.ActivationFunctions
     /// <summary>
     /// http://en.wikipedia.org/wiki/Hyperbolic_tangent
     /// </summary>
-    public class HyperbolicTangent : IDifferentiableActivationFunction
+    public class HyperbolicTangent : IDifferentiableActivationFunction1
     {
         public double Evaluate(double x) => Math.Tanh(x);
 

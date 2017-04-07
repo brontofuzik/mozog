@@ -21,13 +21,6 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public new IEnumerable<IInputNeuron> Neurons => base.Neurons;
 
-        public void SetOutput(double[] output)
-        {
-            Debug.Assert(output.Length == NeuronCount);
-
-            output.ForEach((e, i) => NeuronList[i].Output = e);
-        }
-
         public override string ToString() => "IL" + base.ToString();
     }
 }

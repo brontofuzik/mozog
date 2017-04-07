@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Mozog.Utils;
 using NeuralNetwork.Interfaces;
@@ -53,6 +54,21 @@ namespace NeuralNetwork.MultilayerPerceptron
         public virtual void Initialize()
         {
             NeuronList.ForEach(n => n.Initialize());
+        }
+
+        public double[] Input => Neurons.Select(n => n.Input).ToArray();
+
+        public double[] Output
+        {
+            get
+            {
+                return Neurons.Select(n => n.Output).ToArray();
+            }
+            set
+            {
+                Debug.Assert(value.Length == NeuronCount);
+                Neurons.ForEach((n, i) => n.Output = value[i]);
+            }
         }
 
         public override string ToString()
