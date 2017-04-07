@@ -31,8 +31,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         private TrainingLog Train(BackpropagationNetwork network, DataSet data, BackpropagationArgs args)
         {
-            network.SetLearningRate(args.LearningRate);
-            network.SetMomentum(args.Momentum);
+            network.LearningRate = args.LearningRate;
+            network.Momentum = args.Momentum;
 
             network.Initialize();
 
@@ -42,7 +42,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             double cumulativeNetworkError = Double.MaxValue;
             while (!args.IsDone(iterationCount, cumulativeNetworkError))
             {
-                TrainWithSet(network, data, args.BatchLearning);
+                TrainWithSet(network, data, args.Type == BackpropagationType.Batch);
                 iterationCount++;
 
                 // Calculate the network error.
@@ -132,19 +132,26 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
     public class BackpropagationArgs : TrainingArgs
     {
-        public BackpropagationArgs(int maxIterations, double maxError, bool batchLearning, double learningRate, double momentum)
+        public BackpropagationArgs(int maxIterations, double maxError, BackpropagationType type, double learningRate, double momentum)
             : base(maxIterations, maxError)
         {
-            BatchLearning = batchLearning;
+            Type = type;
             LearningRate = learningRate;
             Momentum = momentum;
 
         }
 
-        public bool BatchLearning { get; }
+        public BackpropagationType Type { get; }
 
         public double LearningRate { get; }
 
         public double Momentum { get; }
+    }
+
+    public enum BackpropagationType
+    {
+        Batch,
+        MiniBatch, // Not supported
+        Stochastic
     }
 }

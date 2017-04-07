@@ -33,7 +33,9 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
             var args = new BackpropagationArgs(
                 maxIterations: Int32.MaxValue,
                 maxError: 0.01,
-                batchLearning: true, learningRate: 0.05, momentum: 0.9);
+                type: BackpropagationType.Batch,
+                learningRate: 0.05,
+                momentum: 0.9);
             var log = trainer.Train(network, data, args);
 
             Console.WriteLine($"Iterations: {log.TrainingIterations}, Error:{log.TrainingError}");

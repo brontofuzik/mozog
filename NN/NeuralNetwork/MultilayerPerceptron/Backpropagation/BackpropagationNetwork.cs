@@ -34,14 +34,20 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         public double Error { get; private set; }
 
-        public void SetLearningRate(double learningRate)
+        public double LearningRate
         {
-            Synapses.ForEach(s => s.LearningRate = learningRate);
+            set
+            {
+                Synapses.ForEach(s => s.LearningRate = value);
+            }      
         }
 
-        public void SetMomentum(double momentum)
+        public double Momentum
         {
-            Synapses.ForEach(s => s.Momentum = momentum);
+            set
+            {
+                Synapses.ForEach(s => s.Momentum = value);
+            }
         }
 
         public void ResetError()

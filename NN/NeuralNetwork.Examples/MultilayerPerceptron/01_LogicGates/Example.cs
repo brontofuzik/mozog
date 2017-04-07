@@ -33,7 +33,9 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             var args = new BackpropagationArgs(
                 maxIterations: 1000,
                 maxError: 0.001,
-                batchLearning: true, learningRate: 0.05, momentum: 0.9);      
+                type: BackpropagationType.Batch,
+                learningRate: 0.05,
+                momentum: 0.9);      
             var log = trainer.Train(network, data, args);
 
             Console.WriteLine($"Iterations: {log.TrainingIterations}, Error:{log.TrainingError}");
