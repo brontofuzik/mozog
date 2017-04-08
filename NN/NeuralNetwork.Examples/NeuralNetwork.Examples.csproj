@@ -59,12 +59,12 @@
     <Compile Include="MultilayerPerceptron\02_Keywords\Data.cs" />
     <Compile Include="MultilayerPerceptron\01_LogicGates\Data.cs" />
     <Compile Include="MultilayerPerceptron\01_LogicGates\Example.cs" />
-    <Compile Include="MultilayerPerceptron\03_Tiling\Data.cs" />
-    <Compile Include="MultilayerPerceptron\03_Tiling\Example.cs" />
+    <Compile Include="MultilayerPerceptron\04_Tiling\Data.cs" />
+    <Compile Include="MultilayerPerceptron\04_Tiling\Example.cs" />
     <Compile Include="MultilayerPerceptron\02_Keywords\Example.cs" />
     <Compile Include="KohonenNetwork\OCR.cs" />
-    <Compile Include="MultilayerPerceptron\04_Iris\Data.cs" />
-    <Compile Include="MultilayerPerceptron\04_Iris\Example.cs" />
+    <Compile Include="MultilayerPerceptron\03_Iris\Data.cs" />
+    <Compile Include="MultilayerPerceptron\03_Iris\Example.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
