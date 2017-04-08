@@ -1,4 +1,5 @@
 ﻿using System;
+using Mozog.Utils;
 using NeuralNetwork.ActivationFunctions;
 using NeuralNetwork.ErrorFunctions;
 using NeuralNetwork.Interfaces;
@@ -47,22 +48,22 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
             var testStats = trainer.Test(network, testData);
             Console.WriteLine($"Test stats: {testStats}");
 
-            //for (int i = 0; i < Data.KeywordCount; i++)
-            //{
-            //    // Original keyword
-            //    string originalKeyword = Data.Keywords[i];
-            //    var index = network.EvaluateEncoded(originalKeyword, Data.Encoder);
-            //    Console.Write($"{originalKeyword}: {index}");
+            for (int i = 0; i < testData.Size; i += 5)
+            {
+                // Original keyword
+                string originalKeyword = (string)testData[i].Tag;
+                var index = network.EvaluateEncoded(originalKeyword, Data.Encoder);
+                Console.Write($"{originalKeyword}: {index}");
 
-            //    // Mutated keywords
-            //    4.Times(() =>
-            //    {
-            //        string mutatedKeyword = Data.MutateKeyword(originalKeyword);
-            //        index = network.EvaluateEncoded(mutatedKeyword, Data.Encoder);
-            //        Console.Write($", {mutatedKeyword}: {index}");
-            //    });
-            //    Console.WriteLine();
-            //}
+                // Mutated keywords
+                for (int j = i; j < i + 5; j++)
+                {
+                    string mutatedKeyword = (string)testData[j].Tag;
+                    index = network.EvaluateEncoded(mutatedKeyword, Data.Encoder);
+                    Console.Write($", {mutatedKeyword}: {index}");
+                }
+                Console.WriteLine();
+            }
         }
 
         private static void LogTrainingProgress(object sender, TrainingStatus e)
