@@ -41,7 +41,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
                 momentum: 0.9,
                 maxIterations: iterations));
 
-            Console.WriteLine($"Iterations: {log.Iterations}, Error: {log.TrainingSetStats.Error}");
+            Console.WriteLine(log);
 
             // Step 4: Test the network.
 

@@ -34,5 +34,7 @@ namespace NeuralNetwork.Training
 
         // Bayesian information criterion
         public double BIC => n * Math.Log(MSE) + p * Math.Log(n);
+
+        public override string ToString() => Error.ToString();
     }
 }

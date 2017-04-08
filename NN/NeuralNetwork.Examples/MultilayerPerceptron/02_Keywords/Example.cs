@@ -1,5 +1,4 @@
 ﻿using System;
-using Mozog.Utils;
 using NeuralNetwork.ActivationFunctions;
 using NeuralNetwork.ErrorFunctions;
 using NeuralNetwork.Interfaces;
@@ -35,28 +34,35 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
             var log = trainer.Train(network, data, BackpropagationArgs.Batch(
                 learningRate: 0.05,
-                maxError: 0.01));
+                maxError: 0.001));
 
-            Console.WriteLine($"Iterations: {log.Iterations}, Error: {log.TrainingSetStats.Error}");
+            Console.WriteLine(log);
 
             // Step 4: Test the network.
 
-            for (int i = 0; i < Data.KeywordCount; i++)
-            {
-                // Original keyword
-                string originalKeyword = Data.Keywords[i];
-                var index = network.EvaluateEncoded(originalKeyword, Data.Encoder);
-                Console.Write($"{originalKeyword}: {index}");
+            var trainingStats = trainer.Test(network, data);
+            Console.WriteLine($"Training stats: {trainingStats}");
 
-                // Mutated keywords
-                4.Times(() =>
-                {
-                    string mutatedKeyword = Data.MutateKeyword(originalKeyword);
-                    index = network.EvaluateEncoded(mutatedKeyword, Data.Encoder);
-                    Console.Write($", {mutatedKeyword}: {index}");
-                });
-                Console.WriteLine();
-            }
+            var testData = Data.Create();
+            var testStats = trainer.Test(network, testData);
+            Console.WriteLine($"Test stats: {testStats}");
+
+            //for (int i = 0; i < Data.KeywordCount; i++)
+            //{
+            //    // Original keyword
+            //    string originalKeyword = Data.Keywords[i];
+            //    var index = network.EvaluateEncoded(originalKeyword, Data.Encoder);
+            //    Console.Write($"{originalKeyword}: {index}");
+
+            //    // Mutated keywords
+            //    4.Times(() =>
+            //    {
+            //        string mutatedKeyword = Data.MutateKeyword(originalKeyword);
+            //        index = network.EvaluateEncoded(mutatedKeyword, Data.Encoder);
+            //        Console.Write($", {mutatedKeyword}: {index}");
+            //    });
+            //    Console.WriteLine();
+            //}
         }
 
         private static void LogTrainingProgress(object sender, TrainingStatus e)

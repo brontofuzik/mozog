@@ -37,9 +37,14 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
                 learningRate: 0.05,
                 maxError: 0.001));
 
-            Console.WriteLine($"Iterations: {log.Iterations}, Error: {log.TrainingSetStats.Error}");
+            Console.WriteLine(log);
 
             // Step 4: Test the trained network.
+
+            // Test using the same data.
+
+            var trainingStats = trainer.Test(network, data);
+            Console.WriteLine($"Training stats: {trainingStats}");
 
             foreach (var point in data)
             {
