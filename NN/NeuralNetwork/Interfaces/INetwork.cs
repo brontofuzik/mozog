@@ -19,7 +19,11 @@ namespace NeuralNetwork.Interfaces
 
         double[] Evaluate(double[] input);
 
+        (double[] output, double error) Evaluate(double[] input, double[] target);
+
         TOutput EvaluateEncoded<TInput, TOutput>(TInput input, IEncoder<TInput, TOutput> encoder);
+
+        (TOutput output, double error) EvaluateEncoded<TInput, TOutput>(TInput input, TOutput target, IEncoder<TInput, TOutput> encoder);
 
         double CalculateError(DataSet dataSet);
 

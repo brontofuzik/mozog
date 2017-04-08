@@ -4,12 +4,12 @@ namespace NeuralNetwork.ErrorFunctions
 {
     public interface IErrorFunction
     {
-        double Evaluate(double[] output, double[] expectedOutput);
+        double Evaluate(double[] output, double[] target);
     }
 
     public interface IDifferentiableErrorFunction : IErrorFunction
     {
-        double EvaluateDerivative(BackpropagationNeuron outputNeuron, double expectedOutput);
+        double EvaluateDerivative(BackpropagationNeuron outputNeuron, double target);
     }
 
     public static class Error

@@ -56,6 +56,13 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public INetworkArchitecture Architecture { get; }
 
+        private double[] Input
+        {
+            set { InputLayer.Output = value; }
+        }
+
+        private double[] Output => OutputLayer.Output;
+
         #region Layers
 
         public List<ILayer> Layers { get; } = new List<ILayer>();
@@ -109,18 +116,20 @@ namespace NeuralNetwork.MultilayerPerceptron
             return Output;
         }
 
+        public (double[] output, double error) Evaluate(double[] input, double[] target)
+        {
+            var output = Evaluate(input);
+            var error = errorFunc.Evaluate(output, target);
+            return (output, error);
+        }
+
         public TOutput EvaluateEncoded<TInput, TOutput>(TInput input, IEncoder<TInput, TOutput> encoder)
             => encoder.DecodeOutput(Evaluate(encoder.EncodeInput(input)));
 
-        // TODO Jitter
-        //private void Jitter(double noiseLimit)
-        //{
-        //    Synapses.ForEach(s => Jitter(noiseLimit));
-        //}
-
-        private double[] Input
+        public (TOutput output, double error) EvaluateEncoded<TInput, TOutput>(TInput input, TOutput target, IEncoder<TInput, TOutput> encoder)
         {
-            set { InputLayer.Output = value; }
+            var result = Evaluate(encoder.EncodeInput(input), encoder.EncodeOutput(target));
+            return (encoder.DecodeOutput(result.output), result.error);
         }
 
         private void Evaluate()
@@ -129,7 +138,11 @@ namespace NeuralNetwork.MultilayerPerceptron
             OutputLayer.Evaluate();
         }
 
-        private double[] Output => OutputLayer.Output;
+        // TODO Jitter
+        //private void Jitter(double noiseLimit)
+        //{
+        //    Synapses.ForEach(s => Jitter(noiseLimit));
+        //}
 
         #region Error function
 
@@ -140,10 +153,9 @@ namespace NeuralNetwork.MultilayerPerceptron
             Error = 0.0;
         }
 
-        // Mean-squared error
-        public void UpdateError(double[] expectedOutput)
+        public void UpdateError(double[] target)
         {
-            Error += errorFunc.Evaluate(OutputLayer.Output, expectedOutput);
+            Error += errorFunc.Evaluate(OutputLayer.Output, target);
         }
 
         public double CalculateError(DataSet dataSet)

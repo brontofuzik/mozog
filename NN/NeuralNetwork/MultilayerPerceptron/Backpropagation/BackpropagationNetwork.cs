@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Mozog.Utils;
 using NeuralNetwork.ErrorFunctions;
@@ -58,9 +57,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         }
 
         // Replaces three steps - (b), (c) and (d) - with one.
-        public void Backpropagate(double[] expectedOutput)
+        public void Backpropagate(double[] target)
         {
-            OutputLayer.Backpropagate(expectedOutput);
+            OutputLayer.Backpropagate(target);
             HiddenLayersReverse().ForEach(l => l.Backpropagate());
         }
 

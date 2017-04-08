@@ -30,8 +30,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
             // Step 3: Train the network.
 
-            var trainer = new BackpropagationTrainer();
-            
+            var trainer = new BackpropagationTrainer();           
             var args = new BackpropagationArgs(
                 maxIterations: Int32.MaxValue,
                 maxError: 0.01,
@@ -40,7 +39,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
                 momentum: 0.9);
             var log = trainer.Train(network, data, args);
 
-            Console.WriteLine($"Iterations: {log.TrainingIterations}, Error:{log.TrainingError}");
+            Console.WriteLine($"Iterations: {log.Iterations}, Error:{log.TrainingError}");
 
             // Step 4: Test the network.
 

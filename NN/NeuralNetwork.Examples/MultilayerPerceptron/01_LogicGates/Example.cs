@@ -31,7 +31,6 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             // Step 3: Train the network.
 
             var trainer = new BackpropagationTrainer();
-
             var args = new BackpropagationArgs(
                 maxIterations: 1000,
                 maxError: 0.001,
@@ -40,7 +39,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
                 momentum: 0.9);      
             var log = trainer.Train(network, data, args);
 
-            Console.WriteLine($"Iterations: {log.TrainingIterations}, Error:{log.TrainingError}");
+            Console.WriteLine($"Iterations: {log.Iterations}, Error:{log.TrainingError}");
 
             // Step 4: Test the trained network.
 

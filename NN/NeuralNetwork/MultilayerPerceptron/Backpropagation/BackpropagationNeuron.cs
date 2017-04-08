@@ -35,9 +35,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             Error = 0.0;
         }
 
-        public void Backpropagate(double expectedOutput)
+        public void Backpropagate(double target)
         {
-            Error = Layer.Network.ErrorFunc.EvaluateDerivative(this, expectedOutput);
+            Error = Layer.Network.ErrorFunc.EvaluateDerivative(this, target);
         }
 
         public void Backpropagate()

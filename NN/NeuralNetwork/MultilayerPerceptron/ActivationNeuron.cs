@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using NeuralNetwork.ActivationFunctions;
 using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron

@@ -2,15 +2,12 @@
 {
     public class TrainingLog
     {
-        public TrainingLog(int trainingIterations, double trainingError)
+        public TrainingLog(int trainingIterations)
         {
-            TrainingIterations = trainingIterations;
-            TrainingError = trainingError;
+            Iterations = trainingIterations;
         }
 
-        public int TrainingIterations { get; }
-
-        public double TrainingError { get; }
+        public int Iterations { get; }
 
         public DataStatistics TrainingSetStats { get; set; }
 

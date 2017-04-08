@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Mozog.Utils;
 using NeuralNetwork.Interfaces;
@@ -69,7 +68,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
                 }
             }
 
-            return new TrainingLog(iterationCount, networkError);
+            return new TrainingLog(iterationCount);
         }
 
         private void TrainWithSet(BackpropagationNetwork network, DataSet data, bool batch)
@@ -112,21 +111,22 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         }
 
         public override DataStatistics Test(INetwork network, DataSet data)
-            => new DataStatistics(n: data.Size, p: network.SynapseCount)
-            {
-                RSS = CalculateRSS(network, data)
-            };
-
-        private static double CalculateRSS(INetwork network, DataSet data)
         {
-            double SinglePoint(LabeledDataPoint point)
+            var error = 0.0;
+            var rss = 0.0;
+
+            foreach (var point in data)
             {
-                var output = network.Evaluate(point.Input);
-                var expectedOutput = point.Output;
-                return Math.Pow(output[0] - expectedOutput[0], 2);
+                var result = network.Evaluate(point.Input, point.Output);
+                error += result.error;
+                rss += Math.Pow(result.output[0] - point.Output[0], 2);
             }
 
-            return data.Sum(point => SinglePoint(point));
+            return new DataStatistics(n: data.Size, p: network.SynapseCount)
+            {
+                Error = error,
+                RSS = rss
+            };
         }
     }
 

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NeuralNetwork.Training
 {
@@ -16,6 +12,8 @@ namespace NeuralNetwork.Training
             this.n = n;
             this.p = p;
         }
+
+        public double Error { get; set; }
 
         // Residual sum of squares
         public double RSS { get; set; }
