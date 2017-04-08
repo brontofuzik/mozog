@@ -29,8 +29,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         {
             network.Initialize(args);
 
-            int iterations = 0;
-            double error;
+            double error = Double.MaxValue;
+            int iterations = 0;      
             do
             {
                 error = TrainIteration(network, data, args);
@@ -42,7 +42,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
                     Console.WriteLine($"{iterations:D5}: {error:F2}");
                 }
             }
-            while (!args.IsDone(iterations, error));
+            while (!args.IsDone(error, iterations));
 
             return new TrainingLog(iterations);
         }
@@ -51,11 +51,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         {
             if (args.Type == BackpropagationType.Batch)
             {
-                return TrainWithBatch(network, data);
+                return TrainBatch(network, data);
             }
             else if (args.Type == BackpropagationType.Stochastic)
             {
-                return data.Random().Sum(p => TrainWithPoint(network, p));
+                return data.Random().Sum(p => TrainPoint(network, p));
             }
             else
             {
@@ -63,11 +63,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             }
         }
 
-        private double TrainWithBatch(BackpropagationNetwork network, IEnumerable<LabeledDataPoint> batch)
+        private double TrainBatch(BackpropagationNetwork network, IEnumerable<LabeledDataPoint> batch)
         {
             network.ResetPartialDerivatives();
 
-            var error = batch.Sum(p => TrainWithPoint(network, p));
+            var error = batch.Sum(p => TrainPoint(network, p));
 
             network.UpdateWeights();
             network.UpdateLearningRates();
@@ -75,7 +75,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             return error;
         }
 
-        private double TrainWithPoint(BackpropagationNetwork network, LabeledDataPoint point)
+        private double TrainPoint(BackpropagationNetwork network, LabeledDataPoint point)
         {
             var result = network.Evaluate(point.Input, point.Output);
             network.Backpropagate(point.Output);
@@ -90,14 +90,19 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
     public class BackpropagationArgs : TrainingArgs
     {
-        public BackpropagationArgs(int maxIterations, double maxError, BackpropagationType type, double learningRate, double momentum)
+        public BackpropagationArgs(BackpropagationType type, double learningRate, double momentum, double maxError, int maxIterations)
             : base(maxIterations, maxError)
         {
             Type = type;
             LearningRate = learningRate;
             Momentum = momentum;
-
         }
+
+        public static BackpropagationArgs Batch(double learningRate, double maxError = 0.0, int maxIterations = Int32.MaxValue)
+            => new BackpropagationArgs(BackpropagationType.Batch, learningRate, 0.0, maxError, maxIterations);
+
+        public static BackpropagationArgs Stochastic(double learningRate, double momentum, double maxError = 0.0, int maxIterations = Int32.MaxValue)
+            => new BackpropagationArgs(BackpropagationType.Stochastic, learningRate, momentum, maxError, maxIterations);
 
         public BackpropagationType Type { get; }
 

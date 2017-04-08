@@ -34,13 +34,10 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
 
             var trainer = new BackpropagationTrainer();
             var iterations = 500;
-            var args = new BackpropagationArgs(
-                maxIterations: iterations,
-                maxError: 0.0,
-                type: BackpropagationType.Stochastic,
+            var log = trainer.Train(network, data, BackpropagationArgs.Stochastic(
                 learningRate: 0.005,
-                momentum: 0.9);
-            var log = trainer.Train(network, data, args);
+                momentum: 0.9,
+                maxIterations: iterations));
 
             Console.WriteLine($"Iterations: {log.Iterations}, Error: {log.TrainingSetStats.Error}");
 

@@ -1,4 +1,5 @@
-﻿using NeuralNetwork.Interfaces;
+﻿using System;
+using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.Training
 {
@@ -8,5 +9,7 @@ namespace NeuralNetwork.Training
         TrainingLog Train(INetwork network, DataSet data, TTrainingArgs args);
 
         DataStatistics Test(INetwork network, DataSet data);
+
+        //event EventHandler TrainingProgress;
     }
 }

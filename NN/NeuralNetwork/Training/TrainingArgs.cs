@@ -12,7 +12,7 @@
 
         public double MaxError { get; }
 
-        public virtual bool IsDone(int iterationCount, double networkError)
+        public virtual bool IsDone(double networkError, int iterationCount)
             => iterationCount >= MaxIterations || networkError <= MaxError;
     }
 
