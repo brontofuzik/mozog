@@ -11,14 +11,13 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
 {
     static class Example
     {
-        private static DataSet data;
         private static Network network;
 
         public static void Run()
         {
             // Step 1: Create the training set.
 
-            data = Data.Create();
+            var data = Data.Create();
             var trainingData = new DataSet(4, 3);
             var testData = new DataSet(4, 3);
             data.Random().ForEach((p, i) =>
@@ -32,7 +31,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
             // Step 2: Create the network.
 
             var architecture = NetworkArchitecture.Feedforward(
-                new[] { data.InputSize, 5, data.OutputSize },
+                new[] { data.InputSize, 10, data.OutputSize },
                 Activation.Sigmoid,
                 Error.MSE);
 
@@ -50,28 +49,25 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
             var trainer = new BackpropagationTrainer();
             trainer.TrainingProgress += LogTrainingProgress;
 
-            var log = trainer.Train(network, trainingData, new BackpropagationArgs(
-                BackpropagationType.Batch,
+            var log = trainer.Train(network, trainingData, BackpropagationArgs.Batch(
                 learningRate: 0.1,
                 momentum: 0.9,
-                maxError: 2.0,
-                maxIterations: Int32.MaxValue));
+                maxError: 0.1));
 
             Console.WriteLine(log);
 
             // Step 4: Test the network.
 
-            var trainingStats = trainer.Test(network, trainingData);
-            Console.WriteLine($"Training stats: {trainingStats}");
-
-            var testStats = trainer.Test(network, testData);
-            Console.WriteLine($"Test stats: {testStats}");
-
+            int correctlyClassified = 0;
             foreach (var point in testData)
             {
-                var output = network.EvaluateEncoded(point.Input, Data.Encoder);
-                Console.WriteLine($"{point.Tag}: {output}");
+                var @class = network.EvaluateEncoded(point.Input, Data.Encoder);
+                if (@class == (int)point.Tag) correctlyClassified++;
             }
+
+            var testStats = trainer.Test(network, testData);
+            var percentage = correctlyClassified / (double)testData.Size * 100;
+            Console.WriteLine($"Test stats: {testStats} ({correctlyClassified}/{testData.Size} = {percentage:F2}%)");
         }
 
         private static void LogTrainingProgress(object sender, TrainingStatus e)

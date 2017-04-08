@@ -1,4 +1,5 @@
-﻿using Mozog.Utils;
+﻿using System;
+using Mozog.Utils;
 
 namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
@@ -50,12 +51,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             Weight += weightChange + momentum * previousWeightChange;
         }
 
-        // Only used during batch training
         public void UpdateLearningRate()
         {
             learningRate = previousWeightChange * weightChange > 0
-                ? learningRate * 1.01 // Speed up
-                : learningRate / 2.0; // Slow down
+                ? Math.Min(learningRate * 1.01, 1.0) // Speed up
+                : Math.Max(learningRate / 2.0, 0.001); // Slow down
         }
 
         public override string ToString() => "Bp:" + base.ToString();

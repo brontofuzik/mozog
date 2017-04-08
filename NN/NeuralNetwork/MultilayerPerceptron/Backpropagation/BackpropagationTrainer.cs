@@ -66,6 +66,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             var error = batch.Sum(p => TrainPoint(network, p));
 
             network.UpdateWeights();
+
+            // TODO
             network.UpdateLearningRates(); // Synapses
 
             return error;
@@ -93,8 +95,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             Momentum = momentum;
         }
 
-        public static BackpropagationArgs Batch(double learningRate, double maxError = 0.0, int maxIterations = Int32.MaxValue)
-            => new BackpropagationArgs(BackpropagationType.Batch, learningRate, 0.0, maxError, maxIterations);
+        public static BackpropagationArgs Batch(double learningRate, double momentum, double maxError = 0.0, int maxIterations = Int32.MaxValue)
+            => new BackpropagationArgs(BackpropagationType.Batch, learningRate, momentum, maxError, maxIterations);
 
         public static BackpropagationArgs Stochastic(double learningRate, double momentum, double maxError = 0.0, int maxIterations = Int32.MaxValue)
             => new BackpropagationArgs(BackpropagationType.Stochastic, learningRate, momentum, maxError, maxIterations);

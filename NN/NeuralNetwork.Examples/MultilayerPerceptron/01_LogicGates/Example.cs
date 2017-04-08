@@ -10,15 +10,14 @@ using NeuralNetwork.Training;
 namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
 {
     static class Example
-    {
-        private static DataSet data;    
+    { 
         private static INetwork network;
 
         public static void Run()
         {
             // Step 1: Create the training set.
 
-            data = Data.XOR;
+            var data = Data.XOR;
 
             // Step 2: Create the network.
 
@@ -35,7 +34,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             trainer.TrainingProgress += LogTrainingProgress;
 
             var log = trainer.Train(network, data, BackpropagationArgs.Batch(
-                learningRate: 0.05,
+                learningRate: 0.1,
+                momentum: 0.9,
                 maxError: 0.001));
 
             Console.WriteLine(log);
@@ -44,8 +44,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
 
             // Test using the same data.
 
-            var trainingStats = trainer.Test(network, data);
-            Console.WriteLine($"Training stats: {trainingStats}");
+            //var trainingStats = trainer.Test(network, data);
+            //Console.WriteLine($"Training stats: {trainingStats}");
 
             foreach (var point in data)
             {
@@ -56,7 +56,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
 
         private static void LogTrainingProgress(object sender, TrainingStatus e)
         {
-            if (e.Iterations % 100 == 0)
+            if (e.Iterations % 1000 == 0)
             {
                 Console.WriteLine($"{e.Iterations:D5}: {e.Error:F2}");
             }
