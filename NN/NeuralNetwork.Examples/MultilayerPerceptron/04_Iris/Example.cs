@@ -1,5 +1,4 @@
 ﻿using System;
-using Mozog.Utils;
 using NeuralNetwork.ActivationFunctions;
 using NeuralNetwork.ErrorFunctions;
 using NeuralNetwork.Interfaces;
@@ -7,7 +6,7 @@ using NeuralNetwork.MultilayerPerceptron;
 using NeuralNetwork.MultilayerPerceptron.Backpropagation;
 using NeuralNetwork.Training;
 
-namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
+namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
 {
     static class Example
     {
@@ -23,11 +22,11 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
             // Step 2: Create the network.
 
             var architecture = NetworkArchitecture.Feedforward(
-                new[] { data.InputSize, 20, data.OutputSize },
+                new[] { data.InputSize, 10, data.OutputSize },
                 Activation.Sigmoid,
                 Error.MSE);
 
-            //var architecture = NetworkArchitecture.Feedforward(new (int, IActivationFunction)[]
+            //var architecture = NetworkArchitecture.Feedforward(new(int, IActivationFunction)[]
             //{
             //    (data.InputSize, null),
             //    (20, Activation.Linear),
@@ -41,9 +40,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
             var trainer = new BackpropagationTrainer();
             trainer.TrainingProgress += LogTrainingProgress;
 
-            var log = trainer.Train(network, data, BackpropagationArgs.Stochastic(
+            var log = trainer.Train(network, data, BackpropagationArgs.Batch(
                 learningRate: 0.05,
-                momentum: 0.9,
                 maxError: 0.001));
 
             Console.WriteLine(log);
@@ -52,27 +50,6 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
             var trainingStats = trainer.Test(network, data);
             Console.WriteLine($"Training stats: {trainingStats}");
-
-            var testData = Data.Create();
-            var testStats = trainer.Test(network, testData);
-            Console.WriteLine($"Test stats: {testStats}");
-
-            for (int i = 0; i < testData.Size; i += 5)
-            {
-                // Original keyword
-                string originalKeyword = (string)testData[i].Tag;
-                var index = network.EvaluateEncoded(originalKeyword, Data.Encoder);
-                Console.Write($"{originalKeyword}: {index}");
-
-                // Mutated keywords
-                for (int j = i; j < i + 5; j++)
-                {
-                    string mutatedKeyword = (string)testData[j].Tag;
-                    index = network.EvaluateEncoded(mutatedKeyword, Data.Encoder);
-                    Console.Write($", {mutatedKeyword}: {index}");
-                }
-                Console.WriteLine();
-            }
         }
 
         private static void LogTrainingProgress(object sender, TrainingStatus e)
