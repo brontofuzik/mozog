@@ -14,7 +14,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             var architecture = network.Architecture;
             var backpropNetwork = new BackpropagationNetwork(architecture);
 
-            var log = Train(backpropNetwork, data, args);
+            var log = TrainBackprop(backpropNetwork, data, args);
 
             // Convert back to normal network
             var weights = backpropNetwork.GetWeights();
@@ -25,12 +25,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             return log;
         }
 
-        private TrainingLog Train(BackpropagationNetwork network, DataSet data, BackpropagationArgs args)
+        private TrainingLog TrainBackprop(BackpropagationNetwork network, DataSet data, BackpropagationArgs args)
         {
-            network.LearningRate = args.LearningRate;
-            network.Momentum = args.Momentum;
-
-            network.Initialize();
+            network.Initialize(args);
 
             int iterations = 0;
             double error;
@@ -88,25 +85,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             network.UpdatePartialDerivatives(); // Synapses
 
             return result.error;
-        }
-
-        public override DataStatistics Test(INetwork network, DataSet data)
-        {
-            var error = 0.0;
-            var rss = 0.0;
-
-            foreach (var point in data)
-            {
-                var result = network.Evaluate(point.Input, point.Output);
-                error += result.error;
-                rss += Math.Pow(result.output[0] - point.Output[0], 2);
-            }
-
-            return new DataStatistics(n: data.Size, p: network.SynapseCount)
-            {
-                Error = error,
-                RSS = rss
-            };
         }
     }
 

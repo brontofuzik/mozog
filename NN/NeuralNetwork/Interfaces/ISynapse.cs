@@ -8,8 +8,6 @@
 
         INeuron TargetNeuron { get; set; }
 
-        void Initialize();
-
         // TODO Jitter
         //void Jitter(double noiseLimit);
     }

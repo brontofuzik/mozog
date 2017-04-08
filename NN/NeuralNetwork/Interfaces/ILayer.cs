@@ -16,8 +16,6 @@ namespace NeuralNetwork.Interfaces
         double[] Output { get; set; }
 
         void Connect(ILayer layer);
-
-        void Initialize();
     }
 
     public interface ILayer<TNeuron> : ILayer

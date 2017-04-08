@@ -35,20 +35,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         // TODO
         public IDifferentiableErrorFunction ErrorFunc => errorFunc as IDifferentiableErrorFunction;
 
-        public double LearningRate
+        public void Initialize(BackpropagationArgs args)
         {
-            set
-            {
-                Synapses.ForEach(s => s.LearningRate = value);
-            }      
-        }
-
-        public double Momentum
-        {
-            set
-            {
-                Synapses.ForEach(s => s.Momentum = value);
-            }
+            Synapses.ForEach(s => s.Initialize(args));
         }
 
         public void ResetPartialDerivatives()

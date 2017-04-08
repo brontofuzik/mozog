@@ -16,8 +16,6 @@ namespace NeuralNetwork.Interfaces
         List<ISynapse> TargetSynapses { get; }
 
         void Connect(INeuron sourceNeuron);
-
-        void Initialize();
     }
 
     public interface IInputNeuron : INeuron

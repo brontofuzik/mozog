@@ -9,13 +9,13 @@ namespace NeuralNetwork.Interfaces
 
         List<ILayer> Layers { get; }
 
+        // Only activation layers. Not used.
         int LayerCount { get; }
 
-        //int NeuronCount { get; }
+        // Only activation neurons. Not used.
+        int NeuronCount { get; }
 
         int SynapseCount { get; }
-
-        void Initialize();
 
         double[] Evaluate(double[] input);
 

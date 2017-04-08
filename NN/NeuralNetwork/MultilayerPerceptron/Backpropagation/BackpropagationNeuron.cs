@@ -28,13 +28,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         public new BackpropagationLayer Layer => base.Layer as BackpropagationLayer;
 
-        public override void Initialize()
-        {
-            base.Initialize();
-
-            Error = 0.0;
-        }
-
         public void Backpropagate(double target)
         {
             Error = Layer.Network.ErrorFunc.EvaluateDerivative(this, target);

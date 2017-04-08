@@ -13,17 +13,12 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         #endregion // Construction
 
-        public double Weight { get; set; }
+        public double Weight { get; set; } = StaticRandom.Double(-1, +1);
 
         public INeuron SourceNeuron { get; set; }
 
         // Owner neuron
         public INeuron TargetNeuron { get; set; }
-
-        public virtual void Initialize()
-        {
-            Weight = StaticRandom.Double(-1, +1);
-        }
 
         // TODO Jitter
         //public void Jitter(double noiseLimit)

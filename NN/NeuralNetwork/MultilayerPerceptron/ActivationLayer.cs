@@ -29,11 +29,6 @@ namespace NeuralNetwork.MultilayerPerceptron
         // TODO
         public IActivationFunction2 ActivationFunc2 => activationFunc as IActivationFunction2;
 
-        public override void Initialize()
-        {
-            NeuronList.ForEach(n => n.Initialize());
-        }
-
         public void Evaluate()
         {
             if (activationFunc is IActivationFunction1)

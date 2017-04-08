@@ -51,11 +51,6 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public INetwork Network { get; set; }
 
-        public virtual void Initialize()
-        {
-            NeuronList.ForEach(n => n.Initialize());
-        }
-
         public double[] Input => Neurons.Select(n => n.Input).ToArray();
 
         public double[] Output

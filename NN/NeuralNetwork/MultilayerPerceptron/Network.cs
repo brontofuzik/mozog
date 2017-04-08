@@ -67,8 +67,6 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public List<ILayer> Layers { get; } = new List<ILayer>();
 
-        public int LayerCount => Layers.Count;
-
         public IEnumerable<ActivationLayer> ActivationLayers
         {
             get
@@ -84,6 +82,8 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         public ActivationLayer OutputLayer => Layers[Layers.Count - 1] as ActivationLayer;
 
+        public int LayerCount => ActivationLayers.Count();
+
         #endregion // Layers
 
         #region Neurons
@@ -94,6 +94,8 @@ namespace NeuralNetwork.MultilayerPerceptron
         protected IEnumerable<IActivationNeuron> ActivationNeurons
             => ActivationLayers.SelectMany(l => l.Neurons);
 
+        public int NeuronCount => ActivationNeurons.Count();
+
         #endregion // Neurons
 
         #region Synapses
@@ -103,11 +105,6 @@ namespace NeuralNetwork.MultilayerPerceptron
         public int SynapseCount => Synapses.Count();
 
         #endregion // Synapses
-
-        public virtual void Initialize()
-        {
-            Layers.ForEach(l => l.Initialize());
-        }
 
         public double[] Evaluate(double[] input)
         {

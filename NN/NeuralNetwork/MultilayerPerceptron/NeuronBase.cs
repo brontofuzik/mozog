@@ -32,13 +32,5 @@ namespace NeuralNetwork.MultilayerPerceptron
             sourceNeuron.TargetSynapses.Add(synapse);
             synapse.SourceNeuron = sourceNeuron;
         }
-
-        public virtual void Initialize()
-        {
-            Input = 0.0;
-            Output = 0.0;
-
-            SourceSynapses.ForEach(s => s.Initialize());
-        }
     }
 }

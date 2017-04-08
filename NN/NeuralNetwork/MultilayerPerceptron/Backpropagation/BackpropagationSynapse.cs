@@ -1,7 +1,12 @@
-﻿namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
+﻿using Mozog.Utils;
+
+namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
     public class BackpropagationSynapse : Synapse
     {
+        private double learningRate;
+        public double momentum;
+
         // "Gradient"
         private double partialDerivative;
         private double weightChange;
@@ -15,15 +20,13 @@
 
         #endregion // Construction
 
-        public double LearningRate { get; set; }
-
-        public double Momentum { get; set; }
-
         public new BackpropagationNeuron TargetNeuron => base.TargetNeuron as BackpropagationNeuron;
 
-        public override void Initialize()
+        public void Initialize(BackpropagationArgs args)
         {
-            base.Initialize();
+            Weight = StaticRandom.Double(-1, +1);
+            learningRate = args.LearningRate;
+            momentum = args.Momentum;
 
             partialDerivative = 0.0;
             weightChange = 0.0;
@@ -43,16 +46,16 @@
         public void UpdateWeight()
         {
             previousWeightChange = weightChange;
-            weightChange = -LearningRate * partialDerivative;
-            Weight += weightChange + Momentum * previousWeightChange;
+            weightChange = -learningRate * partialDerivative;
+            Weight += weightChange + momentum * previousWeightChange;
         }
 
         // Only used during batch training
         public void UpdateLearningRate()
         {
-            LearningRate = previousWeightChange * weightChange > 0
-                ? LearningRate * 1.01 // Speed up
-                : LearningRate / 2.0; // Slow down
+            learningRate = previousWeightChange * weightChange > 0
+                ? learningRate * 1.01 // Speed up
+                : learningRate / 2.0; // Slow down
         }
 
         public override string ToString() => "Bp:" + base.ToString();
