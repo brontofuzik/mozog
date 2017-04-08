@@ -31,6 +31,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             // Step 3: Train the network.
 
             var trainer = new BackpropagationTrainer();
+            trainer.TrainingProgress += LogTrainingProgress;
+
             var log = trainer.Train(network, data, BackpropagationArgs.Batch(
                 learningRate: 0.05,
                 maxError: 0.001));
@@ -43,6 +45,14 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             {
                 var output = network.Evaluate(point.Input);
                 Console.WriteLine($"{Vector.ToString(point.Input)} -> {Vector.ToString(output)}");
+            }
+        }
+
+        private static void LogTrainingProgress(object sender, TrainingStatus e)
+        {
+            if (e.Iterations % 100 == 0)
+            {
+                Console.WriteLine($"{e.Iterations:D5}: {e.Error:F2}");
             }
         }
     }

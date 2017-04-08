@@ -31,6 +31,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
             // Step 3: Train the network.
 
             var trainer = new BackpropagationTrainer();
+            trainer.TrainingProgress += LogTrainingProgress;
+
             var log = trainer.Train(network, data, BackpropagationArgs.Batch(
                 learningRate: 0.05,
                 maxError: 0.01));
@@ -54,6 +56,14 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
                     Console.Write($", {mutatedKeyword}: {index}");
                 });
                 Console.WriteLine();
+            }
+        }
+
+        private static void LogTrainingProgress(object sender, TrainingStatus e)
+        {
+            if (e.Iterations % 100 == 0)
+            {
+                Console.WriteLine($"{e.Iterations:D5}: {e.Error:F2}");
             }
         }
     }

@@ -36,11 +36,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
                 error = TrainIteration(network, data, args);
                 iterations++;
 
-                // DEBUG
-                if (iterations % 100 == 0)
-                {
-                    Console.WriteLine($"{iterations:D5}: {error:F2}");
-                }
+                TrainingProgress?.Invoke(this, new TrainingStatus(iterations, error));
             }
             while (!args.IsDone(error, iterations));
 
@@ -86,6 +82,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
             return result.error;
         }
+
+        public override event EventHandler<TrainingStatus> TrainingProgress;
     }
 
     public class BackpropagationArgs : TrainingArgs

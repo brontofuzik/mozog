@@ -70,5 +70,8 @@ namespace NeuralNetwork.Training
         {
             throw new NotImplementedException();
         }
+
+        // TODO Training
+        public override event EventHandler<TrainingStatus> TrainingProgress;
     }
 }

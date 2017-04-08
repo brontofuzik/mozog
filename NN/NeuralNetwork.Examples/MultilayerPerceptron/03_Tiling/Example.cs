@@ -33,6 +33,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
             // Step 3: Train the network.
 
             var trainer = new BackpropagationTrainer();
+            trainer.TrainingProgress += LogTrainingProgress;
+
             var iterations = 500;
             var log = trainer.Train(network, data, BackpropagationArgs.Stochastic(
                 learningRate: 0.005,
@@ -51,6 +53,14 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
             var processedImage = Data.MergeTiles(processedTiles);
             string filename = $"{Data.BaseName}#{iterations}#{uniqueTiles}.{Data.Extension}";
             processedImage.Save(filename);
+        }
+
+        private static void LogTrainingProgress(object sender, TrainingStatus e)
+        {
+            if (e.Iterations % 100 == 0)
+            {
+                Console.WriteLine($"{e.Iterations:D5}: {e.Error:F2}");
+            }
         }
 
         private static Bitmap[,] ProcessTiles(Bitmap[,] originalTiles)

@@ -2,21 +2,23 @@
 
 namespace NeuralNetwork.Training
 {
-    public class DataStatistics
+    public struct DataStatistics
     {
         private readonly int n;
         private readonly int p;
 
-        public DataStatistics(int n, int p)
+        public DataStatistics(int n, int p, double error, double rss)
         {
             this.n = n;
             this.p = p;
+            Error = error;
+            RSS = rss;
         }
 
-        public double Error { get; set; }
+        public double Error { get; }
 
         // Residual sum of squares
-        public double RSS { get; set; }
+        public double RSS { get; }
 
         // Residual standard deviation
         public double RSD => Math.Sqrt(RSS / (n - 2));

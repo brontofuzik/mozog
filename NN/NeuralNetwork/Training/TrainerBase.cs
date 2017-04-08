@@ -20,11 +20,9 @@ namespace NeuralNetwork.Training
                 rss += Math.Pow(result.output[0] - point.Output[0], 2);
             }
 
-            return new DataStatistics(n: data.Size, p: network.SynapseCount)
-            {
-                Error = error,
-                RSS = rss
-            };
+            return new DataStatistics(data.Size, network.SynapseCount, error, rss);
         }
+
+        public abstract event EventHandler<TrainingStatus> TrainingProgress;
     }
 }
