@@ -39,7 +39,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
                 momentum: 0.9);
             var log = trainer.Train(network, data, args);
 
-            Console.WriteLine($"Iterations: {log.Iterations}, Error:{log.TrainingError}");
+            Console.WriteLine($"Iterations: {log.Iterations}, Error: {log.TrainingSetStats.Error}");
 
             // Step 4: Test the network.
 

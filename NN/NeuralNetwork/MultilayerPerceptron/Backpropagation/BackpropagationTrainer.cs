@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Mozog.Utils;
 using NeuralNetwork.Interfaces;
 using NeuralNetwork.Training;
 
@@ -8,9 +8,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
     public class BackpropagationTrainer : TrainerBase<BackpropagationArgs>
     {
-        // The interval between two consecutive updates of the cumulative network error (CNR).
-        const int cumulativeNetworkErrorUpdateInterval = 1;
-
         public override TrainingLog Train(INetwork network, DataSet data, BackpropagationArgs args)
         {
             // Convert to backprop network
@@ -35,79 +32,62 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
             network.Initialize();
 
-            double networkError = 0.0;
-
-            int iterationCount = 0;
-            double cumulativeNetworkError = Double.MaxValue;
-            while (!args.IsDone(iterationCount, cumulativeNetworkError))
+            int iterations = 0;
+            double error;
+            do
             {
-                TrainWithSet(network, data, args.Type == BackpropagationType.Batch);
-                iterationCount++;
-
-                // Calculate the network error.
-                networkError = network.CalculateError(data);
-
-                // Calculate the cumulative network error.
-                int i = iterationCount % cumulativeNetworkErrorUpdateInterval;
-                if (i == 0)
-                {
-                    i = cumulativeNetworkErrorUpdateInterval;
-                }
-                cumulativeNetworkError = network.Error / (double)i;
-
-                // Reset the cumulative network error.
-                if (iterationCount % cumulativeNetworkErrorUpdateInterval == 0)
-                {
-                    network.ResetError();
-                }
+                error = TrainIteration(network, data, args);
+                iterations++;
 
                 // DEBUG
-                if (iterationCount % 10 == 0)
+                if (iterations % 100 == 0)
                 {
-                    Console.WriteLine($"{iterationCount:D5}: {networkError:F2}, {cumulativeNetworkError:F2}");
+                    Console.WriteLine($"{iterations:D5}: {error:F2}");
                 }
             }
+            while (!args.IsDone(iterations, error));
 
-            return new TrainingLog(iterationCount);
+            return new TrainingLog(iterations);
         }
 
-        private void TrainWithSet(BackpropagationNetwork network, DataSet data, bool batch)
+        private double TrainIteration(BackpropagationNetwork network, DataSet data, BackpropagationArgs args)
         {
-            if (batch)
+            if (args.Type == BackpropagationType.Batch)
             {
-                // Synapses
-                network.ResetPartialDerivatives();
+                return TrainWithBatch(network, data);
             }
-
-            data.ForEach(p => TrainWithPoint(network, p, batch));
-
-            if (batch)
+            else if (args.Type == BackpropagationType.Stochastic)
             {
-                // Synapses
-                network.UpdateWeights();
-                network.UpdateLearningRates();
+                return data.Random().Sum(p => TrainWithPoint(network, p));
+            }
+            else
+            {
+                return 0.0;
             }
         }
 
-        private void TrainWithPoint(BackpropagationNetwork network, LabeledDataPoint point, bool batch)
+        private double TrainWithBatch(BackpropagationNetwork network, IEnumerable<LabeledDataPoint> batch)
         {
-            if (!batch)
-            {
-                // Synapses
-                network.ResetPartialDerivatives();
-            }
+            network.ResetPartialDerivatives();
 
-            network.Evaluate(point.Input); // Neurons
-            network.Backpropagate(point.Output); // Neurons
+            var error = batch.Sum(p => TrainWithPoint(network, p));
 
+            network.UpdateWeights();
+            network.UpdateLearningRates();
+
+            return error;
+        }
+
+        private double TrainWithPoint(BackpropagationNetwork network, LabeledDataPoint point)
+        {
+            var result = network.Evaluate(point.Input, point.Output);
+            network.Backpropagate(point.Output);
+
+            // TODO Training
             network.UpdateError(point.Output); // Network
             network.UpdatePartialDerivatives(); // Synapses
 
-            if (!batch)
-            {
-                // Synapses
-                network.UpdateWeights();
-            }
+            return result.error;
         }
 
         public override DataStatistics Test(INetwork network, DataSet data)

@@ -8,7 +8,6 @@ namespace NeuralNetwork.Training
         where TTrainingArgs : ITrainingArgs
     {
         private readonly ITrainer<TTrainingArgs> innerTrainer;
-        private readonly double[] ratios;
 
         // Partitions
         private readonly double trainingRatio;
@@ -26,7 +25,7 @@ namespace NeuralNetwork.Training
 
             if (trainingRatio + validationRatio + testRatio != 1.0)
             {
-                throw new ArgumentException("The sum of ratios must be equal to one.", nameof(ratios));
+                throw new ArgumentException("The sum of ratios must be equal to one.");
             }
             this.trainingRatio = trainingRatio;
             this.validationRatio = validationRatio;
@@ -47,7 +46,7 @@ namespace NeuralNetwork.Training
 
         private void PartitionDataSet(DataSet data)
         {
-            var points = data.GetPointsInRandomOrder().ToArray();
+            var points = data.Random().ToArray();
 
             // Training set
             var split = SplitArray(points, trainingRatio);

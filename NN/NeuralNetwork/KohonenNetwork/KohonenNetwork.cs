@@ -298,7 +298,7 @@ namespace NeuralNetwork.KohonenNetwork
         {
             BeforeTrainingSet?.Invoke(this, new DataSetEventArgs(trainingSet, trainingIterationIndex));
 
-            foreach (var point in trainingSet.GetPointsInRandomOrder())
+            foreach (var point in trainingSet.Random())
             {
                 TrainPattern(point, trainingIterationIndex, learningRate, neighbourhoodRadius);
             }

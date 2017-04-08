@@ -38,7 +38,7 @@ namespace NeuralNetwork.Training
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public IEnumerable<LabeledDataPoint> GetPointsInRandomOrder()
+        public IEnumerable<LabeledDataPoint> Random()
         {
             var shuffledPoints = points.ToArray();
             StaticRandom.Shuffle(shuffledPoints);
