@@ -27,6 +27,12 @@
 
     public static class Activation
     {
+        public static IActivationFunction Linear => new LinearFunction();
+
         public static IActivationFunction Sigmoid => new SigmoidFunction();
+
+        public static IActivationFunction Softmax=> new SoftmaxFunction();
+
+        public static IActivationFunction Tanh => new HyperbolicTangent();
     }
 }

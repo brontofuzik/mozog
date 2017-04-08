@@ -61,12 +61,12 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         private double TrainBatch(BackpropagationNetwork network, IEnumerable<LabeledDataPoint> batch)
         {
-            network.ResetPartialDerivatives();
+            network.ResetPartialDerivatives(); // Synapses
 
             var error = batch.Sum(p => TrainPoint(network, p));
 
             network.UpdateWeights();
-            network.UpdateLearningRates();
+            network.UpdateLearningRates(); // Synapses
 
             return error;
         }
@@ -74,10 +74,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         private double TrainPoint(BackpropagationNetwork network, LabeledDataPoint point)
         {
             var result = network.Evaluate(point.Input, point.Output);
-            network.Backpropagate(point.Output);
-
-            // TODO Training
-            network.UpdateError(point.Output); // Network
+            network.Backpropagate(point.Output); // Neurons
             network.UpdatePartialDerivatives(); // Synapses
 
             return result.error;

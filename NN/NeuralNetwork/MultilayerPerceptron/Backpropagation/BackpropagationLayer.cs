@@ -32,19 +32,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         public new BackpropagationNetwork Network => base.Network as BackpropagationNetwork;
 
         // Replaces steps b, c, d with one.
-        public void Backpropagate(double[] desiredOutputVector)
+        public void Backpropagate(double[] target)
         {
-            if (desiredOutputVector == null)
-            {
-                throw new ArgumentNullException(nameof(desiredOutputVector));
-            }
-
-            if (desiredOutputVector.Length != NeuronCount)
-            {
-                throw new ArgumentException(nameof(desiredOutputVector));
-            }
-
-            NeuronList.ForEach((n, i) => n.Backpropagate(desiredOutputVector[i]));
+            NeuronList.ForEach((n, i) => n.Backpropagate(target[i]));
         }
 
         // Replaces steps b, c, d with one.

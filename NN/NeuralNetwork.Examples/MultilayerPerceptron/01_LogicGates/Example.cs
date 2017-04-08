@@ -26,6 +26,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
                 new[] { data.InputSize, 2, data.OutputSize },
                 Activation.Sigmoid,
                 Error.MSE);
+
             network = new Network(architecture);
 
             // Step 3: Train the network.

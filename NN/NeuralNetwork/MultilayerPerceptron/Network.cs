@@ -132,7 +132,6 @@ namespace NeuralNetwork.MultilayerPerceptron
         private void Evaluate()
         {
             ActivationLayers.ForEach(l => l.Evaluate());
-            OutputLayer.Evaluate();
         }
 
         // TODO Jitter
@@ -143,17 +142,17 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         #region Error function
 
-        public double Error { get; private set; }
+        //public double Error { get; private set; }
 
-        public void ResetError()
-        {
-            Error = 0.0;
-        }
+        //public void ResetError()
+        //{
+        //    Error = 0.0;
+        //}
 
-        public void UpdateError(double[] target)
-        {
-            Error += errorFunc.Evaluate(OutputLayer.Output, target);
-        }
+        //public void UpdateError(double[] target)
+        //{
+        //    Error += errorFunc.Evaluate(OutputLayer.Output, target);
+        //}
 
         public double CalculateError(DataSet dataSet)
             => dataSet.Sum(point => CalculateError(point)) / dataSet.Size;

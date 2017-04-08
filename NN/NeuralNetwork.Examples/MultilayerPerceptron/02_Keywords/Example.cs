@@ -22,10 +22,18 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
             // Step 2: Create the network.
 
-            var architecture = NetworkArchitecture.Feedforward(
-                new[] { data.InputSize, 20, data.OutputSize },
-                Activation.Sigmoid,
-                Error.MSE);
+            //var architecture = NetworkArchitecture.Feedforward(
+            //    new[] { data.InputSize, 20, data.OutputSize },
+            //    Activation.Softmax,
+            //    Error.CEE);
+
+            var architecture = NetworkArchitecture.Feedforward(new (int, IActivationFunction)[]
+            {
+                (data.InputSize, null),
+                (20, Activation.Linear),
+                (data.OutputSize, Activation.Softmax)
+            }, Error.CEE);
+
             network = new Network(architecture);
 
             // Step 3: Train the network.
@@ -33,8 +41,9 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
             var trainer = new BackpropagationTrainer();
             trainer.TrainingProgress += LogTrainingProgress;
 
-            var log = trainer.Train(network, data, BackpropagationArgs.Batch(
+            var log = trainer.Train(network, data, BackpropagationArgs.Stochastic(
                 learningRate: 0.05,
+                momentum: 0.9,
                 maxError: 0.001));
 
             Console.WriteLine(log);
@@ -68,7 +77,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
         private static void LogTrainingProgress(object sender, TrainingStatus e)
         {
-            if (e.Iterations % 100 == 0)
+            if (e.Iterations % 1 == 0)
             {
                 Console.WriteLine($"{e.Iterations:D5}: {e.Error:F2}");
             }

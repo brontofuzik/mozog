@@ -71,7 +71,10 @@ namespace NeuralNetwork.Training
             throw new NotImplementedException();
         }
 
-        // TODO Training
-        public override event EventHandler<TrainingStatus> TrainingProgress;
+        public override event EventHandler<TrainingStatus> TrainingProgress
+        {
+            add { innerTrainer.TrainingProgress += value; }
+            remove { innerTrainer.TrainingProgress -= value; }
+        }
     }
 }
