@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Mozog.Utils;
 using NeuralNetwork.Interfaces;
 using NeuralNetwork.Training;
 
@@ -9,56 +10,49 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
     {
         private const string path = @"D:\projects\_matfyz_\mozog\datasets\Iris.csv";
 
+        public static readonly IEncoder<double[], int> Encoder = new IrisEncoder();
+
         public static DataSet Create()
         {
-            var data = new DataSet(4, 3);
+            var data = EncodedDataSet.New(4, 3, Encoder);
 
             foreach (var line in File.ReadLines(path))
             {
                 string[] items = line.Split(',');
 
                 var input = new[] { Double.Parse(items[0]), Double.Parse(items[1]), Double.Parse(items[2]), Double.Parse(items[3]) };
-                double[] output;
+                int output;
                 switch (items[4])
                 {
                     case "Iris-setosa":
-                        output = new[] { 1.0, 0.0, 0.0 };
+                        output = 0;
                         break;
                     case "Iris-versicolor":
-                        output = new[] { 0.0, 1.0, 0.0 };
+                        output = 1;
                         break;
                     case "Iris-virginica":
-                        output = new[] { 0.0, 0.0, 1.0 };
+                        output = 2;
                         break;
                     default:
-                        output = new[] { 0.0, 0.0, 0.0 };
+                        output = -1;
                         break;
                 }
 
-                data.Add(new LabeledDataPoint(input, output, items[4]));
+                data.Add(input, output, tag: output);
             }
 
             return data;
         }
 
-        /*
-        public class IrisEncoder : IEncoder<double, int>
+        public class IrisEncoder : IEncoder<double[], int>
         {
-            public double[] EncodeInput(double input)
-            {
-                throw new System.NotImplementedException();
-            }
+            public double[] EncodeInput(double[] input) => input;
 
-            public double[] EncodeOutput(int output)
-            {
-                throw new System.NotImplementedException();
-            }
+            public double[] EncodeOutput(int @class)
+                => Vector.IndexToVector(@class, 3);
 
             public int DecodeOutput(double[] output)
-            {
-                throw new System.NotImplementedException();
-            }
+                => Vector.VectorToIndex(output);
         }
-        */
     }
 }
