@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using Mozog.Utils;
 using NeuralNetwork.Interfaces;
@@ -12,9 +12,9 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
 
         public static readonly IEncoder<double[], int> Encoder = new IrisEncoder();
 
-        public static IEncodedDataSet<double[], int> Create()
+        public static IEncodedData<double[], int> Create()
         {
-            var data = EncodedDataSet.New(4, 3, Encoder);
+            var data = ClassificationData.New(Encoder, 4, 3);
 
             foreach (var line in File.ReadLines(path))
             {

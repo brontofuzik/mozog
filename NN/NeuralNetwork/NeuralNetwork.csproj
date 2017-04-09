@@ -118,8 +118,9 @@
     <Compile Include="MultilayerPerceptron\NetworkSerializer.cs" />
     <Compile Include="MultilayerPerceptron\Synapse.cs" />
     <Compile Include="Interfaces\IEncoder.cs" />
+    <Compile Include="Training\ClassificationData.cs" />
     <Compile Include="Training\DataStatistics.cs" />
-    <Compile Include="Training\EncodedDataSet.cs" />
+    <Compile Include="Training\EncodedData.cs" />
     <Compile Include="Training\ITrainer.cs" />
     <Compile Include="Training\TestingLog.cs" />
     <Compile Include="Training\ValidationTrainer.cs" />

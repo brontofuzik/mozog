@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Mozog.Utils;
 using NeuralNetwork.ActivationFunctions;
 using NeuralNetwork.ErrorFunctions;

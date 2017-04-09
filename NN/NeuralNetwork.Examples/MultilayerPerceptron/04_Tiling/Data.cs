@@ -34,7 +34,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
 
             OriginalTiles = SplitImage(originalImage);
 
-            var data = EncodedDataSet.New(TilePixels, TilePixels, Encoder);
+            var data = EncodedData.New(Encoder, TilePixels, TilePixels);
             foreach (var originalTile in OriginalTileList)
             {
                 var rotatedTile = CloneTile(originalTile);

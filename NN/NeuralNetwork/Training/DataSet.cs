@@ -29,11 +29,9 @@ namespace NeuralNetwork.Training
 
         public IEnumerator<ILabeledDataPoint> GetEnumerator() => points.GetEnumerator();
 
-        IEnumerator<ILabeledDataPoint> IEnumerable<ILabeledDataPoint>.GetEnumerator()
-            => GetEnumerator();
+        IEnumerator<ILabeledDataPoint> IEnumerable<ILabeledDataPoint>.GetEnumerator() => GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-            => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public IEnumerable<ILabeledDataPoint> Random()
         {

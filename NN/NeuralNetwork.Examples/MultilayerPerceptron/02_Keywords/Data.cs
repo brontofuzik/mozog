@@ -38,9 +38,9 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
         public static readonly IEncoder<string, int> Encoder = new KeywordsEncoder();
 
-        public static IEncodedDataSet<string, int> Create()
+        public static IEncodedData<string, int> Create()
         {
-            var data = EncodedDataSet.New(MaxKeywordLength * Width, KeywordCount, Encoder);
+            var data = ClassificationData.New(Encoder, MaxKeywordLength * Width, KeywordCount);
             for (int i = 0; i < KeywordCount; i++)
             {
                 // Original keyword

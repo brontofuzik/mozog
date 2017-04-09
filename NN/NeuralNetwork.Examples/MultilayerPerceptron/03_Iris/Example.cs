@@ -18,8 +18,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
             // Step 1: Create the training set.
 
             var data = Data.Create();
-            var trainingData = new EncodedDataSet<double[], int>(4, 3, Data.Encoder);
-            var testData = new EncodedDataSet<double[], int>(4, 3, Data.Encoder);
+            var trainingData = ClassificationData.New(Data.Encoder, 4, 3);
+            var testData = ClassificationData.New(Data.Encoder, 4, 3);
             data.Random().ForEach((p, i) =>
             {
                 if (i < 30)
@@ -59,9 +59,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
 
             // Step 4: Test the network.
 
-            //var testStats = trainer.Test(network, testData);
-            //var classificationStats = trainer.TestClassifier(network, testData, Data.Encoder);
-            //Console.WriteLine($"Test stats: {testStats} (Acc: {classificationStats.accuracy:P2}, Pre: {classificationStats.precision:P2}, Rec: {classificationStats.recall:P2})");
+            var testingLog = trainer.Test(network, testData);
+            Console.WriteLine(testingLog);
         }
 
         private static void LogTrainingProgress(object sender, TrainingStatus e)

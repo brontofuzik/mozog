@@ -52,7 +52,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
             // Step 4: Test the network.
 
-            var testingLog = trainer.Test<string>(network, testData);
+            var testingLog = trainer.Test(network, testData);
             Console.WriteLine(testingLog);
 
             for (int i = 0; i < testData.Size; i += 5)

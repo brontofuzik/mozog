@@ -35,16 +35,16 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
         };
 
         // Typedef
-        private class LogicGatesData : EncodedDataSet<(bool, bool), bool>, ILogicGatesData
+        private class LogicGatesData : EncodedData<(bool, bool), bool>, ILogicGatesData
         {
             public LogicGatesData()
-                : base(2, 1, Data.Encoder)
+                : base(Data.Encoder, 2, 1)
             {
             }
         }
 
         // Typedef
-        public interface ILogicGatesData : IEncodedDataSet<(bool, bool), bool>
+        public interface ILogicGatesData : IEncodedData<(bool, bool), bool>
         {
         }
 

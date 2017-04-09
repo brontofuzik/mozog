@@ -10,13 +10,13 @@ namespace NeuralNetwork.Training
     {
         public abstract TrainingLog Train(INetwork network, IDataSet data, TTrainingArgs args);
 
-        public TestingLog Test<_>(INetwork network, IDataSet data)
+        public TestingLog Test(INetwork network, IDataSet data)
         {
             var stats = TestBasic(network, data);
             var log = new TestingLog { DataStats = stats };
 
             // Classifer?
-            var classificationData = data as IEncodedDataSet<_, int>;
+            var classificationData = data as IClassificationData;
             if (classificationData != null)
             {
                 var classifierStats = TestClassifier(network, classificationData);
@@ -43,19 +43,19 @@ namespace NeuralNetwork.Training
             return new DataStatistics(data.Size, network.SynapseCount, error, rss);
         }
 
-        private (double accuracy, double precision, double recall) TestClassifier<_>(INetwork network, IEncodedDataSet<_, int> data)
+        private (double accuracy, double precision, double recall) TestClassifier(INetwork network, IClassificationData data)
         {
             int classCount = data.OutputSize;
             var classes = Enumerable.Range(0, classCount);
             int[,] confusionMatrix = new int[classCount, classCount];
 
             // Populate the confusion matrix
-            foreach (IEncodedDataPoint<_, int> point in data)
+            foreach (var point in data)
             {
-                var trueClass = point.OutputTag;
-                var result = network.Evaluate(point.Input);
-                var classifiedClass = data.Encoder.DecodeOutput(result);
-                confusionMatrix[trueClass, classifiedClass]++;
+                var trueClass = point.@class;
+                var output = network.Evaluate(point.input);
+                var outputClass = data.OutputToClass(output);
+                confusionMatrix[trueClass, outputClass]++;
             }
 
             double Mean(IEnumerable<double> values) => values.Sum() / values.Count();
