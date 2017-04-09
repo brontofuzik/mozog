@@ -32,13 +32,13 @@ namespace NeuralNetwork.Training
         {
             var error = 0.0;
             var rss = 0.0;
-
             foreach (var point in data)
             {
                 var result = network.EvaluateLabeled(point.Input, point.Output);
                 error += result.error;
                 rss += Math.Pow(result.output[0] - point.Output[0], 2);
             }
+            error /= data.Size;
 
             return new DataStatistics(data.Size, network.SynapseCount, error, rss);
         }

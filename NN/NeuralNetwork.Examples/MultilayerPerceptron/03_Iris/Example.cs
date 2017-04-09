@@ -30,17 +30,19 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
 
             // Step 2: Create the network.
 
-            var architecture = NetworkArchitecture.Feedforward(
-                new[] { data.InputSize, 2, data.OutputSize },
-                Activation.Sigmoid,
-                Error.MSE);
+            //// Sigmoid & MSE
+            //var architecture = NetworkArchitecture.Feedforward(
+            //    new[] { data.InputSize, 2, data.OutputSize },
+            //    Activation.Sigmoid,
+            //    Error.MSE);
 
-            //var architecture = NetworkArchitecture.Feedforward(new(int, IActivationFunction)[]
-            //{
-            //    (data.InputSize, null),
-            //    (20, Activation.Linear),
-            //    (data.OutputSize, Activation.Softmax)
-            //}, Error.CEE);
+            // Softmax & CEE
+            var architecture = NetworkArchitecture.Feedforward(new(int, IActivationFunction)[]
+            {
+                (data.InputSize, null),
+                (2, Activation.Sigmoid),
+                (data.OutputSize, Activation.Softmax)
+            }, Error.CEE);
 
             network = new Network(architecture);
 

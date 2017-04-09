@@ -21,19 +21,19 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
             // Step 2: Create the network.
 
-            // Sigmoid & MSE
-            var architecture = NetworkArchitecture.Feedforward(
-                new[] { trainingData.InputSize, 5, trainingData.OutputSize },
-                Activation.Sigmoid,
-                Error.MSE);
+            //// Sigmoid & MSE
+            //var architecture = NetworkArchitecture.Feedforward(
+            //    new[] { trainingData.InputSize, 5, trainingData.OutputSize },
+            //    Activation.Sigmoid,
+            //    Error.MSE);
 
-            // Linear-Softmax & CEE
-            //var architecture = NetworkArchitecture.Feedforward(new (int, IActivationFunction)[]
-            //{
-            //    (data.InputSize, null),
-            //    (20, Activation.Linear),
-            //    (data.OutputSize, Activation.Softmax)
-            //}, Error.CEE);
+            // Softmax & CEE
+            var architecture = NetworkArchitecture.Feedforward(new(int, IActivationFunction)[]
+            {
+                (trainingData.InputSize, null),
+                (5, Activation.Sigmoid),
+                (trainingData.OutputSize, Activation.Softmax)
+            }, Error.CEE);
 
             network = new Network(architecture);
 
