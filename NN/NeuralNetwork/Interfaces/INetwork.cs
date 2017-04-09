@@ -17,13 +17,19 @@ namespace NeuralNetwork.Interfaces
 
         int SynapseCount { get; }
 
-        double[] Evaluate(double[] input);
+        (double[] output, double error) EvaluateLabeled(double[] input, double[] target);
 
-        (double[] output, double error) Evaluate(double[] input, double[] target);
+        (double[] output, double error) EvaluateLabeled(ILabeledDataPoint point);
 
-        TOutput EvaluateEncoded<TInput, TOutput>(TInput input, IEncoder<TInput, TOutput> encoder);
+        // Encoded
+        (TOutput output, double error) EvaluateLabeled<TInput, TOutput>(TInput input, TOutput target, IEncoder<TInput, TOutput> encoder);
 
-        (TOutput output, double error) EvaluateEncoded<TInput, TOutput>(TInput input, TOutput target, IEncoder<TInput, TOutput> encoder);
+        double[] EvaluateUnlabeled(double[] input);
+
+        double[] EvaluateUnlabeled(IDataPoint point);
+
+        // Encoded
+        TOutput EvaluateUnlabeled<TInput, TOutput>(TInput input, IEncoder<TInput, TOutput> encoder);
 
         double CalculateError(DataSet dataSet);
 

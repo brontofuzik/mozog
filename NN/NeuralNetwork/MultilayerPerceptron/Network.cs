@@ -106,28 +106,36 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         #endregion // Synapses
 
-        public double[] Evaluate(double[] input)
+        public (double[] output, double error) EvaluateLabeled(double[] input, double[] target)
+        {
+            var output = EvaluateUnlabeled(input);
+            var error = errorFunc.Evaluate(output, target);
+            return (output, error);
+        }
+
+        public (double[] output, double error) EvaluateLabeled(ILabeledDataPoint point)
+            => EvaluateLabeled(point.Input, point.Output);
+
+        // Encoded
+        public (TOutput output, double error) EvaluateLabeled<TInput, TOutput>(TInput input, TOutput target, IEncoder<TInput, TOutput> encoder)
+        {
+            var result = EvaluateLabeled(encoder.EncodeInput(input), encoder.EncodeOutput(target));
+            return (encoder.DecodeOutput(result.output), result.error);
+        }
+
+        public double[] EvaluateUnlabeled(double[] input)
         {
             Input = input;
             Evaluate();
             return Output;
         }
 
-        public (double[] output, double error) Evaluate(double[] input, double[] target)
-        {
-            var output = Evaluate(input);
-            var error = errorFunc.Evaluate(output, target);
-            return (output, error);
-        }
+        public double[] EvaluateUnlabeled(IDataPoint point)
+            => EvaluateUnlabeled(point.Input);
 
-        public TOutput EvaluateEncoded<TInput, TOutput>(TInput input, IEncoder<TInput, TOutput> encoder)
-            => encoder.DecodeOutput(Evaluate(encoder.EncodeInput(input)));
-
-        public (TOutput output, double error) EvaluateEncoded<TInput, TOutput>(TInput input, TOutput target, IEncoder<TInput, TOutput> encoder)
-        {
-            var result = Evaluate(encoder.EncodeInput(input), encoder.EncodeOutput(target));
-            return (encoder.DecodeOutput(result.output), result.error);
-        }
+        // Encoded
+        public TOutput EvaluateUnlabeled<TInput, TOutput>(TInput input, IEncoder<TInput, TOutput> encoder)
+            => encoder.DecodeOutput(EvaluateUnlabeled(encoder.EncodeInput(input)));
 
         private void Evaluate()
         {
@@ -152,7 +160,7 @@ namespace NeuralNetwork.MultilayerPerceptron
             => dataSet.Sum((ILabeledDataPoint point) => CalculateError(point)) / dataSet.Size;
 
         public double CalculateError(ILabeledDataPoint point)
-            => errorFunc.Evaluate(Evaluate(point.Input), point.Output);
+            => errorFunc.Evaluate(EvaluateUnlabeled(point.Input), point.Output);
 
         #endregion // Error function
 

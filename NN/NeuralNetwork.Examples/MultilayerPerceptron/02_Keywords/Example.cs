@@ -59,14 +59,14 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
             {
                 // Original keyword
                 string originalKeyword = (string)testData[i].Tag;
-                var index = network.EvaluateEncoded(originalKeyword, Data.Encoder);
+                var index = network.EvaluateUnlabeled(originalKeyword, Data.Encoder);
                 Console.Write($"{originalKeyword}: {index}");                
 
                 // Mutated keywords
                 for (int j = i + 1; j < i + 5; j++)
                 {
                     string mutatedKeyword = (string)testData[j].Tag;
-                    index = network.EvaluateEncoded(mutatedKeyword, Data.Encoder);
+                    index = network.EvaluateUnlabeled(mutatedKeyword, Data.Encoder);
                     Console.Write($", {mutatedKeyword}: {index}");
                 }
                 Console.WriteLine();

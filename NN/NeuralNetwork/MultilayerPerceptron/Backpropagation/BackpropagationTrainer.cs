@@ -78,7 +78,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         private double TrainPoint(BackpropagationNetwork network, ILabeledDataPoint point)
         {
-            var result = network.Evaluate(point.Input, point.Output);
+            var result = network.EvaluateLabeled(point.Input, point.Output);
             network.Backpropagate(point.Output); // Neurons
             network.UpdateGradient(); // Synapses
 

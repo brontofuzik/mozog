@@ -35,7 +35,7 @@ namespace NeuralNetwork.Training
 
             foreach (var point in data)
             {
-                var result = network.Evaluate(point.Input, point.Output);
+                var result = network.EvaluateLabeled(point.Input, point.Output);
                 error += result.error;
                 rss += Math.Pow(result.output[0] - point.Output[0], 2);
             }
@@ -53,7 +53,7 @@ namespace NeuralNetwork.Training
             foreach (var point in data)
             {
                 var trueClass = point.@class;
-                var output = network.Evaluate(point.input);
+                var output = network.EvaluateUnlabeled(point.input);
                 var outputClass = data.OutputToClass(output);
                 confusionMatrix[trueClass, outputClass]++;
             }

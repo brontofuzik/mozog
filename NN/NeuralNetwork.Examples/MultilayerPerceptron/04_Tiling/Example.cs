@@ -70,7 +70,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
             foreach (var c in Data.TileCoordinates)
             {
                 var originalTile = originalTiles[c.row, c.column];
-                var processedTile = network.EvaluateEncoded(originalTile, Data.Encoder);
+                var processedTile = network.EvaluateUnlabeled(originalTile, Data.Encoder);
 
                 int minDifference = Int32.MaxValue;
                 Bitmap resultTile = null;
