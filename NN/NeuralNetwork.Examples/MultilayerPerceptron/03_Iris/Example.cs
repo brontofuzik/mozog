@@ -59,9 +59,9 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
 
             // Step 4: Test the network.
 
-            var testStats = trainer.Test(network, testData);
-            var classificationStats = trainer.TestClassifier(network, testData, Data.Encoder);
-            Console.WriteLine($"Test stats: {testStats} (Acc: {classificationStats.accuracy:P2}, Pre: {classificationStats.precision:P2}, Rec: {classificationStats.recall:P2})");
+            //var testStats = trainer.Test(network, testData);
+            //var classificationStats = trainer.TestClassifier(network, testData, Data.Encoder);
+            //Console.WriteLine($"Test stats: {testStats} (Acc: {classificationStats.accuracy:P2}, Pre: {classificationStats.precision:P2}, Rec: {classificationStats.recall:P2})");
         }
 
         private static void LogTrainingProgress(object sender, TrainingStatus e)

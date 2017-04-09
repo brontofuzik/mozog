@@ -38,7 +38,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
         public static readonly IEncoder<string, int> Encoder = new KeywordsEncoder();
 
-        public static IDataSet<string, int> Create()
+        public static IEncodedDataSet<string, int> Create()
         {
             var data = EncodedDataSet.New(MaxKeywordLength * Width, KeywordCount, Encoder);
             for (int i = 0; i < KeywordCount; i++)
@@ -95,6 +95,12 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
                 keyword.ForEach(c => sb.Append(EncodeChar(c)));
                 string encoding = sb.ToString().PadRight(MaxKeywordLength * Width, '0');
                 return encoding.Select(c => c == '1' ? 1.0 : 0.0).ToArray();
+            }
+   
+            public string DecodeInput(double[] input)
+            {
+                // Not needed
+                throw new NotImplementedException();
             }
 
             public double[] EncodeOutput(int index)

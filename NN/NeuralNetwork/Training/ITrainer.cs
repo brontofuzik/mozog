@@ -8,9 +8,9 @@ namespace NeuralNetwork.Training
     {
         TrainingLog Train(INetwork network, IDataSet data, TTrainingArgs args);
 
-        DataStatistics Test(INetwork network, IDataSet data);
+        TestingLog Test<_>(INetwork network, IDataSet data);
 
-        TestingLog Test_NEW<_>(INetwork network, IDataSet data);
+        DataStatistics TestBasic(INetwork network, IDataSet data);
 
         event EventHandler<TrainingStatus> TrainingProgress;
     }

@@ -113,6 +113,12 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
                 return input;
             }
 
+            public Bitmap DecodeInput(double[] input)
+            {
+                // Not needed
+                throw new System.NotImplementedException();
+            }
+
             public double[] EncodeOutput(Bitmap tile)
                 => EncodeInput(tile);
 

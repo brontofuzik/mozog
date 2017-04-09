@@ -10,7 +10,25 @@ namespace NeuralNetwork.Training
     {
         public abstract TrainingLog Train(INetwork network, IDataSet data, TTrainingArgs args);
 
-        public virtual DataStatistics Test(INetwork network, IDataSet data)
+        public TestingLog Test<_>(INetwork network, IDataSet data)
+        {
+            var stats = TestBasic(network, data);
+            var log = new TestingLog { DataStats = stats };
+
+            // Classifer?
+            var classificationData = data as IEncodedDataSet<_, int>;
+            if (classificationData != null)
+            {
+                var classifierStats = TestClassifier(network, classificationData);
+                log.Accuracy = classifierStats.accuracy;
+                log.Precision = classifierStats.precision;
+                log.Recall = classifierStats.recall;
+            }
+
+            return log;
+        }
+
+        public virtual DataStatistics TestBasic(INetwork network, IDataSet data)
         {
             var error = 0.0;
             var rss = 0.0;
@@ -25,37 +43,18 @@ namespace NeuralNetwork.Training
             return new DataStatistics(data.Size, network.SynapseCount, error, rss);
         }
 
-        public TestingLog Test_NEW<_>(INetwork network, IDataSet data)
-        {
-            var stats = Test(network, data);
-            var log = new TestingLog { DataStats = stats };
-
-            // Classifer?
-            var classificationData = data as EncodedDataSet<_, int>;
-            if (classificationData != null)
-            {
-                var classifierStats = TestClassifier(network, classificationData, classificationData.encoder);
-                log.Accuracy = classifierStats.accuracy;
-                log.Precision = classifierStats.precision;
-                log.Recall = classifierStats.recall;
-            }
-
-            return log;
-        }
-
-        public (double accuracy, double precision, double recall) TestClassifier<_>(INetwork network, IDataSet<_, int> data,
-            IEncoder<_, int> encoder)
+        private (double accuracy, double precision, double recall) TestClassifier<_>(INetwork network, IEncodedDataSet<_, int> data)
         {
             int classCount = data.OutputSize;
             var classes = Enumerable.Range(0, classCount);
             int[,] confusionMatrix = new int[classCount, classCount];
 
             // Populate the confusion matrix
-            foreach (var point in (IEnumerable<ILabeledDataPoint<_, int>>)data)
+            foreach (IEncodedDataPoint<_, int> point in data)
             {
                 var trueClass = point.OutputTag;
                 var result = network.Evaluate(point.Input);
-                var classifiedClass = encoder.DecodeOutput(result);
+                var classifiedClass = data.Encoder.DecodeOutput(result);
                 confusionMatrix[trueClass, classifiedClass]++;
             }
 

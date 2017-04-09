@@ -52,20 +52,20 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
             // Step 4: Test the network.
 
-            var testingLog = trainer.Test_NEW<string>(network, testData);
+            var testingLog = trainer.Test<string>(network, testData);
             Console.WriteLine(testingLog);
 
             for (int i = 0; i < testData.Size; i += 5)
             {
                 // Original keyword
-                string originalKeyword = testData[i].InputTag;
+                string originalKeyword = (string)testData[i].Tag;
                 var index = network.EvaluateEncoded(originalKeyword, Data.Encoder);
                 Console.Write($"{originalKeyword}: {index}");                
 
                 // Mutated keywords
                 for (int j = i + 1; j < i + 5; j++)
                 {
-                    string mutatedKeyword = testData[j].InputTag;
+                    string mutatedKeyword = (string)testData[j].Tag;
                     index = network.EvaluateEncoded(mutatedKeyword, Data.Encoder);
                     Console.Write($", {mutatedKeyword}: {index}");
                 }

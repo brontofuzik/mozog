@@ -10,7 +10,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
 
         public static readonly IEncoder<(bool, bool), bool> Encoder = new LogicGatesEncoder();
 
-        public static IDataSet AND => new LogicGatesData
+        public static ILogicGatesData AND => new LogicGatesData
         {
             {(F, F), F},
             {(F, T), F},
@@ -18,7 +18,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             {(T, T), T}
         };
 
-        public static IDataSet OR => new LogicGatesData
+        public static ILogicGatesData OR => new LogicGatesData
         {
             {(F, F), F},
             {(F, T), T},
@@ -26,7 +26,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             {(T, T), T}
         };
 
-        public static IDataSet XOR => new LogicGatesData
+        public static ILogicGatesData XOR => new LogicGatesData
         {
             {(F, F), F},
             {(F, T), T},
@@ -34,17 +34,30 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             {(T, T), F}
         };
 
-        private class LogicGatesData : EncodedDataSet<(bool, bool), bool>
+        // Typedef
+        private class LogicGatesData : EncodedDataSet<(bool, bool), bool>, ILogicGatesData
         {
-            public LogicGatesData() : base(2, 1, Encoder)
+            public LogicGatesData()
+                : base(2, 1, Data.Encoder)
             {
             }
+        }
+
+        // Typedef
+        public interface ILogicGatesData : IEncodedDataSet<(bool, bool), bool>
+        {
         }
 
         private class LogicGatesEncoder : IEncoder<(bool a, bool b), bool>
         {
             public double[] EncodeInput((bool a, bool b) input)
                 => new[] { BoolToReal(input.a), BoolToReal(input.b) };
+
+            public (bool a, bool b) DecodeInput(double[] input)
+            {
+                // Not needed
+                throw new System.NotImplementedException();
+            }
 
             public double[] EncodeOutput(bool output)
                 => new[] { BoolToReal(output) };

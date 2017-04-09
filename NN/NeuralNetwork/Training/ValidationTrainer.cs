@@ -39,7 +39,7 @@ namespace NeuralNetwork.Training
             PartitionDataSet(data);
 
             var log = innerTrainer.Train(network, trainingSet, args);
-            log.TestSetStats = innerTrainer.Test(network, testSet);
+            log.TestSetStats = innerTrainer.TestBasic(network, testSet);
 
             return log;
         }
@@ -69,7 +69,7 @@ namespace NeuralNetwork.Training
             return (array.Take(count).ToArray(), array.Skip(count).ToArray());
         }
 
-        public override DataStatistics Test(INetwork network, IDataSet data)
+        public override DataStatistics TestBasic(INetwork network, IDataSet data)
         {
             throw new NotImplementedException();
         }

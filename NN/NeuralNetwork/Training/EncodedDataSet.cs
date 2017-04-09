@@ -2,16 +2,24 @@
 
 namespace NeuralNetwork.Training
 {
-    public class EncodedDataSet<TInput, TOutput> : DataSet<TInput, TOutput>
+    public static class EncodedDataSet
     {
-        // TODO
-        public readonly IEncoder<TInput, TOutput> encoder;
+        public static EncodedDataSet<TInput, TOutput> New<TInput, TOutput>(int inputSize, int outputSize, IEncoder<TInput, TOutput> encoder)
+            => new EncodedDataSet<TInput, TOutput>(inputSize, outputSize, encoder);
+
+        public static EncodedDataSet<TInput, TOutput> New<TInput, TOutput>(int inputSize, IEncoder<TInput, TOutput> encoder)
+            => new EncodedDataSet<TInput, TOutput>(inputSize, encoder);
+    }
+
+    public class EncodedDataSet<TInput, TOutput> : DataSet, IEncodedDataSet<TInput, TOutput>
+    {
+        public IEncoder<TInput, TOutput> Encoder { get; }
 
         // Labeled data for supervised training
         public EncodedDataSet(int inputSize, int outputSize, IEncoder<TInput, TOutput> encoder)
             : base(inputSize, outputSize)
         {
-            this.encoder = encoder;
+            Encoder = encoder;
         }
 
         // Unlabeled data for unsupervised training
@@ -20,25 +28,21 @@ namespace NeuralNetwork.Training
         {
         }
 
-        // Tagged
-        public void Add(TInput input, TOutput output, object tag)
-        {
-            Add(encoder.EncodeInput(input), input, encoder.EncodeOutput(output), output, tag);
-        }
+        public IEncodedDataPoint<TInput, TOutput> this[int index]
+            => (IEncodedDataPoint<TInput, TOutput>)base[index];
 
-        // Untagged
-        public void Add(TInput input, TOutput output)
+        public void Add(TInput input, TOutput output, object tag = null)
         {
-            Add(input, output, null);
+            Add(new EncodedDataPoint<TInput, TOutput>(Encoder, input, output, tag));
         }
     }
 
-    public static class EncodedDataSet
+    public interface IEncodedDataSet<TInput, TOutput> : IDataSet
     {
-        public static EncodedDataSet<TInput, TOutput> New<TInput, TOutput>(int inputSize, int outputSize, IEncoder<TInput, TOutput> encoder)
-            => new EncodedDataSet<TInput, TOutput>(inputSize, outputSize, encoder);
+        IEncoder<TInput, TOutput> Encoder { get; }
 
-        public static EncodedDataSet<TInput, TOutput> New<TInput, TOutput>(int inputSize, IEncoder<TInput, TOutput> encoder)
-            => new EncodedDataSet<TInput, TOutput>(inputSize, encoder);
+        new IEncodedDataPoint<TInput, TOutput> this[int index] { get; }
+
+        void Add(TInput inputTag, TOutput outputTag, object tag = null);
     }
 }

@@ -4,7 +4,7 @@
     {
         double[] EncodeInput(TInput input);
 
-        //TInput DecodeInput(double[] input);
+        TInput DecodeInput(double[] input);
 
         double[] EncodeOutput(TOutput output);
 

@@ -6,9 +6,9 @@ using Mozog.Utils;
 
 namespace NeuralNetwork.Training
 {
-    public class DataSet<TInput, TOutput> : IDataSet<TInput, TOutput>
+    public class DataSet : IDataSet
     {
-        private readonly List<ILabeledDataPoint<TInput, TOutput>> points = new List<ILabeledDataPoint<TInput, TOutput>>();
+        private readonly List<ILabeledDataPoint> points = new List<ILabeledDataPoint>();
 
         public DataSet(int inputSize, int outputSize = 0)
         {
@@ -25,12 +25,9 @@ namespace NeuralNetwork.Training
 
         public int Size => points.Count;
 
-        public ILabeledDataPoint<TInput, TOutput> this[int index] => points[index];
+        public ILabeledDataPoint this[int index] => points[index];
 
-        public IEnumerator<ILabeledDataPoint<TInput, TOutput>> GetEnumerator() => points.GetEnumerator();
-
-        IEnumerator<ILabeledDataPoint<TInput, TOutput>> IEnumerable<ILabeledDataPoint<TInput, TOutput>>.GetEnumerator()
-            => GetEnumerator();
+        public IEnumerator<ILabeledDataPoint> GetEnumerator() => points.GetEnumerator();
 
         IEnumerator<ILabeledDataPoint> IEnumerable<ILabeledDataPoint>.GetEnumerator()
             => GetEnumerator();
@@ -38,14 +35,12 @@ namespace NeuralNetwork.Training
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
 
-        public IEnumerable<ILabeledDataPoint<TInput, TOutput>> Random()
+        public IEnumerable<ILabeledDataPoint> Random()
         {
             var shuffledPoints = points.ToArray();
             StaticRandom.Shuffle(shuffledPoints);
             return shuffledPoints.AsEnumerable();
         }
-
-        IEnumerable<ILabeledDataPoint> IDataSet.Random() => Random();
 
         public void Add(ILabeledDataPoint point)
         {
@@ -60,24 +55,18 @@ namespace NeuralNetwork.Training
                 throw new ArgumentException("The output vector must be of size " + OutputSize, nameof(point));
             }
 
-            points.Add((ILabeledDataPoint<TInput, TOutput>)point);
-        }
-
-        // Tagged
-        public void Add(double[] input, TInput inputTag, double[] output, TOutput outputTag, object tag = null)
-        {
-            Add(new LabeledDataPoint<TInput, TOutput>(input, inputTag, output, outputTag, tag));
+            points.Add(point);
         }
 
         // Untagged
         public void Add(double[] input, double[] output, object tag = null)
         {
-            Add(new LabeledDataPoint<TInput, TOutput>(input, output, tag));
+            Add(new LabeledDataPoint(input, output, tag));
         }
 
         public void AddRange(IEnumerable<ILabeledDataPoint> points)
         {
-            this.points.AddRange((IEnumerable<ILabeledDataPoint<TInput, TOutput>>)points);
+            this.points.AddRange(points);
         }
 
         public void Add(IDataSet dataSet)
@@ -89,14 +78,14 @@ namespace NeuralNetwork.Training
                 throw new ArgumentException();
             }
 
-            points.AddRange((IDataSet<TInput, TOutput>)dataSet);
+            points.AddRange(dataSet);
         }
 
         public bool Contains(ILabeledDataPoint point)
             => points.Contains(point);
 
         public bool Remove(ILabeledDataPoint point)
-            => points.Remove((ILabeledDataPoint<TInput, TOutput>)point);
+            => points.Remove(point);
 
         public void Clear()
         {
@@ -106,16 +95,6 @@ namespace NeuralNetwork.Training
         public override string ToString() => $"{{\n{String.Join("\n", points.Select((p, i) => $"\t{i}: {p}"))}\n}}";
     }
 
-    public class DataSet : DataSet<object, object>
-    {
-        public DataSet(int inputSize, int outputSize = 0)
-            : base(inputSize, outputSize)
-        {
-        }
-
-        public new IEnumerator<ILabeledDataPoint> GetEnumerator() => base.GetEnumerator();
-    }
-
     public interface IDataSet : IEnumerable<ILabeledDataPoint>
     {
         int InputSize { get; }
@@ -123,6 +102,8 @@ namespace NeuralNetwork.Training
         int OutputSize { get; }
 
         int Size { get; }
+
+        ILabeledDataPoint this[int index] { get; }
 
         IEnumerable<ILabeledDataPoint> Random();
 
@@ -139,14 +120,5 @@ namespace NeuralNetwork.Training
         bool Remove(ILabeledDataPoint point);
 
         void Clear();
-    }
-
-    public interface IDataSet<TInput, TOutput> : IDataSet, IEnumerable<ILabeledDataPoint<TInput, TOutput>>
-    {
-        ILabeledDataPoint<TInput, TOutput> this[int index] { get; }
-
-        new IEnumerable<ILabeledDataPoint<TInput, TOutput>> Random();
-
-        void Add(double[] input, TInput inputTag, double[] output, TOutput outputTag, object tag = null);
     }
 }

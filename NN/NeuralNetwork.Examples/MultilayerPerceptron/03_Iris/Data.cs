@@ -12,7 +12,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
 
         public static readonly IEncoder<double[], int> Encoder = new IrisEncoder();
 
-        public static IDataSet<double[], int> Create()
+        public static IEncodedDataSet<double[], int> Create()
         {
             var data = EncodedDataSet.New(4, 3, Encoder);
 
@@ -47,6 +47,12 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
         public class IrisEncoder : IEncoder<double[], int>
         {
             public double[] EncodeInput(double[] input) => input;
+
+            public double[] DecodeInput(double[] input)
+            {
+                // Not needed
+                throw new NotImplementedException();
+            }
 
             public double[] EncodeOutput(int @class)
                 => Vector.IndexToVector(@class, 3);
