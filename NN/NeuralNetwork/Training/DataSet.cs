@@ -62,9 +62,10 @@ namespace NeuralNetwork.Training
             Add(new LabeledDataPoint(input, output, tag));
         }
 
-        public void AddRange(IEnumerable<ILabeledDataPoint> points)
+        public IDataSet AddRange(IEnumerable<ILabeledDataPoint> points)
         {
             this.points.AddRange(points);
+            return this;
         }
 
         public void Add(IDataSet dataSet)
@@ -90,7 +91,10 @@ namespace NeuralNetwork.Training
             points.Clear();
         }
 
+        public virtual IDataSet CreateNewSet() => new DataSet(InputSize, OutputSize);
+
         public override string ToString() => $"{{\n{String.Join("\n", points.Select((p, i) => $"\t{i}: {p}"))}\n}}";
+
     }
 
     public interface IDataSet : IEnumerable<ILabeledDataPoint>
@@ -109,7 +113,7 @@ namespace NeuralNetwork.Training
 
         void Add(double[] input, double[] output, object tag = null);
 
-        void AddRange(IEnumerable<ILabeledDataPoint> points);
+        IDataSet AddRange(IEnumerable<ILabeledDataPoint> points);
 
         void Add(IDataSet dataSet);
 
@@ -118,5 +122,7 @@ namespace NeuralNetwork.Training
         bool Remove(ILabeledDataPoint point);
 
         void Clear();
+
+        IDataSet CreateNewSet();
     }
 }

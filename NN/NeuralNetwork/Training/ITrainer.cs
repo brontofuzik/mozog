@@ -12,19 +12,26 @@ namespace NeuralNetwork.Training
 
         DataStatistics TestBasic(INetwork network, IDataSet data);
 
-        event EventHandler<TrainingStatus> TrainingProgress;
+        event EventHandler<TrainingStatus> WeightsUpdated;
+
+        event EventHandler WeightsReset;
     }
 
-    public struct TrainingStatus
+    public class TrainingStatus
     {
-        public double Error { get; private set; }
+        public INetwork Network { get; set; }
 
         public int Iterations { get; private set; }
 
-        public TrainingStatus(int iterations, double error)
+        public double Error { get; private set; }
+
+        public bool StopTraining { get; set; }
+
+        public TrainingStatus(INetwork network, int iterations, double error)
         {
-            Error = error;
+            Network = network;
             Iterations = iterations;
+            Error = error;
         }
     }
 }

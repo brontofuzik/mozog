@@ -40,7 +40,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
             // Step 3: Train the network.
 
             var trainer = new BackpropagationTrainer();
-            trainer.TrainingProgress += LogTrainingProgress;
+            trainer.WeightsUpdated += LogTrainingProgress;
 
             var log = trainer.Train(network, trainingData, BackpropagationArgs.Batch(
                 learningRate: 0.1,

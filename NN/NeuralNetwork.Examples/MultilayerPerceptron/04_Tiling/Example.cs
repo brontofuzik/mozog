@@ -33,7 +33,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
             // Step 3: Train the network.
 
             var trainer = new BackpropagationTrainer();
-            trainer.TrainingProgress += LogTrainingProgress;
+            trainer.WeightsUpdated += LogTrainingProgress;
 
             var iterations = 500;
             var log = trainer.Train(network, data, BackpropagationArgs.Stochastic(

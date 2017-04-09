@@ -8,16 +8,15 @@ namespace NeuralNetwork.Training
         where TTrainingArgs : ITrainingArgs
     {
         private readonly ITrainer<TTrainingArgs> innerTrainer;
-
-        // Partitions
         private readonly double trainingRatio;
-        private DataSet trainingSet;
-
         private readonly double validationRatio;
-        private DataSet validationSet;
-
         private readonly double testRatio;
-        private DataSet testSet;
+
+        private IDataSet trainingSet;
+        private IDataSet validationSet;
+        private IDataSet testSet;
+
+        private double validationError = Double.MaxValue;
 
         public ValidationTrainer(ITrainer<TTrainingArgs> innerTrainer, double trainingRatio, double validationRatio, double testRatio)
         {
@@ -30,6 +29,21 @@ namespace NeuralNetwork.Training
             this.trainingRatio = trainingRatio;
             this.validationRatio = validationRatio;
             this.testRatio = testRatio;
+
+            WeightsUpdated += ValidationTrainer_WeightsUpdated;
+            WeightsReset += ValidationTrainer_WeightsReset;
+        }
+
+        public override event EventHandler<TrainingStatus> WeightsUpdated
+        {
+            add { innerTrainer.WeightsUpdated += value; }
+            remove { innerTrainer.WeightsUpdated -= value; }
+        }
+
+        public override event EventHandler WeightsReset
+        {
+            add { innerTrainer.WeightsReset += value; }
+            remove { innerTrainer.WeightsReset -= value; }
         }
 
         // Holdout validation:
@@ -39,7 +53,13 @@ namespace NeuralNetwork.Training
             PartitionDataSet(data);
 
             var log = innerTrainer.Train(network, trainingSet, args);
-            log.TestSetStats = innerTrainer.TestBasic(network, testSet);
+            log.TrainingSetStats = TestBasic(network, trainingSet);
+
+            if (validationSet != null && validationSet.Size > 0)
+                log.ValidationSetStats = TestBasic(network, validationSet);
+
+            if (testSet != null && testSet.Size > 0)
+                log.TestSetStats = TestBasic(network, testSet);
 
             return log;
         }
@@ -50,17 +70,14 @@ namespace NeuralNetwork.Training
 
             // Training set
             var split = SplitArray(points, trainingRatio);
-            trainingSet = new DataSet(data.InputSize, data.OutputSize);
-            trainingSet.AddRange(split.first);
+            trainingSet = data.CreateNewSet().AddRange(split.first);
 
             // Validation set
             split = SplitArray(split.second, validationRatio / (validationRatio + testRatio));
-            validationSet = new DataSet(data.InputSize, data.OutputSize);
-            validationSet.AddRange(split.first);
+            validationSet = data.CreateNewSet().AddRange(split.first);
 
             // Testing set
-            testSet = new DataSet(data.InputSize, data.OutputSize);
-            testSet.AddRange(split.second);
+            testSet = data.CreateNewSet().AddRange(split.second);
         }
 
         private static (T[] first, T[] second) SplitArray<T>(T[] array, double ratio)
@@ -69,15 +86,26 @@ namespace NeuralNetwork.Training
             return (array.Take(count).ToArray(), array.Skip(count).ToArray());
         }
 
-        public override DataStatistics TestBasic(INetwork network, IDataSet data)
+        private void ValidationTrainer_WeightsUpdated(object sender, TrainingStatus e)
         {
-            throw new NotImplementedException();
+            if (e.Iterations % 100 != 0) return;
+
+            var result = TestBasic(e.Network, validationSet);
+
+            if (result.Error > validationError)
+            {
+                e.StopTraining = true;
+            }
+            else
+            {
+                validationError = result.Error;
+                e.StopTraining = false;
+            }
         }
 
-        public override event EventHandler<TrainingStatus> TrainingProgress
+        private void ValidationTrainer_WeightsReset(object sender, EventArgs e)
         {
-            add { innerTrainer.TrainingProgress += value; }
-            remove { innerTrainer.TrainingProgress -= value; }
+            validationError = Double.MaxValue;
         }
     }
 }

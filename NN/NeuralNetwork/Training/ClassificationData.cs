@@ -41,6 +41,8 @@ namespace NeuralNetwork.Training
         //    => GetEnumerator();
 
         public int OutputToClass(double[] output) => encoder.DecodeOutput(output);
+
+        public override IDataSet CreateNewSet() => new ClassificationData<TInput>(encoder, InputSize, OutputSize);
     }
 
     public interface IClassificationData : IDataSet //, IEnumerable<(double[] input, int @class)>

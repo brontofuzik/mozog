@@ -8,13 +8,19 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
     public class BackpropagationTrainer : TrainerBase<BackpropagationArgs>
     {
+        private BackpropagationNetwork backpropNetwork;
+
+        public override event EventHandler<TrainingStatus> WeightsUpdated;
+
+        public override event EventHandler WeightsReset;
+
         public override TrainingLog Train(INetwork network, IDataSet data, BackpropagationArgs args)
         {
             // Convert to backprop network
             var architecture = network.Architecture;
-            var backpropNetwork = new BackpropagationNetwork(architecture);
+            backpropNetwork = new BackpropagationNetwork(architecture);
 
-            var log = TrainBackprop(backpropNetwork, data, args);
+            var log = TrainBackprop( data, args);
 
             // Convert back to normal network
             var weights = backpropNetwork.GetWeights();
@@ -25,36 +31,43 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             return log;
         }
 
-        private TrainingLog TrainBackprop(BackpropagationNetwork network, IDataSet data, BackpropagationArgs args)
+        private TrainingLog TrainBackprop(IDataSet data, BackpropagationArgs args)
         {
-            network.Initialize(args);
+            backpropNetwork.Initialize(args);
 
             double error = Double.MaxValue;
             int iterations = 0;      
             do
             {
                 if (iterations % args.ResetInterval == 0)
-                    network.Initialize(args);
+                    ResetWeights();
 
-                error = TrainIteration(network, data, args);
+                error = TrainIteration(data, args);
                 iterations++;
 
-                TrainingProgress?.Invoke(this, new TrainingStatus(iterations, error));
+                if (OnWeightsUpdated(iterations, error))
+                    break;
             }
             while (!args.IsDone(error, iterations));
 
             return new TrainingLog(iterations);
         }
 
-        private double TrainIteration(BackpropagationNetwork network, IDataSet data, BackpropagationArgs args)
+        private void ResetWeights()
+        {
+            backpropNetwork.ResetWeights();
+            WeightsReset?.Invoke(this, EventArgs.Empty);
+        }
+
+        private double TrainIteration(IDataSet data, BackpropagationArgs args)
         {
             if (args.Type == BackpropagationType.Batch)
             {
-                return TrainBatch(network, data);
+                return TrainBatch(data);
             }
             else if (args.Type == BackpropagationType.Stochastic)
             {
-                return data.Random().Sum(p => TrainPoint(network, p));
+                return data.Random().Sum(p => TrainPoint(p));
             }
             else
             {
@@ -62,62 +75,34 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             }
         }
 
-        private double TrainBatch(BackpropagationNetwork network, IEnumerable<ILabeledDataPoint> batch)
+        private double TrainBatch(IEnumerable<ILabeledDataPoint> batch)
         {
-            network.ResetGradients(); // Synapses
+            backpropNetwork.ResetGradients(); // Synapses
 
-            var error = batch.Sum(p => TrainPoint(network, p));
+            var error = batch.Sum(p => TrainPoint(p));
 
-            network.UpdateWeights();
+            backpropNetwork.UpdateWeights();
 
             // TODO
-            network.UpdateLearningRates(); // Synapses
+            backpropNetwork.UpdateLearningRates(); // Synapses
 
             return error;
         }
 
-        private double TrainPoint(BackpropagationNetwork network, ILabeledDataPoint point)
+        private double TrainPoint(ILabeledDataPoint point)
         {
-            var result = network.EvaluateLabeled(point.Input, point.Output);
-            network.Backpropagate(point.Output); // Neurons
-            network.UpdateGradient(); // Synapses
+            var result = backpropNetwork.EvaluateLabeled(point.Input, point.Output);
+            backpropNetwork.Backpropagate(point.Output); // Neurons
+            backpropNetwork.UpdateGradient(); // Synapses
 
             return result.error;
         }
 
-        public override event EventHandler<TrainingStatus> TrainingProgress;
-    }
-
-    public class BackpropagationArgs : TrainingArgs
-    {
-        public BackpropagationArgs(BackpropagationType type, double learningRate, double momentum, double maxError, int maxIterations, int resetInterval)
-            : base(maxIterations, maxError)
+        private bool OnWeightsUpdated(int iterations, double error)
         {
-            Type = type;
-            LearningRate = learningRate;
-            Momentum = momentum;
-            ResetInterval = resetInterval;
+            var status = new TrainingStatus(backpropNetwork, iterations, error);
+            WeightsUpdated?.Invoke(this, status);
+            return status.StopTraining;
         }
-
-        public static BackpropagationArgs Batch(double learningRate, double momentum, double maxError = 0.0, int maxIterations = Int32.MaxValue, int resetInterval = Int32.MaxValue)
-            => new BackpropagationArgs(BackpropagationType.Batch, learningRate, momentum, maxError, maxIterations, resetInterval);
-
-        public static BackpropagationArgs Stochastic(double learningRate, double momentum, double maxError = 0.0, int maxIterations = Int32.MaxValue, int resetInterval = Int32.MaxValue)
-            => new BackpropagationArgs(BackpropagationType.Stochastic, learningRate, momentum, maxError, maxIterations, resetInterval);
-
-        public BackpropagationType Type { get; }
-
-        public double LearningRate { get; }
-
-        public double Momentum { get; }
-
-        public int ResetInterval { get; }
-    }
-
-    public enum BackpropagationType
-    {
-        Batch,
-        MiniBatch, // Not supported
-        Stochastic
     }
 }

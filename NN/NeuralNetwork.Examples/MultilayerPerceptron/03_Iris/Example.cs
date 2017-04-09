@@ -22,7 +22,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
             var testData = ClassificationData.New(Data.Encoder, 4, 3);
             data.Random().ForEach((p, i) =>
             {
-                if (i < 30)
+                if (i < 100)
                     trainingData.Add(p);
                 else
                     testData.Add(p);
@@ -31,7 +31,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
             // Step 2: Create the network.
 
             var architecture = NetworkArchitecture.Feedforward(
-                new[] { data.InputSize, 3, data.OutputSize },
+                new[] { data.InputSize, 2, data.OutputSize },
                 Activation.Sigmoid,
                 Error.MSE);
 
@@ -46,8 +46,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
 
             // Step 3: Train the network.
 
-            var trainer = new BackpropagationTrainer();
-            trainer.TrainingProgress += LogTrainingProgress;
+            var trainer = new ValidationTrainer<BackpropagationArgs>(new BackpropagationTrainer(), 0.6, 0.2, 0.2);
+            trainer.WeightsUpdated += LogTrainingProgress;
 
             var log = trainer.Train(network, trainingData, BackpropagationArgs.Batch(
                 learningRate: 0.1,

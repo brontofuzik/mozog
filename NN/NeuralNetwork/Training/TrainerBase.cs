@@ -72,6 +72,8 @@ namespace NeuralNetwork.Training
             return (accuracy, precision, recall);
         }
 
-        public abstract event EventHandler<TrainingStatus> TrainingProgress;
+        public abstract event EventHandler<TrainingStatus> WeightsUpdated;
+
+        public abstract event EventHandler WeightsReset;
     }
 }

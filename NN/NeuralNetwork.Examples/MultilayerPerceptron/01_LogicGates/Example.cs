@@ -33,7 +33,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             // Step 3: Train the network.
 
             var trainer = new BackpropagationTrainer();
-            trainer.TrainingProgress += LogTrainingProgress;
+            trainer.WeightsUpdated += LogTrainingProgress;
 
             var log = trainer.Train(network, data, BackpropagationArgs.Batch(
                 learningRate: 0.1,

@@ -41,6 +41,8 @@ namespace NeuralNetwork.Training
         {
             Add(new EncodedDataPoint<TInput, TOutput>(encoder, input, output, tag));
         }
+
+        public override IDataSet CreateNewSet() => new EncodedData<TInput, TOutput>(encoder, InputSize, OutputSize);
     }
 
     public interface IEncodedData<TInput, TOutput> : IDataSet //, IEnumerable<IEncodedDataPoint<TInput, TOutput>>

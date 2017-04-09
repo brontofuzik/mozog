@@ -103,6 +103,7 @@
     <Compile Include="ActivationFunctions\HyperbolicTangent.cs" />
     <Compile Include="ActivationFunctions\LinearFunction.cs" />
     <Compile Include="Interfaces\ILayer.cs" />
+    <Compile Include="MultilayerPerceptron\Backpropagation\BackpropagationArgs.cs" />
     <Compile Include="MultilayerPerceptron\InputLayer.cs" />
     <Compile Include="Interfaces\INetwork.cs" />
     <Compile Include="ActivationFunctions\IActivationFunction.cs" />

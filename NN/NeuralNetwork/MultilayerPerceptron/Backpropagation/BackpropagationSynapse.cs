@@ -35,7 +35,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         {
             base.Initialize();
 
-            Weight = StaticRandom.Double(-1, +1);
             learningRate = args.LearningRate;
             momentum = args.Momentum;
             gradient = 0.0;
@@ -64,6 +63,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             learningRate = previousWeightChange * weightChange > 0
                 ? Math.Min(learningRate * 1.01, 1.0) // Speed up
                 : Math.Max(learningRate / 2.0, 0.001); // Slow down
+        }
+
+        public void ResetWeight()
+        {
+            Weight = StaticRandom.Double(-1, +1);
         }
 
         public override string ToString() => "Bp:" + base.ToString();

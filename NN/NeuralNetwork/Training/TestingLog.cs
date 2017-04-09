@@ -15,13 +15,14 @@ namespace NeuralNetwork.Training
 
         public override string ToString()
         {
-            var separator = new String('=', 40);
+            const int width = 23;
+            var separator = new String('=', width);
 
             var sb = new StringBuilder();
 
             sb.AppendLine(separator);
             sb.AppendLine("TESTING LOG");
-            sb.AppendLine("-----------");
+            sb.AppendLine(new String('-', width));
             sb.AppendLine($"Error\t\t{DataStats}");
 
             if (Accuracy.HasValue)
