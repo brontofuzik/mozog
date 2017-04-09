@@ -38,7 +38,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
         public static readonly IEncoder<string, int> Encoder = new KeywordsEncoder();
 
-        public static DataSet Create()
+        public static IDataSet<string, int> Create()
         {
             var data = EncodedDataSet.New(MaxKeywordLength * Width, KeywordCount, Encoder);
             for (int i = 0; i < KeywordCount; i++)
@@ -51,7 +51,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
                 4.Times(() =>
                 {
                     string mutatedKeyword = MutateKeyword(originalKeyword);
-                    data.Add(mutatedKeyword, -1, tag: mutatedKeyword);
+                    data.Add(mutatedKeyword, i, tag: mutatedKeyword);
                 });
             }
             return data;

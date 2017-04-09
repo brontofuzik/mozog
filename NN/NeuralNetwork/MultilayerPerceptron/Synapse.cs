@@ -20,12 +20,6 @@ namespace NeuralNetwork.MultilayerPerceptron
         // Owner neuron
         public INeuron TargetNeuron { get; set; }
 
-        // TODO Jitter
-        //public void Jitter(double noiseLimit)
-        //{
-        //    Weight += StaticRandom.Double(-noiseLimit, +noiseLimit);
-        //}
-
         public override string ToString() => Weight.ToString("F2");
     }
 }

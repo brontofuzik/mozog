@@ -6,9 +6,9 @@
         {
             //MultilayerPerceptron.LogicGates.Example.Run();
 
-            //MultilayerPerceptron.Keywords.Example.Run();
+            MultilayerPerceptron.Keywords.Example.Run();
 
-            MultilayerPerceptron.Iris.Example.Run();
+            //MultilayerPerceptron.Iris.Example.Run();
 
             //MultilayerPerceptron.Tiling.Example.Run();
         }

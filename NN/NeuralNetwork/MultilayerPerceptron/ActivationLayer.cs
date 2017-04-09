@@ -52,12 +52,6 @@ namespace NeuralNetwork.MultilayerPerceptron
             Output = ActivationFunc2.Evaluate(Input);
         }
 
-        // TODO Jitter
-        //public void Jitter(double noiseLimit)
-        //{
-        //    Neurons.ForEach(n => n.Jitter(noiseLimit));
-        //}
-
         public override string ToString() => "AL" + base.ToString();
     }
 }

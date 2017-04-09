@@ -16,12 +16,8 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         #endregion // Construction
 
-        //public double PartialDerivative { get; private set; }
-
         // "Delta"
         public double Error { get; set; }
-
-        //public double ActivationDerivative => Layer.ActivationFunc1.EvaluateDerivative(Input);
 
         private new IEnumerable<BackpropagationSynapse> TargetSynapses
             => base.TargetSynapses.Cast<BackpropagationSynapse>();

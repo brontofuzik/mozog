@@ -27,7 +27,7 @@ namespace NeuralNetwork.Interfaces
 
         double CalculateError(DataSet dataSet);
 
-        double CalculateError(LabeledDataPoint dataPoint);
+        double CalculateError(ILabeledDataPoint dataPoint);
 
         double[] GetWeights();
 

@@ -2,7 +2,7 @@
 
 namespace NeuralNetwork.Training
 {
-    public class EncodedDataSet<TInput, TOutput> : DataSet
+    public class EncodedDataSet<TInput, TOutput> : DataSet<TInput, TOutput>
     {
         private readonly IEncoder<TInput, TOutput> encoder;
 
@@ -22,7 +22,7 @@ namespace NeuralNetwork.Training
         // Tagged
         public void Add(TInput input, TOutput output, object tag)
         {
-            Add(new LabeledDataPoint(encoder.EncodeInput(input), encoder.EncodeOutput(output), tag));
+            Add(encoder.EncodeInput(input), input, encoder.EncodeOutput(output), output, tag);
         }
 
         // Untagged

@@ -13,7 +13,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
 {
     static class Example
     {
-        private static DataSet data;
+        private static IDataSet data;
         private static Network network;
 
         public static void Run()

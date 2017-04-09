@@ -12,7 +12,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
 
         public static readonly IEncoder<double[], int> Encoder = new IrisEncoder();
 
-        public static DataSet Create()
+        public static IDataSet<double[], int> Create()
         {
             var data = EncodedDataSet.New(4, 3, Encoder);
 

@@ -40,9 +40,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             Synapses.ForEach(s => s.Initialize(args));
         }
 
-        public void ResetPartialDerivatives()
+        public void ResetGradients()
         {
-            Synapses.ForEach(s => s.ResetPartialDerivative());
+            Synapses.ForEach(s => s.ResetGradient());
         }
 
         // Replaces three steps - (b), (c) and (d) - with one.
@@ -52,9 +52,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             HiddenLayersReverse().ForEach(l => l.Backpropagate());
         }
 
-        public void UpdatePartialDerivatives()
+        public void UpdateGradient()
         {
-            Synapses.ForEach(s => s.UpdatePartialDerivative());
+            Synapses.ForEach(s => s.UpdateGradient());
         }
 
         public void UpdateWeights()

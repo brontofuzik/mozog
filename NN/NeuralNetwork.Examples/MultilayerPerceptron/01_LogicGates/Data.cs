@@ -10,7 +10,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
 
         public static readonly IEncoder<(bool, bool), bool> Encoder = new LogicGatesEncoder();
 
-        public static DataSet AND => new LogicGatesData
+        public static IDataSet AND => new LogicGatesData
         {
             {(F, F), F},
             {(F, T), F},
@@ -18,7 +18,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             {(T, T), T}
         };
 
-        public static DataSet OR => new LogicGatesData
+        public static IDataSet OR => new LogicGatesData
         {
             {(F, F), F},
             {(F, T), T},
@@ -26,7 +26,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             {(T, T), T}
         };
 
-        public static DataSet XOR => new LogicGatesData
+        public static IDataSet XOR => new LogicGatesData
         {
             {(F, F), F},
             {(F, T), T},

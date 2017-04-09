@@ -8,7 +8,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
     public class BackpropagationTrainer : TrainerBase<BackpropagationArgs>
     {
-        public override TrainingLog Train(INetwork network, DataSet data, BackpropagationArgs args)
+        public override TrainingLog Train(INetwork network, IDataSet data, BackpropagationArgs args)
         {
             // Convert to backprop network
             var architecture = network.Architecture;
@@ -25,7 +25,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             return log;
         }
 
-        private TrainingLog TrainBackprop(BackpropagationNetwork network, DataSet data, BackpropagationArgs args)
+        private TrainingLog TrainBackprop(BackpropagationNetwork network, IDataSet data, BackpropagationArgs args)
         {
             network.Initialize(args);
 
@@ -33,6 +33,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             int iterations = 0;      
             do
             {
+                if (iterations % args.ResetInterval == 0)
+                    network.Initialize(args);
+
                 error = TrainIteration(network, data, args);
                 iterations++;
 
@@ -43,7 +46,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             return new TrainingLog(iterations);
         }
 
-        private double TrainIteration(BackpropagationNetwork network, DataSet data, BackpropagationArgs args)
+        private double TrainIteration(BackpropagationNetwork network, IDataSet data, BackpropagationArgs args)
         {
             if (args.Type == BackpropagationType.Batch)
             {
@@ -59,9 +62,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             }
         }
 
-        private double TrainBatch(BackpropagationNetwork network, IEnumerable<LabeledDataPoint> batch)
+        private double TrainBatch(BackpropagationNetwork network, IEnumerable<ILabeledDataPoint> batch)
         {
-            network.ResetPartialDerivatives(); // Synapses
+            network.ResetGradients(); // Synapses
 
             var error = batch.Sum(p => TrainPoint(network, p));
 
@@ -73,11 +76,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             return error;
         }
 
-        private double TrainPoint(BackpropagationNetwork network, LabeledDataPoint point)
+        private double TrainPoint(BackpropagationNetwork network, ILabeledDataPoint point)
         {
             var result = network.Evaluate(point.Input, point.Output);
             network.Backpropagate(point.Output); // Neurons
-            network.UpdatePartialDerivatives(); // Synapses
+            network.UpdateGradient(); // Synapses
 
             return result.error;
         }
@@ -87,25 +90,28 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
     public class BackpropagationArgs : TrainingArgs
     {
-        public BackpropagationArgs(BackpropagationType type, double learningRate, double momentum, double maxError, int maxIterations)
+        public BackpropagationArgs(BackpropagationType type, double learningRate, double momentum, double maxError, int maxIterations, int resetInterval)
             : base(maxIterations, maxError)
         {
             Type = type;
             LearningRate = learningRate;
             Momentum = momentum;
+            ResetInterval = resetInterval;
         }
 
-        public static BackpropagationArgs Batch(double learningRate, double momentum, double maxError = 0.0, int maxIterations = Int32.MaxValue)
-            => new BackpropagationArgs(BackpropagationType.Batch, learningRate, momentum, maxError, maxIterations);
+        public static BackpropagationArgs Batch(double learningRate, double momentum, double maxError = 0.0, int maxIterations = Int32.MaxValue, int resetInterval = Int32.MaxValue)
+            => new BackpropagationArgs(BackpropagationType.Batch, learningRate, momentum, maxError, maxIterations, resetInterval);
 
-        public static BackpropagationArgs Stochastic(double learningRate, double momentum, double maxError = 0.0, int maxIterations = Int32.MaxValue)
-            => new BackpropagationArgs(BackpropagationType.Stochastic, learningRate, momentum, maxError, maxIterations);
+        public static BackpropagationArgs Stochastic(double learningRate, double momentum, double maxError = 0.0, int maxIterations = Int32.MaxValue, int resetInterval = Int32.MaxValue)
+            => new BackpropagationArgs(BackpropagationType.Stochastic, learningRate, momentum, maxError, maxIterations, resetInterval);
 
         public BackpropagationType Type { get; }
 
         public double LearningRate { get; }
 
         public double Momentum { get; }
+
+        public int ResetInterval { get; }
     }
 
     public enum BackpropagationType

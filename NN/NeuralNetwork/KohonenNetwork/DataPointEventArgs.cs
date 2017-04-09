@@ -5,13 +5,13 @@ namespace NeuralNetwork.KohonenNetwork
 {
     public class DataPointEventArgs : EventArgs
     {
-        public DataPointEventArgs(LabeledDataPoint dataPoint, int interation)
+        public DataPointEventArgs(ILabeledDataPoint dataPoint, int interation)
         {
             DataPoint = dataPoint;
             Iteration = interation;
         }
 
-        public LabeledDataPoint DataPoint { get; }
+        public ILabeledDataPoint DataPoint { get; }
 
         public int Iteration { get; }
     }

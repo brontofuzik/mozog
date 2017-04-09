@@ -34,12 +34,6 @@ namespace NeuralNetwork.MultilayerPerceptron
             Output = Layer.ActivationFunc1.Evaluate(Input);
         }
 
-        // Jitter
-        //public void Jitter(double noiseLimit)
-        //{
-        //    SourceSynapses.ForEach(s => s.Jitter(noiseLimit));
-        //}
-
         public override string ToString() => $"AN([{String.Join(", ", SourceSynapses)}], {Input:F2}, {Output:F2})";
     }
 }

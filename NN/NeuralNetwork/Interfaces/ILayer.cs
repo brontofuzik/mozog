@@ -38,8 +38,5 @@ namespace NeuralNetwork.Interfaces
         IActivationFunction2 ActivationFunc2 { get; }
 
         void Evaluate();
-
-        // TODO Jitter
-        //void Jitter(double noiseLimit)
     }
 }

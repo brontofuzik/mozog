@@ -34,7 +34,7 @@ namespace NeuralNetwork.Training
 
         // Holdout validation:
         // https://en.wikipedia.org/wiki/Cross-validation_(statistics)#Holdout_method
-        public override TrainingLog Train(INetwork network, DataSet data, TTrainingArgs args)
+        public override TrainingLog Train(INetwork network, IDataSet data, TTrainingArgs args)
         {
             PartitionDataSet(data);
 
@@ -44,20 +44,23 @@ namespace NeuralNetwork.Training
             return log;
         }
 
-        private void PartitionDataSet(DataSet data)
+        private void PartitionDataSet(IDataSet data)
         {
             var points = data.Random().ToArray();
 
             // Training set
             var split = SplitArray(points, trainingRatio);
-            trainingSet = new DataSet(data.InputSize, data.OutputSize).AddRange(split.first);
+            trainingSet = new DataSet(data.InputSize, data.OutputSize);
+            trainingSet.AddRange(split.first);
 
             // Validation set
             split = SplitArray(split.second, validationRatio / (validationRatio + testRatio));
-            validationSet = new DataSet(data.InputSize, data.OutputSize).AddRange(split.first);
+            validationSet = new DataSet(data.InputSize, data.OutputSize);
+            validationSet.AddRange(split.first);
 
             // Testing set
-            testSet = new DataSet(data.InputSize, data.OutputSize).AddRange(split.second);
+            testSet = new DataSet(data.InputSize, data.OutputSize);
+            testSet.AddRange(split.second);
         }
 
         private static (T[] first, T[] second) SplitArray<T>(T[] array, double ratio)
@@ -66,7 +69,7 @@ namespace NeuralNetwork.Training
             return (array.Take(count).ToArray(), array.Skip(count).ToArray());
         }
 
-        public override DataStatistics Test(INetwork network, DataSet data)
+        public override DataStatistics Test(INetwork network, IDataSet data)
         {
             throw new NotImplementedException();
         }

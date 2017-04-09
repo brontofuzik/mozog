@@ -18,11 +18,11 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
             // Step 1: Create the training set.
 
             var data = Data.Create();
-            var trainingData = new DataSet(4, 3);
-            var testData = new DataSet(4, 3);
+            var trainingData = new EncodedDataSet<double[], int>(4, 3, Data.Encoder);
+            var testData = new EncodedDataSet<double[], int>(4, 3, Data.Encoder);
             data.Random().ForEach((p, i) =>
             {
-                if (i < 120)
+                if (i < 30)
                     trainingData.Add(p);
                 else
                     testData.Add(p);
@@ -31,7 +31,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
             // Step 2: Create the network.
 
             var architecture = NetworkArchitecture.Feedforward(
-                new[] { data.InputSize, 10, data.OutputSize },
+                new[] { data.InputSize, 3, data.OutputSize },
                 Activation.Sigmoid,
                 Error.MSE);
 
@@ -52,22 +52,16 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
             var log = trainer.Train(network, trainingData, BackpropagationArgs.Batch(
                 learningRate: 0.1,
                 momentum: 0.9,
-                maxError: 0.1));
+                maxError: 0.1,
+                resetInterval: 1_000));
 
             Console.WriteLine(log);
 
             // Step 4: Test the network.
 
-            int correctlyClassified = 0;
-            foreach (var point in testData)
-            {
-                var @class = network.EvaluateEncoded(point.Input, Data.Encoder);
-                if (@class == (int)point.Tag) correctlyClassified++;
-            }
-
             var testStats = trainer.Test(network, testData);
-            var percentage = correctlyClassified / (double)testData.Size * 100;
-            Console.WriteLine($"Test stats: {testStats} ({correctlyClassified}/{testData.Size} = {percentage:F2}%)");
+            var classificationStats = trainer.TestClassifier(network, testData, Data.Encoder);
+            Console.WriteLine($"Test stats: {testStats} (Acc: {classificationStats.accuracy:P2}, Pre: {classificationStats.precision:P2}, Rec: {classificationStats.recall:P2})");
         }
 
         private static void LogTrainingProgress(object sender, TrainingStatus e)

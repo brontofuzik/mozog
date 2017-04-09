@@ -6,9 +6,9 @@ namespace NeuralNetwork.Training
     public interface ITrainer<in TTrainingArgs>
         where TTrainingArgs : ITrainingArgs
     {
-        TrainingLog Train(INetwork network, DataSet data, TTrainingArgs args);
+        TrainingLog Train(INetwork network, IDataSet data, TTrainingArgs args);
 
-        DataStatistics Test(INetwork network, DataSet data);
+        DataStatistics Test(INetwork network, IDataSet data);
 
         event EventHandler<TrainingStatus> TrainingProgress;
     }

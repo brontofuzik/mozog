@@ -5,13 +5,13 @@ namespace NeuralNetwork.KohonenNetwork
 {
     public class DataSetEventArgs : EventArgs
     {
-        public DataSetEventArgs(DataSet dataSet, int iteration)
+        public DataSetEventArgs(IDataSet dataSet, int iteration)
         {
             DataSet = dataSet;
             Iteration = iteration;
         }
 
-        public DataSet DataSet { get; }
+        public IDataSet DataSet { get; }
 
         public int Iteration { get; }
     }

@@ -45,37 +45,33 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
             var log = trainer.Train(network, trainingData, BackpropagationArgs.Batch(
                 learningRate: 0.1,
                 momentum: 0.9,
-                maxError: 0.1));
+                maxError: 0.1,
+                resetInterval: 1_000));
 
             Console.WriteLine(log);
 
             // Step 4: Test the network.
 
-            int correctlyClassified = 0;
+            var testStats = trainer.Test(network, testData);
+            var classificationStats = trainer.TestClassifier(network, testData, Data.Encoder);
+            Console.WriteLine($"Test stats: {testStats} (Acc: {classificationStats.accuracy:P2}, Pre: {classificationStats.precision:P2}, Rec: {classificationStats.recall:P2})");
+
             for (int i = 0; i < testData.Size; i += 5)
             {
                 // Original keyword
-                string originalKeyword = (string)testData[i].Tag;
+                string originalKeyword = testData[i].InputTag;
                 var index = network.EvaluateEncoded(originalKeyword, Data.Encoder);
-                if (Data.Keywords[index] == originalKeyword) correctlyClassified++;
-
                 Console.Write($"{originalKeyword}: {index}");                
 
                 // Mutated keywords
                 for (int j = i + 1; j < i + 5; j++)
                 {
-                    string mutatedKeyword = (string)testData[j].Tag;
+                    string mutatedKeyword = testData[j].InputTag;
                     index = network.EvaluateEncoded(mutatedKeyword, Data.Encoder);
-                    if (Data.Keywords[index] == originalKeyword) correctlyClassified++;
-
                     Console.Write($", {mutatedKeyword}: {index}");
                 }
                 Console.WriteLine();
             }
-
-            var testStats = trainer.Test(network, testData);
-            var percentage = correctlyClassified / (double)testData.Size * 100;
-            Console.WriteLine($"Test stats: {testStats} ({correctlyClassified}/{testData.Size} = {percentage:F2}%)");
         }
 
         private static void LogTrainingProgress(object sender, TrainingStatus e)

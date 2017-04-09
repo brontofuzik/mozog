@@ -294,7 +294,7 @@ namespace NeuralNetwork.KohonenNetwork
         /// <param name="trainingIterationIndex">The index of the trianing iteration.</param>
         /// <param name="learningRate">The learning rate.</param>
         /// <param name="neighbourhoodRadius">The neighbourhood neighbourhoodRadius.</param>
-        private void TrainSet(DataSet trainingSet, int trainingIterationIndex, double learningRate, double neighbourhoodRadius)
+        private void TrainSet(IDataSet trainingSet, int trainingIterationIndex, double learningRate, double neighbourhoodRadius)
         {
             BeforeTrainingSet?.Invoke(this, new DataSetEventArgs(trainingSet, trainingIterationIndex));
 
@@ -313,7 +313,7 @@ namespace NeuralNetwork.KohonenNetwork
         /// <param name="trainingIterationIndex">The index of the trianing iteration.</param>
         /// <param name="learningRate">The learning rate.</param>
         /// <param name="neighbourhoodRadius">The neighbourhood neighbourhoodRadius.</param>
-        private void TrainPattern(LabeledDataPoint trainingPattern, int trainingIterationIndex, double learningRate, double neighbourhoodRadius)
+        private void TrainPattern(ILabeledDataPoint trainingPattern, int trainingIterationIndex, double learningRate, double neighbourhoodRadius)
         {
             BeforeTrainingPoint?.Invoke(this, new DataPointEventArgs(trainingPattern, trainingIterationIndex));
 
@@ -330,7 +330,7 @@ namespace NeuralNetwork.KohonenNetwork
         /// <param name="winnerOutputNeuronCoordinates">The coordinates of the winner output neuron.</param>
         /// <param name="learningRate">The learning rate.</param>
         /// <param name="neighbourhoodRadius">The neighbourhood neighbourhoodRadius.</param>
-        private void AdaptOutputLayerNeuronWeights(LabeledDataPoint trainingPattern, int[] winnerOutputNeuronCoordinates, double learningRate, double neighbourhoodRadius)
+        private void AdaptOutputLayerNeuronWeights(ILabeledDataPoint trainingPattern, int[] winnerOutputNeuronCoordinates, double learningRate, double neighbourhoodRadius)
         {
             // (OPTIMIZATION) No need to adapt if the learning rate is zero.
             if (learningRate == 0.0)

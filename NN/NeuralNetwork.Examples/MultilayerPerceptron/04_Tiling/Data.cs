@@ -27,7 +27,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
 
         public static readonly IEncoder<Bitmap, Bitmap> Encoder = new TilingEncoder();
 
-        public static DataSet Create()
+        public static IDataSet Create()
         {          
             var originalImage = new Bitmap(Filename);
             originalImage = CropBitmap(originalImage, 0, 0, imageWidth, imageHeight);

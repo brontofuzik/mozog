@@ -36,7 +36,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             var log = trainer.Train(network, data, BackpropagationArgs.Batch(
                 learningRate: 0.1,
                 momentum: 0.9,
-                maxError: 0.001));
+                maxError: 0.001,
+                resetInterval: 10_000));
 
             Console.WriteLine(log);
 
@@ -56,7 +57,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
 
         private static void LogTrainingProgress(object sender, TrainingStatus e)
         {
-            if (e.Iterations % 1000 == 0)
+            if (e.Iterations % 100 == 0)
             {
                 Console.WriteLine($"{e.Iterations:D5}: {e.Error:F2}");
             }
