@@ -25,6 +25,24 @@ namespace NeuralNetwork.Training
             return new DataStatistics(data.Size, network.SynapseCount, error, rss);
         }
 
+        public TestingLog Test_NEW<_>(INetwork network, IDataSet data)
+        {
+            var stats = Test(network, data);
+            var log = new TestingLog { DataStats = stats };
+
+            // Classifer?
+            var classificationData = data as EncodedDataSet<_, int>;
+            if (classificationData != null)
+            {
+                var classifierStats = TestClassifier(network, classificationData, classificationData.encoder);
+                log.Accuracy = classifierStats.accuracy;
+                log.Precision = classifierStats.precision;
+                log.Recall = classifierStats.recall;
+            }
+
+            return log;
+        }
+
         public (double accuracy, double precision, double recall) TestClassifier<_>(INetwork network, IDataSet<_, int> data,
             IEncoder<_, int> encoder)
         {

@@ -31,7 +31,7 @@ namespace NeuralNetwork.Training
 
             if (TrainingSetStats.HasValue)
             {
-                sb.AppendLine($"Training set\t{TrainingSetStats.Value}");
+                sb.AppendLine($"Training error\t{TrainingSetStats.Value}");
             }
 
             if (ValidationSetStats.HasValue)

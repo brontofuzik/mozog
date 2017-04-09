@@ -7,8 +7,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
     {
         private double learningRate;
         public double momentum;
-
-        // "Gradient"
         private double gradient;
         private double weightChange;
         private double previousWeightChange;
@@ -35,10 +33,11 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         public void Initialize(BackpropagationArgs args)
         {
+            base.Initialize();
+
             Weight = StaticRandom.Double(-1, +1);
             learningRate = args.LearningRate;
             momentum = args.Momentum;
-
             gradient = 0.0;
             weightChange = 0.0;
             previousWeightChange = 0.0;
@@ -57,7 +56,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         public void UpdateWeight()
         {
             WeightChange = -learningRate * gradient;
-            Weight += weightChange + momentum * previousWeightChange;
+            Weight += WeightChange + momentum * previousWeightChange;
         }
 
         public void UpdateLearningRate()

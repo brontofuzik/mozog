@@ -4,7 +4,8 @@ namespace NeuralNetwork.Training
 {
     public class EncodedDataSet<TInput, TOutput> : DataSet<TInput, TOutput>
     {
-        private readonly IEncoder<TInput, TOutput> encoder;
+        // TODO
+        public readonly IEncoder<TInput, TOutput> encoder;
 
         // Labeled data for supervised training
         public EncodedDataSet(int inputSize, int outputSize, IEncoder<TInput, TOutput> encoder)

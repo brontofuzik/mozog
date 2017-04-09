@@ -30,13 +30,17 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             }
         }
 
-        private new IEnumerable<BackpropagationSynapse> Synapses => base.Synapses.Cast<BackpropagationSynapse>();
+        private new IEnumerable<BackpropagationNeuron> ActivationNeurons
+            => base.ActivationNeurons.Cast<BackpropagationNeuron>();
 
-        // TODO
+        private new IEnumerable<BackpropagationSynapse> Synapses
+            => base.Synapses.Cast<BackpropagationSynapse>();
+
         public IDifferentiableErrorFunction ErrorFunc => errorFunc as IDifferentiableErrorFunction;
 
         public void Initialize(BackpropagationArgs args)
         {
+            ActivationNeurons.ForEach(n => n.Initialize(args));
             Synapses.ForEach(s => s.Initialize(args));
         }
 

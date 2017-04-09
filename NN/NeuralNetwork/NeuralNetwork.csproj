@@ -121,6 +121,7 @@
     <Compile Include="Training\DataStatistics.cs" />
     <Compile Include="Training\EncodedDataSet.cs" />
     <Compile Include="Training\ITrainer.cs" />
+    <Compile Include="Training\TestingLog.cs" />
     <Compile Include="Training\ValidationTrainer.cs" />
     <Compile Include="Training\TrainingArgs.cs" />
     <Compile Include="Training\DataSetSerializer.cs" />

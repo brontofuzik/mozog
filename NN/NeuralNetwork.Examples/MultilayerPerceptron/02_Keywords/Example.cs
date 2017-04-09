@@ -23,7 +23,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
             // Sigmoid & MSE
             var architecture = NetworkArchitecture.Feedforward(
-                new[] { trainingData.InputSize, 10, trainingData.OutputSize },
+                new[] { trainingData.InputSize, 5, trainingData.OutputSize },
                 Activation.Sigmoid,
                 Error.MSE);
 
@@ -52,9 +52,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
             // Step 4: Test the network.
 
-            var testStats = trainer.Test(network, testData);
-            var classificationStats = trainer.TestClassifier(network, testData, Data.Encoder);
-            Console.WriteLine($"Test stats: {testStats} (Acc: {classificationStats.accuracy:P2}, Pre: {classificationStats.precision:P2}, Rec: {classificationStats.recall:P2})");
+            var testingLog = trainer.Test_NEW<string>(network, testData);
+            Console.WriteLine(testingLog);
 
             for (int i = 0; i < testData.Size; i += 5)
             {

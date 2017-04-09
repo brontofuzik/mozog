@@ -18,6 +18,12 @@ namespace NeuralNetwork.MultilayerPerceptron
 
         private new IActivationLayer Layer => base.Layer as IActivationLayer;
 
+        protected void Initialize()
+        {
+            Input = 0.0;
+            Output = 0.0;
+        }
+
         public virtual void Evaluate()
         {
             EvaluateInput();
