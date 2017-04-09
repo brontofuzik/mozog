@@ -65,11 +65,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
                 : Math.Max(learningRate / 2.0, 0.001); // Slow down
         }
 
-        public void ResetWeight()
-        {
-            Weight = StaticRandom.Double(-1, +1);
-        }
-
         public override string ToString() => "Bp:" + base.ToString();
     }
 }

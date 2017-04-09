@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Mozog.Utils;
 using NeuralNetwork.ActivationFunctions;
 using NeuralNetwork.ErrorFunctions;
@@ -17,14 +18,21 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
 
         public static void Run()
         {
+            // Parameters
+
+            const int hiddenNeurons = 2;
+            const double maxError = 0.001;
+            const int resetInterval = 5_000;
+
             // Step 1: Create the training set.
 
             var data = Data.XOR;
 
             // Step 2: Create the network.
 
+            // Sigmoid & MSE
             var architecture = NetworkArchitecture.Feedforward(
-                new[] { data.InputSize, 2, data.OutputSize },
+                new[] { data.InputSize, hiddenNeurons, data.OutputSize },
                 Activation.Sigmoid,
                 Error.MSE);
 
@@ -38,8 +46,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             var log = trainer.Train(network, data, BackpropagationArgs.Batch(
                 learningRate: 0.1,
                 momentum: 0.9,
-                maxError: 0.001,
-                resetInterval: 10_000));
+                maxError: maxError,
+                resetInterval: resetInterval));
 
             Console.WriteLine(log);
 

@@ -14,6 +14,13 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
         public static void Run()
         {
+            // Parameters
+
+            const int hiddenNeurons = 5;
+            const string activation = "Softmax";
+            const double maxError = 0.1;
+            const int resetInterval = 1_000;
+
             // Step 1: Create the training set.
 
             var trainingData = Data.Create();
@@ -21,19 +28,25 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
             // Step 2: Create the network.
 
-            //// Sigmoid & MSE
-            //var architecture = NetworkArchitecture.Feedforward(
-            //    new[] { trainingData.InputSize, 5, trainingData.OutputSize },
-            //    Activation.Sigmoid,
-            //    Error.MSE);
-
-            // Softmax & CEE
-            var architecture = NetworkArchitecture.Feedforward(new(int, IActivationFunction)[]
+            INetworkArchitecture architecture;
+            if (activation == "Sigmoid")
             {
-                (trainingData.InputSize, null),
-                (5, Activation.Sigmoid),
-                (trainingData.OutputSize, Activation.Softmax)
-            }, Error.CEE);
+                // Sigmoid & MSE
+                architecture = NetworkArchitecture.Feedforward(
+                    new[] { trainingData.InputSize, 5, trainingData.OutputSize },
+                    Activation.Sigmoid,
+                    Error.MSE);
+            }
+            else
+            {
+                // Softmax & CEE
+                architecture = NetworkArchitecture.Feedforward(new(int, IActivationFunction)[]
+                {
+                    (trainingData.InputSize, null),
+                    (hiddenNeurons, Activation.Sigmoid),
+                    (trainingData.OutputSize, Activation.Softmax)
+                }, Error.CEE);
+            }
 
             network = new Network(architecture);
 
@@ -45,8 +58,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
             var log = trainer.Train(network, trainingData, BackpropagationArgs.Batch(
                 learningRate: 0.1,
                 momentum: 0.9,
-                maxError: 0.1,
-                resetInterval: 1_000));
+                maxError: maxError,
+                resetInterval: resetInterval));
 
             Console.WriteLine(log);
 
@@ -75,7 +88,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
         private static void LogTrainingProgress(object sender, TrainingStatus e)
         {
-            if (e.Iterations % 100 == 0)
+            if (e.Iterations % 10 == 0)
             {
                 Console.WriteLine($"{e.Iterations:D5}: {e.Error:F2}");
             }

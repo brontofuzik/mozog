@@ -15,6 +15,13 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
 
         public static void Run()
         {
+            // Parameters
+
+            const int hiddenNeurons = 3;
+            const string activation = "Softmax";
+            const double maxError = 0.1;
+            const int resetInterval = 1_000;
+
             // Step 1: Create the training set.
 
             var data = Data.Create();
@@ -30,19 +37,25 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
 
             // Step 2: Create the network.
 
-            //// Sigmoid & MSE
-            //var architecture = NetworkArchitecture.Feedforward(
-            //    new[] { data.InputSize, 2, data.OutputSize },
-            //    Activation.Sigmoid,
-            //    Error.MSE);
-
-            // Softmax & CEE
-            var architecture = NetworkArchitecture.Feedforward(new(int, IActivationFunction)[]
+            INetworkArchitecture architecture;
+            if (activation == "Sigmoid")
             {
-                (data.InputSize, null),
-                (2, Activation.Sigmoid),
-                (data.OutputSize, Activation.Softmax)
-            }, Error.CEE);
+                // Sigmoid & MSE
+                architecture = NetworkArchitecture.Feedforward(
+                    new[] { trainingData.InputSize, 5, trainingData.OutputSize },
+                    Activation.Sigmoid,
+                    Error.MSE);
+            }
+            else
+            {
+                // Softmax & CEE
+                architecture = NetworkArchitecture.Feedforward(new(int, IActivationFunction)[]
+                {
+                    (trainingData.InputSize, null),
+                    (hiddenNeurons, Activation.Sigmoid),
+                    (trainingData.OutputSize, Activation.Softmax)
+                }, Error.CEE);
+            }
 
             network = new Network(architecture);
 
@@ -54,8 +67,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
             var log = trainer.Train(network, trainingData, BackpropagationArgs.Batch(
                 learningRate: 0.1,
                 momentum: 0.9,
-                maxError: 0.1,
-                resetInterval: 1_000));
+                maxError: maxError,
+                resetInterval: resetInterval));
 
             Console.WriteLine(log);
 

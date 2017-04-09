@@ -40,7 +40,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             do
             {
                 if (iterations % args.ResetInterval == 0)
-                    ResetWeights();
+                    ResetWeights(args);
 
                 error = TrainIteration(data, args);
                 iterations++;
@@ -48,14 +48,14 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
                 if (OnWeightsUpdated(iterations, error))
                     break;
             }
-            while (!args.IsDone(error, iterations));
+            while (!args.IsTrainingDone(error, iterations));
 
             return new TrainingLog(iterations);
         }
 
-        private void ResetWeights()
+        private void ResetWeights(BackpropagationArgs args)
         {
-            backpropNetwork.ResetWeights();
+            backpropNetwork.Initialize(args);
             WeightsReset?.Invoke(this, EventArgs.Empty);
         }
 
@@ -81,17 +81,16 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
             var error = batch.Sum(p => TrainPoint(p));
 
-            backpropNetwork.UpdateWeights();
-
-            // TODO
+            backpropNetwork.UpdateWeights(); // Synapses
             backpropNetwork.UpdateLearningRates(); // Synapses
 
-            return error;
+            return error / batch.Count();
         }
 
         private double TrainPoint(ILabeledDataPoint point)
         {
             var result = backpropNetwork.EvaluateLabeled(point.Input, point.Output);
+
             backpropNetwork.Backpropagate(point.Output); // Neurons
             backpropNetwork.UpdateGradient(); // Synapses
 

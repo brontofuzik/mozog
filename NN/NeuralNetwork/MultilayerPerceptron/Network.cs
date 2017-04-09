@@ -142,27 +142,11 @@ namespace NeuralNetwork.MultilayerPerceptron
             ActivationLayers.ForEach(l => l.Evaluate());
         }
 
-        #region Error function
-
-        //public double Error { get; private set; }
-
-        //public void ResetError()
-        //{
-        //    Error = 0.0;
-        //}
-
-        //public void UpdateError(double[] target)
-        //{
-        //    Error += errorFunc.Evaluate(OutputLayer.Output, target);
-        //}
-
         public double CalculateError(DataSet dataSet)
-            => dataSet.Sum((ILabeledDataPoint point) => CalculateError(point)) / dataSet.Size;
+            => dataSet.Sum(point => CalculateError(point)) / dataSet.Size;
 
         public double CalculateError(ILabeledDataPoint point)
-            => errorFunc.Evaluate(EvaluateUnlabeled(point.Input), point.Output);
-
-        #endregion // Error function
+            => EvaluateLabeled(point.Input, point.Output).error;
 
         public double[] GetWeights() => Synapses.Select(s => s.Weight).ToArray();
 

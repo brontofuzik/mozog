@@ -44,11 +44,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             Synapses.ForEach(s => s.Initialize(args));
         }
 
-        public void ResetWeights()
-        {
-            Synapses.ForEach(s => s.ResetWeight());
-        }
-
         public void ResetGradients()
         {
             Synapses.ForEach(s => s.ResetGradient());

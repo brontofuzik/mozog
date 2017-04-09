@@ -7,6 +7,9 @@ namespace NeuralNetwork.Training
     public class ValidationTrainer<TTrainingArgs> : TrainerBase<TTrainingArgs>
         where TTrainingArgs : ITrainingArgs
     {
+        private const int ValidationInterval = 10;
+        private const int RunLimit = 5;
+
         private readonly ITrainer<TTrainingArgs> innerTrainer;
         private readonly double trainingRatio;
         private readonly double validationRatio;
@@ -17,6 +20,7 @@ namespace NeuralNetwork.Training
         private IDataSet testSet;
 
         private double validationError = Double.MaxValue;
+        private int run;
 
         public ValidationTrainer(ITrainer<TTrainingArgs> innerTrainer, double trainingRatio, double validationRatio, double testRatio)
         {
@@ -88,16 +92,21 @@ namespace NeuralNetwork.Training
 
         private void ValidationTrainer_WeightsUpdated(object sender, TrainingStatus e)
         {
-            if (e.Iterations % 100 != 0) return;
+            if (e.Iterations % ValidationInterval != 0) return;
 
             var result = TestBasic(e.Network, validationSet);
 
             if (result.Error > validationError)
             {
-                e.StopTraining = true;
+                run++;
+                if (run == RunLimit)
+                {
+                    e.StopTraining = true;
+                }
             }
             else
             {
+                run = 0;
                 validationError = result.Error;
                 e.StopTraining = false;
             }
@@ -105,6 +114,7 @@ namespace NeuralNetwork.Training
 
         private void ValidationTrainer_WeightsReset(object sender, EventArgs e)
         {
+            run = 0;
             validationError = Double.MaxValue;
         }
     }
