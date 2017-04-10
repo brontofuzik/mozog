@@ -36,13 +36,13 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             backpropNetwork.Initialize(args);
 
             double error = Double.MaxValue;
-            int iterations = 0;      
+            int iterations = 0; // Total iterations    
             do
             {
                 if (iterations % args.ResetInterval == 0)
                     ResetWeights(args);
 
-                error = TrainIteration(data, args, iterations + 1);
+                error = TrainIteration(data, args, iterations % args.ResetInterval + 1);
                 iterations++;
 
                 if (OnWeightsUpdated(iterations, error))

@@ -36,11 +36,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
             trainer.WeightsUpdated += LogTrainingProgress;
 
             var iterations = 500;
-            var log = trainer.Train(network, data, BackpropagationArgs.Stochastic(
-                learningRate: 0.005,
-                momentum: 0.9,
-                maxIterations: iterations));
-
+            var args = BackpropagationArgs.Stochastic(Optimizer.Adam, learningRate: 0.005, maxIterations: iterations);
+            var log = trainer.Train(network, data, args);
             Console.WriteLine(log);
 
             // Step 4: Test the network.

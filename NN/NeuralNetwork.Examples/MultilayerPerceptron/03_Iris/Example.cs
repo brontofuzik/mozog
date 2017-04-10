@@ -19,6 +19,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
 
             const int hiddenNeurons = 3;
             const string activation = "Softmax";
+
+            const double learningRate = 0.1;
             const double maxError = 0.1;
             const int resetInterval = 1_000;
 
@@ -61,15 +63,12 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
 
             // Step 3: Train the network.
 
-            var trainer = new ValidationTrainer<BackpropagationArgs>(new BackpropagationTrainer(), 0.6, 0.2, 0.2);
+            var trainer = new BackpropagationTrainer();
+            //var trainer = new ValidationTrainer<BackpropagationArgs>(new BackpropagationTrainer(), 0.6, 0.2, 0.2);
             trainer.WeightsUpdated += LogTrainingProgress;
 
-            var log = trainer.Train(network, trainingData, BackpropagationArgs.Batch(
-                learningRate: 0.1,
-                momentum: 0.9,
-                maxError: maxError,
-                resetInterval: resetInterval));
-
+            var args = BackpropagationArgs.Batch(Optimizer.RmsProp, learningRate, maxError, resetInterval: resetInterval);
+            var log = trainer.Train(network, trainingData, args);
             Console.WriteLine(log);
 
             // Step 4: Test the network.

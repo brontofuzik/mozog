@@ -21,8 +21,10 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             // Parameters
 
             const int hiddenNeurons = 2;
+
+            const double learningRate = 0.1;
             const double maxError = 0.001;
-            const int resetInterval = 5_000;
+            const int resetInterval = 500;
 
             // Step 1: Create the training set.
 
@@ -43,11 +45,8 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             var trainer = new BackpropagationTrainer();
             trainer.WeightsUpdated += LogTrainingProgress;
 
-            var log = trainer.Train(network, data, BackpropagationArgs.Batch(
-                learningRate: 0.1,
-                momentum: 0.9,
-                maxError: maxError,
-                resetInterval: resetInterval));
+            var args = BackpropagationArgs.Batch(Optimizer.Momentum, learningRate, maxError, resetInterval: resetInterval);
+            var log = trainer.Train(network, data, args);
 
             Console.WriteLine(log);
 
