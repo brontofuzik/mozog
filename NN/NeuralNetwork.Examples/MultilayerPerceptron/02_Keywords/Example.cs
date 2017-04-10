@@ -57,7 +57,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
             var trainer = new BackpropagationTrainer();
             trainer.WeightsUpdated += LogTrainingProgress;
 
-            var args = BackpropagationArgs.Batch(Optimizer.RmsProp, learningRate, maxError, resetInterval: resetInterval);
+            var args = BackpropagationArgs.Batch(Optimizer.Momentum, learningRate, maxError, resetInterval: resetInterval);
             var log = trainer.Train(network, trainingData, args);
             Console.WriteLine(log);
 
