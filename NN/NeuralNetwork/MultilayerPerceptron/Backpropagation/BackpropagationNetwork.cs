@@ -56,11 +56,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             HiddenLayersReverse().ForEach(l => l.Backpropagate());
         }
 
-        public void UpdateGradients()
-        {
-            Synapses.ForEach(s => s.UpdateGradient());
-        }
-
         public void UpdateWeights(int interation)
         {
             Synapses.ForEach(s => s.UpdateWeight(interation));

@@ -29,19 +29,16 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             gradient = 0.0;
         }
 
-        // Happens for each batch
         public void ResetGradient()
         {
             gradient = 0.0;
         }
 
-        // Happens for each point
-        public void UpdateGradient()
+        public void Backpropagate()
         {
             gradient += SourceNeuron.Output * TargetNeuron.Error;
         }
 
-        // Happens for each batch
         public void UpdateWeight(int iteration)
         {
             Weight = optimizer.AdjustWeight(Weight, gradient, learningRate, iteration);

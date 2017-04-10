@@ -77,17 +77,16 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         private double TrainBatch(IEnumerable<ILabeledDataPoint> batch, int iteration)
         {
-            backpropNetwork.ResetGradients(); // Synapses
+            backpropNetwork.ResetGradients();
             var error = batch.Sum(p => TrainPoint(p, iteration));
-            backpropNetwork.UpdateWeights(iteration); // Synapses
+            backpropNetwork.UpdateWeights(iteration);
             return error / batch.Count();
         }
 
         private double TrainPoint(ILabeledDataPoint point, int iteration)
         {
             var result = backpropNetwork.EvaluateLabeled(point.Input, point.Output);
-            backpropNetwork.Backpropagate(point.Output); // Neurons
-            backpropNetwork.UpdateGradients(); // Synapses
+            backpropNetwork.Backpropagate(point.Output);
             return result.error;
         }
 

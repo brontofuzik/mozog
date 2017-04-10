@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Mozog.Utils;
 using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
@@ -19,6 +20,9 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         // "Delta"
         public double Error { get; set; }
 
+        private new IEnumerable<BackpropagationSynapse> SourceSynapses
+            => base.SourceSynapses.Cast<BackpropagationSynapse>();
+
         private new IEnumerable<BackpropagationSynapse> TargetSynapses
             => base.TargetSynapses.Cast<BackpropagationSynapse>();
 
@@ -31,15 +35,19 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             Error = 0.0;
         }
 
+        // Output layer
         public void Backpropagate(double target)
         {
             Error = Layer.Network.ErrorFunc.EvaluateDerivative(this, target);
+            SourceSynapses.ForEach(s => s.Backpropagate());
         }
 
+        // Hidden layer
         public void Backpropagate()
         {
             var derivative = Layer.ActivationFunc1.EvaluateDerivative(Input);
             Error = derivative * TargetSynapses.Select(s => s.TargetNeuron.Error * s.Weight).Sum();
+            SourceSynapses.ForEach(s => s.Backpropagate());
         }
 
         public override string ToString() => "Bp-" + base.ToString();
