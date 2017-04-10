@@ -24,7 +24,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
 
             const double learningRate = 0.01;
             const double maxError = 0.001;
-            const int resetInterval = Int32.MaxValue;
+            const int resetInterval = 1_000;
 
             // Step 1: Create the training set.
 
@@ -50,7 +50,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             // * Momentum   ~650
             // * RMSprop    ~750 (getting stuck)
             // * Adam       NaN
-            var args = BackpropagationArgs.Batch(Optimizer.Adam, learningRate, maxError, resetInterval: resetInterval);
+            var args = BackpropagationArgs.Batch(Optimizer.Momentum(learningRate), maxError);
             var log = trainer.Train(network, data, args);
                 
             Console.WriteLine(log);

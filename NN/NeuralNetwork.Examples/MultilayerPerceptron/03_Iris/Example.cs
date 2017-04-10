@@ -67,7 +67,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
             //var trainer = new ValidationTrainer<BackpropagationArgs>(new BackpropagationTrainer(), 0.6, 0.2, 0.2);
             trainer.WeightsUpdated += LogTrainingProgress;
 
-            var args = BackpropagationArgs.Batch(Optimizer.RmsProp, learningRate, maxError, resetInterval: resetInterval);
+            var args = BackpropagationArgs.Batch(Optimizer.RmsProp(learningRate), maxError, resetInterval: resetInterval);
             var log = trainer.Train(network, trainingData, args);
             Console.WriteLine(log);
 

@@ -1,13 +1,8 @@
-﻿using System;
-using Mozog.Utils;
-
-namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
+﻿namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 {
     public class BackpropagationSynapse : Synapse
     {
         private IOptimizer optimizer;
-
-        private double learningRate;
         private double gradient;
 
         #region Construction
@@ -24,7 +19,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         {
             base.Initialize();
 
-            learningRate = args.LearningRate;
             optimizer = args.OptimizerFactory();
             gradient = 0.0;
         }
@@ -41,8 +35,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
 
         public void UpdateWeight(int iteration)
         {
-            Weight = optimizer.AdjustWeight(Weight, gradient, learningRate, iteration);
-            learningRate = optimizer.AdaptLearningRate(learningRate, iteration);
+            Weight = optimizer.AdjustWeight(Weight, gradient, iteration);
         }
 
         public override string ToString() => "Bp:" + base.ToString();
