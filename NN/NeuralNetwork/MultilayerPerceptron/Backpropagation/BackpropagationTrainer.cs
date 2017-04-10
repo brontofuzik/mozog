@@ -42,7 +42,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
                 if (iterations % args.ResetInterval == 0)
                     ResetWeights(args);
 
-                error = TrainIteration(data, args);
+                error = TrainIteration(data, args, iterations + 1);
                 iterations++;
 
                 if (OnWeightsUpdated(iterations, error))
@@ -59,15 +59,15 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             WeightsReset?.Invoke(this, EventArgs.Empty);
         }
 
-        private double TrainIteration(IDataSet data, BackpropagationArgs args)
+        private double TrainIteration(IDataSet data, BackpropagationArgs args, int iteration)
         {
             if (args.Type == BackpropagationType.Batch)
             {
-                return TrainBatch(data);
+                return TrainBatch(data, iteration);
             }
             else if (args.Type == BackpropagationType.Stochastic)
             {
-                return data.Random().Sum(p => TrainPoint(p));
+                return data.Random().Sum(p => TrainPoint(p, iteration));
             }
             else
             {
@@ -75,25 +75,19 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             }
         }
 
-        private double TrainBatch(IEnumerable<ILabeledDataPoint> batch)
+        private double TrainBatch(IEnumerable<ILabeledDataPoint> batch, int iteration)
         {
             backpropNetwork.ResetGradients(); // Synapses
-
-            var error = batch.Sum(p => TrainPoint(p));
-
-            backpropNetwork.UpdateWeights(); // Synapses
-            backpropNetwork.UpdateLearningRates(); // Synapses
-
+            var error = batch.Sum(p => TrainPoint(p, iteration));
+            backpropNetwork.UpdateWeights(iteration); // Synapses
             return error / batch.Count();
         }
 
-        private double TrainPoint(ILabeledDataPoint point)
+        private double TrainPoint(ILabeledDataPoint point, int iteration)
         {
             var result = backpropNetwork.EvaluateLabeled(point.Input, point.Output);
-
             backpropNetwork.Backpropagate(point.Output); // Neurons
-            backpropNetwork.UpdateGradient(); // Synapses
-
+            backpropNetwork.UpdateGradients(); // Synapses
             return result.error;
         }
 

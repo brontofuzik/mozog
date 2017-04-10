@@ -56,19 +56,14 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             HiddenLayersReverse().ForEach(l => l.Backpropagate());
         }
 
-        public void UpdateGradient()
+        public void UpdateGradients()
         {
             Synapses.ForEach(s => s.UpdateGradient());
         }
 
-        public void UpdateWeights()
+        public void UpdateWeights(int interation)
         {
-            Synapses.ForEach(s => s.UpdateWeight());
-        }
-
-        public void UpdateLearningRates()
-        {
-            Synapses.ForEach(s => s.UpdateLearningRate());
+            Synapses.ForEach(s => s.UpdateWeight(interation));
         }
 
         public override string ToString() => "Bp-" + base.ToString();
