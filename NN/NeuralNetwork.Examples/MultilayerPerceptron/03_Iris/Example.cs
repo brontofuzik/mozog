@@ -31,7 +31,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
             var testData = ClassificationData.New(Data.Encoder, 4, 3);
             data.Random().ForEach((p, i) =>
             {
-                if (i < 100)
+                if (i < 30)
                     trainingData.Add(p);
                 else
                     testData.Add(p);
@@ -67,7 +67,12 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
             //var trainer = new ValidationTrainer<BackpropagationArgs>(new BackpropagationTrainer(), 0.6, 0.2, 0.2);
             trainer.WeightsUpdated += LogTrainingProgress;
 
-            var args = BackpropagationArgs.Batch(Optimizer.RmsProp(learningRate), maxError, resetInterval: resetInterval);
+            // Optimizers:
+            // * Default   Never 
+            // * Momentum   
+            // * RMSprop   ~200 
+            // * Adam      <100 
+            var args = BackpropagationArgs.Batch(Optimizer.Momentum(learningRate), maxError, resetInterval: resetInterval);
             var log = trainer.Train(network, trainingData, args);
             Console.WriteLine(log);
 

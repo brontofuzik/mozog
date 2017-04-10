@@ -132,7 +132,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         public double AdjustWeight(double weight, double gradient, int iteration)
         {
             momentum = beta1 * momentum + (1 - beta1) * gradient;
-            velocity = beta2 * velocity + (1 - beta2) * gradient;
+            velocity = beta2 * velocity + (1 - beta2) * Math.Pow(gradient, 2);
 
             var momentumHat = momentum / (1 - Math.Pow(beta1, iteration));
             var velocityHat = velocity / (1 - Math.Pow(beta2, iteration));

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using Mozog.Utils;
 using NeuralNetwork.ActivationFunctions;
 using NeuralNetwork.ErrorFunctions;
@@ -48,9 +45,9 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
             // Optimizers:
             // * Default    100,000+
             // * Momentum   ~650
-            // * RMSprop    ~750 (getting stuck)
-            // * Adam       NaN
-            var args = BackpropagationArgs.Batch(Optimizer.Momentum(learningRate), maxError);
+            // * RMSprop    ~750
+            // * Adam       1000+
+            var args = BackpropagationArgs.Batch(Optimizer.Momentum(learningRate), maxError, resetInterval: resetInterval);
             var log = trainer.Train(network, data, args);
                 
             Console.WriteLine(log);
