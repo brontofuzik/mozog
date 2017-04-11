@@ -14,6 +14,14 @@ namespace Mozog.Utils
             }
         }
 
+        public static IEnumerable<T> Times<T>(this int count, Func<T> func)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                yield return func();
+            }
+        }
+
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
             foreach (T item in source)

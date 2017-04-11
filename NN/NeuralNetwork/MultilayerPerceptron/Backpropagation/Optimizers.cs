@@ -13,20 +13,22 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
     {
         #region Factories
 
-        public static Func<IOptimizer> Default(double learningRate = 0.01) => () => new Optimizer(learningRate);
+        public static Func<IOptimizer> Default(double learningRate = 0.05) => () => new Optimizer(learningRate);
 
-        public static Func<IOptimizer> Momentum(double learningRate = 0.01) => () => new MomentumOptimizer(learningRate);
+        public static Func<IOptimizer> Momentum(double learningRate = 0.05) => () => new Momentum(learningRate);
 
-        public static Func<IOptimizer> RmsProp(double learningRate = 0.01) => () => new RmsPropOptimizer(learningRate);
+        public static Func<IOptimizer> AdaptiveLR(double learningRate = 0.05) => () => new AdaptiveLearningRate(learningRate);
 
-        public static Func<IOptimizer> Adam(double learningRate = 0.01) => () => new AdamOptimizer(learningRate);
+        public static Func<IOptimizer> RmsProp(double learningRate = 0.001) => () => new RmsProp(learningRate);
+
+        public static Func<IOptimizer> Adam(double learningRate = 0.001) => () => new Adam(learningRate);
 
         #endregion // Factories
 
         // Non-adaptive learning rate
         private readonly double learningRate;
 
-        public Optimizer(double learningRate = 0.01)
+        public Optimizer(double learningRate = 0.05)
         {
             this.learningRate = learningRate;
         }
@@ -40,27 +42,50 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         }
     }
 
-    /// <summary>
-    /// Momentum & adaptive learning rate
-    /// </summary>
-    internal class MomentumOptimizer : IOptimizer
+    // Classic momentum
+    internal class Momentum : IOptimizer
     {
-        private const double epsilon = 10e-6;
-
+        private readonly double learningRate;
         private readonly double momentum;
-        private readonly double initialLearningRate;
 
-        private double learningRate;
-        private double previousWeightDelta = epsilon;
-        private double weightDelta = epsilon;
+        private double previousWeightDelta;
+        private double weightDelta;
 
-        public MomentumOptimizer(double initialLearningRate = 0.01, double momentum = 0.9)
+        public Momentum(double learningRate = 0.05, double momentum = 0.9)
         {
-            this.learningRate = this.initialLearningRate = initialLearningRate;
+            this.learningRate = learningRate;
             this.momentum = momentum;
         }
 
-        private bool SpeedUp => previousWeightDelta * weightDelta > 0;
+        public double AdjustWeight(double weight, double gradient, int iteration)
+        {
+            previousWeightDelta = weightDelta;
+            weightDelta = -learningRate * gradient + momentum * previousWeightDelta;
+            return weight + weightDelta;
+        }
+
+        public void Reset()
+        {
+            previousWeightDelta = 0.0;
+            weightDelta = 0.0;
+        }
+    }
+
+    // Simple speeding up/slowing down
+    internal class AdaptiveLearningRate : IOptimizer
+    {
+        private readonly double initialLearningRate;
+
+        private double learningRate;
+        private double previousWeightDelta;
+        private double weightDelta;
+
+        public AdaptiveLearningRate(double initialLearningRate = 0.05)
+        {
+            this.learningRate = this.initialLearningRate = initialLearningRate;
+        }
+
+        private bool SpeedUp => previousWeightDelta * weightDelta >= 0;
 
         public double AdjustWeight(double weight, double gradient, int iteration)
         {
@@ -69,7 +94,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
                 : Math.Max(learningRate / 2.0, 0.001);
 
             previousWeightDelta = weightDelta;
-            weightDelta = -learningRate * gradient + momentum * previousWeightDelta;
+            weightDelta = -learningRate * gradient;
             return weight + weightDelta;
         }
 
@@ -81,70 +106,81 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         }
     }
 
-    // RMSprop (Hinton)
-    internal class RmsPropOptimizer : IOptimizer
+    // RMSprop (Hinton, Tieleman)
+    internal class RmsProp : IOptimizer
     {
-        private const double epsilon = 10e-6;
+        private const double e = 1e-8;
 
-        private readonly double _learningRate;
-        private readonly double gamma;
+        private readonly double learningRate;
 
-        private double meanSquaredGradient;
+        // gamma
+        private readonly double g;
 
-        public RmsPropOptimizer(double learningRate = 0.01, double gamma = 0.9)
+        // Mean-squared gradient
+        private double msg;
+
+        public RmsProp(double learningRate = 0.001, double g = 0.9)
         {
-            this._learningRate = learningRate;
-            this.gamma = gamma;
+            this.learningRate = learningRate;
+            this.g = g;
         }
 
         public double AdjustWeight(double weight, double gradient, int iteration)
         {
-            meanSquaredGradient = gamma * meanSquaredGradient + (1 - gamma) * Math.Pow(gradient, 2);
-            var effectiveLearningRate = _learningRate / Math.Sqrt(meanSquaredGradient + epsilon);
-            return weight - effectiveLearningRate * gradient;
+            msg = g * msg + (1 - g) * Math.Pow(gradient, 2);
+            return weight - learningRate * gradient / Math.Sqrt(msg + e);
         }
 
         public void Reset()
         {
-            meanSquaredGradient = 0.0;
+            msg = 0.0;
         }
     }
 
     // Adam (Kingma, Ba)
-    internal class AdamOptimizer : IOptimizer
+    internal class Adam : IOptimizer
     {
-        private const double epsilon = 10e-6;
+        private const double e = 1e-8;
 
         private readonly double learningRate;
-        private readonly double beta1;
-        private readonly double beta2;
 
-        private double momentum;
-        private double velocity;
+        // First moment decay rate (beta1)
+        private readonly double b1;
 
-        public AdamOptimizer(double learningRate = 0.01, double beta1 = 0.9, double beta2 = 0.999)
+        //Second moment decat rate (beta2)
+        private readonly double b2;
+
+        // Biased first moment estimate (mean)
+        private double m;
+
+        // Biased second moment estimate (variance)
+        private double v;
+
+        public Adam(double learningRate = 0.001, double b1 = 0.9, double b2 = 0.999)
         {
             this.learningRate = learningRate;
-            this.beta1 = beta1;
-            this.beta2 = beta2;
+            this.b1 = b1;
+            this.b2 = b2;
         }
 
         public double AdjustWeight(double weight, double gradient, int iteration)
         {
-            momentum = beta1 * momentum + (1 - beta1) * gradient;
-            velocity = beta2 * velocity + (1 - beta2) * Math.Pow(gradient, 2);
+            m = b1 * m + (1 - b1) * gradient;
+            v = b2 * v + (1 - b2) * Math.Pow(gradient, 2);
 
-            var momentumHat = momentum / (1 - Math.Pow(beta1, iteration));
-            var velocityHat = velocity / (1 - Math.Pow(beta2, iteration));
+            // Bias-corrected first moment estimate
+            var mC = m / (1 - Math.Pow(b1, iteration));
 
-            var effectiveLearningRate = learningRate / (Math.Sqrt(velocityHat) + epsilon);
-            return weight - effectiveLearningRate * momentumHat;
+            // Biac-corrected second moment estimate
+            var vC = v / (1 - Math.Pow(b2, iteration));
+
+            return weight - learningRate * mC / (Math.Sqrt(vC) + e);
         }
 
         public void Reset()
         {
-            momentum = 0.0;
-            velocity = 0.0;
+            m = 0.0;
+            v = 0.0;
         }
     }
 }

@@ -66,6 +66,7 @@
     <Compile Include="KohonenNetwork\OCR.cs" />
     <Compile Include="MultilayerPerceptron\03_Iris\Data.cs" />
     <Compile Include="MultilayerPerceptron\03_Iris\Example.cs" />
+    <Compile Include="MultilayerPerceptron\Test.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
