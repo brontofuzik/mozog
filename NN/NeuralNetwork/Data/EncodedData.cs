@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NeuralNetwork.Interfaces;
 
-namespace NeuralNetwork.Training
+namespace NeuralNetwork.Data
 {
     public static class EncodedData
     {

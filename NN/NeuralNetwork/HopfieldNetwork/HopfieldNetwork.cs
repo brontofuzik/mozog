@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Text;
 using Mozog.Utils;
+using NeuralNetwork.Data;
 using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps;
 using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp;
 using NeuralNetwork.Training;

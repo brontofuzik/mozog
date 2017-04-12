@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using NeuralNetwork.Data;
 using NeuralNetwork.Training;
 
 namespace NeuralNetwork.KohonenNetwork

@@ -8,12 +8,9 @@
             MaxError = maxError;
         }
 
-        public int MaxIterations { get; }
+        public int MaxIterations { get; set; }
 
         public double MaxError { get; }
-
-        public virtual bool IsTrainingDone(double networkError, int iterationCount)
-            => iterationCount >= MaxIterations || networkError <= MaxError;
     }
 
     public interface ITrainingArgs

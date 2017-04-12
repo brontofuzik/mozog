@@ -1,7 +1,7 @@
 ﻿using Mozog.Utils;
 using NeuralNetwork.Interfaces;
 
-namespace NeuralNetwork.Training
+namespace NeuralNetwork.Data
 {
     // Supervised learning
     public class LabeledDataPoint : DataPoint, ILabeledDataPoint

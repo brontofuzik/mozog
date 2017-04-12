@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mozog.Utils;
+using NeuralNetwork.Data;
 using NeuralNetwork.ErrorFunctions;
 using NeuralNetwork.Interfaces;
 using NeuralNetwork.Training;

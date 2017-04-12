@@ -1,4 +1,5 @@
-﻿using NeuralNetwork.Training;
+﻿using NeuralNetwork.Data;
+using NeuralNetwork.Training;
 
 namespace NeuralNetwork.HopfieldNetwork
 {

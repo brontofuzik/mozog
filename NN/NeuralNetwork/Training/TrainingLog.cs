@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Text;
+using NeuralNetwork.Data;
 
 namespace NeuralNetwork.Training
 {
     public class TrainingLog
     {
-        public TrainingLog(int trainingIterations)
+        public TrainingLog(int trainingIterations, double trainingError)
         {
             Iterations = trainingIterations;
+            Error = trainingError;
         }
 
         public int Iterations { get; }
+
+        public double Error { get; }
 
         public DataStatistics? TrainingSetStats { get; set; }
 

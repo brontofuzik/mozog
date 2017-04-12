@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mozog.Utils;
 
-namespace NeuralNetwork.Training
+namespace NeuralNetwork.Data
 {
     public class DataSet : IDataSet
     {

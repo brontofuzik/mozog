@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using NeuralNetwork.Data;
 using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Examples.HopfieldNetwork.INS04

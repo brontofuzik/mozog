@@ -1,4 +1,4 @@
-﻿namespace NeuralNetwork.Training
+﻿namespace NeuralNetwork.Data
 {
     public class DataSetSerializer : IDataSetSerializer
     {

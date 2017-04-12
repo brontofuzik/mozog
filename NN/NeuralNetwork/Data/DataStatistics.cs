@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NeuralNetwork.Training
+namespace NeuralNetwork.Data
 {
     public struct DataStatistics
     {

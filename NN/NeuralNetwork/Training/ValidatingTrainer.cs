@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Linq;
+using NeuralNetwork.Data;
 using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.Training
 {
-    public class ValidationTrainer<TTrainingArgs> : TrainerBase<TTrainingArgs>
+    public class ValidatingTrainer<TTrainingArgs> : TrainerDecorator<TTrainingArgs>
         where TTrainingArgs : ITrainingArgs
     {
         private const int ValidationInterval = 10;
         private const int RunLimit = 5;
 
-        private readonly ITrainer<TTrainingArgs> innerTrainer;
         private readonly double trainingRatio;
         private readonly double validationRatio;
         private readonly double testRatio;
@@ -22,10 +22,9 @@ namespace NeuralNetwork.Training
         private double validationError = Double.MaxValue;
         private int run;
 
-        public ValidationTrainer(ITrainer<TTrainingArgs> innerTrainer, double trainingRatio, double validationRatio, double testRatio)
+        public ValidatingTrainer(ITrainer<TTrainingArgs> innerTrainer, double trainingRatio, double validationRatio, double testRatio)
+            : base(innerTrainer)
         {
-            this.innerTrainer = innerTrainer;
-
             if (trainingRatio + validationRatio + testRatio != 1.0)
             {
                 throw new ArgumentException("The sum of ratios must be equal to one.");
@@ -38,18 +37,6 @@ namespace NeuralNetwork.Training
             WeightsReset += ValidationTrainer_WeightsReset;
         }
 
-        public override event EventHandler<TrainingStatus> WeightsUpdated
-        {
-            add { innerTrainer.WeightsUpdated += value; }
-            remove { innerTrainer.WeightsUpdated -= value; }
-        }
-
-        public override event EventHandler WeightsReset
-        {
-            add { innerTrainer.WeightsReset += value; }
-            remove { innerTrainer.WeightsReset -= value; }
-        }
-
         // Holdout validation:
         // https://en.wikipedia.org/wiki/Cross-validation_(statistics)#Holdout_method
         public override TrainingLog Train(INetwork network, IDataSet data, TTrainingArgs args)
@@ -57,6 +44,7 @@ namespace NeuralNetwork.Training
             PartitionDataSet(data);
 
             var log = innerTrainer.Train(network, trainingSet, args);
+
             log.TrainingSetStats = TestBasic(network, trainingSet);
 
             if (validationSet != null && validationSet.Size > 0)

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using Mozog.Utils;
 using NeuralNetwork.ActivationFunctions;
+using NeuralNetwork.Data;
 using NeuralNetwork.ErrorFunctions;
 using NeuralNetwork.Interfaces;
 using NeuralNetwork.MultilayerPerceptron;

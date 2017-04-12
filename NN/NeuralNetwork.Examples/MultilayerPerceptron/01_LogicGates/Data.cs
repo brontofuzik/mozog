@@ -1,4 +1,5 @@
-﻿using NeuralNetwork.Interfaces;
+﻿using NeuralNetwork.Data;
+using NeuralNetwork.Interfaces;
 using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates

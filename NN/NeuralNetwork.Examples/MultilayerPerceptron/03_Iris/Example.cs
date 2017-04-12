@@ -1,6 +1,7 @@
 ﻿using System;
 using Mozog.Utils;
 using NeuralNetwork.ActivationFunctions;
+using NeuralNetwork.Data;
 using NeuralNetwork.ErrorFunctions;
 using NeuralNetwork.Interfaces;
 using NeuralNetwork.MultilayerPerceptron;
@@ -64,10 +65,10 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
             // Step 3: Train the network.
 
             //var trainer = new BackpropagationTrainer();
-            var trainer = new ValidationTrainer<BackpropagationArgs>(new BackpropagationTrainer(), 0.6, 0.2, 0.2);
+            var trainer = new ValidatingTrainer<BackpropagationArgs>(new BackpropagationTrainer(), 0.6, 0.2, 0.2);
             trainer.WeightsUpdated += LogTrainingProgress;
 
-            var args = BackpropagationArgs.Batch(Optimizer.Adam(learningRate), maxError, resetInterval: resetInterval);
+            var args = BackpropagationArgs.Batch(Optimizer.Adam(learningRate), maxError);
             var log = trainer.Train(network, trainingData, args);
             Console.WriteLine(log);
 

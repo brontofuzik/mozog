@@ -119,16 +119,18 @@
     <Compile Include="MultilayerPerceptron\NeuronBase.cs" />
     <Compile Include="MultilayerPerceptron\NetworkSerializer.cs" />
     <Compile Include="MultilayerPerceptron\Synapse.cs" />
-    <Compile Include="Interfaces\IEncoder.cs" />
-    <Compile Include="Training\ClassificationData.cs" />
-    <Compile Include="Training\DataStatistics.cs" />
-    <Compile Include="Training\EncodedData.cs" />
+    <Compile Include="Data\IEncoder.cs" />
+    <Compile Include="Data\ClassificationData.cs" />
+    <Compile Include="Data\DataStatistics.cs" />
+    <Compile Include="Data\EncodedData.cs" />
     <Compile Include="Training\ITrainer.cs" />
+    <Compile Include="MultilayerPerceptron\Backpropagation\RestartingBackpropTrainer.cs" />
     <Compile Include="Training\TestingLog.cs" />
-    <Compile Include="Training\ValidationTrainer.cs" />
+    <Compile Include="Training\TrainerDecorator.cs" />
+    <Compile Include="Training\ValidatingTrainer.cs" />
     <Compile Include="Training\TrainingArgs.cs" />
-    <Compile Include="Training\DataSetSerializer.cs" />
-    <Compile Include="Training\DataPoint.cs" />
+    <Compile Include="Data\DataSetSerializer.cs" />
+    <Compile Include="Data\DataPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MultilayerPerceptron\Backpropagation\BackpropagationLayer.cs" />
     <Compile Include="MultilayerPerceptron\Backpropagation\BackpropagationNetwork.cs" />
@@ -137,8 +139,8 @@
     <Compile Include="MultilayerPerceptron\Backpropagation\BackpropagationTrainer.cs" />
     <Compile Include="Training\TrainerBase.cs" />
     <Compile Include="Training\TrainingLog.cs" />
-    <Compile Include="Training\LabeledDataPoint.cs" />
-    <Compile Include="Training\DataSet.cs" />
+    <Compile Include="Data\LabeledDataPoint.cs" />
+    <Compile Include="Data\DataSet.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Todo.txt" />

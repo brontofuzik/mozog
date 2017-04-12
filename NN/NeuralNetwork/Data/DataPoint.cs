@@ -1,6 +1,6 @@
 ﻿using Mozog.Utils;
 
-namespace NeuralNetwork.Training
+namespace NeuralNetwork.Data
 {
     // Unsupervised learning
     public class DataPoint: IDataPoint

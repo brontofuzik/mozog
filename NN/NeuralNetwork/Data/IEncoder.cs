@@ -1,4 +1,4 @@
-﻿namespace NeuralNetwork.Interfaces
+﻿namespace NeuralNetwork.Data
 {
     public interface IEncoder<TInput, TOutput>
     {

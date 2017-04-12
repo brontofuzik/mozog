@@ -8,7 +8,7 @@
 
             //MultilayerPerceptron.Keywords.Example.Run();
 
-            MultilayerPerceptron.Iris.Example.Run();
+            //MultilayerPerceptron.Iris.Example.Run();
 
             //MultilayerPerceptron.Tiling.Example.Run();
         }

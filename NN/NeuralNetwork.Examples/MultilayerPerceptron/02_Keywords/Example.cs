@@ -19,9 +19,9 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
             const int hiddenNeurons = 5;
             const string activation = "Softmax";
 
-            const double learningRate = 0.1;
+            const double learningRate = 0.5;
             const double maxError = 0.1;
-            const int resetInterval = 500;
+            const int restartInterval = 1_000;
 
             // Step 1: Create the training set.
 
@@ -54,10 +54,10 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
             // Step 3: Train the network.
 
-            var trainer = new BackpropagationTrainer();
+            var trainer = new RestartingBackpropTrainer(restartInterval);
             trainer.WeightsUpdated += LogTrainingProgress;
 
-            var args = BackpropagationArgs.Batch(Optimizer.Momentum(learningRate), maxError, resetInterval: resetInterval);
+            var args = BackpropagationArgs.Batch(Optimizer.Momentum(learningRate), maxError);
             var log = trainer.Train(network, trainingData, args);
             Console.WriteLine(log);
 
