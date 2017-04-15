@@ -93,6 +93,20 @@ namespace NeuralNetwork.Data
 
         public virtual IDataSet CreateNewSet() => new DataSet(InputSize, OutputSize);
 
+        public IDataSet Split(int size, bool random)
+        {
+            var arrays = SplitArray(random ? Random().ToArray() : points.ToArray(), size);
+            points.Clear();
+            points.AddRange(arrays.second);
+            return CreateNewSet().AddRange(arrays.first);
+        }
+
+        public IDataSet Split(double ratio, bool random)
+            => Split((int)Math.Round(ratio * Size), random);
+
+        private static (T[] first, T[] second) SplitArray<T>(T[] array, int size)
+            => (array.Take(size).ToArray(), array.Skip(size).ToArray());
+
         public override string ToString() => $"{{\n{String.Join("\n", points.Select((p, i) => $"\t{i}: {p}"))}\n}}";
 
     }

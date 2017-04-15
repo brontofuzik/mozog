@@ -108,7 +108,6 @@
     <Compile Include="MultilayerPerceptron\InputLayer.cs" />
     <Compile Include="Interfaces\INetwork.cs" />
     <Compile Include="ActivationFunctions\IActivationFunction.cs" />
-    <Compile Include="ActivationFunctions\SigmoidFunction.cs" />
     <Compile Include="MultilayerPerceptron\ActivationLayer.cs" />
     <Compile Include="MultilayerPerceptron\LayerBase.cs" />
     <Compile Include="MultilayerPerceptron\Network.cs" />

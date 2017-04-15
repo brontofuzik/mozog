@@ -19,7 +19,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
 
             const int hiddenNeurons = 2;
 
-            const double learningRate = 0.5;
+            const double learningRate = 0.05;
             const double maxError = 0.001;
             const int restartInterval = 1_000;
 
@@ -31,7 +31,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
 
             // Sigmoid & MSE
             var architecture = NetworkArchitecture.Feedforward(
-                new[] { data.InputSize, hiddenNeurons, data.OutputSize },
+                new[] { data.InputSize, 2, data.OutputSize },
                 Activation.Sigmoid,
                 Error.MSE);
 

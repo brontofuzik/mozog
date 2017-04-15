@@ -6,7 +6,7 @@ namespace NeuralNetwork.Training
 {
     public class TestingLog
     {
-        public DataStatistics DataStats { get; set; }
+        public DataStatistics Statistics { get; set; }
 
         public double? Accuracy { get; set; }
 
@@ -24,7 +24,7 @@ namespace NeuralNetwork.Training
             sb.AppendLine(separator);
             sb.AppendLine("TESTING LOG");
             sb.AppendLine(new String('-', width));
-            sb.AppendLine($"Error\t\t{DataStats}");
+            sb.AppendLine($"Error\t\t{Statistics}");
 
             if (Accuracy.HasValue)
                 sb.AppendLine($"Accuracy\t{Accuracy.Value:P2}");

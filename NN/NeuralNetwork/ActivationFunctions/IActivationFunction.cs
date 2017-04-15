@@ -29,10 +29,16 @@
     {
         public static IActivationFunction Linear => new LinearFunction();
 
+        public static IActivationFunction ReLU => new ReLU();
+
+        public static IActivationFunction Softplus => new Softplus();
+
+        public static IActivationFunction Logistic => new LogisticFunction();
+
         public static IActivationFunction Sigmoid => new SigmoidFunction();
 
-        public static IActivationFunction Softmax=> new SoftmaxFunction();
-
         public static IActivationFunction Tanh => new HyperbolicTangent();
+
+        public static IActivationFunction Softmax=> new SoftmaxFunction();
     }
 }

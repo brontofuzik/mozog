@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26206.0
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GA", "GA", "{39012F6D-52C4-401E-9832-49C0C071302A}"
 EndProject
@@ -36,6 +36,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork.Training.Ants", "NN\NeuralNetwork.Training.Ants\NeuralNetwork.Training.Ants.csproj", "{6278D0D9-5CF9-4CB4-A98E-2790A8C8BB27}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork.Training.Annealing", "NN\NeuralNetwork.Training.Annealing\NeuralNetwork.Training.Annealing.csproj", "{3CB37780-6059-45EE-B1E4-49CB3BDEFF8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketForecaster", "NN\MarketForecaster\MarketForecaster.csproj", "{915AEBDD-F9C8-4C2C-A65F-889593332225}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +97,10 @@ Global
 		{3CB37780-6059-45EE-B1E4-49CB3BDEFF8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CB37780-6059-45EE-B1E4-49CB3BDEFF8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CB37780-6059-45EE-B1E4-49CB3BDEFF8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{915AEBDD-F9C8-4C2C-A65F-889593332225}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{915AEBDD-F9C8-4C2C-A65F-889593332225}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{915AEBDD-F9C8-4C2C-A65F-889593332225}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{915AEBDD-F9C8-4C2C-A65F-889593332225}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,5 +117,6 @@ Global
 		{F73F103B-AFD7-40CE-9829-673276A6843C} = {0D96491B-CBF8-403A-9AE5-2A259A554ECD}
 		{6278D0D9-5CF9-4CB4-A98E-2790A8C8BB27} = {0D96491B-CBF8-403A-9AE5-2A259A554ECD}
 		{3CB37780-6059-45EE-B1E4-49CB3BDEFF8A} = {0D96491B-CBF8-403A-9AE5-2A259A554ECD}
+		{915AEBDD-F9C8-4C2C-A65F-889593332225} = {0D96491B-CBF8-403A-9AE5-2A259A554ECD}
 	EndGlobalSection
 EndGlobal

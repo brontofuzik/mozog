@@ -101,10 +101,15 @@ namespace Mozog.Utils
         public static int HammingDistance(double[] vector1, double[] vector2)
             => vector1.Zip(vector2, (d1, d2) => d1 != d2 ? 1 : 0).Sum();
 
+        public static string ToString(int[] vector)
+        {
+            Require.IsNotNull(vector, nameof(vector));
+            return $"[{String.Join(", ", vector.Select(e => e.ToString()))}]";
+        }
+
         public static string ToString(double[] vector)
         {
             Require.IsNotNull(vector, nameof(vector));
-
             return $"[{String.Join(", ", vector.Select(e => e.ToString("F2")))}]";
         }
     }

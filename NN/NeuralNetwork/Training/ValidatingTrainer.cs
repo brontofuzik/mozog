@@ -45,7 +45,7 @@ namespace NeuralNetwork.Training
 
             var log = innerTrainer.Train(network, trainingSet, args);
 
-            log.TrainingSetStats = TestBasic(network, trainingSet);
+            log.TrainingStatistics = TestBasic(network, trainingSet);
 
             if (validationSet != null && validationSet.Size > 0)
                 log.ValidationSetStats = TestBasic(network, validationSet);

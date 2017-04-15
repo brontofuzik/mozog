@@ -14,9 +14,10 @@ namespace NeuralNetwork.Training
 
         public int Iterations { get; }
 
+        // Training set error
         public double Error { get; }
 
-        public DataStatistics? TrainingSetStats { get; set; }
+        public DataStatistics? TrainingStatistics { get; set; }
 
         public DataStatistics? ValidationSetStats { get; set; }
 
@@ -34,9 +35,9 @@ namespace NeuralNetwork.Training
             sb.AppendLine(new String('-', width));
             sb.AppendLine($"Iterations\t{Iterations}");
 
-            if (TrainingSetStats.HasValue)
+            if (TrainingStatistics.HasValue)
             {
-                sb.AppendLine($"Training err\t{TrainingSetStats.Value}");
+                sb.AppendLine($"Training err\t{TrainingStatistics.Value}");
             }
 
             if (ValidationSetStats.HasValue)

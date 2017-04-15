@@ -14,7 +14,7 @@ namespace NeuralNetwork.Training
         public TestingLog Test(INetwork network, IDataSet data)
         {
             var stats = TestBasic(network, data);
-            var log = new TestingLog { DataStats = stats };
+            var log = new TestingLog { Statistics = stats };
 
             // Classifer?
             var classificationData = data as IClassificationData;

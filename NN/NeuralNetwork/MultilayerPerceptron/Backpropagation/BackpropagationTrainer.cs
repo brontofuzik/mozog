@@ -33,7 +33,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             var weights = backpropNetwork.GetWeights();
             network.SetWeights(weights);
 
-            log.TrainingSetStats = TestBasic(network, data);
+            log.TrainingStatistics = TestBasic(network, data);
 
             return log;
         }
