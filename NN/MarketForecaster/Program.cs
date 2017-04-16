@@ -40,6 +40,8 @@ namespace MarketForecaster
 
         private static void Forecast(Forecast forecast)
         {
+            Console.WriteLine(forecast);
+
             // Step 1: Training & test data
 
             var trainingData = timeSeries.BuildTrainingSet(forecast.Lags, forecast.Leaps);
@@ -88,7 +90,10 @@ namespace MarketForecaster
 
         private static void Trainer_WeightsUpdated(object sender, NeuralNetwork.Training.TrainingStatus e)
         {
-            Console.WriteLine($"Iterations: {e.Iterations}, Error: {e.Error}");
+            if (e.Iterations % 100 == 0)
+            {
+                Console.WriteLine($"Iterations: {e.Iterations}, Error: {e.Error}");
+            }
         }
     }
 }

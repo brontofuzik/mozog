@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using Mozog.Utils;
 
 namespace MarketForecaster
 {
@@ -41,5 +43,16 @@ namespace MarketForecaster
         public int[] Leaps { get; }
 
         public int HiddenNeurons { get; }
+
+        public override string ToString()
+        {
+            string separator = new String('=', 60);
+
+            var sb = new StringBuilder();
+            sb.AppendLine(separator);
+            sb.AppendLine($"Lags: {Vector.ToString(Lags)}, Hidden neurons: {HiddenNeurons}");
+            sb.Append(separator);
+            return sb.ToString();
+        }
     }
 }
