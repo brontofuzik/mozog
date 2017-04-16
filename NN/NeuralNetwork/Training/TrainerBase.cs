@@ -13,7 +13,7 @@ namespace NeuralNetwork.Training
 
         public TestingLog Test(INetwork network, IDataSet data)
         {
-            var stats = TestBasic(network, data);
+            var stats = CalculateStats(network, data);
             var log = new TestingLog { Statistics = stats };
 
             // Classifer?
@@ -29,19 +29,15 @@ namespace NeuralNetwork.Training
             return log;
         }
 
-        public virtual DataStatistics TestBasic(INetwork network, IDataSet data)
+        public virtual DataStatistics CalculateStats(INetwork network, IDataSet data)
         {
-            var error = 0.0;
-            var rss = 0.0;
+            var stats = new DataStatistics(data.Size, network.SynapseCount);
             foreach (var point in data)
             {
                 var result = network.EvaluateLabeled(point.Input, point.Output);
-                error += result.error;
-                rss += Math.Pow(result.output[0] - point.Output[0], 2);
+                stats.AddObservation(result.output, point.Output, result.error);
             }
-            error /= data.Size;
-
-            return new DataStatistics(data.Size, network.SynapseCount, error, rss);
+            return stats;
         }
 
         private (double accuracy, double precision, double recall) TestClassifier(INetwork network, IClassificationData data)

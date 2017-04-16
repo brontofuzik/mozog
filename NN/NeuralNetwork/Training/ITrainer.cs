@@ -11,7 +11,7 @@ namespace NeuralNetwork.Training
 
         TestingLog Test(INetwork network, IDataSet data);
 
-        DataStatistics TestBasic(INetwork network, IDataSet data);
+        DataStatistics CalculateStats(INetwork network, IDataSet data);
 
         event EventHandler<TrainingStatus> WeightsUpdated;
 

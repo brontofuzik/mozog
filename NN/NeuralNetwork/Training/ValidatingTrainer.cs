@@ -45,13 +45,13 @@ namespace NeuralNetwork.Training
 
             var log = innerTrainer.Train(network, trainingSet, args);
 
-            log.TrainingStatistics = TestBasic(network, trainingSet);
+            log.TrainingStatistics = CalculateStats(network, trainingSet);
 
             if (validationSet != null && validationSet.Size > 0)
-                log.ValidationSetStats = TestBasic(network, validationSet);
+                log.ValidationSetStats = CalculateStats(network, validationSet);
 
             if (testSet != null && testSet.Size > 0)
-                log.TestSetStats = TestBasic(network, testSet);
+                log.TestSetStats = CalculateStats(network, testSet);
 
             return log;
         }
@@ -82,9 +82,9 @@ namespace NeuralNetwork.Training
         {
             if (e.Iterations % ValidationInterval != 0) return;
 
-            var result = TestBasic(e.Network, validationSet);
+            var result = CalculateStats(e.Network, validationSet);
 
-            if (result.Error > validationError)
+            if (result.AverageError > validationError)
             {
                 run++;
                 if (run == RunLimit)
@@ -95,7 +95,7 @@ namespace NeuralNetwork.Training
             else
             {
                 run = 0;
-                validationError = result.Error;
+                validationError = result.AverageError;
                 e.StopTraining = false;
             }
         }

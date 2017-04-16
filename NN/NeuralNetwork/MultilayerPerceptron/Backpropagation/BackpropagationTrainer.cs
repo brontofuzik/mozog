@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using Mozog.Utils;
 using NeuralNetwork.Data;
 using NeuralNetwork.Interfaces;
 using NeuralNetwork.Training;
@@ -33,8 +33,6 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             var weights = backpropNetwork.GetWeights();
             network.SetWeights(weights);
 
-            log.TrainingStatistics = TestBasic(network, data);
-
             return log;
         }
 
@@ -43,58 +41,59 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             backpropNetwork.Initialize(args);
             WeightsReset?.Invoke(this, EventArgs.Empty);
 
-            double error = Double.MaxValue;
             int iterations = 0;
-            bool interrupt;
+            DataStatistics stats;
             do
             {
                 iterations++;
-                error = TrainIteration(iterations);          
-                interrupt = OnWeightsUpdated(iterations, error);
-            }
-            while (!IsTrainingDone(error, iterations) && !interrupt);
+                stats = TrainIteration(iterations);
 
-            return new TrainingLog(iterations, error);
+                if (OnWeightsUpdated(iterations, stats.AverageError))
+                    break;
+            }
+            while (!IsTrainingDone(stats.AverageError, iterations));
+
+            return new TrainingLog(iterations)
+            {
+                TrainingStatistics = stats
+            };
         }
 
         protected virtual bool IsTrainingDone(double error, int iteration)
             => error <= args.MaxError || iteration >= args.MaxIterations;
 
-        private double TrainIteration(int iteration)
+        private DataStatistics TrainIteration(int iteration)
         {
             switch (args.Type)
             {
                 case BackpropagationType.Batch:
-                    return TrainBatch(data, iteration);
-
-                // TODO 
-                case BackpropagationType.MiniBatch:           
-                    return 0.0;
-
-                // TODO 
-                case BackpropagationType.Stochastic:              
-                    return 0.0;
+                    TrainBatch(data, iteration);
+                    break;
+                
+                case BackpropagationType.MiniBatch: // TODO
+                    break;
+                 
+                case BackpropagationType.Stochastic: // TODO
+                    break;
 
                 default:
                     throw new ArgumentException($"Backprop type '{args.Type}' not supported", nameof(args.Type));
             }
+
+            return CalculateStats(backpropNetwork, data);
         }
 
-        private double TrainBatch(IEnumerable<ILabeledDataPoint> batch, int iteration)
+        private void TrainBatch(IEnumerable<ILabeledDataPoint> batch, int iteration)
         {
             backpropNetwork.ResetGradients();
-            var error = batch.Sum(p => TrainPoint(p, iteration)) / batch.Count();
-
+            batch.ForEach(p => TrainPoint(p, iteration));
             backpropNetwork.UpdateWeights(iteration);
-
-            return error;
         }
 
-        private double TrainPoint(ILabeledDataPoint point, int iteration)
+        private void TrainPoint(ILabeledDataPoint point, int iteration)
         {
-            var result = backpropNetwork.EvaluateLabeled(point.Input, point.Output);
+            backpropNetwork.EvaluateLabeled(point.Input, point.Output);
             backpropNetwork.Backpropagate(point.Output);
-            return result.error;
         }
 
         private bool OnWeightsUpdated(int iterations, double error)

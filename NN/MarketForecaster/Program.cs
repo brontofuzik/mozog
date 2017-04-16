@@ -76,11 +76,11 @@ namespace MarketForecaster
                 trainingData.Size.ToString(), // n
                 network.SynapseCount.ToString(), // p
 
-                trainingLog.TrainingStatistics?.Error.ToString(),
+                trainingLog.TrainingStatistics?.AverageError.ToString(),
                 trainingLog.TrainingStatistics?.MSE.ToString(),
 
-                testLog.Statistics.Error.ToString(),
-                testLog.Statistics.RSD.ToString(),
+                testLog.Statistics.AverageError.ToString(),
+                testLog.Statistics.RMSE.ToString(),
 
                 trainingLog.TrainingStatistics?.AIC.ToString(),
                 trainingLog.TrainingStatistics?.BIC.ToString());

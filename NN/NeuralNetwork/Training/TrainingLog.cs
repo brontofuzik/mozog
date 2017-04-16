@@ -6,22 +6,18 @@ namespace NeuralNetwork.Training
 {
     public class TrainingLog
     {
-        public TrainingLog(int trainingIterations, double trainingError)
+        public TrainingLog(int trainingIterations)
         {
             Iterations = trainingIterations;
-            Error = trainingError;
         }
 
         public int Iterations { get; }
 
-        // Training set error
-        public double Error { get; }
+        public DataStatistics TrainingStatistics { get; set; }
 
-        public DataStatistics? TrainingStatistics { get; set; }
+        public DataStatistics ValidationSetStats { get; set; }
 
-        public DataStatistics? ValidationSetStats { get; set; }
-
-        public DataStatistics? TestSetStats { get; set; }
+        public DataStatistics TestSetStats { get; set; }
 
         public override string ToString()
         {
@@ -35,19 +31,19 @@ namespace NeuralNetwork.Training
             sb.AppendLine(new String('-', width));
             sb.AppendLine($"Iterations\t{Iterations}");
 
-            if (TrainingStatistics.HasValue)
+            if (TrainingStatistics != null)
             {
-                sb.AppendLine($"Training err\t{TrainingStatistics.Value}");
+                sb.AppendLine($"Training err\t{TrainingStatistics}");
             }
 
-            if (ValidationSetStats.HasValue)
+            if (ValidationSetStats != null)
             {
-                sb.AppendLine($"Validation err\t{ValidationSetStats.Value}");
+                sb.AppendLine($"Validation err\t{ValidationSetStats}");
             }
 
-            if (TestSetStats.HasValue)
+            if (TestSetStats != null)
             {
-                sb.AppendLine($"Test err\t{TestSetStats.Value}");
+                sb.AppendLine($"Test err\t{TestSetStats}");
             }
 
             sb.Append(separator);

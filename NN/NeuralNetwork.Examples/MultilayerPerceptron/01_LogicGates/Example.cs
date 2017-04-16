@@ -19,20 +19,20 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
 
             const int hiddenNeurons = 2;
 
-            const double learningRate = 0.05;
+            const double learningRate = 0.5;
             const double maxError = 0.001;
             const int restartInterval = 1_000;
 
             // Step 1: Create the training set.
 
-            var data = Data.XOR;
+            var data = Data.AND;
 
             // Step 2: Create the network.
 
             // Sigmoid & MSE
             var architecture = NetworkArchitecture.Feedforward(
-                new[] { data.InputSize, 2, data.OutputSize },
-                Activation.Sigmoid,
+                new[] { data.InputSize, data.OutputSize },
+                Activation.Softplus,
                 Error.MSE);
 
             network = new Network(architecture);

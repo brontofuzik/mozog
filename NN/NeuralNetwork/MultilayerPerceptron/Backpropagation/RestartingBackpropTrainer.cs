@@ -20,7 +20,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
             {
                 log = base.TrainBackprop();
             }
-            while (log.Error >= args.MaxError);
+            while (log.TrainingStatistics.AverageError >= args.MaxError);
 
             return log;
         }

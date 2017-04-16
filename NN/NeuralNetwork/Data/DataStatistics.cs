@@ -2,29 +2,35 @@
 
 namespace NeuralNetwork.Data
 {
-    public struct DataStatistics
+    public class DataStatistics
     {
         private readonly int n;
         private readonly int p;
 
-        public DataStatistics(int n, int p, double error, double rss)
+        public DataStatistics(int n, int p)
         {
             this.n = n;
             this.p = p;
-            Error = error;
-            RSS = rss;
         }
 
-        public double Error { get; }
+        public void AddObservation(double[] output, double[] target, double error)
+        {
+            TotalError += error;
+            RSS += Math.Pow(output[0] - target[0], 2);
+        }
+
+        public double TotalError { get; private set; }
+
+        public double AverageError => TotalError / n;
 
         // Residual sum of squares
-        public double RSS { get; }
-
-        // Residual standard deviation
-        public double RSD => Math.Sqrt(RSS / (n - 2));
+        public double RSS { get; private set; }
 
         // Mean squared error
         public double MSE => RSS / n;
+
+        // RMSE/RMSD a.k.a. RSD
+        public double RMSE => Math.Sqrt(MSE);
 
         // Akaike information criterion
         public double AIC => n * Math.Log(MSE) + 2 * p;
@@ -35,6 +41,6 @@ namespace NeuralNetwork.Data
         // Bayesian information criterion
         public double BIC => n * Math.Log(MSE) + p * Math.Log(n);
 
-        public override string ToString() => Error.ToString("F3");
+        public override string ToString() => AverageError.ToString("F3");
     }
 }
