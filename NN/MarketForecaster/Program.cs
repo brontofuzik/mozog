@@ -11,26 +11,26 @@ namespace MarketForecaster
 {
     class Program
     {
-        private static TimeSeries timeSeries;
-        private static Forecasts forecasts;
+        private static string timeSeriesFilename;       
         private static Log log;
 
+        [STAThread]
         public static void Main(string[] args)
-        {
+        {        
             try
             {
-                timeSeries = new TimeSeries(args[0]);
-                forecasts = new Forecasts(args[1]);
+                var forecasts = Forecast.FromFile(args[0]);
+                timeSeriesFilename = args[1];             
                 log = new Log(args[2]);
 
                 foreach (var forecast in forecasts)
                 {
-                    Forecast(forecast);
+                    DoForecast(forecast);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                Console.WriteLine("Usage: MarketForecaster .timeSeries .forecast .log");
+                Console.WriteLine("Usage: MarketForecaster .forecast .timeSeries .log");
             }
             finally
             {
@@ -38,14 +38,15 @@ namespace MarketForecaster
             }
         }
 
-        private static void Forecast(Forecast forecast)
+        private static void DoForecast(Forecast forecast)
         {
             Console.WriteLine(forecast);
 
             // Step 1: Training & test data
 
-            var trainingData = timeSeries.BuildTrainingSet(forecast.Lags, forecast.Leaps);
-            var testData = trainingData.Split(forecast.TestSize, random: false);
+            var timeSeries = TimeSeries.FromFile(timeSeriesFilename);
+            var trainingData = timeSeries.BuildDataSet(forecast.Lags);
+            var testData = trainingData.Split(size: 12, random: false);
 
             // Step 2: Network
            
@@ -53,7 +54,7 @@ namespace MarketForecaster
             {
                 (forecast.Lags.Length, null),
                 (forecast.HiddenNeurons, Activation.Sigmoid),
-                (forecast.Leaps.Length, Activation.Softplus)
+                (1, Activation.Softplus)
             }, Error.MSE);
             var network = new Network(architecture);
 
@@ -86,6 +87,22 @@ namespace MarketForecaster
 
                 trainingLog.TrainingStatistics?.AIC.ToString(),
                 trainingLog.TrainingStatistics?.BIC.ToString());
+
+            // Step 5: Extrapolate
+
+            for (int month = 144; month < 168; month++)
+            {
+                var input = new double[forecast.Lags.Length];
+                for (int i = 0; i < input.Length; i++)
+                {
+                    input[i] = timeSeries[month - forecast.Lags[i]];
+                }
+                var output = network.EvaluateUnlabeled(input)[0];
+
+                timeSeries.AddDataPoint(output);
+            }
+
+            timeSeries.Plot(forecast.Lags, forecast.HiddenNeurons);
         }
 
         private static void Trainer_WeightsUpdated(object sender, NeuralNetwork.Training.TrainingStatus e)
