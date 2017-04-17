@@ -90,12 +90,12 @@ namespace MarketForecaster
 
             // Step 5: Extrapolate
 
-            for (int month = 144; month < 168; month++)
+            foreach (var i in timeSeries.ForecastedIndices)
             {
                 var input = new double[forecast.Lags.Length];
-                for (int i = 0; i < input.Length; i++)
+                for (int j = 0; j < input.Length; j++)
                 {
-                    input[i] = timeSeries[month - forecast.Lags[i]];
+                    input[j] = timeSeries[i - forecast.Lags[j]];
                 }
                 var output = network.EvaluateUnlabeled(input)[0];
 

@@ -9,6 +9,7 @@ using OxyPlot.Axes;
 using OxyPlot.Wpf;
 using LinearAxis = OxyPlot.Axes.LinearAxis;
 using LineSeries = OxyPlot.Series.LineSeries;
+using Series = OxyPlot.Series.Series;
 
 namespace MarketForecaster
 {
@@ -22,7 +23,7 @@ namespace MarketForecaster
             var timeSeries = new TimeSeries();
             foreach (var line in File.ReadLines(filename))
             {
-                if (line.Trim().Length == 0)
+                if (String.IsNullOrWhiteSpace(line))
                     continue;
 
                 timeSeries.dataPoints.AddRange(line.Split(separator, StringSplitOptions.RemoveEmptyEntries).Select(double.Parse));
@@ -31,6 +32,14 @@ namespace MarketForecaster
         }
 
         private int Count => dataPoints.Count;
+
+        // 12 years
+        public IEnumerable<int> ObservedIndices
+            => Enumerable.Range(0, 12 * 12);
+
+        // 2 years
+        public IEnumerable<int> ForecastedIndices
+            => Enumerable.Range(144, 2 * 12);
 
         public double this[int i] => dataPoints[i];
 
@@ -75,21 +84,40 @@ namespace MarketForecaster
             plotModel.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom });
             plotModel.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = 0, Maximum = dataPoints.Max() });
 
+            plotModel.Series.Add(ObservedSeries());
+            plotModel.Series.Add(ForecastedSeries());
+
+            return plotModel;
+        }
+
+        private LineSeries ObservedSeries()
+        {
             var series = new LineSeries
             {
                 MarkerType = MarkerType.Circle,
                 MarkerSize = 4,
-                MarkerStroke = OxyColors.White
+                MarkerStroke = OxyColors.Green
             };
-
-            for (var i = 0; i < Count; i++)
+            foreach (var i in ObservedIndices)
             {
                 series.Points.Add(new OxyPlot.DataPoint(i, dataPoints[i]));
             }
+            return series;
+        }
 
-            plotModel.Series.Add(series);
-
-            return plotModel;
+        private LineSeries ForecastedSeries()
+        {
+            var series = new LineSeries
+            {
+                MarkerType = MarkerType.Circle,
+                MarkerSize = 4,
+                MarkerStroke = OxyColors.Red
+            };
+            foreach (var i in ForecastedIndices)
+            {
+                series.Points.Add(new OxyPlot.DataPoint(i, dataPoints[i]));
+            }
+            return series;
         }
     }
 }

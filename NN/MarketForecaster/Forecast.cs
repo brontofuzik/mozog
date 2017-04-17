@@ -14,7 +14,9 @@ namespace MarketForecaster
 
         public static IEnumerable<Forecast> FromFile(string filename)
         {
-            return File.ReadLines(filename).Select(line =>
+            return File.ReadLines(filename)
+                .Where(line => !String.IsNullOrWhiteSpace(line) && !line.StartsWith("#"))
+                .Select(line =>
             {
                 var @params = line.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                 var lags = @params[0].Trim().Split(',').Select(Int32.Parse).ToArray();
