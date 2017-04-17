@@ -46,7 +46,7 @@ namespace MarketForecaster
 
             var timeSeries = TimeSeries.FromFile(timeSeriesFilename);
             var trainingData = timeSeries.BuildDataSet(forecast.Lags);
-            var testData = trainingData.Split(size: 12, random: false);
+            //var testData = trainingData.Split(size: 12, random: false);
 
             // Step 2: Network
            
@@ -64,13 +64,13 @@ namespace MarketForecaster
             trainer.WeightsUpdated += Trainer_WeightsUpdated;
 
             var args = BackpropagationArgs.Batch(Optimizer.RmsProp(0.01),
-                maxError: 0.001,
+                maxError: 0.0005,
                 maxIterations: 5_000);
             var trainingLog = trainer.Train(network, trainingData, args);
 
             // Step 4: Test
 
-            var testLog = trainer.Test(network, testData);
+            //var testLog = trainer.Test(network, testData);
 
             log.Write(
                 Vector.ToString(forecast.Lags),
@@ -82,8 +82,8 @@ namespace MarketForecaster
                 trainingLog.TrainingStatistics?.AverageError.ToString(),
                 trainingLog.TrainingStatistics?.MSE.ToString(),
 
-                testLog.Statistics.AverageError.ToString(),
-                testLog.Statistics.RMSE.ToString(),
+                "N/A", //testLog.Statistics.AverageError.ToString(),
+                "N/A", //testLog.Statistics.RMSE.ToString(),
 
                 trainingLog.TrainingStatistics?.AIC.ToString(),
                 trainingLog.TrainingStatistics?.BIC.ToString());
