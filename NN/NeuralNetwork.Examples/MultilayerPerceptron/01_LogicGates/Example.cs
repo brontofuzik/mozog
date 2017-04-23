@@ -17,7 +17,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
         {
             // Parameters
 
-            const double learningRate = 0.5;
+            const double learningRate = 0.1;
             const double maxError = 0.001;
             const int restartInterval = 1_000;
 

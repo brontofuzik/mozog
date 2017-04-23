@@ -27,8 +27,8 @@ namespace NeuralNetwork.ActivationFunctions
 
         public double EvaluateDerivative(double x)
         {
-            double ex = Math.Exp(x);
-            return ex / (1 + ex);
+            double y = Evaluate(x);
+            return y * (1 - y);
         }
 
         public override string ToString() => "Log";

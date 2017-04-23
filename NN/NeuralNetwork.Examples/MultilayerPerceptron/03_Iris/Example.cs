@@ -19,11 +19,9 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
             // Parameters
 
             const int hiddenNeurons = 2;
-            const string activation = "Softmax";
-
             const double learningRate = 0.1;
             const double maxError = 0.01;
-            const int resetInterval = 5_000;
+            const int resetInterval = 1_000;
 
             // Step 1: Create the training set.
 
@@ -32,7 +30,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
             var testData = ClassificationData.New(Data.Encoder, 4, 3);
             data.Random().ForEach((p, i) =>
             {
-                if (i < 100)
+                if (i < 20)
                     trainingData.Add(p);
                 else
                     testData.Add(p);
@@ -40,35 +38,23 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
 
             // Step 2: Create the network.
 
-            INetworkArchitecture architecture;
-            if (activation == "Sigmoid")
+            // Softmax & CEE
+            var architecture = NetworkArchitecture.Feedforward(new(int, IActivationFunction)[]
             {
-                // Sigmoid & MSE
-                architecture = NetworkArchitecture.Feedforward(
-                    new[] { trainingData.InputSize, 5, trainingData.OutputSize },
-                    Activation.Sigmoid,
-                    Error.MSE);
-            }
-            else
-            {
-                // Softmax & CEE
-                architecture = NetworkArchitecture.Feedforward(new(int, IActivationFunction)[]
-                {
-                    (trainingData.InputSize, null),
-                    (hiddenNeurons, Activation.Sigmoid),
-                    (trainingData.OutputSize, Activation.Softmax)
-                }, Error.CEE);
-            }
+                (trainingData.InputSize, null),
+                (hiddenNeurons, Activation.Sigmoid),
+                (trainingData.OutputSize, Activation.Softmax)
+            }, Error.CEE);
 
             network = new Network(architecture);
 
             // Step 3: Train the network.
 
-            //var trainer = new BackpropagationTrainer();
-            var trainer = new ValidatingTrainer<BackpropagationArgs>(new BackpropagationTrainer(), 0.6, 0.2, 0.2);
+            var trainer = new RestartingBackpropTrainer(resetInterval);
+            //var trainer = new ValidatingTrainer<BackpropagationArgs>(new BackpropagationTrainer(), 0.6, 0.2, 0.2);
             trainer.WeightsUpdated += LogTrainingProgress;
 
-            var args = BackpropagationArgs.Batch(Optimizer.Adam(learningRate), maxError);
+            var args = BackpropagationArgs.Batch(Optimizer.RmsProp(learningRate), maxError);
             var log = trainer.Train(network, trainingData, args);
             Console.WriteLine(log);
 

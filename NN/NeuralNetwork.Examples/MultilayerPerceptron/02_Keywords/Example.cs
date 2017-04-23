@@ -17,9 +17,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
             // Parameters
 
             const int hiddenNeurons = 5;
-            const string activation = "Softmax";
-
-            const double learningRate = 0.5;
+            const double learningRate = 0.1;
             const double maxError = 0.1;
             const int restartInterval = 1_000;
 
@@ -30,25 +28,13 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
 
             // Step 2: Create the network.
 
-            INetworkArchitecture architecture;
-            if (activation == "Sigmoid")
+            // Softmax & CEE
+            var architecture = NetworkArchitecture.Feedforward(new(int, IActivationFunction)[]
             {
-                // Sigmoid & MSE
-                architecture = NetworkArchitecture.Feedforward(
-                    new[] { trainingData.InputSize, 5, trainingData.OutputSize },
-                    Activation.Sigmoid,
-                    Error.MSE);
-            }
-            else
-            {
-                // Softmax & CEE
-                architecture = NetworkArchitecture.Feedforward(new(int, IActivationFunction)[]
-                {
-                    (trainingData.InputSize, null),
-                    (hiddenNeurons, Activation.Sigmoid),
-                    (trainingData.OutputSize, Activation.Softmax)
-                }, Error.CEE);
-            }
+                (trainingData.InputSize, null),
+                (hiddenNeurons, Activation.Sigmoid),
+                (trainingData.OutputSize, Activation.Softmax)
+            }, Error.CEE);
 
             network = new Network(architecture);
 
@@ -57,7 +43,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
             var trainer = new RestartingBackpropTrainer(restartInterval);
             trainer.WeightsUpdated += LogTrainingProgress;
 
-            var args = BackpropagationArgs.Batch(Optimizer.Momentum(learningRate), maxError);
+            var args = BackpropagationArgs.Batch(Optimizer.RmsProp(learningRate), maxError);
             var log = trainer.Train(network, trainingData, args);
             Console.WriteLine(log);
 

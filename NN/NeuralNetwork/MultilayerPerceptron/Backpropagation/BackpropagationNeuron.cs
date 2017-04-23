@@ -39,6 +39,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         public void Backpropagate(double target)
         {
             Error = Layer.Network.ErrorFunc.EvaluateDerivative(this, target);
+
             SourceSynapses.ForEach(s => s.Backpropagate());
         }
 
@@ -47,6 +48,7 @@ namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
         {
             var derivative = Layer.ActivationFunc1.EvaluateDerivative(Input);
             Error = derivative * TargetSynapses.Select(s => s.TargetNeuron.Error * s.Weight).Sum();
+
             SourceSynapses.ForEach(s => s.Backpropagate());
         }
 
