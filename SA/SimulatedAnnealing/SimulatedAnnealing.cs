@@ -9,8 +9,6 @@ namespace SimulatedAnnealing
         // Stopping criteria
         private int maxIterations;
         private double targetEnergy;
-            
-        private State<T> bestState;
 
         //public int Dimension => objectiveFunction.Dimension;
 
@@ -24,18 +22,11 @@ namespace SimulatedAnnealing
             this.targetEnergy = targetEnergy;
 
             var currentState = CreateState(InitializeState());
-            bestState = currentState;
 
             int iteration = 0;
             while (!IsDone(currentState.Energy, iteration))
             {
                 var newState = CreateState(PerturbState(currentState.S));
-
-                // Elitism
-                if (newState.Energy < bestState.Energy)
-                {
-                    bestState = newState;
-                }
 
                 double temperature = CalculateTemperature(initialTemperature, finalTemperature, iteration / (double)maxIterations);
                 Probability acceptanceProbability = AcceptNewState(currentState.Energy, newState.Energy, temperature);
@@ -47,7 +38,7 @@ namespace SimulatedAnnealing
                 iteration++;
             }
 
-            return new Result<T>(bestState, iteration);
+            return new Result<T>(currentState, iteration);
         }
 
         /// <summary>
