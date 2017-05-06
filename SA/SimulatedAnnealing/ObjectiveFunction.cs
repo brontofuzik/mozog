@@ -2,17 +2,19 @@
 {
     public abstract class ObjectiveFunction<T>
     {
-        protected ObjectiveFunction(int dimension, Objective objective)
+        protected ObjectiveFunction(Objective objective)
         {
-            Dimension = dimension;
             Objective = objective;
+            //Dimension = dimension;
         }
-
-        public int Dimension { get; }
 
         public Objective Objective { get; }
 
-        public abstract double Evaluate(T[] state);
+        //public int Dimension { get; }
+
+        public double Evaluate(T[] state) => Objective == Objective.Minimize ? EvaluateInternal(state) : 1 / EvaluateInternal(state);
+
+        public abstract double EvaluateInternal(T[] state);
     }
 
     public enum Objective

@@ -4,69 +4,50 @@ namespace SimulatedAnnealing
 {
     public abstract class SimulatedAnnealing<T>
     {
-        protected Random random = new Random();
-
         private ObjectiveFunction<T> objectiveFunction;
 
-        private T[] bestState;
-        private double bestEnergy = Double.MaxValue;
+        // Stopping criteria
+        private int maxIterations;
+        private double targetEnergy;
+            
+        private State<T> bestState;
 
-        public int Dimension => objectiveFunction.Dimension;
+        //public int Dimension => objectiveFunction.Dimension;
 
         public Objective Objective => objectiveFunction.Objective;
 
-        public T[] Run(ObjectiveFunction<T> objectiveFunction,
-            int maxIterations, out int usedIterations,
-            double acceptableEnergy, out double achievedEnergy,
-            double initialTemperature, double finalTemperature)
+        public Result<T> Run(ObjectiveFunction<T> objectiveFunction,
+            int maxIterations, double targetEnergy, double initialTemperature, double finalTemperature)
         {
             this.objectiveFunction = objectiveFunction;
+            this.maxIterations = maxIterations;
+            this.targetEnergy = targetEnergy;
 
-            // s ← s0; e ← E(s) ... Iniital state, energy.
-            T[] currentState = InitializeState();
-            double currentEnergy = EvaluateState(currentState);
-
-            // sbest ← s; ebest ← e ... Initial "best" solution
+            var currentState = CreateState(InitializeState());
             bestState = currentState;
-            bestEnergy = currentEnergy;
 
-            // k ← 0 ... Energy evaluation count.
-            int iterationIndex = 0;
-
-            // while k < kmax and e > emax ... While time left & not good enough:
-            while (iterationIndex < maxIterations && !IsDone(acceptableEnergy))
+            int iteration = 0;
+            while (!IsDone(currentState.Energy, iteration))
             {
-                // snew ← neighbour(s) ... Pick some neighbour.
-                T[] newState = PerturbState(currentState);
+                var newState = CreateState(PerturbState(currentState.S));
 
-                // enew ← E(snew) ... Compute its energy.
-                double newEnergy = EvaluateState(newState);
-
-                // if enew < ebest then ... Is this a new best?
-                if (newEnergy < bestEnergy)
+                // Elitism
+                if (newState.Energy < bestState.Energy)
                 {
-                    // sbest ← snew; ebest ← enew ... Save 'new neighbour' to 'best found'.
                     bestState = newState;
-                    bestEnergy = newEnergy;
                 }
 
-                // if P(e, enew, temp(k/kmax)) > random() then ... Should we move to it?
-                double temperature = CalculateTemperature(initialTemperature, finalTemperature, iterationIndex / (double)maxIterations);
-                if (AcceptNewState(currentEnergy, newEnergy, temperature) > random.NextDouble())
+                double temperature = CalculateTemperature(initialTemperature, finalTemperature, iteration / (double)maxIterations);
+                Probability acceptanceProbability = AcceptNewState(currentState.Energy, newState.Energy, temperature);
+                if (acceptanceProbability)
                 {
-                    // s ← snew; e ← enew ... Yes, change state.
                     currentState = newState;
-                    currentEnergy = newEnergy;
                 }
 
-                // k ← k + 1 ... One more evaluation done
-                iterationIndex++;
+                iteration++;
             }
 
-            // return sbest ... Return the best solution found.
-            usedIterations = iterationIndex;
-            achievedEnergy = objectiveFunction.Objective == Objective.Minimize ? bestEnergy : 1 / bestEnergy;
-            return bestState;
+            return new Result<T>(bestState, iteration);
         }
 
         /// <summary>
@@ -86,64 +67,42 @@ namespace SimulatedAnnealing
         /// <returns>
         /// The best solution (i.e. the global-best state).
         /// </returns>
-        public T[] Run_Metropolis(double initialTemperature = 1000.0, double finalTemperature = 1.0, int kMax = 1000, double coolingCoefficient = 0.99, bool elitism = true)
+        public State<T> Run_Metropolis(double initialTemperature = 1000.0, double finalTemperature = 1.0, int kMax = 1000, double coolingCoefficient = 0.99, bool elitism = true)
         {
-            // double T = T_max;
+            var currentState = CreateState(InitializeState());
+            var bestState = currentState;
+
             double temperature = initialTemperature;
-
-            // x_0 = náhodne vygenerovaný stav;
-            T[] currentState = InitializeState();
-            double currentEnergy = objectiveFunction.Evaluate(currentState);
-            T[] bestState = currentState;
-            double bestEnergy = currentEnergy;
-
-            // while (T > T_min)
             while (temperature > finalTemperature)
             {
-                // x_0 = Metropolis(x_0, kmax, T);
                 currentState = Metropolis(currentState, kMax, temperature);
-                currentEnergy = objectiveFunction.Evaluate(currentState);
 
-                if (elitism && currentEnergy < bestEnergy)
+                if (elitism && currentState.Energy < bestState.Energy)
                 {
                     bestState = currentState;
-                    bestEnergy = currentEnergy;
                 }
 
-                // T = a*T;
-                temperature = coolingCoefficient * temperature;
+                temperature *= coolingCoefficient;
             }
 
-            // return x_0;
             return elitism ? bestState : currentState;
         }
 
-        private T[] Metropolis(T[] initialState, int kMax, double temperature)
+        private State<T> Metropolis(State<T> initialState, int kMax, double temperature)
         {
-            // x = x_0;
-            T[] currentState = initialState;
-            double currentEnergy = EvaluateState(currentState);
+            var currentState = initialState;
 
-            // for (unsigned int k = 0 ; k < kmax ; k++)
             for (uint k = 0; k < kMax; k++)
             {
-                // x' = O_pert(x);
-                T[] newState = PerturbState(currentState);
-                double newEnergy = EvaluateState(newState);
+                var newState = CreateState(PerturbState(currentState.S));
 
-                // p = min(1, exp(-(f(x') - f(x)) / T));
-                double acceptanceProbability = AcceptNewState(currentEnergy, newEnergy, temperature);
-
-                // if (uniform(0, 1) < p)
-                if (random.NextDouble() < acceptanceProbability)
+                Probability acceptanceProbability = AcceptNewState(currentState.Energy, newState.Energy, temperature);
+                if (acceptanceProbability)
                 {
-                    // x = x';
                     currentState = newState;
-                    currentEnergy = newEnergy;
                 }
             }
 
-            // return x;
             return currentState;
         }
 
@@ -157,10 +116,51 @@ namespace SimulatedAnnealing
         protected virtual double AcceptNewState(double currentEnergy, double newEnergy, double temperature)
             => Math.Min(1, Math.Exp(-(newEnergy - currentEnergy) / temperature));
 
-        private double EvaluateState(T[] state)
-            => Objective == Objective.Minimize ? objectiveFunction.Evaluate(state) : 1 / objectiveFunction.Evaluate(state);
+        private bool IsDone(double energy, int iteration) => energy <= targetEnergy || iteration >= maxIterations;
 
-        public bool IsDone(double acceptableEnergy)
-            => Objective == Objective.Minimize ? bestEnergy <= acceptableEnergy : 1 / bestEnergy >= acceptableEnergy;
+        private State<T> CreateState(T[] s) => new State<T>(s, objectiveFunction.Evaluate(s));
+    }
+
+    public struct Probability
+    {
+        private static readonly Random r = new Random();
+        private readonly double p;
+
+        public Probability(double p)
+        {
+            this.p = p;
+        }
+
+        public static implicit operator Probability(double p)
+            => new Probability(p);
+
+        public static implicit operator Boolean(Probability probability)
+            => r.NextDouble() < probability.p;
+    }
+
+    public struct State<T> 
+    {
+        public T[] S { get; }
+
+        public double Energy { get; }
+
+        public State(T[] state, double energy)
+        {
+            S = state;
+            Energy = energy;
+        }
+    }
+
+    public struct Result<T>
+    {
+        private State<T> State { get; }
+
+        private int Iterations { get; }
+
+        public Result(State<T> state, int iterations)
+        {
+            State = state;
+            Iterations = iterations;
+        }
     }
 }
