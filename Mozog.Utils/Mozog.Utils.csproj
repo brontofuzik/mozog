@@ -50,17 +50,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Math\Probability.cs" />
     <Compile Include="Misc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StaticRandom.cs" />
+    <Compile Include="Math\StaticRandom.cs" />
     <Compile Include="Require.cs" />
     <Compile Include="Threading\ForkerParallelizer.cs" />
     <Compile Include="Threading\TplParallelizer.cs" />
     <Compile Include="Threading\IParallelizer.cs" />
     <Compile Include="Threading\SerialParallelizer.cs" />
     <Compile Include="Threading\ThreadPoolParallelizer.cs" />
-    <Compile Include="Vector.cs" />
+    <Compile Include="Math\Vector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

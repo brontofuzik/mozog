@@ -1,5 +1,6 @@
 ﻿using System;
 using Mozog.Utils;
+using Mozog.Utils.Math;
 using NeuralNetwork.Data;
 using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps;
 using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkImp;

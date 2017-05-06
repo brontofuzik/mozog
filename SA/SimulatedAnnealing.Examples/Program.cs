@@ -1,6 +1,5 @@
 ﻿using System;
-using SimulatedAnnealing.Examples.ObjectiveFunctions;
-using SimulatedAnnealing.Examples.SimulatedAnnealings;
+using SimulatedAnnealing.Examples.Optimization;
 
 namespace SimulatedAnnealing.Examples
 {
@@ -18,14 +17,14 @@ namespace SimulatedAnnealing.Examples
             // Best solution : [0]
             // Best solution's evaluation : 0
             Test(1, "SA-1D: Simulated annealing - One-dimensional function",
-                new RealFunctionSimulatedAnnealing(), new OneDimensionalFunction(),
+                new OptimizationSimulatedAnnealing(), new Function1(),
                 maxIterationCount: 1000000, acceptableEnergy: Double.MinValue, initialTemperature: 1000, finalTemperature: 0.001);
             Console.WriteLine();
 
             // Best solution : [-0.26, -1.47]
             // Best solution's evalaution : -2.94
             Test(2, "SA-2D: Simulated annealing - Two-dimensional function",
-                new RealFunctionSimulatedAnnealing(), new TwoDimensionalFunction(),
+                new OptimizationSimulatedAnnealing(), new Function2(),
                 maxIterationCount: 1000000, acceptableEnergy: Double.MinValue, initialTemperature: 1000, finalTemperature: 0.001);
             Console.WriteLine();
         }

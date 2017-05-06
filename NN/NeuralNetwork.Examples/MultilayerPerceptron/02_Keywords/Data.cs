@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using Mozog.Utils;
+using Mozog.Utils.Math;
 using NeuralNetwork.Data;
 using NeuralNetwork.Interfaces;
 using NeuralNetwork.Training;

@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using Mozog.Utils;
+using Mozog.Utils.Math;
 using NeuralNetwork.Data;
 using NeuralNetwork.Interfaces;
 using NeuralNetwork.Training;

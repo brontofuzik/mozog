@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Mozog.Utils
 {
-    public static class Extensions
+    public static class EnumerableExtensions
     {
         public static void Times(this int count, Action action)
         {

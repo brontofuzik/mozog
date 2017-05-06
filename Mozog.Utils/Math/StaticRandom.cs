@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Mozog.Utils
+namespace Mozog.Utils.Math
 {
     public class StaticRandom
     {
@@ -23,17 +23,6 @@ namespace Mozog.Utils
 
         public static double Double() => random.Value.NextDouble();
 
-        /// <summary>
-        /// Returns a random number within a specified range.
-        /// </summary>
-        /// <param name="minValue">The inclusive lower bound of the random number returned.</param>
-        /// <param name="maxValue">The inclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
-        /// <returns>
-        /// A double-precision floating point number greater than or equal to minValue and less than or equal to maxValue; that is, the range of return values includes minValue and maxValue.
-        /// </returns>
-        /// <exception name="ArgumentOutOfRangeException">
-        /// Condition: <c>minValue</c> is greater than <c>maxValue</c>. 
-        /// </exception>
         public static double Double(double minValue, double maxValue)
         {
             if (maxValue < minValue)
@@ -58,7 +47,5 @@ namespace Mozog.Utils
             }
             return array;
         }
-
-        public static bool WithProbability(double probability) => Double() < probability;
     }
 }

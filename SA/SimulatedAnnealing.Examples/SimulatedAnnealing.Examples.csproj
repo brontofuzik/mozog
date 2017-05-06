@@ -69,11 +69,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ObjectiveFunctions\OneDimensionalFunction.cs" />
+    <Compile Include="Optimization\Function1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ObjectiveFunctions\TwoDimensionalFunction.cs" />
-    <Compile Include="SimulatedAnnealings\RealFunctionSimulatedAnnealing.cs" />
+    <Compile Include="Optimization\Function2.cs" />
+    <Compile Include="Optimization\OptimizationSimulatedAnnealing.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -93,6 +93,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Mozog.Utils\Mozog.Utils.csproj">
+      <Project>{47cb5c11-3dce-4768-ab1f-ffc1cfd55167}</Project>
+      <Name>Mozog.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SimulatedAnnealing\SimulatedAnnealing.csproj">
       <Project>{e5f97d52-c842-4376-935f-c8132805c735}</Project>
       <Name>SimulatedAnnealing</Name>

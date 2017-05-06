@@ -2,7 +2,7 @@
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 
-namespace Mozog.Utils
+namespace Mozog.Utils.Math
 {
     public class Vector
     {
@@ -46,7 +46,7 @@ namespace Mozog.Utils
             return v.L2Norm();
         }
 
-        public static double Magnitude(int[] vector) => Math.Sqrt(Multiply(vector, vector));
+        public static double Magnitude(int[] vector) => System.Math.Sqrt(Multiply(vector, vector));
 
         public static double Distance(double[] vector1, double[] vector2) => Magnitude(Subtract(vector1, vector2));
 
@@ -58,7 +58,7 @@ namespace Mozog.Utils
             Require.IsNonNegative(magnitude, nameof(magnitude));
 
             double sumOfSquares = vector.Sum(e => e * e);
-            double factor = sumOfSquares != 0 ? Math.Sqrt(magnitude / sumOfSquares) : 0;
+            double factor = sumOfSquares != 0 ? System.Math.Sqrt(magnitude / sumOfSquares) : 0;
 
             return vector.Select(e => e * factor).ToArray();
         }
