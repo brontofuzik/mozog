@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Mozog.Utils;
 using Mozog.Utils.Math;
 using SimulatedAnnealing.Functions.Initialization;
 using SimulatedAnnealing.Functions.Objective;
@@ -33,7 +35,7 @@ namespace SimulatedAnnealing.Examples
             };
 
         private static IInitializationFunction<double> Initializer
-            => new LambdaInitialization<double>(dimension => new[] {StaticRandom.Double(-20, +20)});
+            => new LambdaInitialization<double>(dimension => dimension.Times(() => StaticRandom.Double(-20, +20)).ToArray());
 
         private static IPerturbationFunction<double> Perturbator
             => new LambdaPerturbation<double>(state =>

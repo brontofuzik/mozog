@@ -46,7 +46,7 @@ namespace SimulatedAnnealing.Examples
             Console.WriteLine($"Duration: {elapsedTime.TotalSeconds} s");
             Console.WriteLine($"Number of iterations: {result.Iterations}");
             Console.WriteLine($"Best solution: {State<T>.Print(result.State.S)}");
-            Console.WriteLine($"Best solution's evaluation: {result.State.Energy}");
+            Console.WriteLine($"Best solution's evaluation: {result.State.E}");
         }
     }
 }

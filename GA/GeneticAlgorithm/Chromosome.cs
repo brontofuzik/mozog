@@ -4,22 +4,13 @@ using Mozog.Utils.Math;
 
 namespace GeneticAlgorithm
 {
-    /// <summary>
-    /// A chromosome.
-    /// </summary>
-    /// <typeparam name="TGene">The type of gene.</typeparam>
     public class Chromosome<TGene> : IComparable<Chromosome<TGene>>
     {
         private readonly GeneticAlgorithm<TGene> algo;
 
-        /// <summary>
-        /// Creates a new chromosome.
-        /// </summary>
-        /// <param name="chromosomeSize">The size of the chromosome (i.e. the numebr of genes in the chromosome).</param>
         public Chromosome(GeneticAlgorithm<TGene> algo)
+            : this(algo, algo.Initializer.Initialize(algo.ChromosomeSize))
         {
-            this.algo = algo;
-            Genes = algo.Initializer.Initialize(algo.ChromosomeSize);
         }
 
         private Chromosome(GeneticAlgorithm<TGene> algo, TGene[] genes)
@@ -28,12 +19,6 @@ namespace GeneticAlgorithm
             Genes = genes;
         }
 
-        /// <summary>
-        /// Gets or sets the genes.
-        /// </summary>
-        /// <value>
-        /// The genes.
-        /// </value>
         public TGene[] Genes { get; set; }
 
         public TGene this[int index]
@@ -42,28 +27,10 @@ namespace GeneticAlgorithm
             set { Genes[index] = value; }
         }
 
-        /// <summary>
-        /// Gets the size of the chromosome (i.e. the number of genes in the chromosome).
-        /// </summary>
-        /// <value>
-        /// The size of the chromosome.
-        /// </value>
         public int Size => Genes.Length;
 
-        /// <summary>
-        /// Gets or sets the evaluation.
-        /// </summary>
-        /// <value>
-        /// The evaluation.
-        /// </value>
         public double Evaluation { get; internal set; }
 
-        /// <summary>
-        /// Gets or sets the fitness.
-        /// </summary>
-        /// <value>
-        /// The fitness.
-        /// </value>
         public double Fitness { get; internal set; }
 
         public IEnumerable<Chromosome<TGene>> Mate(Chromosome<TGene> partner)

@@ -1,5 +1,4 @@
-﻿using System;
-using Mozog.Utils.Math;
+﻿using Mozog.Utils.Math;
 using SimulatedAnnealing.Functions.Initialization;
 using SimulatedAnnealing.Functions.Objective;
 using SimulatedAnnealing.Functions.Perturbation;
@@ -61,15 +60,15 @@ namespace SimulatedAnnealing
             this.maxIterations = maxIterations;
             this.targetEnergy = targetEnergy;
 
-            var currentState = CreateState(Initializer.Initialize(Dimension));
+            var currentState = new State<T>(this);
 
             int iteration = 0;
-            while (!IsDone(currentState.Energy, iteration))
+            while (!IsDone(currentState.E, iteration))
             {
-                var newState = CreateState(Perturbator.Perturb(currentState.S));
+                var newState = currentState.Perturb();
 
                 double temperature = CalculateTemperature(initialTemperature, finalTemperature, iteration / (double)maxIterations);
-                Probability acceptProbability = AcceptNewState(currentState.Energy, newState.Energy, temperature);
+                Probability acceptProbability = AcceptNewState(currentState.E, newState.E, temperature);
                 if (acceptProbability)
                 {
                     currentState = newState;
@@ -83,7 +82,7 @@ namespace SimulatedAnnealing
 
         public State<T> Run_Metropolis(double initialTemperature = 1000.0, double finalTemperature = 1.0, int kMax = 1000, double coolingCoefficient = 0.99)
         {
-            var currentState = CreateState(Initializer.Initialize(Dimension));
+            var currentState = new State<T>(this);
 
             double temperature = initialTemperature;
             while (temperature > finalTemperature)
@@ -100,9 +99,9 @@ namespace SimulatedAnnealing
         {
             for (int k = 0; k < kMax; k++)
             {
-                var newState = CreateState(Perturbator.Perturb(currentState.S));
+                var newState = currentState.Perturb();
 
-                Probability acceptanceProbability = AcceptNewState(currentState.Energy, newState.Energy, temperature);
+                Probability acceptanceProbability = AcceptNewState(currentState.E, newState.E, temperature);
                 if (acceptanceProbability)
                 {
                     currentState = newState;
@@ -119,23 +118,6 @@ namespace SimulatedAnnealing
             => System.Math.Min(1, System.Math.Exp(-(newEnergy - currentEnergy) / temperature));
 
         private bool IsDone(double energy, int iteration) => energy <= targetEnergy || iteration >= maxIterations;
-
-        private State<T> CreateState(T[] s) => new State<T>(s, Objective.Evaluate(s));
-    }
-
-    public struct State<T>
-    {
-        public T[] S { get; }
-
-        public double Energy { get; }
-
-        public State(T[] state, double energy)
-        {
-            S = state;
-            Energy = energy;
-        }
-
-        public static string Print(T[] state) => $"[{String.Join(", ", state)}]";
     }
 
     public struct Result<T>
