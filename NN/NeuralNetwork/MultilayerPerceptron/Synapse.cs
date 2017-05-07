@@ -1,4 +1,5 @@
 ﻿using Mozog.Utils;
+using Mozog.Utils.Math;
 using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MultilayerPerceptron

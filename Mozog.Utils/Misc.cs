@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Mozog.Utils
 {
@@ -37,6 +38,20 @@ namespace Mozog.Utils
                 }
             }
             return flattened;
+        }
+
+        public static TimeSpan MeasureTime(Action action)
+        {
+            var sw = Stopwatch.StartNew();
+            action();
+            return sw.Elapsed;
+        }
+
+        public static (TResult result, TimeSpan elapsedTime) MeasureTime<TResult>(Func<TResult> func)
+        {
+            var sw = Stopwatch.StartNew();
+            var result = func();
+            return (result, sw.Elapsed);
         }
     }
 }

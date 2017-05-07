@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Mozog.Utils;
+using Mozog.Utils.Math;
 
 namespace NeuralNetwork.Data
 {

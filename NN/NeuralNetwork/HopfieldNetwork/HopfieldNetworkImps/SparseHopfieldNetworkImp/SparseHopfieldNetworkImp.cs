@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mozog.Utils;
+using Mozog.Utils.Math;
 
 namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp
 {

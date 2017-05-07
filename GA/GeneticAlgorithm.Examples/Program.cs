@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
+using Mozog.Utils;
 
 namespace GeneticAlgorithm.Examples
 {
@@ -35,14 +35,11 @@ namespace GeneticAlgorithm.Examples
 
             geneticAlgorithm.Notify += (_, state) => Console.WriteLine($"{state.Generations}: {state.Evaluation}");
 
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            Result<TGene> result = geneticAlgorithm.Run(populationSize, crossoverRate, mutationRate);
-            stopwatch.Stop();
-        
+            var (result, elapsedTime) = Misc.MeasureTime(() => geneticAlgorithm.Run(populationSize, crossoverRate, mutationRate));
+
             // Print the results.
-            Console.WriteLine($"Duration: {stopwatch.Elapsed.TotalSeconds} s");
-            Console.WriteLine($"Number of generations taken: {result.Generations}");
+            Console.WriteLine($"Duration: {elapsedTime.TotalSeconds} s");
+            Console.WriteLine($"Number of generations: {result.Generations}");
             Console.WriteLine($"Best solution: {Chromosome<TGene>.Print(result.Solution)}");
             Console.WriteLine($"Best solution's evaluation: {result.Evaluation}");
         }

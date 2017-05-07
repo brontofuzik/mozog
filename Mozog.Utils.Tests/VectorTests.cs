@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Mozog.Utils.Math;
 
 namespace Mozog.Utils.Tests
 {

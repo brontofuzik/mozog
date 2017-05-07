@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Mozog.Utils;
+using Mozog.Utils.Math;
 using NeuralNetwork.ActivationFunctions;
 using NeuralNetwork.ErrorFunctions;
 using NeuralNetwork.Interfaces;

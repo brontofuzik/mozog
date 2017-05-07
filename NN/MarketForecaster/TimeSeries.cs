@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Mozog.Utils;
+using Mozog.Utils.Math;
 using NeuralNetwork.Data;
 using OxyPlot;
 using OxyPlot.Axes;

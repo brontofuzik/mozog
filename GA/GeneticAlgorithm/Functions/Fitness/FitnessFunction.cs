@@ -13,9 +13,9 @@ namespace GeneticAlgorithm.Functions.Fitness
             => new FitnessFunction<TGene>(objectiveFunction, Objective.Minimize);
 
         private FitnessFunction(Func<TGene[], double> objectiveFunction, Objective objective)
-        {
-            Objective = objective;
+        {          
             ObjectiveFunction = objectiveFunction;
+            Objective = objective;
         }
 
         public Func<TGene[], double> ObjectiveFunction { get; }

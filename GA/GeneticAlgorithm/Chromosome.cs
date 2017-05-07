@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mozog.Utils;
+using Mozog.Utils.Math;
 
 namespace GeneticAlgorithm
 {
@@ -71,17 +71,17 @@ namespace GeneticAlgorithm
             Chromosome<TGene> offspring1 = Clone();
             Chromosome<TGene> offspring2 = partner.Clone();
 
-            if (StaticRandom.WithProbability(algo.CrossoverRate))
+            if (new Probability(algo.CrossoverRate))
             {
                 algo.Crossover.CrossOver(offspring1.Genes, offspring2.Genes);
             }
 
-            if (StaticRandom.WithProbability(algo.MutationRate))
+            if (new Probability(algo.MutationRate))
             {
                 algo.Mutator.Mutate(offspring1.Genes);
             }
 
-            if (StaticRandom.WithProbability(algo.MutationRate))
+            if (new Probability(algo.MutationRate))
             {
                 algo.Mutator.Mutate(offspring2.Genes);
             }
@@ -90,12 +90,6 @@ namespace GeneticAlgorithm
             yield return offspring2;
         }
 
-        /// <summary>
-        /// Clones the chromosome.
-        /// </summary>
-        /// <returns>
-        /// A clone of the chromosome.
-        /// </returns>
         public Chromosome<TGene > Clone()
         {
             Chromosome<TGene> clone = new Chromosome<TGene>(algo, new TGene[Size]);
@@ -103,23 +97,8 @@ namespace GeneticAlgorithm
             return clone;
         }
 
-        /// <summary>
-        /// Compares the current chromosome with another chromosome.
-        /// </summary>
-        /// <param name="otherChromosome">A chromosome to compare with this chromosome.</param>
-        /// <returns>
-        /// Less than zero if this chromosome is less than the <c>otherChromosome</c> (this chromosome is less fit than the <c>otherChromosome</c>),
-        /// zero if this chromosome equals the <c>otherChromosome</c> (this chromosome and the <c>otherChromosome</c> are equally fit), and
-        /// greater than zero if this chromosome is more than the <c>otherChromosome</c> (this chromosome is fitter than the <c>otherChromosome</c>).
-        /// </returns>
         public int CompareTo(Chromosome<TGene > otherChromosome) => Evaluation.CompareTo(otherChromosome.Evaluation);
 
-        /// <summary>
-        /// Converts a chromosome into its string representation.
-        /// </summary>
-        /// <returns>
-        /// The string representation of the chromosome.
-        /// </returns>
         public override string ToString() => $"Genes: {Print(Genes)}, Evaluation: {Evaluation}, Fitness: {Fitness}";
 
         public static string Print(TGene[] genes) => $"[{String.Join(", ", genes)}]";

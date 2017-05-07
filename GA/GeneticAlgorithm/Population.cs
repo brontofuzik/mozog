@@ -60,7 +60,7 @@ namespace GeneticAlgorithm
                 Chromosome<TGene> parent1 = algo.Selector.Select();
                 Chromosome<TGene> parent2 = algo.Selector.Select();
                 var offsprings = parent1.Mate(parent2);
-                Extensions.ForEach(offsprings, o => newPopulation.chromosomes.Add(o));
+                EnumerableExtensions.ForEach(offsprings, o => newPopulation.chromosomes.Add(o));
             });
 
             return newPopulation;

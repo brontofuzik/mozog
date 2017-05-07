@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using Mozog.Utils;
+using Mozog.Utils.Math;
 using NeuralNetwork.Data;
 using NeuralNetwork.KohonenNetwork.LearningRateFunctions;
 using NeuralNetwork.KohonenNetwork.NeighbourhoodFunctions;
