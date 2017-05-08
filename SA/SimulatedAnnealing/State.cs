@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace SimulatedAnnealing
 {
@@ -24,6 +25,10 @@ namespace SimulatedAnnealing
 
         public State<T> Perturb() => new State<T>(algo, algo.Perturbator.Perturb(S));
 
-        public static string Print(T[] state) => $"[{String.Join(", ", state)}]";
+        public override string ToString()
+        {
+            var state = S.Select(s => s is double ? Convert.ToDouble(s).ToString("F2") : s.ToString());
+            return $"[{String.Join(", ", state)}] = {E:F2}";
+        }
     }
 }

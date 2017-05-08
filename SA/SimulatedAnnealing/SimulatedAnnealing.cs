@@ -1,4 +1,5 @@
-﻿using Mozog.Utils.Math;
+﻿using System;
+using Mozog.Utils.Math;
 using SimulatedAnnealing.Functions.Initialization;
 using SimulatedAnnealing.Functions.Objective;
 using SimulatedAnnealing.Functions.Perturbation;
@@ -55,7 +56,7 @@ namespace SimulatedAnnealing
 
         #endregion // Functions
 
-        public Result<T> Run(int maxIterations, double targetEnergy, double initialTemperature, double finalTemperature)
+        public Result<T> Run(int maxIterations, double initialTemperature, double finalTemperature, double targetEnergy = Double.MinValue)
         {
             this.maxIterations = maxIterations;
             this.targetEnergy = targetEnergy;
@@ -80,7 +81,8 @@ namespace SimulatedAnnealing
             return new Result<T>(currentState, iteration);
         }
 
-        public State<T> Run_Metropolis(double initialTemperature = 1000.0, double finalTemperature = 1.0, int kMax = 1000, double coolingCoefficient = 0.99)
+        /*
+        public State<T> Run_Metropolis(double initialTemperature = 1000.0, double finalTemperature = 1.0, double coolingCoefficient = 0.99, int kMax = 1000)
         {
             var currentState = new State<T>(this);
 
@@ -110,6 +112,7 @@ namespace SimulatedAnnealing
 
             return currentState;
         }
+        */
 
         protected virtual double CalculateTemperature(double initialTemperature, double finalTemperature, double progress)
             => initialTemperature * System.Math.Pow(finalTemperature / initialTemperature, progress);
