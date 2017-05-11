@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using MathNet.Numerics.Distributions;
 
 namespace Mozog.Utils.Math
 {
@@ -11,24 +12,33 @@ namespace Mozog.Utils.Math
 
         public static int Int() => random.Value.Next();
 
-        public static int Int(int maxValue) => random.Value.Next(maxValue);
+        public static int Int(int max) => random.Value.Next(max);
 
-        public static int Int(int minValue, int maxValue)
+        public static int Int(int min, int max)
         {
-            if (maxValue < minValue)
-                throw new ArgumentException("The maximum value must be greater than or equal to the minimum value.", nameof(maxValue));
+            if (max < min)
+                throw new ArgumentException("The maximum value must be greater than or equal to the minimum value.", nameof(max));
 
-            return random.Value.Next(minValue, maxValue);
+            return random.Value.Next(min, max);
         }
 
         public static double Double() => random.Value.NextDouble();
 
-        public static double Double(double minValue, double maxValue)
+        public static double Double(double min, double max)
         {
-            if (maxValue < minValue)
-                throw new ArgumentException("The maximum value must be greater than or equal to the minimum value.", nameof(maxValue));
+            if (max < min)
+                throw new ArgumentException("The maximum value must be greater than or equal to the minimum value.", nameof(max));
 
-            return minValue + (maxValue - minValue) * random.Value.NextDouble();
+            return min + (max - min) * random.Value.NextDouble();
+        }
+
+        public static double Normal(double mean, double stdDev)
+        {
+            // https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
+            double u1 = 1.0 - Double();
+            double u2 = 1.0 - Double();
+            double stdNormal = System.Math.Sqrt(-2 * System.Math.Log(u1)) * System.Math.Sin(2 * System.Math.PI * u2); // N(0, 1)
+            return mean + stdDev * stdNormal; // N(mean, stdDev^2)
         }
 
         /// <summary>

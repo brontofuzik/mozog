@@ -77,24 +77,14 @@ namespace SimulatedAnnealing.Examples
             }, -10, +10);
 
         private static SimulatedAnnealing<double> Optimizer(int dimension, Func<double[], double> func, double min, double max)
-            => new SimulatedAnnealing<double>(dimension)
+        {
+            double neighborhoodRadius = Sqrt(Abs(max - min));
+            return new SimulatedAnnealing<double>(dimension)
             {
                 Objective = ObjectiveFunction<double>.Minimize(func),
-                Initializer = Initializer(min, max),
-                Perturbator = Perturbator(min, max)
+                Initializer = new LambdaInitialization<double>(dim => dim.Times(() => StaticRandom.Double(min, max)).ToArray()),
+                Perturbator = new LambdaPerturbation<double>(state => state.Select(s => (s + StaticRandom.Normal(0, neighborhoodRadius)).Clamp(min, max)).ToArray())
             };
-
-        private static IInitializationFunction<double> Initializer(double min, double max)
-            => new LambdaInitialization<double>(dimension => dimension.Times(() => StaticRandom.Double(min, max)).ToArray());
-
-        private static IPerturbationFunction<double> Perturbator(double min, double max)
-        {
-            double minSqrt = -Sqrt(Abs(min));
-            double maxSqrt = Sqrt(max);
-            return new LambdaPerturbation<double>(state =>
-            {
-                return state.Select(s => (s + StaticRandom.Double(minSqrt, maxSqrt)).Clamp(min, max)).ToArray();
-            });
         }
     }
 }
