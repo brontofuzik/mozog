@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26206.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GA", "GA", "{39012F6D-52C4-401E-9832-49C0C071302A}"
 EndProject
@@ -38,6 +38,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork.Training.Annealing", "NN\NeuralNetwork.Training.Annealing\NeuralNetwork.Training.Annealing.csproj", "{3CB37780-6059-45EE-B1E4-49CB3BDEFF8A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketForecaster", "NN\MarketForecaster\MarketForecaster.csproj", "{915AEBDD-F9C8-4C2C-A65F-889593332225}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mozog.Examples", "Mozog.Examples\Mozog.Examples.csproj", "{66EF9BBF-B079-469A-AE19-010556D4A8FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +103,10 @@ Global
 		{915AEBDD-F9C8-4C2C-A65F-889593332225}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{915AEBDD-F9C8-4C2C-A65F-889593332225}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{915AEBDD-F9C8-4C2C-A65F-889593332225}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66EF9BBF-B079-469A-AE19-010556D4A8FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66EF9BBF-B079-469A-AE19-010556D4A8FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66EF9BBF-B079-469A-AE19-010556D4A8FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66EF9BBF-B079-469A-AE19-010556D4A8FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
