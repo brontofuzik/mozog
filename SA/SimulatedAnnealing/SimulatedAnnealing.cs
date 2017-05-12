@@ -1,8 +1,10 @@
 ﻿using System;
 using Mozog.Utils.Math;
+using SimulatedAnnealing.Functions.Cooling;
 using SimulatedAnnealing.Functions.Initialization;
 using SimulatedAnnealing.Functions.Objective;
 using SimulatedAnnealing.Functions.Perturbation;
+using static System.Math;
 
 namespace SimulatedAnnealing
 {
@@ -32,47 +34,50 @@ namespace SimulatedAnnealing
             }
         }
 
-        private IInitializationFunction<T> initializer;
-        public IInitializationFunction<T> Initializer
+        private IInitializationFunction<T> initialization;
+        public IInitializationFunction<T> Initialization
         {
-            get { return initializer; }
+            get { return initialization; }
             set
             {
-                initializer = value;
-                initializer.Algo = this;
+                initialization = value;
+                initialization.Algo = this;
             }
         }
 
-        private IPerturbationFunction<T> perturbator;
-        public IPerturbationFunction<T> Perturbator
+        private IPerturbationFunction<T> perturbation;
+        public IPerturbationFunction<T> Perturbation
         {
-            get { return perturbator; }
+            get { return perturbation; }
             set
             {
-                perturbator = value;
-                initializer.Algo = this;
+                perturbation = value;
+                initialization.Algo = this;
             }
         }
+
+        public ICoolingFunction Cooling { get; set; }
 
         #endregion // Functions
 
-        public Result<T> Run(int maxIterations, double initialTemperature, double finalTemperature, double targetEnergy = Double.MinValue)
+        public Result<T> Run(double initialTemperature, double finalTemperature = 0.0, double targetEnergy = Double.MinValue, int maxIterations = Int32.MaxValue)
         {
             this.maxIterations = maxIterations;
             this.targetEnergy = targetEnergy;
+            Cooling.SetParams(initialTemperature, finalTemperature, maxIterations);
 
             var currentState = new State<T>(this);
 
             int iteration = 0;
             while (!IsDone(currentState.E, iteration))
             {
-                var newState = currentState.Perturb();
+                var candidateState = currentState.Perturb();
 
-                double temperature = CalculateTemperature(initialTemperature, finalTemperature, iteration / (double)maxIterations);
-                Probability acceptProbability = AcceptNewState(currentState.E, newState.E, temperature);
-                if (acceptProbability)
+                double temperature = Cooling.CoolTemperature(iteration);
+
+                if (AcceptCandidateState(candidateState, currentState, temperature))
                 {
-                    currentState = newState;
+                    currentState = candidateState;
                 }
 
                 iteration++;
@@ -81,44 +86,9 @@ namespace SimulatedAnnealing
             return new Result<T>(currentState, iteration);
         }
 
-        /*
-        public State<T> Run_Metropolis(double initialTemperature = 1000.0, double finalTemperature = 1.0, double coolingCoefficient = 0.99, int kMax = 1000)
-        {
-            var currentState = new State<T>(this);
-
-            double temperature = initialTemperature;
-            while (temperature > finalTemperature)
-            {
-                currentState = Metropolis(currentState, kMax, temperature);
-
-                temperature *= coolingCoefficient;
-            }
-
-            return currentState;
-        }
-
-        private State<T> Metropolis(State<T> currentState, int kMax, double temperature)
-        {
-            for (int k = 0; k < kMax; k++)
-            {
-                var newState = currentState.Perturb();
-
-                Probability acceptanceProbability = AcceptNewState(currentState.E, newState.E, temperature);
-                if (acceptanceProbability)
-                {
-                    currentState = newState;
-                }
-            }
-
-            return currentState;
-        }
-        */
-
-        protected virtual double CalculateTemperature(double initialTemperature, double finalTemperature, double progress)
-            => initialTemperature * System.Math.Pow(finalTemperature / initialTemperature, progress);
-
-        protected virtual double AcceptNewState(double currentEnergy, double newEnergy, double temperature)
-            => System.Math.Min(1, System.Math.Exp(-(newEnergy - currentEnergy) / temperature));
+        // Metropolis-Hastings criterion
+        private Probability AcceptCandidateState(State<T> candidateState, State<T> currentState, double temperature)
+            => new Probability(Min(1, Exp(-(candidateState.E - currentState.E) / temperature)));
 
         private bool IsDone(double energy, int iteration) => energy <= targetEnergy || iteration >= maxIterations;
     }

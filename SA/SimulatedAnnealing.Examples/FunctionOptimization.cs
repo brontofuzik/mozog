@@ -2,6 +2,7 @@
 using System.Linq;
 using Mozog.Utils;
 using Mozog.Utils.Math;
+using SimulatedAnnealing.Functions.Cooling;
 using SimulatedAnnealing.Functions.Initialization;
 using SimulatedAnnealing.Functions.Objective;
 using SimulatedAnnealing.Functions.Perturbation;
@@ -82,8 +83,9 @@ namespace SimulatedAnnealing.Examples
             return new SimulatedAnnealing<double>(dimension)
             {
                 Objective = ObjectiveFunction<double>.Minimize(func),
-                Initializer = new LambdaInitialization<double>(dim => dim.Times(() => StaticRandom.Double(min, max)).ToArray()),
-                Perturbator = new LambdaPerturbation<double>(state => state.Select(s => (s + StaticRandom.Normal(0, neighborhoodRadius)).Clamp(min, max)).ToArray())
+                Initialization = new LambdaInitialization<double>(dim => dim.Times(() => StaticRandom.Double(min, max)).ToArray()),
+                Perturbation = new LambdaPerturbation<double>(state => state.Select(s => (s + StaticRandom.Normal(0, neighborhoodRadius)).Clamp(min, max)).ToArray()),
+                Cooling = LambdaCooling.Exponential
             };
         }
     }

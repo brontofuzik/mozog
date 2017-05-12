@@ -72,6 +72,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Functions\Cooling\CoolingFunction.cs" />
+    <Compile Include="Functions\Cooling\ICoolingFunction.cs" />
+    <Compile Include="Functions\Cooling\LambdaCooling.cs" />
     <Compile Include="Functions\FunctionBase.cs" />
     <Compile Include="Functions\Initialization\IInitializationFunction.cs" />
     <Compile Include="Functions\Initialization\InitializationFunction.cs" />

@@ -21,7 +21,7 @@ namespace SimulatedAnnealing.Examples
         {
             Console.WriteLine($"{testName}:");
 
-            var (result, elapsedTime) = Misc.MeasureTime(() => simulatedAnnealing.Run(maxIterations, initialTemperature, finalTemperature, targetEnergy));
+            var (result, elapsedTime) = Misc.MeasureTime(() => simulatedAnnealing.Run(initialTemperature, finalTemperature, targetEnergy, maxIterations));
 
             // Print the results.
             Console.WriteLine($"Duration: {elapsedTime.TotalSeconds} s");

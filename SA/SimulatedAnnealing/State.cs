@@ -8,7 +8,7 @@ namespace SimulatedAnnealing
         private readonly SimulatedAnnealing<T> algo;
 
         public State(SimulatedAnnealing<T> algo)
-            : this(algo, algo.Initializer.Initialize(algo.Dimension))
+            : this(algo, algo.Initialization.Initialize(algo.Dimension))
         {
         }
 
@@ -23,7 +23,7 @@ namespace SimulatedAnnealing
 
         public double E { get; }
 
-        public State<T> Perturb() => new State<T>(algo, algo.Perturbator.Perturb(S));
+        public State<T> Perturb() => new State<T>(algo, algo.Perturbation.Perturb(S));
 
         public override string ToString()
         {
