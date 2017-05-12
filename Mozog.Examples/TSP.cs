@@ -11,7 +11,7 @@ namespace Mozog.Examples
         /// Solution : [A, M, B, O, I, E, G, C, L, N, J, H, F, D, K]
         /// Evaluation: 291
         /// </summary>
-        public static readonly Map Map = new Map()
+        public static readonly Map Tsp = new Map()
             .From('A').To('B', 29).To('C', 82).To('D', 46).To('E', 68).To('F', 52).To('G', 72).To('H', 42).To('I', 51).To('J', 55).To('K', 29).To('L', 74).To('M', 23).To('N', 72).To('O', 46).End()
             .From('B').To('C', 55).To('D', 46).To('E', 42).To('F', 43).To('G', 43).To('H', 23).To('I', 23).To('J', 31).To('K', 41).To('L', 51).To('M', 11).To('N', 52).To('O', 21).End()
             .From('C').To('D', 68).To('E', 46).To('F', 55).To('G', 23).To('H', 43).To('I', 41).To('J', 29).To('K', 79).To('L', 21).To('M', 64).To('N', 31).To('O', 51).End()

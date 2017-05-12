@@ -12,9 +12,9 @@ namespace GeneticAlgorithm.Examples
     {
         public static GeneticAlgorithm<char> Algorithm(int maxGenerations)
         {
-            var map = Mozog.Examples.TravellingSalesmanProblem.Map;
-            return new GeneticAlgorithm<char>(map.CityCount).Configure(cfg => cfg
-                .Fitness.Minimize(chromosome => map.TotalDistance(chromosome))
+            var tsp = Mozog.Examples.TravellingSalesmanProblem.Tsp;
+            return new GeneticAlgorithm<char>(tsp.CityCount).Configure(cfg => cfg
+                .Fitness.Minimize(chromosome => tsp.TotalDistance(chromosome))
                 .Initialization.Lambda(_ => StaticRandom.Shuffle(new[] {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'}))
                 .Selection.RankBased()
                 .Crossover.PartiallyMatched()

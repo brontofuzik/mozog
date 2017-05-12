@@ -10,10 +10,11 @@ namespace SimulatedAnnealing.Examples
             //Run("Rastrigin function", FunctionOptimization.RastriginFunction);
             //Run("Ackley function", FunctionOptimization.AckleyFunction);
             //Run("Sphere function", FunctionOptimization.SphereFunction);
-            Run("Rosenbrock function", FunctionOptimization.RosenbrockFunction);
-
+            //Run("Rosenbrock function", FunctionOptimization.RosenbrockFunction);
             //Run("Function 1", FunctionOptimization.Function1);
             //Run("Function 2", FunctionOptimization.Function2);
+
+            Run("Travelling salesman problem (TSP)", TravellingSalesmanProblem.Algorithm());
         }
 
         private static void Run<T>(string testName, SimulatedAnnealing<T> simulatedAnnealing, int maxIterations = 1_000_000,
