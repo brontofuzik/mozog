@@ -72,7 +72,7 @@
     <Compile Include="Ant.cs" />
     <Compile Include="AntColonyOptimization.cs" />
     <Compile Include="ObjectiveFunction.cs" />
-    <Compile Include="NormalPDF.cs" />
+    <Compile Include="NormalDistribution.cs" />
     <Compile Include="PheromoneDistribution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -92,6 +92,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Mozog.Utils\Mozog.Utils.csproj">
+      <Project>{47cb5c11-3dce-4768-ab1f-ffc1cfd55167}</Project>
+      <Name>Mozog.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,108 +1,80 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Mozog.Utils.Math;
 
 namespace AntColonyOptimization
 {
     internal class PheromoneDistribution
     {
-        private static readonly Random random = new Random();
-
         private readonly double[] weights;
 
-        private readonly List<NormalPDF> normalPDFs;
+        private readonly List<NormalDistribution> distributions;
 
-        /// <summary>
-        /// Creates a new pheromone distribution.
-        /// </summary>
-        /// <param name="normalPDFCount">The number of normal PDFs.</param>
-        public PheromoneDistribution(int normalPDFCount)
+        public PheromoneDistribution(int count)
         {
-            // Create the weights.
-            double weight = 1.0 / normalPDFCount;
-            weights = new double[normalPDFCount];
-            for (int i = 0; i < normalPDFCount; i++)
-            {
-                weights[i] = weight;
-            }
+            weights = Enumerable.Repeat(1.0 / count, count).ToArray();
 
-            // Create the normal PDFs.
+            distributions = new List<NormalDistribution>(count);
+
             double a = -1.0;
             double b = 1.0;
-            double standardDeviation = (b - a) / (2 * normalPDFCount);
-
-            normalPDFs = new List< NormalPDF >(normalPDFCount);
-            for (int i = 0; i < normalPDFCount; i++)
+            double stdDev = (b - a) / (2 * count);
+       
+            for (int i = 0; i < count; i++)
             {
-                double mean = 2 * random.NextDouble() - 1;
-                // ALT:
-                // double mean = a + (2 * i - 1) * ((b - a) / (double)(2 * normalPDFCount));
+                double mean = 2 * StaticRandom.Double() - 1;
+                // ALT: mean = a + (2 * i - 1) * ((b - a) / (double)(2 * normalPDFCount));
 
-                normalPDFs.Add(new NormalPDF(mean, standardDeviation));
+                distributions.Add(new NormalDistribution(mean, stdDev));
             }
         }
 
         public double GetSolutionComponent()
         {
-            // 1. Choose probabilistically a single normal PDF from the mixture.
-            double weightSum = 0.0;
-            foreach (double weight in weights)
-            {
-                weightSum += weight;
-            }
-            double[] probabilities = new double[weights.Length];
-            for (int i = 0; i < probabilities.Length; i++)
-            {
-                probabilities[i] = weights[i] / weightSum;
-            }
-
-            // Create the roulette-wheel.
-            List<double> rouletteWheel = new List<double>(probabilities.Length);
-            double previousPocketCount = 0.0;
-            foreach (double probability in probabilities)
-            {
-                double currentPocketCount = previousPocketCount + probability;
-                rouletteWheel.Add(currentPocketCount);
-                previousPocketCount = currentPocketCount;
-            }
-
-            // Spin the roulette-wheel.
-            double pocket = random.NextDouble();
-            int normalPDFIndex = rouletteWheel.BinarySearch(pocket);
-            if (normalPDFIndex < 0)
-            {
-                normalPDFIndex = ~normalPDFIndex;
-            }
-
-            // 2. Generates a random number according to the chosen PDF.
-            return normalPDFs[normalPDFIndex].NextDouble();
+            var randomIndex = new RouletteWheel(weights).Spin();
+            return distributions[randomIndex].GetRandomDouble();
         }
 
         public void Update(double mean, double standardDeviation)
         {
-            foreach (NormalPDF normalPDF in normalPDFs)
-            {
-                normalPDF.Mature();
-            }
-            PositiveUpdate(mean, standardDeviation);
-            NegativeUpdate();
+            distributions.ForEach(d => d.Mature());
+
+            // TODO Can we switch this?
+            distributions.Add(new NormalDistribution(mean, standardDeviation));
+            distributions.Remove(GetOldestDistribution());
         }
 
-        private void PositiveUpdate(double mean, double standardDeviation)
-        {
-            normalPDFs.Add(new NormalPDF(mean, standardDeviation));
-        }
+        private NormalDistribution GetOldestDistribution()
+            => distributions.Aggregate((max, x) => x.Age > max.Age ? x : max);
 
-        private void NegativeUpdate()
+        private class RouletteWheel
         {
-            NormalPDF oldestNormalPDF = normalPDFs[0];
-            foreach (NormalPDF normalPDF in normalPDFs)
+            private readonly List<double> wheel;
+
+            public RouletteWheel(double[] weights)
             {
-                if (normalPDF.Age > oldestNormalPDF.Age)
+                double weightSum = weights.Sum();
+                var probabilities = weights.Select(w => w / weightSum).ToArray();
+
+                wheel = new List<double>(probabilities.Length);
+
+                double pocket = 0.0;
+                foreach (double p in probabilities)
                 {
-                    oldestNormalPDF = normalPDF;
+                    wheel.Add(pocket += p);
                 }
             }
-            normalPDFs.Remove(oldestNormalPDF);
+
+            public int Spin()
+            {
+                double pocket = StaticRandom.Double();
+                int index = wheel.BinarySearch(pocket);
+                if (index < 0)
+                {
+                    index = ~index;
+                }
+                return index;
+            }
         }
     }
 }
