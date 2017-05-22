@@ -1,24 +1,29 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace AntColonyOptimization
 {
     internal class Ant
     {
-        public Ant(int dimension)
+        private readonly AntColonyOptimization algo;
+
+        public Ant(AntColonyOptimization algo)
         {
-            Steps = new double[dimension]; 
+            this.algo = algo;
         }
 
-        public double[] Steps { get; set; }
+        public double[] Steps { get; private set; }
 
         public double Evaluation { get; set; }
 
         public void ConstructSolution(List<PheromoneDistribution> pheromoneTrail)
         {
-            for (int i = 0; i < Steps.Length; i++)
-            {
-                Steps[i] = pheromoneTrail[i].GetSolutionComponent();
-            }
+            Steps = pheromoneTrail.Select(x => x.GetSolutionComponent()).ToArray();
+        }
+
+        public void Evaluate()
+        {
+            Evaluation = algo.Objective.Evaluate(Steps);
         }
     }
 }

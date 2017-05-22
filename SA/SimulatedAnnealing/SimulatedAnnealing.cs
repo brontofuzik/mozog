@@ -26,7 +26,7 @@ namespace SimulatedAnnealing
         private ObjectiveFunction<T> objective;
         public ObjectiveFunction<T> Objective
         {
-            get { return objective; }
+            get => objective;
             set
             {
                 objective = value;
@@ -37,7 +37,7 @@ namespace SimulatedAnnealing
         private IInitializationFunction<T> initialization;
         public IInitializationFunction<T> Initialization
         {
-            get { return initialization; }
+            get => initialization;
             set
             {
                 initialization = value;
@@ -48,7 +48,7 @@ namespace SimulatedAnnealing
         private IPerturbationFunction<T> perturbation;
         public IPerturbationFunction<T> Perturbation
         {
-            get { return perturbation; }
+            get => perturbation;
             set
             {
                 perturbation = value;

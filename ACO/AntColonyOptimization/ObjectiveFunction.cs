@@ -12,12 +12,23 @@
 
         public Objective Objective { get; }
 
-        public abstract double Evaluate(double[] steps);
+        private bool Minimize => Objective == Objective.Minimize;
+
+        public double Evaluate(double[] steps)
+            => Minimize ? EvaluateInternal(steps) : 1 / EvaluateInternal(steps);
+
+        protected abstract double EvaluateInternal(double[] steps);
+
+        public double EvaluateObjective(double[] steps)
+            => Minimize ? EvaluateInternal(steps) : 1 / EvaluateInternal(steps);
+
+        public bool IsAcceptable(double[] steps, double targetEvaluation)
+        {
+            var eval = EvaluateObjective(steps);
+            return Minimize ? eval <= targetEvaluation : eval >= targetEvaluation;
+        }
     }
 
-    /// <summary>
-    /// The objective - minimize or maximize the objective function?
-    /// </summary>
     public enum Objective
     {
         Minimize,
