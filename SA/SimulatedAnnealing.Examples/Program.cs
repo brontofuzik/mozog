@@ -20,7 +20,7 @@ namespace SimulatedAnnealing.Examples
         private static void Run<T>(string testName, SimulatedAnnealing<T> simulatedAnnealing, int maxIterations = 1_000_000,
             double initialTemperature = 1_000, double finalTemperature = 0.001, double targetEnergy = Double.MinValue)
         {
-            Console.WriteLine($"{testName}:");
+            Console.WriteLine(testName);
 
             var (result, elapsedTime) = Misc.MeasureTime(() => simulatedAnnealing.Run(initialTemperature, finalTemperature, targetEnergy, maxIterations));
 

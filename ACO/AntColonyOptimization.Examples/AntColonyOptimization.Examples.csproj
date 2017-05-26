@@ -59,6 +59,9 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.4.0-preview1-25305-02\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -69,11 +72,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AntColonyOptimizations\RealFunctionAntColonyOptimization.cs" />
-    <Compile Include="ObjectiveFunctions\GoldsteinPriceFunction.cs" />
-    <Compile Include="ObjectiveFunctions\RosenbrockFunction.cs" />
-    <Compile Include="ObjectiveFunctions\SphereModelFunction.cs" />
-    <Compile Include="ObjectiveFunctions\ZakharovFunction.cs" />
+    <Compile Include="FunctionOptimization\GoldsteinPriceFunction.cs" />
+    <Compile Include="FunctionOptimization\RosenbrockFunction.cs" />
+    <Compile Include="FunctionOptimization\SphereModelFunction.cs" />
+    <Compile Include="FunctionOptimization\ZakharovFunction.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -95,6 +97,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Mozog.Utils\Mozog.Utils.csproj">
+      <Project>{47cb5c11-3dce-4768-ab1f-ffc1cfd55167}</Project>
+      <Name>Mozog.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AntColonyOptimization\AntColonyOptimization.csproj">
       <Project>{b9e7eb39-f473-4b70-b3d1-ce574baed120}</Project>
       <Name>AntColonyOptimization</Name>
@@ -102,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

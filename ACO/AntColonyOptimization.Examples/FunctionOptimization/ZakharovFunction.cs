@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AntColonyOptimization.Examples.ObjectiveFunctions
+namespace AntColonyOptimization.Examples.FunctionOptimization
 {
     /// <summary>
     /// A Zakharov (Z) function.
@@ -8,16 +8,12 @@ namespace AntColonyOptimization.Examples.ObjectiveFunctions
     /// </summary>
     internal class ZakharovFunction : ObjectiveFunction
     {
-        /// <summary>
-        /// Creates a Zakharov (Z) function.
-        /// </summary>
-        /// <param name="dimension">The dimension of the Z function.</param>
         public ZakharovFunction(int dimension)
             : base(dimension, Objective.Minimize)
         {
         }
 
-        public override double Evaluate(double[] steps)
+        protected override double EvaluateInternal(double[] steps)
         {
             int n = 2;
             double sum1 = 0.0;
@@ -27,7 +23,7 @@ namespace AntColonyOptimization.Examples.ObjectiveFunctions
                 sum1 += Math.Pow(steps[i], 2);
                 sum2 += 0.5 * i * steps[i];
             }
-            return sum1 + Math.Pow(sum2,2) + Math.Pow(sum2,4);
+            return sum1 + Math.Pow(sum2, 2) + Math.Pow(sum2, 4);
         }
     }
 }

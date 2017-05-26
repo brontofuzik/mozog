@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AntColonyOptimization.Examples.ObjectiveFunctions
+namespace AntColonyOptimization.Examples.FunctionOptimization
 {
     /// <summary>
     /// A sphere model (SM) function.
@@ -8,16 +8,12 @@ namespace AntColonyOptimization.Examples.ObjectiveFunctions
     /// </summary>
     internal class SphereModelFunction : ObjectiveFunction
     {
-        /// <summary>
-        /// Creates a sphere model (SM) function.
-        /// </summary>
-        /// <param name="dimension">The dimension of the SM function.</param>
         public SphereModelFunction(int dimension)
             : base(dimension, Objective.Minimize)
         {
         }
 
-        public override double Evaluate(double[] steps)
+        protected override double EvaluateInternal(double[] steps)
         {
             double output = 0.0;
             for (int i = 0; i < steps.Length; i++)

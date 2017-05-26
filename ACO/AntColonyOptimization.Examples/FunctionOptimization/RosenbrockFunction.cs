@@ -1,24 +1,20 @@
 ﻿using System;
 
-namespace AntColonyOptimization.Examples.ObjectiveFunctions
+namespace AntColonyOptimization.Examples.FunctionOptimization
 {
     /// <summary>
     /// A Rosenbrock (R) function.
     /// http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page2537.htm
-    // Also known as Rosenbrock's valley or Rosenbrock's banana.
+    /// Also known as Rosenbrock's valley or Rosenbrock's banana.
     /// </summary>
     internal class RosenbrockFunction : ObjectiveFunction
     {
-        /// <summary>
-        /// Creates a Rosenbrock (R) function.
-        /// </summary>
-        /// <param name="dimension">The dimension of the R function.</param>
         public RosenbrockFunction(int dimension)
             : base(dimension, Objective.Minimize)
         {
         }
 
-        public override double Evaluate(double[] steps)
+        protected override double EvaluateInternal(double[] steps)
         {
             double output = 0.0;
             // f(x) = SUM[i = 0 .. n - 2]f(x)_i
