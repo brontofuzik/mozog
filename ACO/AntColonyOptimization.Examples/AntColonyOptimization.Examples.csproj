@@ -72,10 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FunctionOptimization\GoldsteinPriceFunction.cs" />
-    <Compile Include="FunctionOptimization\RosenbrockFunction.cs" />
-    <Compile Include="FunctionOptimization\SphereModelFunction.cs" />
-    <Compile Include="FunctionOptimization\ZakharovFunction.cs" />
+    <Compile Include="FunctionOptimization.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
