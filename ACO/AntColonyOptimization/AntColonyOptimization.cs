@@ -25,12 +25,7 @@ namespace AntColonyOptimization
 
         #region Functions
 
-        private ObjectiveFunction objective;
-        public ObjectiveFunction Objective
-        {
-            get => objective;
-            set => objective = value;
-        }
+        public ObjectiveFunction Objective { get; set; }
 
         #endregion // Functions
 
@@ -40,10 +35,6 @@ namespace AntColonyOptimization
             this.targetEvaluation = targetEvaluation;
 
             Initialize(gaussianCount, antCount);
-
-            // Elitism
-            globalBestAnt = antColony[0];
-            globalBestAnt.Evaluate();
 
             int iteration = 0;
             while (!IsDone(iteration))
@@ -95,7 +86,7 @@ namespace AntColonyOptimization
         }
 
         private bool IsDone(int iteration)
-            => objective.IsAcceptable(globalBestAnt.Steps, targetEvaluation) || iteration >= maxIterations;
+            => Objective.IsAcceptable(globalBestAnt.Steps, targetEvaluation) || iteration >= maxIterations;
     }
 
     public struct Result<T>

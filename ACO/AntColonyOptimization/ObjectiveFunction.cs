@@ -1,29 +1,36 @@
-﻿namespace AntColonyOptimization
+﻿using System;
+
+namespace AntColonyOptimization
 {
-    public abstract class ObjectiveFunction
+    public class ObjectiveFunction : IObjectiveFunction
     {
-        protected ObjectiveFunction(int dimension, Objective objective)
+        public static ObjectiveFunction Maximize(Func<double[], double> func)
+            => new ObjectiveFunction(func, Objective.Maximize);
+
+        public static ObjectiveFunction Minimize(Func<double[], double> func)
+            => new ObjectiveFunction(func, Objective.Minimize);
+
+        private ObjectiveFunction(Func<double[], double> func, Objective objective)
         {
-            Dimension = dimension;
+            Func = func;
             Objective = objective;
         }
 
-        public int Dimension { get; }
+        public Func<double[], double> Func { get; }
 
         public Objective Objective { get; }
 
-        private bool Minimize => Objective == Objective.Minimize;
+        private bool IsMinimized => Objective == Objective.Minimize;
 
-        public double Evaluate(double[] steps)
-            => Minimize ? EvaluateInternal(steps) : 1 / EvaluateInternal(steps);
+        public double Evaluate(double[] xs) => IsMinimized ? Func(xs) : 1 / Func(xs);
 
-        protected abstract double EvaluateInternal(double[] steps);
+        public bool IsAcceptable(double[] xs, double targetEvaluation)
+            => IsMinimized ? Func(xs) <= targetEvaluation : Func(xs) >= targetEvaluation;
+    }
 
-        public bool IsAcceptable(double[] steps, double targetEvaluation)
-        {
-            var eval = EvaluateInternal(steps);
-            return Minimize ? eval <= targetEvaluation : eval >= targetEvaluation;
-        }
+    public interface IObjectiveFunction
+    {
+        double Evaluate(double[] xs);
     }
 
     public enum Objective
