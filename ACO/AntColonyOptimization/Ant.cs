@@ -10,13 +10,14 @@ namespace AntColonyOptimization
         public Ant(AntColonyOptimization algo)
         {
             this.algo = algo;
+            Steps = new double[algo.Dimension];
         }
 
         public double[] Steps { get; private set; }
 
-        public double Evaluation { get; set; }
+        public double Evaluation { get; private set; }
 
-        public void ConstructSolution(List<PheromoneDistribution> pheromoneTrail)
+        public void ConstructSolution(List<Pheromone> pheromoneTrail)
         {
             Steps = pheromoneTrail.Select(x => x.GetSolutionComponent()).ToArray();
         }

@@ -8,7 +8,7 @@ namespace AntColonyOptimization
     public class AntColonyOptimization
     {
         private List<Ant> antColony;
-        private List<PheromoneDistribution> pheromoneTrail;
+        private List<Pheromone> pheromoneTrail;
         private Ant globalBestAnt;
 
         private double targetEvaluation;
@@ -52,8 +52,9 @@ namespace AntColonyOptimization
 
         private void Initialize(int gaussianCount, int antCount)
         {
-            pheromoneTrail = Dimension.Times(() => new PheromoneDistribution(gaussianCount)).ToList();
+            pheromoneTrail = Dimension.Times(() => new Pheromone(gaussianCount)).ToList();
             antColony = antCount.Times(() => new Ant(this)).ToList();
+            globalBestAnt = antColony.First();
         }
 
         private void EvaluateAntColony()
@@ -63,8 +64,7 @@ namespace AntColonyOptimization
                 ant.ConstructSolution(pheromoneTrail);
                 ant.Evaluate();
 
-                // Elitism
-                if (globalBestAnt == null || ant.Evaluation < globalBestAnt.Evaluation)
+                if (ant.Evaluation < globalBestAnt.Evaluation)
                 {
                     globalBestAnt = ant;
                 }

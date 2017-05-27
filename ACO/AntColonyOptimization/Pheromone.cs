@@ -5,7 +5,7 @@ using Mozog.Utils.Math;
 
 namespace AntColonyOptimization
 {
-    internal class PheromoneDistribution
+    internal class Pheromone
     {
         private const double a = -1.0;
         private const double b = 1.0;
@@ -13,7 +13,7 @@ namespace AntColonyOptimization
         private readonly List<Gaussian> gaussianKernel;
         private readonly double[] weights;
 
-        public PheromoneDistribution(int count)
+        public Pheromone(int count)
         {
             weights = Enumerable.Repeat(1.0 / count, count).ToArray();
 

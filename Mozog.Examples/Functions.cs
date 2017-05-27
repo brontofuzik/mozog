@@ -58,13 +58,13 @@ namespace Mozog.Examples
         };
 
         // Sphere model function (XD)
-        // Minimum: f(0, 0, ...) = 0.0
+        // Minimum: f(0, 0, ...) = 0
         // See http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page1113.htm
         public static Func<double[], double> SphereModel => s
             => s.Sum(t => Pow(t, 2));
 
         // Goldestein & Price function (2D)
-        // Minimum: f(0, -1) = 3.0
+        // Minimum: f(0, -1) = 3
         // See: http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page1760.htm
         public static Func<double[], double> GoldsteinPrice => s =>
         {
@@ -76,7 +76,7 @@ namespace Mozog.Examples
         };
 
         // Zakharov function (2D)
-        // Minimum: f(0, 0) = 0.0
+        // Minimum: f(0, 0) = 0
         // See: http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page3088.htm
         public static Func<double[], double> Zakharov => s =>
         {

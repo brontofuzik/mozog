@@ -72,7 +72,7 @@
     <Compile Include="Ant.cs" />
     <Compile Include="AntColonyOptimization.cs" />
     <Compile Include="ObjectiveFunction.cs" />
-    <Compile Include="PheromoneDistribution.cs" />
+    <Compile Include="Pheromone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
