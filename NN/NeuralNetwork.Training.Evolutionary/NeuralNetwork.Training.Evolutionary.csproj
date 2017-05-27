@@ -47,8 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GeneticAlgorithmTrainer.cs" />
-    <Compile Include="NetworkGeneticAlgorithm.cs" />
-    <Compile Include="NetworkObjectiveFunction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
