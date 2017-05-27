@@ -46,8 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NetworkObjectiveFunction.cs" />
-    <Compile Include="NetworkSimlatedAnnealing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimulatedAnnealingTrainer.cs" />
   </ItemGroup>
@@ -55,6 +53,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Mozog.Utils\Mozog.Utils.csproj">
+      <Project>{47cb5c11-3dce-4768-ab1f-ffc1cfd55167}</Project>
+      <Name>Mozog.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SA\SimulatedAnnealing\SimulatedAnnealing.csproj">
       <Project>{e5f97d52-c842-4376-935f-c8132805c735}</Project>
       <Name>SimulatedAnnealing</Name>
