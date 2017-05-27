@@ -12,50 +12,17 @@ namespace SimulatedAnnealing.Examples
 {
     static class FunctionOptimization
     {
-        // Rastrigin function
-        // Minimum: f(0, 0) = 0
         public static SimulatedAnnealing<double> RastriginFunction
-            => Optimizer(2, s =>
-            {
-                double x = s[0];
-                double y = s[1];
+            => Optimizer(2, Mozog.Examples.Functions.Rastrigin, -5.12, +5.12);
 
-                return 20 + (Pow(x,2) - 10 * Cos(2*PI*x)) + (Pow(y, 2) - 10 * Cos(2*PI*y));
-            }, -5.12, +5.12);
-
-        // Ackley function
-        // Minimum: f(0, 0) = 0
         public static SimulatedAnnealing<double> AckleyFunction
-            => Optimizer(2, s =>
-            {
-                double x = s[0];
-                double y = s[1];
+            => Optimizer(2, Mozog.Examples.Functions.Ackley, -5, +5);
 
-                return -20 * Exp(-0.2 * Sqrt(0.5 * (Pow(x,2) + Pow(y,2)))) - Exp(0.5 * (Cos(2*PI*x) + Cos(2*PI*y))) + E + 20;
-            }, -5, +5);
-
-        // Sphere function
-        // Minimum: f(0, 0) = 0
         public static SimulatedAnnealing<double> SphereFunction
-            => Optimizer(2, s =>
-            {
-                double x = s[0];
-                double y = s[1];
+            => Optimizer(2, Mozog.Examples.Functions.Sphere, -10, +10);
 
-                return Pow(x, 2) + Pow(y, 2);
-
-            }, -10, +10);
-
-        // Rosenbrock function
-        // Minimum: f(1, 1) = 0
         public static SimulatedAnnealing<double> RosenbrockFunction
-            => Optimizer(2, s =>
-            {
-                double x = s[0];
-                double y = s[1];
-
-                return 100 * Pow(y - Pow(x,2), 2) + Pow(x-1, 2);
-            }, -10, +10);
+            => Optimizer(2, Mozog.Examples.Functions.Rosenbrock, -10, +10);
 
         // Unknown 1D function
         // Minimum: f(x) = 0

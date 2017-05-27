@@ -18,7 +18,7 @@ namespace NeuralNetwork.Training.Ants
             // The network ant colony optimiaztion parameters.
             NetworkObjectiveFunction networkObjectiveFunction = new NetworkObjectiveFunction(network, trainingSet);
             int antCount = 100;
-            int normalPDFCount = 10;
+            int gaussianCount = 10;
             double requiredAccuracy = 0.001;
 
             // Train the network.
@@ -26,7 +26,7 @@ namespace NeuralNetwork.Training.Ants
             double networkError;
             double[] weights = networkAntColonyOptimization.Run(networkObjectiveFunction,
                 maxIterationCount, out iterationCount, maxTolerableNetworkError, out networkError,
-                antCount, normalPDFCount, requiredAccuracy
+                antCount, gaussianCount, requiredAccuracy
            );
             network.SetWeights(weights);
 

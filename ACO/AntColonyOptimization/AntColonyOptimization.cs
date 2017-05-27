@@ -7,14 +7,14 @@ namespace AntColonyOptimization
 {
     public class AntColonyOptimization
     {
-        private List<PheromoneDistribution> pheromoneTrail;
         private List<Ant> antColony;
+        private List<PheromoneDistribution> pheromoneTrail;
         private Ant globalBestAnt;
 
         private double targetEvaluation;
         private int maxIterations;
 
-        private const double requiredAccuracy = 0.001;
+        private const double accuracy = 0.001;
 
         public AntColonyOptimization(int dimension)
         {
@@ -34,12 +34,12 @@ namespace AntColonyOptimization
 
         #endregion // Functions
 
-        public Result<double> Run(int antCount, int normalPdfCount, double targetEvaluation, int maxIterations = Int32.MaxValue)
+        public Result<double> Run(int antCount, int gaussianCount, double targetEvaluation, int maxIterations = Int32.MaxValue)
         {
             this.maxIterations = maxIterations;
             this.targetEvaluation = targetEvaluation;
 
-            Initialize(normalPdfCount, antCount);
+            Initialize(gaussianCount, antCount);
 
             // Elitism
             globalBestAnt = antColony[0];
@@ -49,17 +49,17 @@ namespace AntColonyOptimization
             while (!IsDone(iteration))
             {
                 EvaluateAntColony();
-                UpdatePheromoneTrail(iteration + 1, requiredAccuracy);
+                UpdatePheromoneTrail(iteration + 1, accuracy);
 
                 iteration++;
             }
 
-            return new Result<double>(globalBestAnt.Steps, objective.EvaluateObjective(globalBestAnt.Steps), iteration);
+            return new Result<double>(globalBestAnt.Steps, globalBestAnt.Evaluation, iteration);
         }
 
-        private void Initialize(int normalPdfCount, int antCount)
+        private void Initialize(int gaussianCount, int antCount)
         {
-            pheromoneTrail = Dimension.Times(() => new PheromoneDistribution(normalPdfCount)).ToList();
+            pheromoneTrail = Dimension.Times(() => new PheromoneDistribution(gaussianCount)).ToList();
             antColony = antCount.Times(() => new Ant(this)).ToList();
         }
 
@@ -71,14 +71,14 @@ namespace AntColonyOptimization
                 ant.Evaluate();
 
                 // Elitism
-                if (ant.Evaluation < globalBestAnt.Evaluation)
+                if (globalBestAnt == null || ant.Evaluation < globalBestAnt.Evaluation)
                 {
                     globalBestAnt = ant;
                 }
             }
         }
 
-        private void UpdatePheromoneTrail(int iterationCount, double requiredAccuracy)
+        private void UpdatePheromoneTrail(int iterationCount, double accuracy)
         {
             var iterationBestAnt = antColony.Aggregate((bestAnt, ant) => ant.Evaluation < bestAnt.Evaluation ? ant : bestAnt);
 
@@ -88,7 +88,7 @@ namespace AntColonyOptimization
                 double mean = iterationBestAnt.Steps[i];
                 double max = antColony.Select(a => a.Steps[i]).Max();
                 double min = antColony.Select(a => a.Steps[i]).Min();
-                double stdDev = Math.Max((max - min) / Math.Sqrt(iterationCount), requiredAccuracy);
+                double stdDev = Math.Max((max - min) / Math.Sqrt(iterationCount), accuracy);
 
                 pheromoneTrail[i].Update(mean, stdDev);
             }

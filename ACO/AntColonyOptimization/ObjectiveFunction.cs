@@ -19,12 +19,9 @@
 
         protected abstract double EvaluateInternal(double[] steps);
 
-        public double EvaluateObjective(double[] steps)
-            => Minimize ? EvaluateInternal(steps) : 1 / EvaluateInternal(steps);
-
         public bool IsAcceptable(double[] steps, double targetEvaluation)
         {
-            var eval = EvaluateObjective(steps);
+            var eval = EvaluateInternal(steps);
             return Minimize ? eval <= targetEvaluation : eval >= targetEvaluation;
         }
     }

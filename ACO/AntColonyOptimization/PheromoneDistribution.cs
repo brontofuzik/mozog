@@ -1,51 +1,65 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Mozog.Utils;
 using Mozog.Utils.Math;
 
 namespace AntColonyOptimization
 {
     internal class PheromoneDistribution
     {
-        private readonly double[] weights;
+        private const double a = -1.0;
+        private const double b = 1.0;
 
-        private readonly List<NormalDistribution> distributions;
+        private readonly List<Gaussian> gaussianKernel;
+        private readonly double[] weights;
 
         public PheromoneDistribution(int count)
         {
             weights = Enumerable.Repeat(1.0 / count, count).ToArray();
 
-            distributions = new List<NormalDistribution>(count);
-
-            double a = -1.0;
-            double b = 1.0;
             double stdDev = (b - a) / (2 * count);
-       
-            for (int i = 0; i < count; i++)
-            {
-                double mean = 2 * StaticRandom.Double() - 1;
-                // ALT: mean = a + (2 * i - 1) * ((b - a) / (double)(2 * normalPDFCount));
-
-                distributions.Add(new NormalDistribution(mean, stdDev));
-            }
+            gaussianKernel = count.Times(() => new Gaussian(StaticRandom.Double(a, b), stdDev)).ToList();
         }
 
         public double GetSolutionComponent()
         {
             var randomIndex = new RouletteWheel(weights).Spin();
-            return distributions[randomIndex].GetRandomDouble();
+            return gaussianKernel[randomIndex].GetRandomDouble();
         }
 
-        public void Update(double mean, double standardDeviation)
+        public void Update(double mean, double stdDev)
         {
-            distributions.ForEach(d => d.Mature());
+            gaussianKernel.ForEach(d => d.Mature());
 
             // TODO Can we switch this?
-            distributions.Add(new NormalDistribution(mean, standardDeviation));
-            distributions.Remove(GetOldestDistribution());
+            gaussianKernel.Remove(GetOldestDistribution());
+            gaussianKernel.Add(new Gaussian(mean, stdDev));
         }
 
-        private NormalDistribution GetOldestDistribution()
-            => distributions.Aggregate((max, x) => x.Age > max.Age ? x : max);
+        private Gaussian GetOldestDistribution()
+            => gaussianKernel.Aggregate((max, x) => x.Age > max.Age ? x : max);
+
+        private class Gaussian
+        {
+            private readonly double mean;
+            private readonly double stdDev;
+
+            public Gaussian(double mean, double stdDev)
+            {
+                this.mean = mean;
+                this.stdDev = stdDev;
+                Age = 0;
+            }
+
+            public int Age { get; private set; }
+
+            public double GetRandomDouble() => StaticRandom.Normal(mean, stdDev);
+
+            public void Mature()
+            {
+                Age++;
+            }
+        }
 
         private class RouletteWheel
         {
