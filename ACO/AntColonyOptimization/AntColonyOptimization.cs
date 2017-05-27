@@ -88,7 +88,7 @@ namespace AntColonyOptimization
         }
 
         private bool IsDone(int iteration)
-            => Objective.IsAcceptable(globalBestAnt.Steps, targetEvaluation) || iteration >= maxIterations;
+            => ObjectiveFunc.IsAcceptable(globalBestAnt.Steps, targetEvaluation) || iteration >= maxIterations;
     }
 
     public struct Result<T>
