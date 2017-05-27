@@ -23,16 +23,18 @@ namespace AntColonyOptimization
 
         public int Dimension { get; }
 
+        private Objective Objective => ObjectiveFunc.Objective;
+
         #region Functions
 
-        public ObjectiveFunction Objective { get; set; }
+        public ObjectiveFunction ObjectiveFunc { get; set; }
 
         #endregion // Functions
 
-        public Result<double> Run(int antCount, int gaussianCount, double targetEvaluation, int maxIterations = Int32.MaxValue)
+        public Result<double> Run(int antCount, int gaussianCount, double? targetEvaluation = null, int? maxIterations = null)
         {
-            this.maxIterations = maxIterations;
-            this.targetEvaluation = targetEvaluation;
+            this.maxIterations = maxIterations ?? Int32.MaxValue;
+            this.targetEvaluation = targetEvaluation ?? (Objective == Objective.Minimize ? Double.MinValue : Double.MaxValue);
 
             Initialize(gaussianCount, antCount);
 

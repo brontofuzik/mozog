@@ -23,7 +23,7 @@ namespace AntColonyOptimization
 
         public void Evaluate()
         {
-            Evaluation = algo.Objective.Evaluate(Steps);
+            Evaluation = algo.ObjectiveFunc.Evaluate(Steps);
         }
     }
 }
