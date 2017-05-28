@@ -43,9 +43,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mozog.Examples", "Mozog.Exa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PSO", "PSO", "{DD1CE3A6-EFBF-4ED8-BA14-13D24D66363A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParticleSwarmOptimization", "ParticleSwarmOptimization\ParticleSwarmOptimization.csproj", "{F9359228-D981-4F5A-B9A4-D178A8B371C1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParticleSwarmOptimization", "PSO\ParticleSwarmOptimization\ParticleSwarmOptimization.csproj", "{F9359228-D981-4F5A-B9A4-D178A8B371C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParticleSwarmOptimization.Examples", "ParticleSwarmOptimization.Examples\ParticleSwarmOptimization.Examples.csproj", "{4AB9B395-017A-494B-A685-985370374565}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParticleSwarmOptimization.Examples", "PSO\ParticleSwarmOptimization.Examples\ParticleSwarmOptimization.Examples.csproj", "{4AB9B395-017A-494B-A685-985370374565}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
