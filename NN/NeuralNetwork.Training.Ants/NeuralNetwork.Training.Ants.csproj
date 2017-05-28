@@ -47,8 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AntColonyOptimizationTrainer.cs" />
-    <Compile Include="NetworkAntColonyOptimization.cs" />
-    <Compile Include="NetworkObjectiveFunction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

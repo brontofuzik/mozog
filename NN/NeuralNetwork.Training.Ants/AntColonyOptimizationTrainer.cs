@@ -1,45 +1,35 @@
-﻿using NeuralNetwork.Interfaces;
+﻿using System;
+using AntColonyOptimization;
+using NeuralNetwork.Data;
+using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.Training.Ants
 {
-    public class AntColonyOptimizationTrainer : TrainerBase
+    public class AntColonyOptimizationTrainer : TrainerBase<TrainingArgs>
     {
-        private readonly NetworkAntColonyOptimization networkAntColonyOptimization = new NetworkAntColonyOptimization();
-
-        public AntColonyOptimizationTrainer(TrainingSet trainingSet, TrainingSet validationSet, TrainingSet testSet)
-            : base(trainingSet, validationSet, testSet)
+        public override TrainingLog Train(INetwork network, IDataSet data, TrainingArgs args)
         {
+            var networkOptimization = new AntColonyOptimization.AntColonyOptimization(network.SynapseCount)
+            {
+                ObjectiveFunc = ObjectiveFunction.Minimize(weights =>
+                {
+                    network.SetWeights(weights);
+                    return network.CalculateError((DataSet)data);
+                })
+            };
+
+            var result = networkOptimization.Run(antCount: 100, gaussianCount: 10,
+                targetEvaluation: args.MaxError, maxIterations: args.MaxIterations);
+
+            network.SetWeights(result.Solution);
+
+            return new TrainingLog(result.Iterations);
         }
 
-        public override string Name => "AntColonyOptimizationTrainer";
+        // TODO
+        public override event EventHandler<TrainingStatus> WeightsUpdated;
 
-        public override TrainingLog Train(INetwork network, int maxIterationCount, double maxTolerableNetworkError)
-        {
-            // The network ant colony optimiaztion parameters.
-            NetworkObjectiveFunction networkObjectiveFunction = new NetworkObjectiveFunction(network, trainingSet);
-            int antCount = 100;
-            int gaussianCount = 10;
-            double requiredAccuracy = 0.001;
-
-            // Train the network.
-            int iterationCount;
-            double networkError;
-            double[] weights = networkAntColonyOptimization.Run(networkObjectiveFunction,
-                maxIterationCount, out iterationCount, maxTolerableNetworkError, out networkError,
-                antCount, gaussianCount, requiredAccuracy
-           );
-            network.SetWeights(weights);
-
-            // LOGGING
-            // -------
-
-            // Create the training log and log the training data.
-            TrainingLog trainingLog = new TrainingLog(iterationCount, networkError);
-
-            // Log the network statistics.
-            LogNetworkStatistics(trainingLog, network);
-
-            return trainingLog;
-        }
+        // TODO
+        public override event EventHandler WeightsReset;
     }
 }

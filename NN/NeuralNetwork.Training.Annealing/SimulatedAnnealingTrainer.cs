@@ -16,7 +16,7 @@ namespace NeuralNetwork.Training.Annealing
     {
         public override TrainingLog Train(INetwork network, IDataSet data, TrainingArgs args)
         {
-            var networkSimulatedAnnealing = new SimulatedAnnealing<double>(network.SynapseCount)
+            var networkAnnealing = new SimulatedAnnealing<double>(network.SynapseCount)
             {
                 Objective = ObjectiveFunction<double>.Minimize(weights =>
                 {
@@ -37,8 +37,9 @@ namespace NeuralNetwork.Training.Annealing
                 Cooling = LambdaCooling.Exponential
             };
 
-            var result = networkSimulatedAnnealing.Run(initialTemperature: 1000.0, finalTemperature: 0.001,
+            var result = networkAnnealing.Run(initialTemperature: 1000.0, finalTemperature: 0.001,
                 targetEnergy: args.MaxError, maxIterations: args.MaxIterations);
+
             network.SetWeights(result.State.S);
 
             return new TrainingLog(0);
