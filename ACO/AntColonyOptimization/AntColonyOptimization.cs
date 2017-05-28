@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MoreLinq;
 using Mozog.Utils;
 
 namespace AntColonyOptimization
@@ -73,7 +74,7 @@ namespace AntColonyOptimization
 
         private void UpdatePheromoneTrail(int iterationCount, double accuracy)
         {
-            var iterationBestAnt = antColony.Aggregate((bestAnt, ant) => ant.Evaluation < bestAnt.Evaluation ? ant : bestAnt);
+            var iterationBestAnt = antColony.MaxBy(a => a.Evaluation);
 
             // Use the iteration-best ant to update the pheromone trail.
             for (int i = 0; i < pheromoneTrail.Count; i++)

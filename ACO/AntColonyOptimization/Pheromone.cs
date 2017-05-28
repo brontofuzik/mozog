@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MoreLinq;
 using Mozog.Utils;
 using Mozog.Utils.Math;
 
@@ -37,7 +38,7 @@ namespace AntColonyOptimization
         }
 
         private Gaussian GetOldestDistribution()
-            => gaussianKernel.Aggregate((max, x) => x.Age > max.Age ? x : max);
+            => gaussianKernel.MaxBy(g => g.Age);
 
         private class Gaussian
         {

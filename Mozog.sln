@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26206.0
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GA", "GA", "{39012F6D-52C4-401E-9832-49C0C071302A}"
 EndProject
@@ -40,6 +40,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketForecaster", "NN\MarketForecaster\MarketForecaster.csproj", "{915AEBDD-F9C8-4C2C-A65F-889593332225}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mozog.Examples", "Mozog.Examples\Mozog.Examples.csproj", "{66EF9BBF-B079-469A-AE19-010556D4A8FD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PSO", "PSO", "{DD1CE3A6-EFBF-4ED8-BA14-13D24D66363A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParticleSwarmOptimization", "ParticleSwarmOptimization\ParticleSwarmOptimization.csproj", "{F9359228-D981-4F5A-B9A4-D178A8B371C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParticleSwarmOptimization.Examples", "ParticleSwarmOptimization.Examples\ParticleSwarmOptimization.Examples.csproj", "{4AB9B395-017A-494B-A685-985370374565}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +113,14 @@ Global
 		{66EF9BBF-B079-469A-AE19-010556D4A8FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66EF9BBF-B079-469A-AE19-010556D4A8FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66EF9BBF-B079-469A-AE19-010556D4A8FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9359228-D981-4F5A-B9A4-D178A8B371C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9359228-D981-4F5A-B9A4-D178A8B371C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9359228-D981-4F5A-B9A4-D178A8B371C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9359228-D981-4F5A-B9A4-D178A8B371C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AB9B395-017A-494B-A685-985370374565}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AB9B395-017A-494B-A685-985370374565}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AB9B395-017A-494B-A685-985370374565}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AB9B395-017A-494B-A685-985370374565}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -124,5 +138,7 @@ Global
 		{6278D0D9-5CF9-4CB4-A98E-2790A8C8BB27} = {0D96491B-CBF8-403A-9AE5-2A259A554ECD}
 		{3CB37780-6059-45EE-B1E4-49CB3BDEFF8A} = {0D96491B-CBF8-403A-9AE5-2A259A554ECD}
 		{915AEBDD-F9C8-4C2C-A65F-889593332225} = {0D96491B-CBF8-403A-9AE5-2A259A554ECD}
+		{F9359228-D981-4F5A-B9A4-D178A8B371C1} = {DD1CE3A6-EFBF-4ED8-BA14-13D24D66363A}
+		{4AB9B395-017A-494B-A685-985370374565} = {DD1CE3A6-EFBF-4ED8-BA14-13D24D66363A}
 	EndGlobalSection
 EndGlobal
