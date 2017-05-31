@@ -1,78 +1,109 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mozog.Utils;
 using Mozog.Utils.Math;
+using ParticleSwarmOptimization.Functions;
 
 namespace ParticleSwarmOptimization
 {
     public class Swarm
     {
-        private readonly Parameters parameters;
+        private readonly Particle[] particles;
 
-        private readonly IParticle[] particles;
+        private double[] bestGlobalPosition;
+        private double bestGlobalError;
 
-        // Factory method
-        public static Swarm Build(int dimensions, Func<double[], double> errorFunc, Parameters parameters)
+        public Swarm(int dimension, int swarmSize, int neighbours)
         {
-            var particles = Enumerable.Range(0, parameters.SwarmSize)
-                .Select(i => new Particle(dimensions, errorFunc, parameters))
-                .ToArray();
-            return new Swarm(particles, parameters);
+            Dimension = dimension;
+
+            particles = swarmSize.Times(() => new Particle(this)).ToArray();
+            CreateTopology(neighbours);
+            //CreateTopology_Randomized(neighbours);
+
+            bestGlobalPosition = particles[0].Position;
+            bestGlobalError = particles[0].Error;
         }
 
-        public Swarm(IParticle[] particles, Parameters parameters)
-        {          
-            this.particles = particles;
-            this.parameters = parameters;
+        internal int Dimension { get; }
 
-            CreateTopology();
-            //CreateTopology_Randomized();
+        public double Min { get; set; }
 
-            BestGlobalPosition = particles[0].Position;
-            BestGlobalError = particles[0].Error;
+        public double Max { get; set; }
+
+        #region Functions
+
+        public Func<double[], double> ErrorFunc { get; set; }
+
+        #endregion // Functions
+
+        public Result Optimize(ITermination termination)
+        {
+            int iteration = 0;
+            while (!termination.Terminate(iteration, bestGlobalError))
+            {
+                foreach (var particle in particles)
+                {
+                    double error = particle.Optimize();
+
+                    if (error < bestGlobalError)
+                    {
+                        bestGlobalPosition = (double[])particle.Position.Clone();
+                        bestGlobalError = error;
+                    }
+                }
+                iteration++;
+            }
+
+            return new Result(bestGlobalPosition, bestGlobalError, iteration);
         }
 
-        public double[] BestGlobalPosition { get; private set; }
+        // Simple termination
+        public Result Optimize(int maxIteration = Int32.MaxValue, double targetError = Double.MinValue)
+            => Optimize(new SimpleTermination(maxIteration, targetError));
 
-        public double BestGlobalError { get; private set; }
-
-        public (double[] position, double error) Optimize()
+        public Result Optimize_OLD(int maxIterations, int maxStagnatingIterations)
         {
-            int epoch = 0;
-            int staticEpoch = 0;
+            int iteration = 0;
+            int stagnatingIterations = 0;
 
-            while (epoch < parameters.MaxEpochs && staticEpoch < parameters.MaxStaticEpochs)
+            while (iteration < maxIterations && stagnatingIterations < maxStagnatingIterations)
             {
                 bool isErrorImproved = false;
                 foreach (var particle in particles)
                 {
                     double error = particle.Optimize();
 
-                    if (error < BestGlobalError)
+                    if (error < bestGlobalError)
                     {
-                        BestGlobalPosition = (double[])particle.Position.Clone();
-                        BestGlobalError = error;
+                        bestGlobalPosition = (double[])particle.Position.Clone();
+                        bestGlobalError = error;
                         isErrorImproved = true;
-                        staticEpoch = 0;
+                        stagnatingIterations = 0;
                     }
                 }
 
                 if (!isErrorImproved)
-                    staticEpoch++;
+                    stagnatingIterations++;
 
-                epoch++;
+                iteration++;
             }
 
-            return (BestGlobalPosition, BestGlobalError);
+            return new Result(bestGlobalPosition, bestGlobalError, iteration);
         }
+
+        // Stagnating termination
+        public Result Optimize_NEW(int maxIterations, int maxStagnatingIterations)
+            => Optimize(new StagnatingTermination(maxIterations, maxStagnatingIterations));
 
         //
         // Manager
         //
 
-        private void CreateTopology()
+        private void CreateTopology(int neighbours)
         {
-            IEnumerable<IParticle> LeftNeighbours(int index, int count)
+            IEnumerable<Particle> LeftNeighbours(int index, int count)
             {
                 for (int l = 1; l <= count; l++)
                 {
@@ -80,7 +111,7 @@ namespace ParticleSwarmOptimization
                 }
             }
 
-            IEnumerable<IParticle> RightNeighbours(int index, int count)
+            IEnumerable<Particle> RightNeighbours(int index, int count)
             {
                 for (int r = 1; r <= count; r++)
                 {
@@ -88,8 +119,8 @@ namespace ParticleSwarmOptimization
                 }
             }
 
-            int leftNeighbourCount = parameters.MaxNeighbours / 2;
-            int rightNeighbourCount = parameters.MaxNeighbours / 2 + parameters.MaxNeighbours % 2;
+            int leftNeighbourCount = neighbours / 2;
+            int rightNeighbourCount = neighbours / 2 + neighbours % 2;
 
             for (int i = 0; i < particles.Length; i++)
             {
@@ -98,12 +129,12 @@ namespace ParticleSwarmOptimization
             }
         }
 
-        private void CreateTopology_Randomized()
+        private void CreateTopology_Randomized(int neighbours)
         {
             var indices = Enumerable.Range(0, particles.Length).ToArray();
             indices = StaticRandom.Shuffle(indices);
 
-            IEnumerable<IParticle> LeftNeighbours(int index, int count)
+            IEnumerable<Particle> LeftNeighbours(int index, int count)
             {
                 for (int l = 1; l <= count; l++)
                 {
@@ -111,7 +142,7 @@ namespace ParticleSwarmOptimization
                 }
             }
 
-            IEnumerable<IParticle> RightNeighbours(int index, int count)
+            IEnumerable<Particle> RightNeighbours(int index, int count)
             {
                 for (int r = 1; r <= count; r++)
                 {
@@ -119,14 +150,30 @@ namespace ParticleSwarmOptimization
                 }
             }
 
-            int leftNeighbourCount = parameters.MaxNeighbours / 2;
-            int rightNeighbourCount = parameters.MaxNeighbours / 2 + parameters.MaxNeighbours % 2;
+            int leftNeighbourCount = neighbours / 2;
+            int rightNeighbourCount = neighbours / 2 + neighbours % 2;
 
             for (int i = 0; i < indices.Length; i++)
             {
                 particles[indices[i]].Neighbours.AddRange(LeftNeighbours(i, leftNeighbourCount));
                 particles[indices[i]].Neighbours.AddRange(RightNeighbours(i, rightNeighbourCount));
             }
+        }
+    }
+
+    public struct Result
+    {
+        public double[] Position { get; }
+
+        public double Error { get; }
+
+        public int Iterations { get; }
+
+        public Result(double[] position, double error, int iterations)
+        {
+            Position = position;
+            Error = error;
+            Iterations = iterations;
         }
     }
 }

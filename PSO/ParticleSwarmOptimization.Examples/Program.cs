@@ -18,12 +18,12 @@ namespace ParticleSwarmOptimization.Examples
         {
             Console.WriteLine(testName);
 
-            var (result, elapsedTime) = Misc.MeasureTime(() => optimizer.Optimize());
+            var (result, elapsedTime) = Misc.MeasureTime(() => optimizer.Optimize(maxIterations));
 
             // Print the results.
             Console.WriteLine($"Duration: {elapsedTime.TotalSeconds} s");
-            Console.WriteLine($"Number of iterations: TODO");
-            Console.WriteLine($"Solution: {Vector.ToString(result.position)} = {result.error}");
+            Console.WriteLine($"Number of iterations: {result.Iterations}");
+            Console.WriteLine($"Solution: {Vector.ToString(result.Position)} = {result.Error}");
         }
     }
 }

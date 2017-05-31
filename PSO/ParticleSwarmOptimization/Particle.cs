@@ -1,33 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MoreLinq;
+using Mozog.Utils;
 using Mozog.Utils.Math;
 
 namespace ParticleSwarmOptimization
 {
-    public class Particle : IParticle
+    public class Particle
     {
-        private readonly Parameters parameters;
+        private const double W = 0.7;
+        private const double C1 = 1.4;
+        private const double C2 = 1.4;
 
-        private readonly Func<double[], double> errorFunc;
+        private readonly Swarm algo;
 
-        public Particle(int dimension, Func<double[], double> errorFunc, Parameters parameters)
+        public double[] bestPosition;
+        public double bestError;
+
+        public Particle(Swarm algo)
         {
-            this.parameters = parameters;
-            this.errorFunc = errorFunc;
-
-            Dimension = dimension;
+            this.algo = algo;
 
             Position = GetRandomPosition();
             Velocity = GetRandomVelocity();
-            Error = errorFunc(Position);
+            Error = algo.ErrorFunc(Position);
 
-            BestPosition = (double[])Position.Clone();
-            BestError = Error;
+            bestPosition = (double[])Position.Clone();
+            bestError = Error;
         }
 
-        public int Dimension { get; }
+        public List<Particle> Neighbours { get; set; } = new List<Particle>();
 
         public double[] Position { get; }
 
@@ -35,13 +37,7 @@ namespace ParticleSwarmOptimization
 
         public double Error { get; private set; }
 
-        public double[] BestPosition { get; private set; }
-
-        public double BestError { get; private set; }
-
-        public List<IParticle> Neighbours { get; set; } = new List<IParticle>();
-
-        private IEnumerable<IParticle> ParticleWithNeighbours
+        private IEnumerable<Particle> ParticleWithNeighbours
             => Enumerable.Repeat(this, 1).Concat(Neighbours);
 
         public double Optimize()
@@ -54,15 +50,15 @@ namespace ParticleSwarmOptimization
             // Update errors
             if (IsInRange(Position))
             {
-                Error = errorFunc(Position);
-                if (Error < BestError)
+                Error = algo.ErrorFunc(Position);
+                if (Error < bestError)
                 {
-                    BestPosition = (double[])Position.Clone();
-                    BestError = Error;
+                    bestPosition = (double[])Position.Clone();
+                    bestError = Error;
                 }          
             }
 
-            return BestError;
+            return bestError;
         }
 
         //
@@ -70,25 +66,20 @@ namespace ParticleSwarmOptimization
         //
 
         private double[] GetRandomPosition()
-            => Enumerable.Range(0, Dimension)
-                .Select(_ => (parameters.RangeMax - parameters.RangeMin) * StaticRandom.Double() + parameters.RangeMin)
-                .ToArray();
+            => algo.Dimension.Times(() => StaticRandom.Double(algo.Min, algo.Max)).ToArray();
 
         private double[] GetRandomVelocity()
-            => Enumerable.Range(0, Dimension)
-                .Select(_ => (parameters.RangeMax - parameters.RangeMin) * StaticRandom.Double() + parameters.RangeMin)
-                .ToArray();
+            => algo.Dimension.Times(() => StaticRandom.Double(algo.Min, algo.Max)).ToArray();
 
-        private double[] GetBestLocalPosition()
-            => ParticleWithNeighbours.MinBy(p => p.BestError).BestPosition;
+        private double[] GetBestLocalPosition() => ParticleWithNeighbours.MinBy(p => p.bestError).bestPosition;
 
         private void UpdateVelocity(double[] bestLocalPosition)
         {
             for (int i = 0; i < Velocity.Length; i++)
             {
-                Velocity[i] = parameters.W * Velocity[i]
-                    + parameters.C1 * StaticRandom.Double() * (BestPosition[i] - Position[i])
-                    + parameters.C2 * StaticRandom.Double() * (bestLocalPosition[i] - Position[i]);
+                Velocity[i] = W * Velocity[i]
+                    + C1 * StaticRandom.Double() * (bestPosition[i] - Position[i])
+                    + C2 * StaticRandom.Double() * (bestLocalPosition[i] - Position[i]);
             }
         }
 
@@ -100,26 +91,6 @@ namespace ParticleSwarmOptimization
             }
         }
 
-        private bool IsInRange(double[] position)
-            => position.All(pd => parameters.RangeMin <= pd && pd <= parameters.RangeMax);
-    }
-
-    public interface IParticle
-    {
-        double BestError { get; }
-
-        double[] BestPosition { get; }
-
-        int Dimension { get; }
-
-        double Error { get; }
-
-        List<IParticle> Neighbours { get; set; }
-
-        double[] Position { get; }
-
-        double[] Velocity { get; }
-
-        double Optimize();
+        private bool IsInRange(double[] position) => position.All(pd => algo.Min <= pd && pd <= algo.Max);
     }
 }
