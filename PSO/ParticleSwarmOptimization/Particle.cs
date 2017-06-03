@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MoreLinq;
 using Mozog.Utils;
@@ -14,8 +15,9 @@ namespace ParticleSwarmOptimization
 
         private readonly Swarm algo;
 
-        public double[] bestPosition;
-        public double bestError;
+        // Optimum
+        public double[] bestGlobalPosition;
+        public double bestGlobalError = Double.MaxValue;
 
         public Particle(Swarm algo)
         {
@@ -23,10 +25,7 @@ namespace ParticleSwarmOptimization
 
             Position = algo.InitializePosition(algo);
             Velocity = algo.InitializeVelocity(algo);
-            Error = algo.ObjetiveFunction.Evaluate(Position);
-
-            bestPosition = (double[])Position.Clone();
-            bestError = Error;
+            UpdateError();
         }
 
         public List<Particle> Neighbours { get; set; } = new List<Particle>();
@@ -38,17 +37,17 @@ namespace ParticleSwarmOptimization
         public double Error { get; private set; }
 
         private IEnumerable<Particle> ParticleWithNeighbours
-            => this.AsEnumerable().Concat(Neighbours);
+            => this.Yield().Concat(Neighbours);
 
         public double Optimize()
         {
-            double[] bestLocalPosition = ParticleWithNeighbours.MinBy(p => p.bestError).bestPosition;
+            double[] bestLocalPosition = ParticleWithNeighbours.MinBy(p => p.bestGlobalError).bestGlobalPosition;
 
             UpdateVelocity(bestLocalPosition);
             UpdatePosition();
             UpdateError();
 
-            return bestError;
+            return bestGlobalError;
         }
 
         private void UpdateVelocity(double[] bestLocalPosition)
@@ -56,33 +55,29 @@ namespace ParticleSwarmOptimization
             for (int i = 0; i < Velocity.Length; i++)
             {
                 Velocity[i] = W * Velocity[i]
-                    + C1 * StaticRandom.Double() * (bestPosition[i] - Position[i])
+                    + C1 * StaticRandom.Double() * (bestGlobalPosition[i] - Position[i])
                     + C2 * StaticRandom.Double() * (bestLocalPosition[i] - Position[i]);
             }
         }
 
         private void UpdatePosition()
         {
-            for (int i = 0; i < Position.Length; i++)
-            {
-                Position[i] += Velocity[i];
-            }
+            Position.AddM(Velocity).MapM(e => e.Clamp(algo.Min, algo.Max));
         }
 
         private void UpdateError()
         {
-            if (IsInRange)
-            {
-                Error = algo.ObjetiveFunction.Evaluate(Position);
-            }
-
-            if (Error < bestError)
-            {
-                bestPosition = (double[])Position.Clone();
-                bestError = Error;
-            }
+            Error = algo.ObjetiveFunction.Evaluate(Position);
+            UpdateOptimum();
         }
 
-        private bool IsInRange => Position.All(x => x.IsWithin(algo.Min, algo.Max));
+        private void UpdateOptimum()
+        {
+            if (Error < bestGlobalError)
+            {
+                bestGlobalPosition = (double[])Position.Clone();
+                bestGlobalError = Error;
+            }
+        }
     }
 }

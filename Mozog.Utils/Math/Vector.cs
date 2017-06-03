@@ -4,8 +4,30 @@ using MathNet.Numerics.LinearAlgebra;
 
 namespace Mozog.Utils.Math
 {
-    public class Vector
+    public static class Vector
     {
+        // Immutable
+        public static double[] Add(this double[] vector1, double[] vector2)
+        {
+            double[] result = new double[vector1.Length];
+            for (int i = 0; i < vector1.Length; i++)
+            {
+                result[i] = vector1[i] + vector2[i];
+            }
+            return result;
+        }
+
+        // Mutable
+        public static double[] AddM(this double[] vector1, double[] vector2)
+        {
+            for (int i = 0; i < vector1.Length; i++)
+            {
+                vector1[i] += vector2[i];
+            }
+            return vector1;
+        }
+
+        // Immutable
         public static double[] Subtract(double[] vector1, double[] vector2)
         {
             Vector<double> v1 = Vector<double>.Build.DenseOfArray(vector1);
@@ -13,6 +35,7 @@ namespace Mozog.Utils.Math
             return (v1 - v2).ToArray();
         }
 
+        // Immutable
         public static int[] Subtract(int[] vector1, int[] vector2)
         {
             int[] result = new int[vector1.Length];
@@ -23,34 +46,24 @@ namespace Mozog.Utils.Math
             return result;
         }
 
+        // Using Math.NET
         public static double Multiply(double[] vector1, double[] vector2)
-        {
-            Vector<double> v1 = Vector<double>.Build.DenseOfArray(vector1);
-            Vector<double> v2 = Vector<double>.Build.DenseOfArray(vector2);
-            return v1 * v2;
-        }
+            => Vector<double>.Build.DenseOfArray(vector1) * Vector<double>.Build.DenseOfArray(vector2);
 
         public static int Multiply(int[] vector1, int[] vector2)
-        {
-            int result = 0;
-            for (int i = 0; i < vector1.Length; ++i)
-            {
-                result += vector1[i] * vector2[i];
-            }
-            return result;
-        }
+            => vector1.Select((t, i) => t * vector2[i]).Sum();
 
         public static double Magnitude(double[] vector)
-        {
-            Vector<double> v = Vector<double>.Build.DenseOfArray(vector);
-            return v.L2Norm();
-        }
+            => Vector<double>.Build.DenseOfArray(vector).L2Norm();
 
-        public static double Magnitude(int[] vector) => System.Math.Sqrt(Multiply(vector, vector));
+        public static double Magnitude(int[] vector)
+            => System.Math.Sqrt(Multiply(vector, vector));
 
-        public static double Distance(double[] vector1, double[] vector2) => Magnitude(Subtract(vector1, vector2));
+        public static double Distance(double[] vector1, double[] vector2)
+            => Magnitude(Subtract(vector1, vector2));
 
-        public static double Distance(int[] vector1, int[] vector2) => Magnitude(Subtract(vector1, vector2));
+        public static double Distance(int[] vector1, int[] vector2)
+            => Magnitude(Subtract(vector1, vector2));
 
         public static double[] Normalize(double[] vector, double magnitude = 1.0)
         {
@@ -63,7 +76,7 @@ namespace Mozog.Utils.Math
             return vector.Select(e => e * factor).ToArray();
         }
 
-        // None active if index -1.
+        // No active element if index -1.
         public static double[] IndexToVector(int index, int length)
         {
             var vector = new double[length];
@@ -74,7 +87,7 @@ namespace Mozog.Utils.Math
             return vector;
         }
 
-        // Index is -1 if none/>1 active. 
+        // Index is -1 if none/more than 1 element is active. 
         public static int VectorToIndex(double[] vector, double threshold = 0.0)
         {
             if (threshold == 0.0)
@@ -100,6 +113,29 @@ namespace Mozog.Utils.Math
 
         public static int HammingDistance(double[] vector1, double[] vector2)
             => vector1.Zip(vector2, (d1, d2) => d1 != d2 ? 1 : 0).Sum();
+
+        // Immutable
+        public static double[] Map(this double[] vector, Func<double, double> func)
+            => vector.Select(func).ToArray();
+
+        // Mutable
+        public static double[] MapM(this double[] vector, Func<double, double> func)
+        {
+            for (int i = 0; i < vector.Length; i++)
+            {
+                vector[i] = func(vector[i]);
+            }
+            return vector;
+        }
+
+        public static double[] MapM(this double[] vector, Func<double, int, double> func)
+        {
+            for (int i = 0; i < vector.Length; i++)
+            {
+                vector[i] = func(vector[i], i);
+            }
+            return vector;
+        }
 
         public static string ToString(int[] vector)
         {

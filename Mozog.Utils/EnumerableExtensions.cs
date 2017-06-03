@@ -70,7 +70,7 @@ namespace Mozog.Utils
 
         public static bool None<T>(this IEnumerable<T> source) => !source.Any();
 
-        public static IEnumerable<T> AsEnumerable<T>(this T item)
+        public static IEnumerable<T> Yield<T>(this T item)
         {
             yield return item;
         }

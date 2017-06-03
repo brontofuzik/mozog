@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MoreLinq;
 using Mozog.Utils;
 using Mozog.Utils.Math;
-using ParticleSwarmOptimization.Functions.Initialization;
 using ParticleSwarmOptimization.Functions.Objective;
 using ParticleSwarmOptimization.Functions.Termination;
 
@@ -13,8 +13,9 @@ namespace ParticleSwarmOptimization
     {
         private readonly Particle[] particles;
 
-        private double[] bestGlobalPosition;
-        private double bestGlobalError;
+        // Optimum
+        private double[] bestPosition;
+        private double bestError = Double.MaxValue;
 
         public Swarm(int dimension, int swarmSize, int neighbours)
         {
@@ -42,26 +43,20 @@ namespace ParticleSwarmOptimization
 
         public Result Optimize(ITermination termination)
         {
-            // Initialize
-            bestGlobalPosition = particles[0].Position;
-            bestGlobalError = particles[0].Error;
+            UpdateOptimum(particles.MinBy(p => p.Error));
 
             int iteration = 0;
-            while (!termination.Terminate(iteration, bestGlobalError))
+            while (!termination.Terminate(iteration, bestError))
             {
                 foreach (var particle in particles)
                 {
-                    double error = particle.Optimize();
-                    if (error < bestGlobalError)
-                    {
-                        bestGlobalPosition = (double[])particle.Position.Clone();
-                        bestGlobalError = error;
-                    }
+                    particle.Optimize();
+                    UpdateOptimum(particle);
                 }
                 iteration++;
             }
 
-            return new Result(bestGlobalPosition, bestGlobalError, iteration);
+            return new Result(bestPosition, bestError, iteration);
         }
 
         // Optimize using simple termination
@@ -84,10 +79,10 @@ namespace ParticleSwarmOptimization
                 {
                     double error = particle.Optimize();
 
-                    if (error < bestGlobalError)
+                    if (error < bestError)
                     {
-                        bestGlobalPosition = (double[])particle.Position.Clone();
-                        bestGlobalError = error;
+                        bestPosition = (double[])particle.Position.Clone();
+                        bestError = error;
                         isErrorImproved = true;
                         stagnatingIterations = 0;
                     }
@@ -99,12 +94,17 @@ namespace ParticleSwarmOptimization
                 iteration++;
             }
 
-            return new Result(bestGlobalPosition, bestGlobalError, iteration);
+            return new Result(bestPosition, bestError, iteration);
         }
 
-        //
-        // Manager
-        //
+        private void UpdateOptimum(Particle particle)
+        {
+            if (particle.Error < bestError)
+            {
+                bestPosition = (double[])particle.bestGlobalPosition.Clone();
+                bestError = particle.Error;
+            }
+        }
 
         private void CreateTopology(int neighbours)
         {

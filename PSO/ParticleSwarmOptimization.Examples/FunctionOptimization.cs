@@ -21,7 +21,7 @@ namespace ParticleSwarmOptimization.Examples
             {
                 ObjetiveFunction = LambdaObjectiveFunction.Minimize(func, -10, +10),
                 InitializePosition = algo => UniformArray(algo.Dimension, algo.Min, algo.Max),
-                InitializeVelocity = algo => UniformArray(algo.Dimension, algo.Min, algo.Max)
+                InitializeVelocity = algo => UniformArray(algo.Dimension, -(algo.Max - algo.Min), -(algo.Max - algo.Min))
             };
 
         private static double[] UniformArray(int dimension, double min, double max)
