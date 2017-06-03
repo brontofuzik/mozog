@@ -7,7 +7,7 @@ namespace ParticleSwarmOptimization.Examples
     public static class Functions
     {
         // Beale function
-        // Minimum: f(3, 0.5)
+        // Minimum: f(3, 0.5) = 0
         // http://www.sfu.ca/~ssurjano/beale.html
         public static double Beale(double[] xs)
         {
@@ -22,7 +22,7 @@ namespace ParticleSwarmOptimization.Examples
         public static int BealeDimension => 2;
 
         // Griewank function
-        // Minimum: f(0, 0, ..., 0)
+        // Minimum: f(0, 0, ..., 0) = 0
         // http://mathworld.wolfram.com/GriewankFunction.html
         public static double Griewank(double[] xs)
         {
@@ -44,7 +44,7 @@ namespace ParticleSwarmOptimization.Examples
         public static int GriewankDimension => 4;
 
         // Rosenbrock function
-        // Minimum: f(1, 1, ..., 1)
+        // Minimum: f(1, 1, ..., 1) = 0
         // https://en.wikipedia.org/wiki/Rosenbrock_function
         public static double Rosenbrock(double[] xs)
         {
@@ -57,7 +57,7 @@ namespace ParticleSwarmOptimization.Examples
         public static int RosenbrockDimension => 2;
 
         // Sphere function
-        // Minimum: f(0, 0, ..., 0)
+        // Minimum: f(0, 0, ..., 0) = 0
         // http://www.sfu.ca/~ssurjano/spheref.html
         public static double Sphere(double[] xs)
             => xs.Sum(t => t * t);

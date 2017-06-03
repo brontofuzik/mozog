@@ -9,12 +9,12 @@ namespace ParticleSwarmOptimization.Examples
         public static void Main(string[] args)
         {
             Run("Beale function", FunctionOptimization.BealeFunction);
-            Run("Griewank function", FunctionOptimization.GriewankFunction);
-            Run("Rosenbrock function", FunctionOptimization.RosenbrockFunction);
-            Run("Sphere function", FunctionOptimization.SphereFunction);
+            //Run("Griewank function", FunctionOptimization.GriewankFunction);
+            //Run("Rosenbrock function", FunctionOptimization.RosenbrockFunction);
+            //Run("Sphere function", FunctionOptimization.SphereFunction);
         }
 
-        private static void Run(string testName, Swarm optimizer, int maxIterations = 1_000_000)
+        private static void Run(string testName, Swarm optimizer, int maxIterations = 10_000)
         {
             Console.WriteLine(testName);
 

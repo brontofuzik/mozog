@@ -22,22 +22,25 @@ namespace ParticleSwarmOptimization
         public Particle(Swarm algo)
         {
             this.algo = algo;
-
-            Position = algo.InitializePosition(algo);
-            Velocity = algo.InitializeVelocity(algo);
-            UpdateError();
         }
 
         public List<Particle> Neighbours { get; set; } = new List<Particle>();
 
-        public double[] Position { get; }
+        public double[] Position { get; private set; }
 
-        public double[] Velocity { get; }
+        private double[] Velocity { get; set; }
 
         public double Error { get; private set; }
 
         private IEnumerable<Particle> ParticleWithNeighbours
             => this.Yield().Concat(Neighbours);
+
+        public void Initialize()
+        {
+            Position = algo.InitializePosition(algo);
+            Velocity = algo.InitializeVelocity(algo);
+            UpdateError();
+        }
 
         public double Optimize()
         {

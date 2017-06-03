@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using MathNet.Numerics.Distributions;
 
 namespace Mozog.Utils.Math
 {

@@ -8,15 +8,15 @@ namespace ParticleSwarmOptimization.Examples
 {
     static class FunctionOptimization
     {
-        public static Swarm BealeFunction => Optimizer(Functions.BealeDimension, Functions.Beale);
+        public static Swarm BealeFunction => Optimizer(Functions.Beale, Functions.BealeDimension);
 
-        public static Swarm GriewankFunction => Optimizer(Functions.GriewankDimension, Functions.Griewank);
+        public static Swarm GriewankFunction => Optimizer(Functions.Griewank, Functions.GriewankDimension);
 
-        public static Swarm RosenbrockFunction => Optimizer(Functions.RosenbrockDimension, Functions.Rosenbrock);
+        public static Swarm RosenbrockFunction => Optimizer(Functions.Rosenbrock, Functions.RosenbrockDimension);
 
-        public static Swarm SphereFunction => Optimizer(Functions.SphereDimension, Functions.Sphere);
+        public static Swarm SphereFunction => Optimizer(Functions.Sphere, Functions.SphereDimension);
 
-        private static Swarm Optimizer(int dimension, Func<double[], double> func)
+        private static Swarm Optimizer(Func<double[], double> func, int dimension)
             => new Swarm(dimension, swarmSize:60, neighbours: 5)
             {
                 ObjetiveFunction = LambdaObjectiveFunction.Minimize(func, -10, +10),

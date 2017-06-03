@@ -6,6 +6,7 @@ using Mozog.Utils;
 using Mozog.Utils.Math;
 using ParticleSwarmOptimization.Functions.Objective;
 using ParticleSwarmOptimization.Functions.Termination;
+using static Mozog.Utils.Math.Math;
 
 namespace ParticleSwarmOptimization
 {
@@ -43,7 +44,7 @@ namespace ParticleSwarmOptimization
 
         public Result Optimize(ITermination termination)
         {
-            UpdateOptimum(particles.MinBy(p => p.Error));
+            Initialize();
 
             int iteration = 0;
             while (!termination.Terminate(iteration, bestError))
@@ -97,6 +98,12 @@ namespace ParticleSwarmOptimization
             return new Result(bestPosition, bestError, iteration);
         }
 
+        private void Initialize()
+        {
+            particles.ForEach(p => p.Initialize());
+            UpdateOptimum(particles.MinBy(p => p.Error));
+        }
+
         private void UpdateOptimum(Particle particle)
         {
             if (particle.Error < bestError)
@@ -112,7 +119,7 @@ namespace ParticleSwarmOptimization
             {
                 for (int l = 1; l <= count; l++)
                 {
-                    yield return particles[(index - l) % particles.Length];
+                    yield return particles[Mod(index - l, particles.Length)];
                 }
             }
 
@@ -120,7 +127,7 @@ namespace ParticleSwarmOptimization
             {
                 for (int r = 1; r <= count; r++)
                 {
-                    yield return particles[(index + r) % particles.Length];
+                    yield return particles[Mod(index + r, particles.Length)];
                 }
             }
 
