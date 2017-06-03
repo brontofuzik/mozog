@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Linq;
+using Mozog.Utils;
+using Mozog.Utils.Math;
+using ParticleSwarmOptimization.Functions.Objective;
 
 namespace ParticleSwarmOptimization.Examples
 {
@@ -15,9 +19,12 @@ namespace ParticleSwarmOptimization.Examples
         private static Swarm Optimizer(int dimension, Func<double[], double> func)
             => new Swarm(dimension, swarmSize:60, neighbours: 5)
             {
-                ErrorFunc = func,
-                Min = -10.0,
-                Max = +10.0
+                ObjetiveFunction = LambdaObjectiveFunction.Minimize(func, -10, +10),
+                InitializePosition = algo => UniformArray(algo.Dimension, algo.Min, algo.Max),
+                InitializeVelocity = algo => UniformArray(algo.Dimension, algo.Min, algo.Max)
             };
+
+        private static double[] UniformArray(int dimension, double min, double max)
+            => dimension.Times(() => StaticRandom.Double(min, max)).ToArray();
     }
 }

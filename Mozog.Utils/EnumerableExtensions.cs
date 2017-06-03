@@ -70,6 +70,11 @@ namespace Mozog.Utils
 
         public static bool None<T>(this IEnumerable<T> source) => !source.Any();
 
+        public static IEnumerable<T> AsEnumerable<T>(this T item)
+        {
+            yield return item;
+        }
+
         // MoreLINQ
         //public static T MaxBy<T, TProp>(this IEnumerable<T> source, Func<T, TProp> keySelector)
         //    where TProp : IComparable

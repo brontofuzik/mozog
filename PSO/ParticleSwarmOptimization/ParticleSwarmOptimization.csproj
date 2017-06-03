@@ -47,11 +47,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Functions\ITermination.cs" />
-    <Compile Include="Functions\StagnatingTermination.cs" />
+    <Compile Include="Functions\Initialization\IInitializationFunction.cs" />
+    <Compile Include="Functions\Objective\IObjectiveFunction.cs" />
+    <Compile Include="Functions\Objective\LambdaObjectiveFunction.cs" />
+    <Compile Include="Functions\Termination\ITermination.cs" />
+    <Compile Include="Functions\Termination\StagnatingTermination.cs" />
     <Compile Include="Particle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Functions\SimpleTermination.cs" />
+    <Compile Include="Functions\Termination\SimpleTermination.cs" />
     <Compile Include="Swarm.cs" />
   </ItemGroup>
   <ItemGroup>

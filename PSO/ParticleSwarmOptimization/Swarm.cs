@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Mozog.Utils;
 using Mozog.Utils.Math;
-using ParticleSwarmOptimization.Functions;
+using ParticleSwarmOptimization.Functions.Initialization;
+using ParticleSwarmOptimization.Functions.Objective;
+using ParticleSwarmOptimization.Functions.Termination;
 
 namespace ParticleSwarmOptimization
 {
@@ -20,33 +22,36 @@ namespace ParticleSwarmOptimization
 
             particles = swarmSize.Times(() => new Particle(this)).ToArray();
             CreateTopology(neighbours);
-            //CreateTopology_Randomized(neighbours);
-
-            bestGlobalPosition = particles[0].Position;
-            bestGlobalError = particles[0].Error;
         }
 
-        internal int Dimension { get; }
+        public int Dimension { get; }
 
-        public double Min { get; set; }
+        public double Min => ObjetiveFunction.Min;
 
-        public double Max { get; set; }
+        public double Max => ObjetiveFunction.Max;
 
         #region Functions
 
-        public Func<double[], double> ErrorFunc { get; set; }
+        public IObjectiveFunction ObjetiveFunction { get; set; }
+
+        public Func<Swarm, double[]> InitializePosition { get; set; }
+
+        public Func<Swarm, double[]> InitializeVelocity { get; set; }
 
         #endregion // Functions
 
         public Result Optimize(ITermination termination)
         {
+            // Initialize
+            bestGlobalPosition = particles[0].Position;
+            bestGlobalError = particles[0].Error;
+
             int iteration = 0;
             while (!termination.Terminate(iteration, bestGlobalError))
             {
                 foreach (var particle in particles)
                 {
                     double error = particle.Optimize();
-
                     if (error < bestGlobalError)
                     {
                         bestGlobalPosition = (double[])particle.Position.Clone();
@@ -59,9 +64,13 @@ namespace ParticleSwarmOptimization
             return new Result(bestGlobalPosition, bestGlobalError, iteration);
         }
 
-        // Simple termination
+        // Optimize using simple termination
         public Result Optimize(int maxIteration = Int32.MaxValue, double targetError = Double.MinValue)
             => Optimize(new SimpleTermination(maxIteration, targetError));
+
+        // Optimize using stagnating termination
+        public Result Optimize(int maxIterations, int maxStagnatingIterations)
+            => Optimize(new StagnatingTermination(maxIterations, maxStagnatingIterations));
 
         public Result Optimize_OLD(int maxIterations, int maxStagnatingIterations)
         {
@@ -92,10 +101,6 @@ namespace ParticleSwarmOptimization
 
             return new Result(bestGlobalPosition, bestGlobalError, iteration);
         }
-
-        // Stagnating termination
-        public Result Optimize_NEW(int maxIterations, int maxStagnatingIterations)
-            => Optimize(new StagnatingTermination(maxIterations, maxStagnatingIterations));
 
         //
         // Manager

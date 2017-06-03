@@ -21,9 +21,9 @@ namespace ParticleSwarmOptimization
         {
             this.algo = algo;
 
-            Position = GetRandomPosition();
-            Velocity = GetRandomVelocity();
-            Error = algo.ErrorFunc(Position);
+            Position = algo.InitializePosition(algo);
+            Velocity = algo.InitializeVelocity(algo);
+            Error = algo.ObjetiveFunction.Evaluate(Position);
 
             bestPosition = (double[])Position.Clone();
             bestError = Error;
@@ -38,40 +38,18 @@ namespace ParticleSwarmOptimization
         public double Error { get; private set; }
 
         private IEnumerable<Particle> ParticleWithNeighbours
-            => Enumerable.Repeat(this, 1).Concat(Neighbours);
+            => this.AsEnumerable().Concat(Neighbours);
 
         public double Optimize()
         {
-            double[] bestLocalPosition = GetBestLocalPosition();
+            double[] bestLocalPosition = ParticleWithNeighbours.MinBy(p => p.bestError).bestPosition;
+
             UpdateVelocity(bestLocalPosition);
-
             UpdatePosition();
-
-            // Update errors
-            if (IsInRange(Position))
-            {
-                Error = algo.ErrorFunc(Position);
-                if (Error < bestError)
-                {
-                    bestPosition = (double[])Position.Clone();
-                    bestError = Error;
-                }          
-            }
+            UpdateError();
 
             return bestError;
         }
-
-        //
-        // Manager
-        //
-
-        private double[] GetRandomPosition()
-            => algo.Dimension.Times(() => StaticRandom.Double(algo.Min, algo.Max)).ToArray();
-
-        private double[] GetRandomVelocity()
-            => algo.Dimension.Times(() => StaticRandom.Double(algo.Min, algo.Max)).ToArray();
-
-        private double[] GetBestLocalPosition() => ParticleWithNeighbours.MinBy(p => p.bestError).bestPosition;
 
         private void UpdateVelocity(double[] bestLocalPosition)
         {
@@ -91,6 +69,20 @@ namespace ParticleSwarmOptimization
             }
         }
 
-        private bool IsInRange(double[] position) => position.All(pd => algo.Min <= pd && pd <= algo.Max);
+        private void UpdateError()
+        {
+            if (IsInRange)
+            {
+                Error = algo.ObjetiveFunction.Evaluate(Position);
+            }
+
+            if (Error < bestError)
+            {
+                bestPosition = (double[])Position.Clone();
+                bestError = Error;
+            }
+        }
+
+        private bool IsInRange => Position.All(x => x.IsWithin(algo.Min, algo.Max));
     }
 }

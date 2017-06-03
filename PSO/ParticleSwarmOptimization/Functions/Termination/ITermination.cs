@@ -1,4 +1,4 @@
-namespace ParticleSwarmOptimization.Functions
+namespace ParticleSwarmOptimization.Functions.Termination
 {
     public interface ITermination
     {

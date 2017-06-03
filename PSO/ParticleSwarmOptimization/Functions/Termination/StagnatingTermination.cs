@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ParticleSwarmOptimization.Functions
+namespace ParticleSwarmOptimization.Functions.Termination
 {
     public class StagnatingTermination : ITermination
     {
