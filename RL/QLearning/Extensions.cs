@@ -1,9 +1,9 @@
 using System;
 using System.Globalization;
 
-namespace QLearning.Lib
+namespace QLearning
 {
-    static class Extensions
+    public static class Extensions
     {
         public static readonly CultureInfo CultureEnUs = new CultureInfo("en-US");
 

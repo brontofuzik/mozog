@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace QLearning.Lib
+namespace QLearning
 {
-    class State
+    public class State
     {
         public State(string name)
         {

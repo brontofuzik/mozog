@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QLearning.Lib
+namespace QLearning
 {
-    class QLearning
+    public class QLearning
     {
         private readonly Random random = new Random();
 
@@ -15,17 +15,17 @@ namespace QLearning.Lib
 
         //public Dictionary<string, QState> StateLookup { get; } = new Dictionary<string, QState>();
 
-        public double Alpha { get; internal set; } = 0.1;
+        public double Alpha { get; set; } = 0.1;
 
-        public double Gamma { get; internal set; } = 0.9;
+        public double Gamma { get; set; } = 0.9;
 
-        public int Episodes { get; internal set; } = 1000;
+        public int Episodes { get; set; } = 1000;
 
         // avoid infinite loop
-        public int MaxExploreStepsWithinOneEpisode { get; internal set; } = 1000;
+        public int MaxExploreStepsWithinOneEpisode { get; set; } = 1000;
 
         // show runtime warnings regarding q-learning
-        public bool ShowWarning { get; internal set; } = true;
+        public bool ShowWarning { get; set; } = true;
 
 
         public void AddState(State state, bool isEndState = false)

@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using QLearning.Lib;
-using Action = QLearning.Lib.Action;
 
 namespace QLearning.Examples
 {
     class RockPaperScissors
     {
-        internal enum State
+        internal enum S
         {
             Begin,
             Rock,
@@ -48,7 +46,7 @@ namespace QLearning.Examples
             Console.WriteLine("\n** Opponent style **");
             Console.WriteLine($"style is rock {rockProb.Pretty()} paper {paperProb.Pretty()} scissor {scissorsProb.Pretty()}");
 
-            var q = new Lib.QLearning
+            var q = new QLearning
             {
                 Episodes = 1000,
                 Alpha = 0.1,
@@ -61,29 +59,29 @@ namespace QLearning.Examples
             //
 
             // States
-            var beginState = new Lib.State(State.Begin);
+            var beginState = new State(S.Begin);
             q.AddState(beginState);
-            q.AddState(new Lib.State(State.Rock), isEndState: true);
-            q.AddState(new Lib.State(State.Paper), isEndState: true);
-            q.AddState(new Lib.State(State.Scissors), isEndState: true);
+            q.AddState(new State(S.Rock), isEndState: true);
+            q.AddState(new State(S.Paper), isEndState: true);
+            q.AddState(new State(S.Scissors), isEndState: true);
 
             // "Rock" action
-            beginState.AddAction(new Action(State.Rock))
-                .AddResult(State.Rock, rockProb, 0)
-                .AddResult(State.Paper, paperProb, -10)
-                .AddResult(State.Scissors, scissorsProb, 100);
+            beginState.AddAction(new Action(S.Rock))
+                .AddResult(S.Rock, rockProb, 0)
+                .AddResult(S.Paper, paperProb, -10)
+                .AddResult(S.Scissors, scissorsProb, 100);
 
             // "Paper" action
-            beginState.AddAction(new Action( State.Paper))
-                .AddResult(State.Rock, rockProb, 100)
-                .AddResult(State.Paper, paperProb, 0)
-                .AddResult(State.Scissors, scissorsProb, -10);
+            beginState.AddAction(new Action(S.Paper))
+                .AddResult(S.Rock, rockProb, 100)
+                .AddResult(S.Paper, paperProb, 0)
+                .AddResult(S.Scissors, scissorsProb, -10);
 
             // "Scissors" action
-            beginState.AddAction(new Action(State.Scissors))
-                .AddResult(State.Rock, rockProb, -10)
-                .AddResult(State.Paper, paperProb, 100)
-                .AddResult(State.Scissors, scissorsProb, 0);
+            beginState.AddAction(new Action(S.Scissors))
+                .AddResult(S.Rock, rockProb, -10)
+                .AddResult(S.Paper, paperProb, 100)
+                .AddResult(S.Scissors, scissorsProb, 0);
 
             //
             // Learning

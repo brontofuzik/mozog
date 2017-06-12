@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace QLearning.Lib
+namespace QLearning
 {
-    class Action
+    public class Action
     {
         private static readonly Random random = new Random();
 

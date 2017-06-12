@@ -1,13 +1,11 @@
 using System;
 using System.Diagnostics;
-using QLearning.Lib;
-using Action = QLearning.Lib.Action;
 
 namespace QLearning.Examples
 {
     class PathFindingBender
     {
-        internal enum States
+        internal enum S
         {
             Bedroom,
             Hallway,
@@ -34,48 +32,48 @@ namespace QLearning.Examples
             // Setup
             //
 
-            var q = new Lib.QLearning();
+            var q = new QLearning();
 
             // "Bedroom" state
-            var bedroomState = new State(States.Bedroom);
+            var bedroomState = new State(S.Bedroom);
             q.AddState(bedroomState);
 
             bedroomState.AddAction(new Action("up"))
-                .AddResult(States.Bedroom);
+                .AddResult(S.Bedroom);
             bedroomState.AddAction(new Action("right"))
-                .AddResult(States.Hallway);
+                .AddResult(S.Hallway);
             bedroomState.AddAction(new Action("down"))
-                .AddResult(States.Bedroom);
+                .AddResult(S.Bedroom);
             bedroomState.AddAction(new Action("left"))
-                .AddResult(States.Bedroom);
+                .AddResult(S.Bedroom);
 
             // "Hallway" state  
-            var hallwayState = new State(States.Hallway);
+            var hallwayState = new State(S.Hallway);
             q.AddState(hallwayState);
 
             hallwayState.AddAction(new Action("up"))
-                .AddResult(States.Hallway);
+                .AddResult(S.Hallway);
             hallwayState.AddAction(new Action("right"))
-                .AddResult(States.Hallway);
+                .AddResult(S.Hallway);
             hallwayState.AddAction(new Action("down"))
-                .AddResult(States.Stairwell);
+                .AddResult(S.Stairwell);
             hallwayState.AddAction(new Action("left"))
-                .AddResult(States.Bedroom);
+                .AddResult(S.Bedroom);
 
             // "Stairway" state
-            var stairwellState = new State(States.Stairwell);
+            var stairwellState = new State(S.Stairwell);
             q.AddState(stairwellState);
 
             stairwellState.AddAction(new Action("up"))
-                .AddResult(States.Hallway);
+                .AddResult(S.Hallway);
             stairwellState.AddAction(new Action("right"))
-                .AddResult(States.Stairwell);
+                .AddResult(S.Stairwell);
             stairwellState.AddAction(new Action("down"))
-                .AddResult(States.Stairwell);
+                .AddResult(S.Stairwell);
             stairwellState.AddAction(new Action("left"))
-                .AddResult(States.Kitchen, 1.0, 100);
+                .AddResult(S.Kitchen, 1.0, 100);
 
-            var kitchenState = new State(States.Kitchen);
+            var kitchenState = new State(S.Kitchen);
             q.AddState(kitchenState, isEndState: true);
 
             //

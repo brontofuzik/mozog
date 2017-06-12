@@ -1,6 +1,6 @@
-namespace QLearning.Lib
+namespace QLearning
 {
-    class ActionResult
+    public class ActionResult
     {
         public ActionResult(string nextState = null, double probability = 1, double reward = 0)
         {
