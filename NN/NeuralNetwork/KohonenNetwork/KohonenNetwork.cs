@@ -72,7 +72,7 @@ namespace NeuralNetwork.KohonenNetwork
             {
                 tmp += _outputLayerDimensions[i] * _outputLayerDimensions[i];
             }
-            _outputLayerDiameter = Math.Sqrt(tmp);
+            _outputLayerDiameter = System.Math.Sqrt(tmp);
         }
 
         /// <summary>
@@ -198,9 +198,9 @@ namespace NeuralNetwork.KohonenNetwork
             {
                 // Draw the neuron.
                 double xWeight = _outputLayerNeuronWeights[outputNeuronIndex][0];
-                int xCoordinate = (int)Math.Round(xWeight * bitmapWidth);
+                int xCoordinate = (int)System.Math.Round(xWeight * bitmapWidth);
                 double yWeight = _outputLayerNeuronWeights[outputNeuronIndex].Length > 1 ? _outputLayerNeuronWeights[outputNeuronIndex][1] : 0.5;
-                int yCoordinate = (int)Math.Round(yWeight * bitmapHeight);
+                int yCoordinate = (int)System.Math.Round(yWeight * bitmapHeight);
 
                 graphics.DrawEllipse(pen, xCoordinate, yCoordinate, neuronDiameter, neuronDiameter);
 
@@ -209,9 +209,9 @@ namespace NeuralNetwork.KohonenNetwork
                 foreach (int neighbourOutputNeuronIndex in neighbourOutputNeuronsIndices)
                 {
                     double neighbourXWeight = _outputLayerNeuronWeights[neighbourOutputNeuronIndex][0];
-                    int neighbourXCoordinate = (int)Math.Round(neighbourXWeight * bitmapWidth);
+                    int neighbourXCoordinate = (int)System.Math.Round(neighbourXWeight * bitmapWidth);
                     double neighbourYWeight = _outputLayerNeuronWeights[neighbourOutputNeuronIndex].Length > 1 ? _outputLayerNeuronWeights[neighbourOutputNeuronIndex][1] : 0.5;
-                    int neighbourYCoordinate = (int)Math.Round(neighbourYWeight * bitmapHeight);
+                    int neighbourYCoordinate = (int)System.Math.Round(neighbourYWeight * bitmapHeight);
 
                     graphics.DrawLine(pen, xCoordinate, yCoordinate, neighbourXCoordinate, neighbourYCoordinate);
                 }

@@ -103,7 +103,7 @@ namespace NeuralNetwork.Data
         }
 
         public IDataSet Split(double ratio, bool random)
-            => Split((int)Math.Round(ratio * Size), random);
+            => Split((int)System.Math.Round(ratio * Size), random);
 
         private static (T[] first, T[] second) SplitArray<T>(T[] array, int size)
             => (array.Take(size).ToArray(), array.Skip(size).ToArray());
