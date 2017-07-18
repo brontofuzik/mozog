@@ -30,7 +30,9 @@ namespace SimulatedAnnealing.Examples
             Console.WriteLine($"Duration: {elapsedTime.TotalSeconds} s");
             Console.WriteLine($"Number of iterations: {result.Iterations}");
             Console.WriteLine($"Solution: {result.State}");
-            Console.WriteLine(new String('=', 80));
+            Console.WriteLine(Separator);
         }
+
+        private static readonly string Separator = new String('=', 80);
     }
 }

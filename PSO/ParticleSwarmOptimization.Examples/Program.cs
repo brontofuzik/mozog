@@ -9,9 +9,9 @@ namespace ParticleSwarmOptimization.Examples
         public static void Main(string[] args)
         {
             Run("Beale function", FunctionOptimization.BealeFunction);
-            //Run("Griewank function", FunctionOptimization.GriewankFunction);
-            //Run("Rosenbrock function", FunctionOptimization.RosenbrockFunction);
-            //Run("Sphere function", FunctionOptimization.SphereFunction);
+            Run("Griewank function", FunctionOptimization.GriewankFunction);
+            Run("Rosenbrock function", FunctionOptimization.RosenbrockFunction);
+            Run("Sphere function", FunctionOptimization.SphereFunction);
         }
 
         private static void Run(string testName, Swarm optimizer, int maxIterations = 10_000)
@@ -24,6 +24,9 @@ namespace ParticleSwarmOptimization.Examples
             Console.WriteLine($"Duration: {elapsedTime.TotalSeconds} s");
             Console.WriteLine($"Number of iterations: {result.Iterations}");
             Console.WriteLine($"Solution: {Vector.ToString(result.Position)} = {result.Error}");
+            Console.WriteLine(Separator);
         }
+
+        private static readonly string Separator = new String('=', 80);
     }
 }

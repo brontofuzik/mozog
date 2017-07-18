@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 
 namespace Mozog.Utils.Math
@@ -30,6 +31,9 @@ namespace Mozog.Utils.Math
 
             return min + (max - min) * random.Value.NextDouble();
         }
+
+        public static double[] DoubleArray(int dimension, double min, double max)
+            => dimension.Times(() => Double(min, max)).ToArray();
 
         public static double Normal(double mean, double stdDev)
         {

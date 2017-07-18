@@ -17,14 +17,15 @@ namespace ParticleSwarmOptimization.Examples
         public static Swarm SphereFunction => Optimizer(Functions.Sphere, Functions.SphereDimension);
 
         private static Swarm Optimizer(Func<double[], double> func, int dimension)
-            => new Swarm(dimension, swarmSize:60, neighbours: 5)
+            => new Swarm(dimension, swarmSize: 60, neighbours: 5)
             {
                 ObjetiveFunction = LambdaObjectiveFunction.Minimize(func, -10, +10),
-                InitializePosition = algo => UniformArray(algo.Dimension, algo.Min, algo.Max),
-                InitializeVelocity = algo => UniformArray(algo.Dimension, -(algo.Max - algo.Min), -(algo.Max - algo.Min))
+                InitializePosition = p => StaticRandom.DoubleArray(p.Dimension, p.Min, p.Max),
+                InitializeVelocity = p =>
+                {
+                    var maxVelocity = p.Max - p.Min;
+                    return StaticRandom.DoubleArray(p.Dimension, -maxVelocity, maxVelocity);
+                }
             };
-
-        private static double[] UniformArray(int dimension, double min, double max)
-            => dimension.Times(() => StaticRandom.Double(min, max)).ToArray();
     }
 }
