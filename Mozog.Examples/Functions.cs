@@ -16,6 +16,18 @@ namespace Mozog.Examples
             return -20 * Exp(-0.2 * Sqrt(0.5 * (Pow(x, 2) + Pow(y, 2)))) - Exp(0.5 * (Cos(2 * PI * x) + Cos(2 * PI * y))) + E + 20;
         };
 
+        // Beale function
+        // Minimum: f(3, 0.5) = 0
+        public static double Beale(double[] xs)
+        {
+            double x = xs[0];
+            double y = xs[1];
+
+            return (1.5 - x + x * y) * (1.5 - x + x * y)
+                   + (2.25 - x + x * y * y) * (2.25 - x + x * y * y)
+                   + (2.625 - x + x * y * y * y) * (2.625 - x + x * y * y * y);
+        }
+
         // Goldestein & Price function (2D)
         // Minimum: f(0, -1) = 3
         public static Func<double[], double> GoldsteinPrice => s =>
@@ -26,6 +38,25 @@ namespace Mozog.Examples
             return (1 + Pow(x + y + 1, 2) * (19 - 14 * x + 3 * Pow(x, 2) - 14 * y + 6 * x * y + 3 * Pow(y, 2)))
                    * (30 + Pow(2 * x - 3 * y, 2) * (18 - 32 * x + 12 * Pow(x, 2) + 48 * y - 36 * x * y + 27 * Pow(y, 2)));
         };
+
+        // Griewank function
+        // Minimum: f(0, 0, ..., 0) = 0
+        public static double Griewank(double[] xs)
+        {
+            double f = 0;
+            double p = 1;
+
+            for (int d = 0; d < xs.Length; d++)
+            {
+                double xd = xs[d];
+                f = f + xd * xd;
+                p = p * Cos(xd / Sqrt(d + 1));
+            }
+
+            f = 1 + f / 4000 - p;
+
+            return f;
+        }
 
         // Rastrigin function (2D)
         // Minimum: f(0, 0) = 0

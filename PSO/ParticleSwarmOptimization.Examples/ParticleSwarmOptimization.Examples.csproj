@@ -48,11 +48,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FunctionOptimization.cs" />
-    <Compile Include="Functions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Mozog.Examples\Mozog.Examples.csproj">
+      <Project>{66ef9bbf-b079-469a-ae19-010556d4a8fd}</Project>
+      <Name>Mozog.Examples</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Mozog.Utils\Mozog.Utils.csproj">
       <Project>{47cb5c11-3dce-4768-ab1f-ffc1cfd55167}</Project>
       <Name>Mozog.Utils</Name>
