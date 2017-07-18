@@ -32,7 +32,7 @@ namespace AntColonyOptimization
 
         #endregion // Functions
 
-        public Result<double> Run(int antCount, int gaussianCount, double? targetEvaluation = null, int? maxIterations = null)
+        public Result<double> Run(int antCount, int gaussianCount, int? maxIterations = null, double? targetEvaluation = null)
         {
             this.maxIterations = maxIterations ?? Int32.MaxValue;
             this.targetEvaluation = targetEvaluation ?? (Objective == Objective.Minimize ? Double.MinValue : Double.MaxValue);

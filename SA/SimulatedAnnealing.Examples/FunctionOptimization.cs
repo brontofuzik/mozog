@@ -12,17 +12,17 @@ namespace SimulatedAnnealing.Examples
 {
     static class FunctionOptimization
     {
-        public static SimulatedAnnealing<double> RastriginFunction
-            => Optimizer(2, Mozog.Examples.Functions.Rastrigin, -5.12, +5.12);
-
         public static SimulatedAnnealing<double> AckleyFunction
             => Optimizer(2, Mozog.Examples.Functions.Ackley, -5, +5);
 
-        public static SimulatedAnnealing<double> SphereFunction
-            => Optimizer(2, Mozog.Examples.Functions.Sphere, -10, +10);
+        public static SimulatedAnnealing<double> RastriginFunction
+            => Optimizer(2, Mozog.Examples.Functions.Rastrigin, -5.12, +5.12);
 
         public static SimulatedAnnealing<double> RosenbrockFunction
             => Optimizer(2, Mozog.Examples.Functions.Rosenbrock, -10, +10);
+
+        public static SimulatedAnnealing<double> SphereFunction
+            => Optimizer(2, Mozog.Examples.Functions.Sphere, -10, +10);
 
         // Unknown 1D function
         // Minimum: f(x) = 0

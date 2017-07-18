@@ -8,29 +8,29 @@ namespace AntColonyOptimization.Examples
     {
         public static void Main(string[] args)
         {
-            //Run("Sphere model function (SM)", FunctionOptimization.SphereFunction, 
-            //    ants: 8, pdfs: 3, maxIterations: 10_000);
-
             //Run("Goldstein and Price function (GP)", FunctionOptimization.GoldsteinPriceFunction,
-            //    ants: 6, pdfs: 4, maxIterations: 10_000);
-
+            //    ants: 6, pdfs: 4);
             //Run("Rosenbrock function (R2)", FunctionOptimization.RosenbrockFunction,
-            //    ants: 30, pdfs: 8, maxIterations: 10_000);
-
+            //    ants: 30, pdfs: 8);
+            Run("Sphere model function (SM)", FunctionOptimization.SphereFunction,
+                ants: 8, pdfs: 3);
             //Run("Zakharov function (Z2)", FunctionOptimization.ZakharovFunction,
-            //    ants: 8, pdfs: 4, maxIterations: 10_000);
+            //    ants: 8, pdfs: 4);
         }
 
-        private static void Run(string testDescription, AntColonyOptimization algo, int ants, int pdfs, double? targetEvaluation = null, int? maxIterations = null)
+        private static void Run(string testDescription, AntColonyOptimization algo, int ants, int pdfs, int? maxIterations = 10_000, double? targetEvaluation = null)
         {
             Console.WriteLine(testDescription);
 
-            var (result, elapsedTime) = Misc.MeasureTime(() => algo.Run(ants, pdfs, targetEvaluation, maxIterations));
+            var (result, elapsedTime) = Misc.MeasureTime(() => algo.Run(ants, pdfs, maxIterations, targetEvaluation));
 
             // Print the results.
             Console.WriteLine($"Duration: {elapsedTime.TotalSeconds} s");
             Console.WriteLine($"Number of iterations: {result.Iterations}");
             Console.WriteLine($"Solution: {Vector.ToString(result.Solution)} = {result.Evaluation:F2}");
+            Console.WriteLine(Separator);
         }
+
+        private static readonly string Separator = new String('=', 80);
     }
 }

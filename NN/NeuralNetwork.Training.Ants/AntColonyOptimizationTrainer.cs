@@ -18,8 +18,7 @@ namespace NeuralNetwork.Training.Ants
                 })
             };
 
-            var result = networkOptimization.Run(antCount: 100, gaussianCount: 10,
-                targetEvaluation: args.MaxError, maxIterations: args.MaxIterations);
+            var result = networkOptimization.Run(antCount: 100, gaussianCount: 10, maxIterations: args.MaxIterations, targetEvaluation: args.MaxError);
 
             network.SetWeights(result.Solution);
 
