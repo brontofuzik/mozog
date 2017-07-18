@@ -17,7 +17,7 @@ namespace AntColonyOptimization
 
         public double Evaluation { get; private set; }
 
-        public void ConstructSolution(List<Pheromone> pheromoneTrail)
+        public void ConstructPath(List<Pheromone> pheromoneTrail)
         {
             Steps = pheromoneTrail.Select(x => x.GetSolutionComponent()).ToArray();
         }

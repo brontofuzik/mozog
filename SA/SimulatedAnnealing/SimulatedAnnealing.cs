@@ -60,7 +60,7 @@ namespace SimulatedAnnealing
 
         #endregion // Functions
 
-        public Result<T> Run(double initialTemperature, double finalTemperature = 0.0, double targetEnergy = Double.MinValue, int maxIterations = Int32.MaxValue)
+        public Result<T> Run(double initialTemperature, double finalTemperature = 0.0, int maxIterations = Int32.MaxValue, double targetEnergy = Double.MinValue)
         {
             this.maxIterations = maxIterations;
             this.targetEnergy = targetEnergy;
@@ -69,7 +69,7 @@ namespace SimulatedAnnealing
             var currentState = new State<T>(this);
 
             int iteration = 0;
-            while (!IsDone(currentState.E, iteration))
+            while (!Terminate(iteration, currentState.E))
             {
                 var candidateState = currentState.Perturb();
 
@@ -90,7 +90,8 @@ namespace SimulatedAnnealing
         private Probability AcceptCandidateState(State<T> candidateState, State<T> currentState, double temperature)
             => new Probability(Min(1, Exp(-(candidateState.E - currentState.E) / temperature)));
 
-        private bool IsDone(double energy, int iteration) => energy <= targetEnergy || iteration >= maxIterations;
+        private bool Terminate(int iteration, double energy)
+            => iteration >= maxIterations || energy <= targetEnergy ;
     }
 
     public struct Result<T>

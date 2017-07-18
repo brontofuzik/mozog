@@ -10,7 +10,7 @@ namespace AntColonyOptimization
     {
         private List<Ant> antColony;
         private List<Pheromone> pheromoneTrail;
-        private Ant globalBestAnt;
+        private Ant bestAnt;
 
         private double targetEvaluation;
         private int maxIterations;
@@ -43,36 +43,40 @@ namespace AntColonyOptimization
             while (!IsDone(iteration))
             {
                 EvaluateAntColony();
-                UpdatePheromoneTrail(iteration + 1, accuracy);
+                UpdatePheromone(iteration + 1, accuracy);
 
                 iteration++;
             }
 
-            return new Result<double>(globalBestAnt.Steps, globalBestAnt.Evaluation, iteration);
+            return new Result<double>(bestAnt.Steps, bestAnt.Evaluation, iteration);
         }
 
         private void Initialize(int gaussianCount, int antCount)
         {
             pheromoneTrail = Dimension.Times(() => new Pheromone(gaussianCount)).ToList();
             antColony = antCount.Times(() => new Ant(this)).ToList();
-            globalBestAnt = antColony.First();
+            bestAnt = antColony.First();
         }
 
         private void EvaluateAntColony()
         {
             foreach (var ant in antColony)
             {
-                ant.ConstructSolution(pheromoneTrail);
+                ant.ConstructPath(pheromoneTrail); // Generate solution
                 ant.Evaluate();
-
-                if (ant.Evaluation < globalBestAnt.Evaluation)
-                {
-                    globalBestAnt = ant;
-                }
+                UpdateBestAnt(ant);
             }
         }
 
-        private void UpdatePheromoneTrail(int iterationCount, double accuracy)
+        private void UpdateBestAnt(Ant ant)
+        {
+            if (ant.Evaluation < bestAnt.Evaluation)
+            {
+                bestAnt = ant;
+            }
+        }
+
+        private void UpdatePheromone(int iterationCount, double accuracy)
         {
             var iterationBestAnt = antColony.MaxBy(a => a.Evaluation);
 
@@ -89,7 +93,7 @@ namespace AntColonyOptimization
         }
 
         private bool IsDone(int iteration)
-            => ObjectiveFunc.IsAcceptable(globalBestAnt.Steps, targetEvaluation) || iteration >= maxIterations;
+            => ObjectiveFunc.IsAcceptable(bestAnt.Steps, targetEvaluation) || iteration >= maxIterations;
     }
 
     public struct Result<T>

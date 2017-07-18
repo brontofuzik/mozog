@@ -37,8 +37,7 @@ namespace NeuralNetwork.Training.Annealing
                 Cooling = LambdaCooling.Exponential
             };
 
-            var result = networkAnnealing.Run(initialTemperature: 1000.0, finalTemperature: 0.001,
-                targetEnergy: args.MaxError, maxIterations: args.MaxIterations);
+            var result = networkAnnealing.Run(initialTemperature: 1000.0, finalTemperature: 0.001, maxIterations: args.MaxIterations, targetEnergy: args.MaxError);
 
             network.SetWeights(result.State.S);
 

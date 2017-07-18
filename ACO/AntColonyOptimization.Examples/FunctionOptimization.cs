@@ -2,8 +2,8 @@
 {
     static class FunctionOptimization
     {
-        public static AntColonyOptimization SphereModelFunction
-            => new AntColonyOptimization(2) { ObjectiveFunc = ObjectiveFunction.Minimize(Mozog.Examples.Functions.SphereModel) };
+        public static AntColonyOptimization SphereFunction
+            => new AntColonyOptimization(2) { ObjectiveFunc = ObjectiveFunction.Minimize(Mozog.Examples.Functions.Sphere) };
 
         public static AntColonyOptimization GoldsteinPriceFunction
             => new AntColonyOptimization(2) { ObjectiveFunc = ObjectiveFunction.Minimize(Mozog.Examples.Functions.GoldsteinPrice) };

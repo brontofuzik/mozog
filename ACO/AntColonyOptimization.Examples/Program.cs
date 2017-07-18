@@ -8,7 +8,7 @@ namespace AntColonyOptimization.Examples
     {
         public static void Main(string[] args)
         {
-            //Run("Sphere model function (SM)", FunctionOptimization.SphereModelFunction, 
+            //Run("Sphere model function (SM)", FunctionOptimization.SphereFunction, 
             //    ants: 8, pdfs: 3, maxIterations: 10_000);
 
             //Run("Goldstein and Price function (GP)", FunctionOptimization.GoldsteinPriceFunction,
