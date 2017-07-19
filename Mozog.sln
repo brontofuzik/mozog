@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NN", "NN", "{0D96491B-CBF8-403A-9AE5-2A259A554ECD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Networks", "Networks", "{0D96491B-CBF8-403A-9AE5-2A259A554ECD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork", "NN\NeuralNetwork\NeuralNetwork.csproj", "{2A2E21B8-78F7-42BF-9351-97E611967BAF}"
 EndProject
@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketForecaster", "NN\Mark
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mozog.Examples", "Mozog.Examples\Mozog.Examples.csproj", "{66EF9BBF-B079-469A-AE19-010556D4A8FD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RL", "RL", "{255529A0-91B4-4FFA-9908-8C849104A796}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Learning", "Learning", "{255529A0-91B4-4FFA-9908-8C849104A796}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QLearning", "RL\QLearning\QLearning.csproj", "{FD7FA0D4-F366-4C80-8015-FB6E898EA46A}"
 EndProject
