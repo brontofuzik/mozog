@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MoreLinq;
 using Mozog.Utils;
 using Mozog.Utils.Math;
 
@@ -32,7 +31,6 @@ namespace AntColonyOptimization
         {
             gaussianKernel.ForEach(d => d.Mature());
 
-            // TODO Can we switch this?
             gaussianKernel.Remove(GetOldestDistribution());
             gaussianKernel.Add(new Gaussian(mean, stdDev));
         }

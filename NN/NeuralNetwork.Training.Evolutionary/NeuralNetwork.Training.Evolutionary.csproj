@@ -53,7 +53,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\GA\GeneticAlgorithm\GeneticAlgorithm.csproj">
+    <ProjectReference Include="..\..\Metaheuristics\GeneticAlgorithm\GeneticAlgorithm.csproj">
       <Project>{04ce86e3-ceec-4ca7-a2db-ba24f4430a64}</Project>
       <Name>GeneticAlgorithm</Name>
     </ProjectReference>

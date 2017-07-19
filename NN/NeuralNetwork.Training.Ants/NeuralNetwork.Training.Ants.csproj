@@ -53,7 +53,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ACO\AntColonyOptimization\AntColonyOptimization.csproj">
+    <ProjectReference Include="..\..\Metaheuristics\AntColonyOptimization\AntColonyOptimization.csproj">
       <Project>{b9e7eb39-f473-4b70-b3d1-ce574baed120}</Project>
       <Name>AntColonyOptimization</Name>
     </ProjectReference>

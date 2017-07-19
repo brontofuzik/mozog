@@ -53,13 +53,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Metaheuristics\SimulatedAnnealing\SimulatedAnnealing.csproj">
+      <Project>{e5f97d52-c842-4376-935f-c8132805c735}</Project>
+      <Name>SimulatedAnnealing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Mozog.Utils\Mozog.Utils.csproj">
       <Project>{47cb5c11-3dce-4768-ab1f-ffc1cfd55167}</Project>
       <Name>Mozog.Utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SA\SimulatedAnnealing\SimulatedAnnealing.csproj">
-      <Project>{e5f97d52-c842-4376-935f-c8132805c735}</Project>
-      <Name>SimulatedAnnealing</Name>
     </ProjectReference>
     <ProjectReference Include="..\NeuralNetwork\NeuralNetwork.csproj">
       <Project>{2a2e21b8-78f7-42bf-9351-97e611967baf}</Project>

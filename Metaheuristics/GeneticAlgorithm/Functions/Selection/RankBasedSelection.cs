@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using MoreLinq;
+using Mozog.Utils;
 
 namespace GeneticAlgorithm.Functions.Selection
 {
