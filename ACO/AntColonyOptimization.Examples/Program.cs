@@ -8,14 +8,14 @@ namespace AntColonyOptimization.Examples
     {
         public static void Main(string[] args)
         {
-            //Run("Goldstein and Price function (GP)", FunctionOptimization.GoldsteinPriceFunction,
-            //    ants: 6, pdfs: 4);
-            //Run("Rosenbrock function (R2)", FunctionOptimization.RosenbrockFunction,
-            //    ants: 30, pdfs: 8);
+            Run("Goldstein and Price function (GP)", FunctionOptimization.GoldsteinPriceFunction,
+                ants: 6, pdfs: 4);
+            Run("Rosenbrock function (R2)", FunctionOptimization.RosenbrockFunction,
+                ants: 30, pdfs: 8);
             Run("Sphere model function (SM)", FunctionOptimization.SphereFunction,
                 ants: 8, pdfs: 3);
-            //Run("Zakharov function (Z2)", FunctionOptimization.ZakharovFunction,
-            //    ants: 8, pdfs: 4);
+            Run("Zakharov function (Z2)", FunctionOptimization.ZakharovFunction,
+                ants: 8, pdfs: 4);
         }
 
         private static void Run(string testDescription, AntColonyOptimization algo, int ants, int pdfs, int? maxIterations = 10_000, double? targetEvaluation = null)

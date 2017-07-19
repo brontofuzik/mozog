@@ -75,11 +75,16 @@ namespace Mozog.Utils
             yield return item;
         }
 
-        // MoreLINQ
-        //public static T MaxBy<T, TProp>(this IEnumerable<T> source, Func<T, TProp> keySelector)
-        //    where TProp : IComparable
-        //{
-        //    return source.Aggregate((best, item) => keySelector(item).CompareTo(keySelector(best)) > 0 ? item : best);
-        //}
+        public static T MaxBy<T, TProp>(this IEnumerable<T> source, Func<T, TProp> keySelector)
+            where TProp : IComparable
+        {
+            return source.Aggregate((best, item) => keySelector(item).CompareTo(keySelector(best)) > 0 ? item : best);
+        }
+
+        public static T MinBy<T, TProp>(this IEnumerable<T> source, Func<T, TProp> keySelector)
+            where TProp : IComparable
+        {
+            return source.Aggregate((best, item) => keySelector(item).CompareTo(keySelector(best)) < 0 ? item : best);
+        }
     }
 }

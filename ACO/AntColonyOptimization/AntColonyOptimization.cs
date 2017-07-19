@@ -78,7 +78,7 @@ namespace AntColonyOptimization
 
         private void UpdatePheromone(int iterationCount, double accuracy)
         {
-            var iterationBestAnt = antColony.MaxBy(a => a.Evaluation);
+            var iterationBestAnt = EnumerableExtensions.MinBy(antColony, a => a.Evaluation);
 
             // Use the iteration-best ant to update the pheromone trail.
             for (int i = 0; i < pheromoneTrail.Count; i++)

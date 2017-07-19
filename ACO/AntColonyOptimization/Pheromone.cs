@@ -38,7 +38,7 @@ namespace AntColonyOptimization
         }
 
         private Gaussian GetOldestDistribution()
-            => gaussianKernel.MaxBy(g => g.Age);
+            => EnumerableExtensions.MaxBy(gaussianKernel, g => g.Age);
 
         private class Gaussian
         {
