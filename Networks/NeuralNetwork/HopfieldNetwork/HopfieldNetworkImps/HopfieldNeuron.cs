@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mozog.Utils;
 
-namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp
+namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps
 {
     class HopfieldNeuron
     {

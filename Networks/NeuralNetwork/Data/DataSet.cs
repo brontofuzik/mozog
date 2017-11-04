@@ -7,7 +7,7 @@ using Mozog.Utils.Math;
 
 namespace NeuralNetwork.Data
 {
-    public class DataSet : IDataSet
+    public class DataSet : IDataSet, IEnumerable<ILabeledDataPoint>
     {
         private readonly List<ILabeledDataPoint> points = new List<ILabeledDataPoint>();
 

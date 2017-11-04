@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mozog.Utils;
 using Mozog.Utils.Math;
 
-namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp
+namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps
 {
-    class SparseHopfieldNetworkImp
-        : IHopfieldNetworkImp
+    // TODO Hopfield
+    class SparseHopfieldNetworkImpl : IHopfieldNetworkImpl
     {
         /// <summary>
         /// Gets the bias of the neuron.
@@ -193,7 +192,7 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetwor
         /// <summary>
         /// Initializes a new instance of the HeavyweightNetworkImp class.
         /// </summary>
-        internal SparseHopfieldNetworkImp(int neuronCount, ActivationFunction activationFunction)
+        internal SparseHopfieldNetworkImpl(int neuronCount, ActivationFunction activationFunction)
         {
             _neurons = new HopfieldNeuron[neuronCount];
             for (int neuronIndex = 0; neuronIndex < neuronCount; ++neuronIndex)

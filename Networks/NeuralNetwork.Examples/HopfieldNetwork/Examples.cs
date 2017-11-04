@@ -40,7 +40,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
             // ---------------------------
 
             int neuronCount = dataSet.InputSize;
-            IHopfieldNetworkImpFactory networkImpFactory = new FullHopfieldNetworkImpFactory();
+            IHopfieldNetworkImplFactory networkImpFactory = new FullHopfieldNetworkImplFactory();
             NeuralNetwork.HopfieldNetwork.HopfieldNetwork defaultNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(neuronCount, networkImpFactory);
 
             // --------------------------

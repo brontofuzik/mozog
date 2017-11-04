@@ -1,11 +1,10 @@
 ﻿using System;
-using Mozog.Utils;
 using Mozog.Utils.Math;
 
-namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkImp
+namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps
 {
-    class FullHopfieldNetworkImp
-        : IHopfieldNetworkImp
+    // TODO Hopfield
+    class FullHopfieldNetworkImpl : IHopfieldNetworkImpl
     {
         /// <summary>
         /// Gets the bias of the neuron.
@@ -139,7 +138,7 @@ namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkI
             }
         }
 
-        internal FullHopfieldNetworkImp(int neuronCount, ActivationFunction activationFunction)
+        internal FullHopfieldNetworkImpl(int neuronCount, ActivationFunction activationFunction)
         {
             _neuronIndices = new int[neuronCount];
             for (int neuronIndex = 0; neuronIndex < neuronCount; ++neuronIndex)

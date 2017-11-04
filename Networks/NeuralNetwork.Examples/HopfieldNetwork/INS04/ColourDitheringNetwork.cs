@@ -94,7 +94,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork.INS04
                 throw new ArgumentException("The depth must be positive", nameof(depth));
             }
 
-            _underlyingHopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(width * height * depth, colourDitheringNetworkActivationFunction, new SparseHopfieldNetworkImpFactory());
+            _underlyingHopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(width * height * depth, colourDitheringNetworkActivationFunction, new SparseHopfieldNetworkImplFactory());
             _width = width;
             _height = height;
             _depth = depth;

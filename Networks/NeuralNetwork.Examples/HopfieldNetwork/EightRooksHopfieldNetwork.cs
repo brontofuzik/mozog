@@ -9,7 +9,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
         /// </summary>
         public EightRooksHopfieldNetwork()
         {
-            _hopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(64, eightRooksNetworkActivationFunction, new SparseHopfieldNetworkImpFactory());
+            _hopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(64, eightRooksNetworkActivationFunction, new SparseHopfieldNetworkImplFactory());
         }
 
         /// <summary>

@@ -80,7 +80,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork.INS03
                 throw new ArgumentException("The height must be positive.", nameof(height));
             }
 
-            _underlyingHopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(width * height, grayscaleDitheringNetworkActivationFunction, new SparseHopfieldNetworkImpFactory());
+            _underlyingHopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(width * height, grayscaleDitheringNetworkActivationFunction, new SparseHopfieldNetworkImplFactory());
             _width = width;
             _height = height;
         }

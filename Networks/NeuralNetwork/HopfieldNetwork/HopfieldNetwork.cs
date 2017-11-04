@@ -1,172 +1,131 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using Mozog.Utils;
 using NeuralNetwork.Data;
 using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps;
-using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp;
-using NeuralNetwork.Training;
 
 namespace NeuralNetwork.HopfieldNetwork
 {
-    public class HopfieldNetwork
-        : IHopfieldNetwork
+    public class HopfieldNetwork : IHopfieldNetwork
     {
-        /// <summary>
-        /// Initializes a new HopfieldNetwork class.
-        /// </summary>
-        /// <param name="neuronCount">The number of neurons.</param>
-        /// <param name="activationFunction">The activation function.</param>
-        /// <param name="hopfieldNetworkImpFactory">The Hopfield network implementation factory.</param>
-        public HopfieldNetwork(int neuronCount, ActivationFunction activationFunction, IHopfieldNetworkImpFactory hopfieldNetworkImpFactory)
+        private static ActivationFunction DefaultActivation = (double input, double evaluationProgress) => Math.Sign(input);
+
+        private IHopfieldNetworkImpl networkImpl;
+
+        public HopfieldNetwork(int neuronCount, bool sparse, ActivationFunction activationFunction)
         {
-            _hopfieldNetworkImp = hopfieldNetworkImpFactory.CreateHopfieldNetworkImp(neuronCount, activationFunction);
+            Require.IsPositive(neuronCount, nameof(neuronCount));
+            Require.IsNotNull(activationFunction, nameof(activationFunction));
+
+            networkImpl = sparse
+                ? (IHopfieldNetworkImpl)new SparseHopfieldNetworkImpl(neuronCount, activationFunction)
+                : (IHopfieldNetworkImpl)new FullHopfieldNetworkImpl(neuronCount, activationFunction);
         }
 
-        /// <summary>
-        /// Initializes a new HopfieldNetwork class.
-        /// </summary>
-        /// <param name="neuronCount">The number of neurons.</param>
-        /// <param name="activationFunction">The activation function.</param>
         public HopfieldNetwork(int neuronCount, ActivationFunction activationFunction)
-            : this(neuronCount, activationFunction, new SparseHopfieldNetworkImpFactory())
+            : this(neuronCount, false, activationFunction)
         {
         }
 
-        /// <summary>
-        /// Initializes a new HopfieldNetwork class.
-        /// </summary>
-        /// <param name="neuronCount">The number of neurons.</param>
-        /// <param name="hopfieldNetworkImpFactory">The Hopfield network implementation factory.</param>
-        public HopfieldNetwork(int neuronCount, IHopfieldNetworkImpFactory hopfieldNetworkImpFactory)
-            : this(neuronCount, activationFunction, hopfieldNetworkImpFactory)
+        public HopfieldNetwork(int neuronCount, bool sparse)
+            : this(neuronCount, sparse, DefaultActivation)
         {
         }
 
-        /// <summary>
-        /// Initializes a new HopfieldNetwork class.
-        /// </summary>
-        /// <param name="neuronCount">The number of neurons.</param>
         public HopfieldNetwork(int neuronCount)
-            : this(neuronCount, activationFunction, new SparseHopfieldNetworkImpFactory())
+            : this(neuronCount, false, DefaultActivation)
         {
         }
 
-        /// <summary>
-        /// Trains the network.
-        /// </summary>
-        /// <param name="dataSet">The training set.</param>
-        public void Train(DataSet dataSet)
-        {
-            // The training set mmust be provided.
-            Require.IsNotNull(dataSet, "trainingSet");
+        public int NeuronCount => networkImpl.NeuronCount;
 
-            // The training set must be compatible with the network.
-            if (dataSet.InputSize != NeuronCount)
-            {
-                throw new ArgumentException("The training set is not compatible with the network.", nameof(dataSet));
-            }
+        public int SynapseCount => networkImpl.SynapseCount;
 
-            // Train the neurons.
-            for (int neuronIndex = 0; neuronIndex < NeuronCount; ++neuronIndex)
-            {
-                TrainNeuron(neuronIndex, dataSet);
-            }
-        }
+        public double Energy => networkImpl.Energy;
 
-        /// <summary>
-        /// Gets the bias of a neuron.
-        /// </summary>
-        /// <param name="neuronIndex">The index of the neuron.</param>
-        /// <returns>The bias of the neuron.</returns>
         public double GetNeuronBias(int neuronIndex)
         {
             Require.IsWithinRange(neuronIndex, nameof(neuronIndex), 0, NeuronCount - 1);
 
-            return _hopfieldNetworkImp.GetNeuronBias(neuronIndex);
+            return networkImpl.GetNeuronBias(neuronIndex);
         }
 
-        /// <summary>
-        /// Sets the bias of a neuron.
-        /// </summary>
-        /// <param name="neuronIndex">The index of the neuron.</param>
-        /// <param name="neuronBias">The bias of the neuron.</param>
         public void SetNeuronBias(int neuronIndex, double neuronBias)
         {
             Require.IsWithinRange(neuronIndex, nameof(neuronIndex), 0, NeuronCount - 1);
 
-            _hopfieldNetworkImp.SetNeuronBias(neuronIndex, neuronBias);
+            networkImpl.SetNeuronBias(neuronIndex, neuronBias);
         }
 
-        /// <summary>
-        /// Gets the weight of a synapse.
-        /// </summary>
-        /// <param name="neuronIndex">The index of the neruon.</param>
-        /// <param name="sourceNeuronIndex">The index of the source neuron.</param>
-        /// <returns>The weight of the synapse.</returns>
         public double GetSynapseWeight(int neuronIndex, int sourceNeuronIndex)
         {
             Require.IsWithinRange(neuronIndex, nameof(neuronIndex), 0, NeuronCount - 1);
             Require.IsWithinRange(sourceNeuronIndex, nameof(sourceNeuronIndex), 0, NeuronCount - 1);
 
-            return _hopfieldNetworkImp.GetSynapseWeight(neuronIndex, sourceNeuronIndex);
+            return networkImpl.GetSynapseWeight(neuronIndex, sourceNeuronIndex);
         }
 
-        /// <summary>
-        /// Sets the weight of a synapse.
-        /// </summary>
-        /// <param name="neuronIndex">The index of the neuron.</param>
-        /// <param name="sourceNeuronIndex">The index of the source neuron.</param>
-        /// <param name="synapseWeight">The weight of the synapse.</param>
         public void SetSynapseWeight(int neuronIndex, int sourceNeuronIndex, double synapseWeight)
         {
             Require.IsWithinRange(neuronIndex, nameof(neuronIndex), 0, NeuronCount - 1);
             Require.IsWithinRange(sourceNeuronIndex, nameof(sourceNeuronIndex), 0, NeuronCount - 1);
 
-            _hopfieldNetworkImp.SetSynapseWeight(neuronIndex, sourceNeuronIndex, synapseWeight);
+            networkImpl.SetSynapseWeight(neuronIndex, sourceNeuronIndex, synapseWeight);
         }
 
-        /// <summary>
-        /// Evaluates the Hopfield network.
-        /// </summary>
-        /// <param name="patternToRecall">The pattern to recall.</param>
-        /// <param name="evaluationIterationCount">The number of evaluation iterations.</param>
-        /// <returns>The recalled pattern.</returns>
-        public double[] Evaluate(double[] patternToRecall, int evaluationIterationCount)
+        public void Train(DataSet data)
         {
-            // Ensure the pattern to recall is compatible with the Hopfield network,
-            // i.e. the length of the pattern is equal to the number of neurons in the network.
-            if (patternToRecall.Length != NeuronCount)
-            {
-                throw new ArgumentException("The pattern to recall is not compatible with the Hopfield network.", nameof(patternToRecall));
-            }
+            Require.IsNotNull(data, nameof(data));
 
-            // Ensure the number of iterations is not negative.
-            if (evaluationIterationCount < 0)
-            {
-                throw new ArgumentException("The number of iterations cannot be negative.", nameof(evaluationIterationCount));
-            }
+            if (data.InputSize != NeuronCount)
+                throw new ArgumentException("The training set is not compatible with the network.", nameof(data));
 
-            _hopfieldNetworkImp.SetNetworkInput(patternToRecall);
-            for (int iterationIndex = 0; iterationIndex < evaluationIterationCount; ++iterationIndex)
-            {
-                Trace.WriteLine($"{iterationIndex}: network energy = {_hopfieldNetworkImp.Energy:0.000}");
-
-                double evaluationProgressRatio = iterationIndex / (double)evaluationIterationCount;
-                _hopfieldNetworkImp.Evaluate(evaluationProgressRatio);
-            }
-            double[] recalledPattern = _hopfieldNetworkImp.GetNetworkOutput();
-
-            return recalledPattern;
+            for (int neuronIndex = 0; neuronIndex < NeuronCount; ++neuronIndex)
+                TrainNeuron(neuronIndex, data);
         }
 
-        /// <summary>
-        /// Converts the Hopfield network to its string representation.
-        /// </summary>
-        /// <returns>The string representation of the Hopfield network.</returns>
+        private void TrainNeuron(int neuronIndex, DataSet data)
+        {
+            SetNeuronBias(neuronIndex, 0.0);
+
+            for (int sourceNeuronIndex = 0; sourceNeuronIndex < NeuronCount; sourceNeuronIndex++)
+            {
+                if (sourceNeuronIndex == neuronIndex) continue;
+                TrainSynapse(neuronIndex, sourceNeuronIndex, data);
+            }
+        }
+
+        private void TrainSynapse(int neuronIndex, int sourceNeuronIndex, DataSet data)
+        {
+            double synapseWeight = data.Select(p => p.Input[neuronIndex] * p.Input[sourceNeuronIndex]).Aggregate((a, b) => a + b);
+            SetSynapseWeight(neuronIndex, sourceNeuronIndex, synapseWeight);
+        }
+
+        public double[] Evaluate(double[] pattern, int iterations)
+        {
+            if (pattern.Length != NeuronCount)
+                throw new ArgumentException("The pattern to recall is not compatible with the Hopfield network.", nameof(pattern));
+
+            if (iterations < 0)
+                throw new ArgumentException("The number of iterations cannot be negative.", nameof(iterations));
+
+            networkImpl.SetNetworkInput(pattern);
+
+            for (int i = 0; i < iterations; ++i)
+            {
+                Trace.WriteLine($"{i}: Energy = {networkImpl.Energy:0.000}");
+                networkImpl.Evaluate(i / (double)iterations);
+            }
+
+            return networkImpl.GetNetworkOutput();
+        }
+
+        // TODO Hopfield
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             for (int targetNeuronIndex = 0; targetNeuronIndex < NeuronCount; ++targetNeuronIndex)
             {
                 sb.Append("[");
@@ -174,12 +133,12 @@ namespace NeuralNetwork.HopfieldNetwork
                 {
                     if (sourceNeuronIndex == targetNeuronIndex)
                     {
-                        double neuronBias = _hopfieldNetworkImp.GetNeuronBias(targetNeuronIndex);
+                        double neuronBias = networkImpl.GetNeuronBias(targetNeuronIndex);
                         sb.Append(neuronBias + " ");
                     }
                     else // (neuronIndex != sourceNeuronIndex)
                     {
-                        double synapseWeight = _hopfieldNetworkImp.GetSynapseWeight(sourceNeuronIndex, targetNeuronIndex);
+                        double synapseWeight = networkImpl.GetSynapseWeight(sourceNeuronIndex, targetNeuronIndex);
                         sb.Append(synapseWeight + " ");
                     }
                 }
@@ -191,99 +150,5 @@ namespace NeuralNetwork.HopfieldNetwork
             sb.Remove(sb.Length - 1, 1);
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Gets the number of neurons in the Hopfield network.
-        /// </summary>
-        /// <value>
-        /// The number of neurons in the Hopfield network.
-        /// </value>
-        public int NeuronCount
-        {
-            get
-            {
-                return _hopfieldNetworkImp.NeuronCount;
-            }
-        }
-
-        /// <summary>
-        /// Gets the number of synapses in the Hopfield network.
-        /// </summary>
-        /// <value>
-        /// The number of synapses in the Hopfield network.
-        /// </value>
-        public int SynapseCount
-        {
-            get
-            {
-                return _hopfieldNetworkImp.SynapseCount;
-            }
-        }
-
-        /// <summary>
-        /// Gets the energy of the Hopfield network.
-        /// </summary>
-        /// <value>
-        /// The energy of the Hopfield network.
-        /// </value>
-        public double Energy
-        {
-            get
-            {
-                return _hopfieldNetworkImp.Energy;
-            }
-        }
-
-        private static double activationFunction(double input, double evalautionProgressRatio)
-        {
-            return Math.Sign(input);
-        }
-
-        /// <summary>
-        /// Trains a neuron.
-        /// </summary>
-        /// <param name="neuronIndex">The index of the neuron.</param>
-        /// <param name="trainingSet">The training set.</param>
-        private void TrainNeuron(int neuronIndex, DataSet trainingSet)
-        {
-            // No validation here.
-
-            double neuronBias = 0.0;
-            SetNeuronBias(neuronIndex, neuronBias);
-
-            // Train the synapses.
-            for (int sourceNeuronIndex = 0; sourceNeuronIndex < NeuronCount; ++sourceNeuronIndex)
-            {
-                if (sourceNeuronIndex == neuronIndex)
-                {
-                    continue;
-                }
-
-                TrainSynapse(neuronIndex, sourceNeuronIndex, trainingSet);
-            }
-        }
-
-        /// <summary>
-        /// Trains a synapse.
-        /// </summary>
-        /// <param name="neuronIndex">The index of the neuron</param>
-        /// <param name="sourceNeuronIndex">The index of the source neuron.</param>
-        /// <param name="data">The training set.</param>
-        private void TrainSynapse(int neuronIndex, int sourceNeuronIndex, DataSet data)
-        {
-            // No validation here.
-
-            double synapseWeight = 0.0;
-            foreach (var point in data)
-            {
-                synapseWeight += point.Input[neuronIndex] * point.Input[sourceNeuronIndex];
-            }
-            SetSynapseWeight(neuronIndex, sourceNeuronIndex, synapseWeight);
-        }
-
-        /// <summary>
-        /// The Hopfield network implementation.
-        /// </summary>
-        private IHopfieldNetworkImp _hopfieldNetworkImp;
     }
 }

@@ -10,7 +10,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
         /// <param name="neuronCount"></param>
         public MultiflopHopfieldNetwork(int neuronCount)
         {
-            _hopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(neuronCount, multiflopNetworkActivationFunction, new FullHopfieldNetworkImpFactory());
+            _hopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(neuronCount, multiflopNetworkActivationFunction, new FullHopfieldNetworkImplFactory());
         }
 
         public void Train()
