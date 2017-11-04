@@ -1,221 +1,115 @@
 ﻿using System;
+using System.Linq;
 using Mozog.Utils.Math;
 
 namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps
 {
-    // TODO Hopfield
     class FullHopfieldNetworkImpl : IHopfieldNetworkImpl
     {
-        /// <summary>
-        /// Gets the bias of the neuron.
-        /// </summary>
-        /// <param name="sourceNeuronIndex">The index of the neuron.</param>
-        /// <returns>The bias of the neuron.</returns>
+        private double[,] weights;
+        private double[] biases;
+
+        private ActivationFunction activationFunction;
+
+        private double[] outputs;
+
+        public FullHopfieldNetworkImpl(int neuronCount, ActivationFunction activationFunction)
+        {
+            NeuronCount = neuronCount;
+            this.activationFunction = activationFunction;
+
+            weights = new double[NeuronCount, NeuronCount];
+            biases = new double[NeuronCount];
+            outputs = new double[NeuronCount];
+        }
+
+        public int NeuronCount { get; }
+
+        public int SynapseCount => (weights.Length - NeuronCount) / 2;
+
         public double GetNeuronBias(int neuronIndex)
         {
-            return _neuronBiases[neuronIndex];
+            return biases[neuronIndex];
         }
 
-        /// <summary>
-        /// Sets the bias of the neuron.
-        /// </summary>
-        /// <param name="sourceNeuronIndex">The index of the neuron.</param>
-        /// <param name="neuronBias">The bias of the neuron.</param>
-        public void SetNeuronBias(int neuronIndex, double neuronBias)
+        public void SetNeuronBias(int neuronIndex, double bias)
         {
-            _neuronBiases[neuronIndex] = neuronBias;
+            biases[neuronIndex] = bias;
         }
 
-        /// <summary>
-        /// Gets the weight of the synapse.
-        /// </summary>
-        /// <param name="neuronIndex">The index of the first neuron.</param>
-        /// <param name="sourceNeuronIndex">The index of the second neruon.</param>
-        /// <returns>The weight of the synapse.</returns>
         public double GetSynapseWeight(int neuron1Index, int neuron2Index)
         {
-            return _synapseWeights[neuron1Index, neuron2Index];
+            return weights[neuron1Index, neuron2Index];
         }
 
-        /// <summary>
-        /// Sets the weight of the synapse.
-        /// </summary>
-        /// <param name="neuronIndex">The index of the first neuron.</param>
-        /// <param name="sourceNeuronIndex">The index of the second neruon.</param>
-        /// <param name="synapseWeight">The weight of the synapse.</param>
-        public void SetSynapseWeight(int neuron1Index, int neuron2Index, double synapseWeight)
+        public void SetSynapseWeight(int neuron1Index, int neuron2Index, double weight)
         {
-            _synapseWeights[neuron1Index, neuron2Index] = _synapseWeights[neuron2Index, neuron1Index] = synapseWeight;
+            weights[neuron1Index, neuron2Index] = weights[neuron2Index, neuron1Index] = weight;
         }
 
-        /// <summary>
-        /// Set the input of the network, i.e. the states of the neurons in the network.
-        /// </summary>
-        /// <param name="patternToRecall">The pattern to recall.</param>
-        public void SetNetworkInput(double[] patternToRecall)
+        public void SetNetworkInput(double[] input)
         {
-            Array.Copy(patternToRecall, _neuronOutputs, NeuronCount);
+            Array.Copy(input, outputs, NeuronCount);
         }
 
-        /// <summary>
-        /// Evaluats the network implementation.
-        /// </summary>
-        public void Evaluate(double progressRatio)
+        public void Evaluate(double progress)
         {
-            foreach (int neuronIndex in neuronIndicesRandomOrder)
+            foreach (int n in RandomNeurons)
+                EvaluateNeuron(n, progress);
+        }
+
+        private void EvaluateNeuron(int neuron, double progress)
+        {
+            // Calculate neuron input
+            double input = 0.0;
+            for (int sourceNeuron = 0; sourceNeuron < NeuronCount; sourceNeuron++)
             {
-                evaluateNeuron(neuronIndex, progressRatio);
+                input += weights[neuron, sourceNeuron] * outputs[sourceNeuron];
             }
+            input += biases[neuron];
+
+            // Calculate neuron output
+            outputs[neuron] = activationFunction(input, progress);
         }
 
-        /// <summary>
-        /// Gets the output of the network, i.e. the states of the neurons in the network.
-        /// </summary>
-        /// <returns>The recalled pattern.</returns>
         public double[] GetNetworkOutput()
         {
-            double[] recalledPattern = new double[NeuronCount];
-            Array.Copy(_neuronOutputs, recalledPattern, NeuronCount);
-            return recalledPattern;
+            return (double[])outputs.Clone();
         }
 
-        /// <summary>
-        /// Gets the number of neurons.
-        /// </summary>
-        /// <value>
-        /// The number of neurons.
-        /// </value>
-        public int NeuronCount
-        {
-            get
-            {
-                return _neuronIndices.Length;
-            }
-        }
-
-        /// <summary>
-        /// Gets the number of synapses.
-        /// </summary>
-        /// <value>
-        /// The number of synapses.
-        /// </value>
-        public int SynapseCount
-        {
-            get
-            {
-                return (_synapseWeights.Length - _neuronIndices.Length) / 2;
-            }
-        }
-
-        /// <summary>
-        /// Gets the energy.
-        /// </summary>
-        /// <value>
-        /// The energy.
-        /// </value>
         public double Energy
         {
             get
             {
                 double energy = 0.0;
 
-                // Calculate the energy of the synapses.
-                for (int neuronIndex = 0; neuronIndex < NeuronCount; ++neuronIndex)
+                // Syanpse energy
+                for (int neuron = 0; neuron < NeuronCount; neuron++)
                 {
-                    for (int sourceNeuronIndex = neuronIndex + 1; sourceNeuronIndex < NeuronCount; ++sourceNeuronIndex)
+                    for (int sourceNeuron = neuron + 1; sourceNeuron < NeuronCount; sourceNeuron++)
                     {
-                        energy -= _synapseWeights[neuronIndex, sourceNeuronIndex] * _neuronOutputs[neuronIndex] * _neuronOutputs[sourceNeuronIndex];
+                        energy -= weights[neuron, sourceNeuron] * outputs[neuron] * outputs[sourceNeuron];
                     }
                 }
 
-                // Calculate the energy of the neurons.
-                for (int neuronIndex = 0; neuronIndex < NeuronCount; ++neuronIndex)
+                // Neuron energy
+                for (int neuron = 0; neuron < NeuronCount; neuron++)
                 {
-                    energy -= _neuronBiases[neuronIndex] * _neuronOutputs[neuronIndex];
+                    energy -= biases[neuron] * outputs[neuron];
                 }
 
                 return energy;
             }
         }
 
-        internal FullHopfieldNetworkImpl(int neuronCount, ActivationFunction activationFunction)
-        {
-            _neuronIndices = new int[neuronCount];
-            for (int neuronIndex = 0; neuronIndex < neuronCount; ++neuronIndex)
-            {
-                _neuronIndices[neuronIndex] = neuronIndex;
-            }
-            _synapseWeights = new double[neuronCount, neuronCount];
-            _neuronBiases = new double[neuronCount];
-            _activationFunction = activationFunction;
-            _neuronOutputs = new double[neuronCount];
-        }
-
-        private void evaluateNeuron(int neuronIndex, double evaluationProgressRatio)
-        {
-            // Calculate the input of the neuron.
-            double neuronInput = 0.0;
-            for (int sourceNeuronIndex = 0; sourceNeuronIndex < NeuronCount; ++sourceNeuronIndex)
-            {
-                neuronInput += _synapseWeights[neuronIndex, sourceNeuronIndex] * _neuronOutputs[sourceNeuronIndex];
-            }
-            neuronInput += _neuronBiases[neuronIndex];
-
-            // Calculate the output of the neuron.
-            _neuronOutputs[neuronIndex] = _activationFunction(neuronInput, evaluationProgressRatio);
-        }
-
-        /// <summary>
-        /// Gets the indices of the neurons in random order.
-        /// </summary>
-        /// <value>
-        /// The indices of the neurons in random order.
-        /// </value>
-        private int[] neuronIndicesRandomOrder
+        private int[] RandomNeurons
         {
             get
             {
-                int[] neuronIndicesRandomOrder = new int[NeuronCount];
-                Array.Copy(_neuronIndices, neuronIndicesRandomOrder, NeuronCount);
-                StaticRandom.Shuffle(neuronIndicesRandomOrder);
-                return neuronIndicesRandomOrder;
+                int[] randomNeurons = Enumerable.Range(0, NeuronCount).ToArray();
+                StaticRandom.Shuffle(randomNeurons);
+                return randomNeurons;
             }
         }
-
-        /// <summary>
-        /// Gets an index of a random neuron.
-        /// </summary>
-        /// <value>
-        /// The index of a random neuron.
-        /// </value>
-        private int randomNeuronIndex
-        {
-            get
-            {
-                return StaticRandom.Int(NeuronCount);
-            }
-        }
-
-        /// <summary>
-        /// The indices of the neurons.
-        /// </summary>
-        private int[] _neuronIndices;
-
-        private double[,] _synapseWeights;
-
-        /// <summary>
-        /// The biases of the neurons.
-        /// </summary>
-        private double[] _neuronBiases;
-
-        /// <summary>
-        /// The activation function.
-        /// </summary>
-        private ActivationFunction _activationFunction;
-
-        /// <summary>
-        /// The outputs of the neurons.
-        /// </summary>
-        private double[] _neuronOutputs;
     }
 }

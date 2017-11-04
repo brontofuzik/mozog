@@ -99,19 +99,19 @@ namespace NeuralNetwork.HopfieldNetwork
 
         private void TrainSynapse(int neuronIndex, int sourceNeuronIndex, DataSet data)
         {
-            double synapseWeight = data.Select(p => p.Input[neuronIndex] * p.Input[sourceNeuronIndex]).Aggregate((a, b) => a + b);
-            SetSynapseWeight(neuronIndex, sourceNeuronIndex, synapseWeight);
+            double weight = data.Select(p => p.Input[neuronIndex] * p.Input[sourceNeuronIndex]).Sum();
+            SetSynapseWeight(neuronIndex, sourceNeuronIndex, weight);
         }
 
-        public double[] Evaluate(double[] pattern, int iterations)
+        public double[] Evaluate(double[] input, int iterations)
         {
-            if (pattern.Length != NeuronCount)
-                throw new ArgumentException("The pattern to recall is not compatible with the Hopfield network.", nameof(pattern));
+            if (input.Length != NeuronCount)
+                throw new ArgumentException("The pattern to recall is not compatible with the Hopfield network.", nameof(input));
 
             if (iterations < 0)
                 throw new ArgumentException("The number of iterations cannot be negative.", nameof(iterations));
 
-            networkImpl.SetNetworkInput(pattern);
+            networkImpl.SetNetworkInput(input);
 
             for (int i = 0; i < iterations; ++i)
             {
