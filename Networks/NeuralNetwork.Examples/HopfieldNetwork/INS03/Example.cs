@@ -3,9 +3,9 @@ using System.Drawing;
 
 namespace NeuralNetwork.Examples.HopfieldNetwork.INS03
 {
-    class Program
+    class Example
     {
-        static void _Main(string[] args)
+        public static void Run()
         {
             string[] imageFileNames = new string[] { "square" };
             int[] radii = new int[] { 0, 1, 2, 3, 4 };

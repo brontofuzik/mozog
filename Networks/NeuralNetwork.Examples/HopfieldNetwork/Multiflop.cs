@@ -1,16 +1,53 @@
-﻿using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.FullHopfieldNetworkImp;
+﻿using System;
+using Mozog.Utils.Math;
 
 namespace NeuralNetwork.Examples.HopfieldNetwork
 {
-    class MultiflopHopfieldNetwork
+    class Multiflop
     {
+        public static void Run()
+        {
+            Console.WriteLine("TestMultiflopNetwork");
+            Console.WriteLine("====================");
+
+            // --------------------------------
+            // Step 1: Create the training set.
+            // --------------------------------
+
+            // Do nothing.
+
+            // ---------------------------
+            // Step 2: Create the network.
+            // ---------------------------
+
+            int neuronCount = 4;
+            Multiflop multiflopNetwork = new Multiflop(neuronCount);
+
+            // --------------------------
+            // Step 3: Train the network.
+            // --------------------------
+
+            multiflopNetwork.Train();
+
+            // -------------------------
+            // Step 4: Test the network.
+            // -------------------------
+
+            int iterationCount = 10;
+            double[] recalledPattern = multiflopNetwork.Evaluate(iterationCount);
+
+            Console.WriteLine(Vector.ToString(recalledPattern));
+
+            Console.WriteLine();
+        }
+
         /// <summary>
         /// Initializes a new instance of the MultiflopHopfieldNetwork class.
         /// </summary>
         /// <param name="neuronCount"></param>
-        public MultiflopHopfieldNetwork(int neuronCount)
+        public Multiflop(int neuronCount)
         {
-            _hopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(neuronCount, multiflopNetworkActivationFunction, new FullHopfieldNetworkImplFactory());
+            _hopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(neuronCount, false, multiflopNetworkActivationFunction);
         }
 
         public void Train()

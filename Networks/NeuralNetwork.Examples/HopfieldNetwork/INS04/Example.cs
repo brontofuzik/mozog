@@ -3,9 +3,9 @@ using System.Drawing;
 
 namespace NeuralNetwork.Examples.HopfieldNetwork.INS04
 {
-    class Program
+    class Example
     {
-        static void _Main(string[] args)
+        public static void Run()
         {
             string imageName = "monika";
 

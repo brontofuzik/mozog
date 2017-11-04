@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp;
 
 namespace NeuralNetwork.Examples.HopfieldNetwork.INS03
 {
@@ -80,7 +79,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork.INS03
                 throw new ArgumentException("The height must be positive.", nameof(height));
             }
 
-            _underlyingHopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(width * height, grayscaleDitheringNetworkActivationFunction, new SparseHopfieldNetworkImplFactory());
+            _underlyingHopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(width * height, true, grayscaleDitheringNetworkActivationFunction);
             _width = width;
             _height = height;
         }

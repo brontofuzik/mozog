@@ -47,15 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HopfieldNetwork\EightQueensHopfieldNetwork.cs" />
-    <Compile Include="HopfieldNetwork\EightRooksHopfieldNetwork.cs" />
-    <Compile Include="HopfieldNetwork\Examples.cs" />
+    <Compile Include="HopfieldNetwork\EightQueens.cs" />
+    <Compile Include="HopfieldNetwork\EightRooks.cs" />
+    <Compile Include="HopfieldNetwork\Simple.cs" />
     <Compile Include="HopfieldNetwork\INS03\GrayscaleDitheringNetwork.cs" />
-    <Compile Include="HopfieldNetwork\INS03\Program.cs" />
+    <Compile Include="HopfieldNetwork\INS03\Example.cs" />
     <Compile Include="HopfieldNetwork\INS04\ColourDitheringNetwork.cs" />
     <Compile Include="HopfieldNetwork\INS04\PalettingNetwork.cs" />
-    <Compile Include="HopfieldNetwork\INS04\Program.cs" />
-    <Compile Include="HopfieldNetwork\MultiflopHopfieldNetwork.cs" />
+    <Compile Include="HopfieldNetwork\INS04\Example.cs" />
+    <Compile Include="HopfieldNetwork\Multiflop.cs" />
     <Compile Include="KohonenNetwork\Examples.cs" />
     <Compile Include="MultilayerPerceptron\02_Keywords\Data.cs" />
     <Compile Include="MultilayerPerceptron\01_LogicGates\Data.cs" />

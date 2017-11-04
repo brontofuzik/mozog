@@ -1,19 +1,55 @@
-﻿using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps.SparseHopfieldNetworkImp;
+﻿using System;
+using Mozog.Utils.Math;
 
 namespace NeuralNetwork.Examples.HopfieldNetwork
 {
-    class EightQueensHopfieldNetwork
+    class EightRooks
     {
-        /// <summary>
-        /// Initializes a new instance of the EightQueensNetwork class.
-        /// </summary>
-        public EightQueensHopfieldNetwork()
+        public static void Run()
         {
-            _hopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(64, eightQueensNetworkActivationFunction, new SparseHopfieldNetworkImplFactory());
+            Console.WriteLine("TestEightRooksNetwork");
+            Console.WriteLine("=====================");
+
+            // --------------------------------
+            // Step 1: Create the training set.
+            // --------------------------------
+
+            // Do nothing.
+
+            // ---------------------------
+            // Step 2: Create the network.
+            // ---------------------------
+
+            EightRooks eightRooksNetwork = new EightRooks();
+
+            // --------------------------
+            // Step 3: Train the network.
+            // --------------------------
+
+            eightRooksNetwork.Train();
+
+            // -------------------------
+            // Step 4: Test the network.
+            // -------------------------
+
+            int iterationCount = 10;
+            double[] recalledPattern = eightRooksNetwork.Evaluate(iterationCount);
+
+            Console.WriteLine(Vector.ToString(recalledPattern));
+
+            Console.WriteLine();
         }
 
         /// <summary>
-        /// Trains the eight-queens network.
+        /// Initializes a new instance of the EightRooksNetwork class.
+        /// </summary>
+        public EightRooks()
+        {
+            _hopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(64, true, eightRooksNetworkActivationFunction);
+        }
+
+        /// <summary>
+        /// Trains the eight-rooks network.
         /// </summary>
         public void Train()
         {
@@ -28,7 +64,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
         }
 
         /// <summary>
-        /// Evaluates the eight-queens network.
+        /// Evaluates the eight-rooks network.
         /// </summary>
         /// <param name="evaluationIterationCount">The number of evaluation iterations.</param>
         /// <returns>The recalled pattern.</returns>
@@ -40,15 +76,15 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
         }
 
         /// <summary>
-        /// The activation function of the eight-queens network.
+        /// The activation function of the eight-rooks network.
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        private static double eightQueensNetworkActivationFunction(double input, double evaluationProgressRatio)
+        private static double eightRooksNetworkActivationFunction(double input, double evaluationProgressRatio)
         {
             return input > 0 ? 1.0 : 0.0;
         }
-
+    
         /// <summary>
         /// Trains a neuron.
         /// </summary>
@@ -82,30 +118,6 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
             }
             // Down
             for (int sourceNeuronXCoordinate = neuronXCoordinate, sourceNeuronYCoordinate = neuronYCoordinate + 1; sourceNeuronYCoordinate < 8; ++sourceNeuronYCoordinate)
-            {
-                trainSynapse(neuronXCoordinate, neuronYCoordinate, sourceNeuronXCoordinate, sourceNeuronYCoordinate);
-            }
-
-            // The source neurons in the same primary diagonal.
-            // Left & Up
-            for (int sourceNeuronXCoordinate = neuronXCoordinate - 1, sourceNeuronYCoordinate = neuronYCoordinate - 1; 0 <= sourceNeuronXCoordinate && 0 <= sourceNeuronYCoordinate; --sourceNeuronXCoordinate, --sourceNeuronYCoordinate)
-            {
-                trainSynapse(neuronXCoordinate, neuronYCoordinate, sourceNeuronXCoordinate, sourceNeuronYCoordinate);
-            }
-            // Right & Down
-            for (int sourceNeuronXCoordinate = neuronXCoordinate + 1, sourceNeuronYCoordinate = neuronYCoordinate + 1; sourceNeuronXCoordinate < 8 && sourceNeuronYCoordinate < 8; ++sourceNeuronXCoordinate, ++sourceNeuronYCoordinate)
-            {
-                trainSynapse(neuronXCoordinate, neuronYCoordinate, sourceNeuronXCoordinate, sourceNeuronYCoordinate);
-            }
-
-            // The source neurons in the same secondary diagonal.
-            // Left & Down
-            for (int sourceNeuronXCoordinate = neuronXCoordinate - 1, sourceNeuronYCoordinate = neuronYCoordinate + 1; 0 <= sourceNeuronXCoordinate && sourceNeuronYCoordinate < 8; --sourceNeuronXCoordinate, ++sourceNeuronYCoordinate)
-            {
-                trainSynapse(neuronXCoordinate, neuronYCoordinate, sourceNeuronXCoordinate, sourceNeuronYCoordinate);
-            }
-            // Right & Up
-            for (int sourceNeuronXCoordinate = neuronXCoordinate + 1, sourceNeuronYCoordinate = neuronYCoordinate - 1; sourceNeuronXCoordinate < 8 && 0 <= sourceNeuronYCoordinate; ++sourceNeuronXCoordinate, --sourceNeuronYCoordinate)
             {
                 trainSynapse(neuronXCoordinate, neuronYCoordinate, sourceNeuronXCoordinate, sourceNeuronYCoordinate);
             }
@@ -172,7 +184,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
         {
             // Calculate the x coordinate of the neuron.
             neuronXCoordinate = neuronIndex % 8;
-            
+
             // Calculate the y coordinate of the neuron.
             neuronYCoordinate = neuronIndex / 8;
         }
