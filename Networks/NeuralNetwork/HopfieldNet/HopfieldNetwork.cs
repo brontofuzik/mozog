@@ -52,11 +52,11 @@ namespace NeuralNetwork.HopfieldNet
             return networkImpl.GetNeuronBias(neuronIndex);
         }
 
-        public void SetNeuronBias(int neuronIndex, double neuronBias)
+        public void SetNeuronBias(int neuronIndex, double bias)
         {
             Require.IsWithinRange(neuronIndex, nameof(neuronIndex), 0, NeuronCount - 1);
 
-            networkImpl.SetNeuronBias(neuronIndex, neuronBias);
+            networkImpl.SetNeuronBias(neuronIndex, bias);
         }
 
         public double GetSynapseWeight(int neuronIndex, int sourceNeuronIndex)
@@ -67,12 +67,12 @@ namespace NeuralNetwork.HopfieldNet
             return networkImpl.GetSynapseWeight(neuronIndex, sourceNeuronIndex);
         }
 
-        public void SetSynapseWeight(int neuronIndex, int sourceNeuronIndex, double synapseWeight)
+        public void SetSynapseWeight(int neuronIndex, int sourceNeuronIndex, double weight)
         {
             Require.IsWithinRange(neuronIndex, nameof(neuronIndex), 0, NeuronCount - 1);
             Require.IsWithinRange(sourceNeuronIndex, nameof(sourceNeuronIndex), 0, NeuronCount - 1);
 
-            networkImpl.SetSynapseWeight(neuronIndex, sourceNeuronIndex, synapseWeight);
+            networkImpl.SetSynapseWeight(neuronIndex, sourceNeuronIndex, weight);
         }
 
         public void Train(DataSet data)

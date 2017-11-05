@@ -17,10 +17,10 @@
             // Hopfield network
             //
 
-            HopfieldNet.Simple.Run();
+            //HopfieldNet.Simple.Run();
+            //HopfieldNet.Multiflop.Run();
             //HopfieldNetwork.EightRooks.Run();
             //HopfieldNetwork.EightQueens.Run();
-            //HopfieldNetwork.Multiflop.Run();
             //HopfieldNetwork.INS03.Example.Run();
             //HopfieldNetwork.INS04.Example.Run();
         }

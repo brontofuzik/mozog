@@ -9,10 +9,6 @@ namespace NeuralNetwork.Examples.HopfieldNet
     {
         public static void Run()
         {
-            // Parameters
-
-            int iterations = 10;
-
             // Step 1: Create the training set.
 
             var dataSet = new DataSet(10)
@@ -30,8 +26,8 @@ namespace NeuralNetwork.Examples.HopfieldNet
 
             // Step 4: Test the network.
 
-            double[] pattern = { -1.0, 1.0, 1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0 };
-            double[] recalled = net.Evaluate(pattern, iterations);
+            double[] toRecall = { -1.0, 1.0, 1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0 };
+            double[] recalled = net.Evaluate(toRecall, iterations: 10);
 
             Debug.Assert(recalled.SequenceEqual(dataSet[0].Input));
         }
