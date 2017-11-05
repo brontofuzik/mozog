@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 
-namespace NeuralNetwork.Examples.HopfieldNetwork.INS04
+namespace NeuralNetwork.Examples.HopfieldNet.INS04
 {
     class ColourDitheringNetwork
     {
@@ -93,7 +93,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork.INS04
                 throw new ArgumentException("The depth must be positive", nameof(depth));
             }
 
-            _underlyingHopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(width * height * depth, true, colourDitheringNetworkActivationFunction);
+            _underlyingHopfieldNetwork = new NeuralNetwork.HopfieldNet.HopfieldNetwork(width * height * depth, true, colourDitheringNetworkActivationFunction);
             _width = width;
             _height = height;
             _depth = depth;
@@ -608,7 +608,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork.INS04
         /// <summary>
         /// The underlying Hopfield network.
         /// </summary>
-        private NeuralNetwork.HopfieldNetwork.HopfieldNetwork _underlyingHopfieldNetwork;
+        private NeuralNetwork.HopfieldNet.HopfieldNetwork _underlyingHopfieldNetwork;
 
         /// <summary>
         /// The width of the dithering network.

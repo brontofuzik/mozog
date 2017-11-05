@@ -1,52 +1,39 @@
-﻿using System;
-using Mozog.Utils.Math;
+﻿using System.Linq;
 using NeuralNetwork.Data;
+using NeuralNetwork.HopfieldNet;
+using System.Diagnostics;
 
-namespace NeuralNetwork.Examples.HopfieldNetwork
+namespace NeuralNetwork.Examples.HopfieldNet
 {
     class Simple
     {
-        /// <summary>
-        /// Tests the Hopfield network.
-        /// </summary>
         public static void Run()
         {
-            Console.WriteLine("TestHopfieldNetwork");
-            Console.WriteLine("===================");
+            // Parameters
 
-            // --------------------------------
+            int iterations = 10;
+
             // Step 1: Create the training set.
-            // --------------------------------
 
-            var dataSet = new DataSet(10, 0)
+            var dataSet = new DataSet(10)
             {
                 new LabeledDataPoint(new[] { 1.0, 1.0, 1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, -1.0 }, new double[0])
             };
 
-            // ---------------------------
             // Step 2: Create the network.
-            // ---------------------------
 
-            int neuronCount = dataSet.InputSize;
-            NeuralNetwork.HopfieldNetwork.HopfieldNetwork defaultNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(neuronCount, sparse: false);
+            var net = new HopfieldNetwork(dataSet.InputSize, sparse: false);
 
-            // --------------------------
             // Step 3: Train the network.
-            // --------------------------
 
-            defaultNetwork.Train(dataSet);
+            net.Train(dataSet);
 
-            // -------------------------
             // Step 4: Test the network.
-            // -------------------------
 
-            double[] patternToRecall = { -1.0, 1.0, 1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0 };
-            int iterationCount = 10;
-            double[] recalledPattern = defaultNetwork.Evaluate(patternToRecall, iterationCount);
+            double[] pattern = { -1.0, 1.0, 1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0 };
+            double[] recalled = net.Evaluate(pattern, iterations);
 
-            Console.WriteLine(Vector.ToString(recalledPattern));
-
-            Console.WriteLine();
+            Debug.Assert(recalled.SequenceEqual(dataSet[0].Input));
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using NeuralNetwork.Data;
 
-namespace NeuralNetwork.HopfieldNetwork
+namespace NeuralNetwork.HopfieldNet
 {
     public interface IHopfieldNetwork
     {

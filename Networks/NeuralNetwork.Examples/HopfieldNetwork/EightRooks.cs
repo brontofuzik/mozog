@@ -1,7 +1,7 @@
 ﻿using System;
 using Mozog.Utils.Math;
 
-namespace NeuralNetwork.Examples.HopfieldNetwork
+namespace NeuralNetwork.Examples.HopfieldNet
 {
     class EightRooks
     {
@@ -45,7 +45,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
         /// </summary>
         public EightRooks()
         {
-            _hopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(64, true, eightRooksNetworkActivationFunction);
+            _hopfieldNetwork = new NeuralNetwork.HopfieldNet.HopfieldNetwork(64, true, eightRooksNetworkActivationFunction);
         }
 
         /// <summary>
@@ -211,6 +211,6 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
         /// <summary>
         /// The underlying Hopfield network.
         /// </summary>
-        private NeuralNetwork.HopfieldNetwork.HopfieldNetwork _hopfieldNetwork;
+        private NeuralNetwork.HopfieldNet.HopfieldNetwork _hopfieldNetwork;
     }
 }

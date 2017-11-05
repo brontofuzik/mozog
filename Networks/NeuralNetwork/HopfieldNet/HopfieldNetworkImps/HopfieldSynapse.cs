@@ -1,6 +1,6 @@
 ﻿using Mozog.Utils;
 
-namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps
+namespace NeuralNetwork.HopfieldNet.HopfieldNetworkImps
 {
     class HopfieldSynapse
     {

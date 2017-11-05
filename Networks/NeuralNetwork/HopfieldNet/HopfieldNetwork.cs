@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Mozog.Utils;
 using NeuralNetwork.Data;
-using NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps;
+using NeuralNetwork.HopfieldNet.HopfieldNetworkImps;
 
-namespace NeuralNetwork.HopfieldNetwork
+namespace NeuralNetwork.HopfieldNet
 {
     public class HopfieldNetwork : IHopfieldNetwork
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 
-namespace NeuralNetwork.Examples.HopfieldNetwork.INS03
+namespace NeuralNetwork.Examples.HopfieldNet.INS03
 {
     class GrayscaleDitheringNetwork
     {
@@ -79,7 +79,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork.INS03
                 throw new ArgumentException("The height must be positive.", nameof(height));
             }
 
-            _underlyingHopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(width * height, true, grayscaleDitheringNetworkActivationFunction);
+            _underlyingHopfieldNetwork = new NeuralNetwork.HopfieldNet.HopfieldNetwork(width * height, true, grayscaleDitheringNetworkActivationFunction);
             _width = width;
             _height = height;
         }
@@ -403,7 +403,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork.INS03
         /// <summary>
         /// The underlying Hopfield network.
         /// </summary>
-        private NeuralNetwork.HopfieldNetwork.HopfieldNetwork _underlyingHopfieldNetwork;
+        private NeuralNetwork.HopfieldNet.HopfieldNetwork _underlyingHopfieldNetwork;
 
         /// <summary>
         /// The width of the dithering network.

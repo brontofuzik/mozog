@@ -1,5 +1,4 @@
 ﻿using System;
-using Mozog.Utils;
 using Mozog.Utils.Math;
 using NeuralNetwork.ActivationFunctions;
 using NeuralNetwork.ErrorFunctions;

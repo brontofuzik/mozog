@@ -1,4 +1,4 @@
-﻿namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps
+﻿namespace NeuralNetwork.HopfieldNet.HopfieldNetworkImps
 {
     public interface IHopfieldNetworkImpl
     {

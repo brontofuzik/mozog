@@ -1,7 +1,7 @@
 ﻿using System;
 using Mozog.Utils.Math;
 
-namespace NeuralNetwork.Examples.HopfieldNetwork
+namespace NeuralNetwork.Examples.HopfieldNet
 {
     class Multiflop
     {
@@ -47,7 +47,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
         /// <param name="neuronCount"></param>
         public Multiflop(int neuronCount)
         {
-            _hopfieldNetwork = new NeuralNetwork.HopfieldNetwork.HopfieldNetwork(neuronCount, false, multiflopNetworkActivationFunction);
+            _hopfieldNetwork = new NeuralNetwork.HopfieldNet.HopfieldNetwork(neuronCount, false, multiflopNetworkActivationFunction);
         }
 
         public void Train()
@@ -128,6 +128,6 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
         /// <summary>
         /// The underlying Hopfield network.
         /// </summary>
-        private NeuralNetwork.HopfieldNetwork.HopfieldNetwork _hopfieldNetwork;
+        private NeuralNetwork.HopfieldNet.HopfieldNetwork _hopfieldNetwork;
     }
 }

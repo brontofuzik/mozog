@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Mozog.Utils;
 using Mozog.Utils.Math;
 
-namespace NeuralNetwork.HopfieldNetwork.HopfieldNetworkImps
+namespace NeuralNetwork.HopfieldNet.HopfieldNetworkImps
 {
     class SparseHopfieldNetworkImpl : IHopfieldNetworkImpl
     {
