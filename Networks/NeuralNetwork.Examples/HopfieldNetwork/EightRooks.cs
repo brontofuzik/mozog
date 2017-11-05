@@ -40,27 +40,22 @@ namespace NeuralNetwork.Examples.HopfieldNet
             SetNeuronBias(net, row, col, 1.0);
 
             // The source neurons in the same row.
-            for (int sourceCol = col - 1; 0 <= sourceCol; sourceCol--) // Left
-                InitializeSynapse(net, row, col, row, sourceCol);
-            for (int sourceCol = col + 1; sourceCol < 8; sourceCol++) // Right
-                InitializeSynapse(net, row, col, row, sourceCol);
+            for (int sourceCol = col - 1; 0 <= sourceCol; sourceCol--) // ←
+                SetSynapseWeight(net, row, col, row, sourceCol, -2.0);
+            for (int sourceCol = col + 1; sourceCol < 8; sourceCol++) // →
+                SetSynapseWeight(net, row, col, row, sourceCol, -2.0);
 
             // The source neurons in the same column.
-            for (int sourceRow = row - 1; 0 <= sourceRow; sourceRow--) // Up
-                InitializeSynapse(net, row, col, sourceRow, col);
-            for (int sourceRow = row + 1; sourceRow < 8; sourceRow++) // Down
-                InitializeSynapse(net, row, col, sourceRow, col);
+            for (int sourceRow = row - 1; 0 <= sourceRow; sourceRow--) // ↑
+                SetSynapseWeight(net, row, col, sourceRow, col, -2.0);
+            for (int sourceRow = row + 1; sourceRow < 8; sourceRow++) // ↓
+                SetSynapseWeight(net, row, col, sourceRow, col, -2.0);
         }
 
         private static void SetNeuronBias(HopfieldNetwork net, int row, int col, double bias)
         {
             int neuronIndex = NeuronPositionToIndex(row, col);
             net.SetNeuronBias(neuronIndex, bias);
-        }
-
-        private static void InitializeSynapse(HopfieldNetwork net, int row, int col, int sourceRow, int sourceCol)
-        {
-            SetSynapseWeight(net, row, col, sourceRow, sourceCol, -2.0);
         }
 
         private static void SetSynapseWeight(HopfieldNetwork net, int row, int col, int sourceRow, int souceCol, double weight)
