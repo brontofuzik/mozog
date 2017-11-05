@@ -19,7 +19,7 @@
 
             //HopfieldNet.Simple.Run();
             //HopfieldNet.Multiflop.Run();
-            //HopfieldNetwork.EightRooks.Run();
+            HopfieldNet.EightRooks.Run();
             //HopfieldNetwork.EightQueens.Run();
             //HopfieldNetwork.INS03.Example.Run();
             //HopfieldNetwork.INS04.Example.Run();

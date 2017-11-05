@@ -1,5 +1,6 @@
 ﻿using System;
 using Mozog.Utils.Math;
+using NeuralNetwork.HopfieldNet;
 
 namespace NeuralNetwork.Examples.HopfieldNet
 {
@@ -7,210 +8,70 @@ namespace NeuralNetwork.Examples.HopfieldNet
     {
         public static void Run()
         {
-            Console.WriteLine("TestEightRooksNetwork");
-            Console.WriteLine("=====================");
-
-            // --------------------------------
             // Step 1: Create the training set.
-            // --------------------------------
 
             // Do nothing.
 
-            // ---------------------------
             // Step 2: Create the network.
-            // ---------------------------
 
-            EightRooks eightRooksNetwork = new EightRooks();
+            int neuronCount = 64;
+            var net = new HopfieldNetwork(neuronCount, true, (input, _) => input > 0 ? 1.0 : 0.0);
 
-            // --------------------------
             // Step 3: Train the network.
-            // --------------------------
 
-            eightRooksNetwork.Train();
+            InitializeNet(net);
 
-            // -------------------------
             // Step 4: Test the network.
-            // -------------------------
 
-            int iterationCount = 10;
-            double[] recalledPattern = eightRooksNetwork.Evaluate(iterationCount);
+            double[] solution = net.Evaluate(new double[neuronCount], 10);
 
-            Console.WriteLine(Vector.ToString(recalledPattern));
-
-            Console.WriteLine();
+            Console.WriteLine(Vector.ToString(solution));
         }
 
-        /// <summary>
-        /// Initializes a new instance of the EightRooksNetwork class.
-        /// </summary>
-        public EightRooks()
+        private static void InitializeNet(HopfieldNetwork net)
         {
-            _hopfieldNetwork = new NeuralNetwork.HopfieldNet.HopfieldNetwork(64, true, eightRooksNetworkActivationFunction);
-        }
-
-        /// <summary>
-        /// Trains the eight-rooks network.
-        /// </summary>
-        public void Train()
-        {
-            // Train the neurons.
-            for (int neuronYCoordinate = 0; neuronYCoordinate < 8; ++neuronYCoordinate)
-            {
-                for (int neuronXCoordinate = 0; neuronXCoordinate < 8; ++neuronXCoordinate)
-                {
-                    trainNeuron(neuronXCoordinate, neuronYCoordinate);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Evaluates the eight-rooks network.
-        /// </summary>
-        /// <param name="evaluationIterationCount">The number of evaluation iterations.</param>
-        /// <returns>The recalled pattern.</returns>
-        public double[] Evaluate(int evaluationIterationCount)
-        {
-            double[] patternToRecall = new double[NeuronCount];
-            double[] recalledPatter = _hopfieldNetwork.Evaluate(patternToRecall, evaluationIterationCount);
-            return recalledPatter;
-        }
-
-        /// <summary>
-        /// The activation function of the eight-rooks network.
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        private static double eightRooksNetworkActivationFunction(double input, double evaluationProgressRatio)
-        {
-            return input > 0 ? 1.0 : 0.0;
+            for (int row = 0; row < 8; row++)
+                for (int col = 0; col < 8; col++)
+                    InitializeNeuron(net, row, col);
         }
     
-        /// <summary>
-        /// Trains a neuron.
-        /// </summary>
-        /// <param name="neuronXCoordinate">The x coordinate of the neuron.</param>
-        /// <param name="neuronYCoordinate">The y coordinate of the neuron.</param>
-        private void trainNeuron(int neuronXCoordinate, int neuronYCoordinate)
+        private static void InitializeNeuron(HopfieldNetwork net, int row, int col)
         {
-            // Calculate the bias of the neuron.
-            double neuronBias = 1.0;
-
-            // Set the bias of the neuron.
-            setNeuronBias(neuronXCoordinate, neuronYCoordinate, neuronBias);
+            SetNeuronBias(net, row, col, 1.0);
 
             // The source neurons in the same row.
-            // Left
-            for (int sourceNeuronXCoordinate = neuronXCoordinate - 1, sourceNeuronYCoordinate = neuronYCoordinate; 0 <= sourceNeuronXCoordinate; --sourceNeuronXCoordinate)
-            {
-                trainSynapse(neuronXCoordinate, neuronYCoordinate, sourceNeuronXCoordinate, sourceNeuronYCoordinate);
-            }
-            // Right
-            for (int sourceNeuronXCoordinate = neuronXCoordinate + 1, sourceNeuronYCoordinate = neuronYCoordinate; sourceNeuronXCoordinate < 8; ++sourceNeuronXCoordinate)
-            {
-                trainSynapse(neuronXCoordinate, neuronYCoordinate, sourceNeuronXCoordinate, sourceNeuronYCoordinate);
-            }
+            for (int sourceCol = col - 1; 0 <= sourceCol; sourceCol--) // Left
+                InitializeSynapse(net, row, col, row, sourceCol);
+            for (int sourceCol = col + 1; sourceCol < 8; sourceCol++) // Right
+                InitializeSynapse(net, row, col, row, sourceCol);
 
             // The source neurons in the same column.
-            // Up
-            for (int sourceNeuronXCoordinate = neuronXCoordinate, sourceNeuronYCoordinate = neuronYCoordinate - 1; 0 <= sourceNeuronYCoordinate; --sourceNeuronYCoordinate)
-            {
-                trainSynapse(neuronXCoordinate, neuronYCoordinate, sourceNeuronXCoordinate, sourceNeuronYCoordinate);
-            }
-            // Down
-            for (int sourceNeuronXCoordinate = neuronXCoordinate, sourceNeuronYCoordinate = neuronYCoordinate + 1; sourceNeuronYCoordinate < 8; ++sourceNeuronYCoordinate)
-            {
-                trainSynapse(neuronXCoordinate, neuronYCoordinate, sourceNeuronXCoordinate, sourceNeuronYCoordinate);
-            }
+            for (int sourceRow = row - 1; 0 <= sourceRow; sourceRow--) // Up
+                InitializeSynapse(net, row, col, sourceRow, col);
+            for (int sourceRow = row + 1; sourceRow < 8; sourceRow++) // Down
+                InitializeSynapse(net, row, col, sourceRow, col);
         }
 
-        /// <summary>
-        /// Trains a synapse.
-        /// </summary>
-        /// <param name="neuronXCoordinate">The x coordinate of the neuron.</param>
-        /// <param name="neuronYCoordinate">The y coordinate of the neuron.</param>
-        /// <param name="sourceNeuronXCoordinate">The x coordinate of the source neuron.</param>
-        /// <param name="sourceNeuronYCoordinate">The y coordinate of the source neuron.</param>
-        private void trainSynapse(int neuronXCoordinate, int neuronYCoordinate, int sourceNeuronXCoordinate, int sourceNeuronYCoordinate)
+        private static void SetNeuronBias(HopfieldNetwork net, int row, int col, double bias)
         {
-            // Calculate the bias of the synapse.
-            double synapseWeight = -2.0;
-
-            // Set the weight of the synapse.
-            setSynapseWeight(neuronXCoordinate, neuronYCoordinate, sourceNeuronXCoordinate, sourceNeuronYCoordinate, synapseWeight);
+            int neuronIndex = NeuronPositionToIndex(row, col);
+            net.SetNeuronBias(neuronIndex, bias);
         }
 
-        /// <summary>
-        /// Sets the bias of a neuron.
-        /// </summary>
-        /// <param name="neuronXCoordinate">The x coordinate of the neuron.</param>
-        /// <param name="neuronYCoordinate">The y coordinate of the neuron.</param>
-        /// <param name="neuronBias">The bias of the neuron.</param>
-        private void setNeuronBias(int neuronXCoordinate, int neuronYCoordinate, double neuronBias)
+        private static void InitializeSynapse(HopfieldNetwork net, int row, int col, int sourceRow, int sourceCol)
         {
-            // Calculate the index of the neuron.
-            int neuronIndex = neuronCoordinatesToIndex(neuronXCoordinate, neuronYCoordinate);
-
-            // Set the bias of the neuron in the underlying network.
-            _hopfieldNetwork.SetNeuronBias(neuronIndex, neuronBias);
+            SetSynapseWeight(net, row, col, sourceRow, sourceCol, -2.0);
         }
 
-        /// <summary>
-        /// Sets the weight of a synapse.
-        /// </summary>
-        /// <param name="neuronXCoordinate">The x coordinate of the neuron.</param>
-        /// <param name="neuronYCoordinate">The y coordinate of the neuron.</param>
-        /// <param name="sourceNeuronXCoordinate">The x coordinate of the source neuron.</param>
-        /// <param name="sourceNeuronYCoordinate">The y coordinate of the source neuron.</param>
-        /// <param name="synapseWeight">The weight of the synapse.</param>
-        private void setSynapseWeight(int neuronXCoordinate, int neuronYCoordinate, int sourceNeuronXCoordinate, int sourceNeuronYCoordinate, double synapseWeight)
+        private static void SetSynapseWeight(HopfieldNetwork net, int row, int col, int sourceRow, int souceCol, double weight)
         {
-            // Calculate the index of the neuron.
-            int neuronIndex = neuronCoordinatesToIndex(neuronXCoordinate, neuronYCoordinate);
-
-            // Calculate the index of the source neuron.
-            int sourceNeuronIndex = neuronCoordinatesToIndex(sourceNeuronXCoordinate, sourceNeuronYCoordinate);
-
-            // Set the weight of the synapse in the underlying network.
-            _hopfieldNetwork.SetSynapseWeight(neuronIndex, sourceNeuronIndex, synapseWeight);
+            int neuron = NeuronPositionToIndex(row, col);
+            int sourceNeuron = NeuronPositionToIndex(sourceRow, souceCol);
+            net.SetSynapseWeight(neuron, sourceNeuron, weight);
         }
 
-        /// <summary>
-        /// Converts the index of a neuron to its coordinates.
-        /// </summary>
-        /// <param name="neuronIndex">The index of the neuron.</param>
-        /// <param name="neuronXCoordinate">The x coordinate of the neuron.</param>
-        /// <param name="neuronYCoordinate">The y coordinate of the neuron.</param>
-        private void neuronIndexToCoordinates(int neuronIndex, out int neuronXCoordinate, out int neuronYCoordinate)
-        {
-            // Calculate the x coordinate of the neuron.
-            neuronXCoordinate = neuronIndex % 8;
+        private static int NeuronPositionToIndex(int row, int col) => row * 8 + col;
 
-            // Calculate the y coordinate of the neuron.
-            neuronYCoordinate = neuronIndex / 8;
-        }
-
-        /// <summary>
-        /// Converts the coordinates of the neuron to its index.
-        /// </summary>
-        /// <param name="neuronXCoordinate">The x coordinate of the neuron.</param>
-        /// <param name="neuronYCoordinate">The y coordinate of the neuron.</param>
-        /// <returns>The index of the neuron.</returns>
-        private int neuronCoordinatesToIndex(int neuronXCoordinate, int neuronYCoordinate)
-        {
-            return neuronYCoordinate * 8 + neuronXCoordinate;
-        }
-
-        private int NeuronCount
-        {
-            get
-            {
-                return _hopfieldNetwork.NeuronCount;
-            }
-        }
-
-        /// <summary>
-        /// The underlying Hopfield network.
-        /// </summary>
-        private NeuralNetwork.HopfieldNet.HopfieldNetwork _hopfieldNetwork;
+        private static (int, int) NeuronIndexToPosition(int index) => (index / 8, index % 8);
     }
 }
