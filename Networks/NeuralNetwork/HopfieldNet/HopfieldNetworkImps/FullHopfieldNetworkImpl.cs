@@ -15,17 +15,17 @@ namespace NeuralNetwork.HopfieldNet.HopfieldNetworkImps
 
         public FullHopfieldNetworkImpl(int neuronCount, ActivationFunction activationFunction)
         {
-            NeuronCount = neuronCount;
+            Neurons = neuronCount;
             this.activationFunction = activationFunction;
 
-            weights = new double[NeuronCount, NeuronCount];
-            biases = new double[NeuronCount];
-            outputs = new double[NeuronCount];
+            weights = new double[Neurons, Neurons];
+            biases = new double[Neurons];
+            outputs = new double[Neurons];
         }
 
-        public int NeuronCount { get; }
+        public int Neurons { get; }
 
-        public int SynapseCount => (weights.Length - NeuronCount) / 2;
+        public int Synapses => (weights.Length - Neurons) / 2;
 
         public double GetNeuronBias(int neuronIndex)
         {
@@ -49,7 +49,7 @@ namespace NeuralNetwork.HopfieldNet.HopfieldNetworkImps
 
         public void SetNetworkInput(double[] input)
         {
-            Array.Copy(input, outputs, NeuronCount);
+            Array.Copy(input, outputs, Neurons);
         }
 
         public void Evaluate(double progress)
@@ -62,7 +62,7 @@ namespace NeuralNetwork.HopfieldNet.HopfieldNetworkImps
         {
             // Calculate neuron input
             double input = 0.0;
-            for (int sourceNeuron = 0; sourceNeuron < NeuronCount; sourceNeuron++)
+            for (int sourceNeuron = 0; sourceNeuron < Neurons; sourceNeuron++)
             {
                 input += weights[neuron, sourceNeuron] * outputs[sourceNeuron];
             }
@@ -84,16 +84,16 @@ namespace NeuralNetwork.HopfieldNet.HopfieldNetworkImps
                 double energy = 0.0;
 
                 // Syanpse energy
-                for (int neuron = 0; neuron < NeuronCount; neuron++)
+                for (int neuron = 0; neuron < Neurons; neuron++)
                 {
-                    for (int sourceNeuron = neuron + 1; sourceNeuron < NeuronCount; sourceNeuron++)
+                    for (int sourceNeuron = neuron + 1; sourceNeuron < Neurons; sourceNeuron++)
                     {
                         energy -= weights[neuron, sourceNeuron] * outputs[neuron] * outputs[sourceNeuron];
                     }
                 }
 
                 // Neuron energy
-                for (int neuron = 0; neuron < NeuronCount; neuron++)
+                for (int neuron = 0; neuron < Neurons; neuron++)
                 {
                     energy -= biases[neuron] * outputs[neuron];
                 }
@@ -106,7 +106,7 @@ namespace NeuralNetwork.HopfieldNet.HopfieldNetworkImps
         {
             get
             {
-                int[] randomNeurons = Enumerable.Range(0, NeuronCount).ToArray();
+                int[] randomNeurons = Enumerable.Range(0, Neurons).ToArray();
                 StaticRandom.Shuffle(randomNeurons);
                 return randomNeurons;
             }

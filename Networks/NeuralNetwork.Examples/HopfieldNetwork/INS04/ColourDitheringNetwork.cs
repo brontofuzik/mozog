@@ -591,7 +591,7 @@ namespace NeuralNetwork.Examples.HopfieldNet.INS04
         {
             get
             {
-                return _underlyingHopfieldNetwork.NeuronCount;
+                return _underlyingHopfieldNetwork.Neurons;
             }
         }
 

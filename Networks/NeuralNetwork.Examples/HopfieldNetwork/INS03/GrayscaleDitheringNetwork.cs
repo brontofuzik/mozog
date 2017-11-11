@@ -47,7 +47,7 @@ namespace NeuralNetwork.Examples.HopfieldNet.INS03
             return 1 / (1 + Math.Exp(-lambda * input));
         }
 
-        private int NeuronCount => net.NeuronCount;
+        private int NeuronCount => net.Neurons;
 
         #region Training
 

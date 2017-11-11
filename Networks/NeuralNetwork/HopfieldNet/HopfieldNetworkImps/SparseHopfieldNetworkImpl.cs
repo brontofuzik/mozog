@@ -16,9 +16,9 @@ namespace NeuralNetwork.HopfieldNet.HopfieldNetworkImps
             neurons = Enumerable.Range(0, neuronCount).Select(n => new HopfieldNeuron(n, activationFunction)).ToArray();
         }
 
-        public int NeuronCount => neurons.Length;
+        public int Neurons => neurons.Length;
 
-        public int SynapseCount => synapses.Count;
+        public int Synapses => synapses.Count;
 
         public double GetNeuronBias(int neuronIndex)
             => neurons[neuronIndex].Bias;
@@ -45,7 +45,7 @@ namespace NeuralNetwork.HopfieldNet.HopfieldNetworkImps
 
         public void SetNetworkInput(double[] input)
         {
-            if (input.Length != NeuronCount)
+            if (input.Length != Neurons)
                 throw new ArgumentException("The length of the pattern to recall must match the number of neurons in the network.", nameof(input));
 
             neurons.ForEach(n => n.Output = input[n.Index]);

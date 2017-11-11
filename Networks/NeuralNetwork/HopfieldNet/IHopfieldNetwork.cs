@@ -4,9 +4,9 @@ namespace NeuralNetwork.HopfieldNet
 {
     public interface IHopfieldNetwork
     {
-        int NeuronCount { get; }
+        int Neurons { get; }
 
-        int SynapseCount { get; }
+        int Synapses { get; }
 
         double Energy { get; }
 

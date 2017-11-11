@@ -19,25 +19,13 @@ namespace NeuralNetwork.Examples.HopfieldNet
 
             // Step 3: Train the network.
 
-            InitializeNet(net);
+            net.Initialize((Position p) => 1.0, (p, sourceP) => -2.0);
 
             // Step 4: Test the network.
 
             double[] recalled = net.Evaluate(new double[neuronCount], iterations: 10);
-            Console.WriteLine(Vector.ToString(recalled));
-        }
 
-        private static void InitializeNet(HopfieldNetwork net)
-        {
-            for (int neuron = 0; neuron < net.NeuronCount; neuron++)
-            {
-                net.SetNeuronBias(neuron, bias: 1.0);
-                for (int sourceNeuron = 0; sourceNeuron < net.NeuronCount; sourceNeuron++)
-                {
-                    if (sourceNeuron == neuron) continue;
-                    net.SetSynapseWeight(neuron, sourceNeuron, weight: -2.0);
-                }
-            }
+            Console.WriteLine(Vector.ToString(recalled));
         }
     }
 }
