@@ -76,12 +76,13 @@
     <Compile Include="ErrorFunctions\IErrorFunction.cs" />
     <Compile Include="ErrorFunctions\MeanSquaredError.cs" />
     <Compile Include="HopfieldNet\Functions.cs" />
+    <Compile Include="HopfieldNet\Matrix.cs" />
     <Compile Include="HopfieldNet\IPosition.cs" />
     <Compile Include="Interfaces\NetworkArchitecture.cs" />
     <Compile Include="Interfaces\INetworkSerializer.cs" />
     <Compile Include="HopfieldNet\HopfieldNetwork.cs" />
     <Compile Include="HopfieldNet\IHopfieldNetwork.cs" />
-    <Compile Include="HopfieldNet\HopfieldNetworkImps\FullHopfieldNetworkImpl.cs" />
+    <Compile Include="HopfieldNet\FullHopfieldNetworkImpl.cs" />
     <Compile Include="HopfieldNet\HopfieldNetworkImps\IHopfieldNetworkImpl.cs" />
     <Compile Include="HopfieldNet\HopfieldNetworkImps\SparseHopfieldNetworkImpl.cs" />
     <Compile Include="HopfieldNet\HopfieldNetworkImps\HopfieldNeuron.cs" />

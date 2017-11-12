@@ -2,6 +2,7 @@
 
 namespace NeuralNetwork.HopfieldNet.HopfieldNetworkImps
 {
+    /*
     class HopfieldSynapse
     {
         public HopfieldSynapse(HopfieldNeuron neuron1, HopfieldNeuron neuron2)
@@ -23,4 +24,5 @@ namespace NeuralNetwork.HopfieldNet.HopfieldNetworkImps
         public HopfieldNeuron GetOtherNeuron(HopfieldNeuron neuron)
             => neuron == Neuron1 ? Neuron2 : Neuron1;
     }
+    */
 }

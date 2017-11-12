@@ -1,5 +1,6 @@
 ﻿namespace NeuralNetwork.HopfieldNet.HopfieldNetworkImps
 {
+    /*
     public interface IHopfieldNetworkImpl
     {
         int Neurons { get; }
@@ -22,4 +23,5 @@
 
         double[] GetNetworkOutput();
     }
+    */
 }

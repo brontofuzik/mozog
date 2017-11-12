@@ -4,6 +4,7 @@ using Mozog.Utils;
 
 namespace NeuralNetwork.HopfieldNet.HopfieldNetworkImps
 {
+    /*
     class HopfieldNeuron
     {
         private readonly ActivationFunction activationFunction;
@@ -32,4 +33,5 @@ namespace NeuralNetwork.HopfieldNet.HopfieldNetworkImps
             Output = activationFunction(input, progress);
         }
     }
+    */
 }

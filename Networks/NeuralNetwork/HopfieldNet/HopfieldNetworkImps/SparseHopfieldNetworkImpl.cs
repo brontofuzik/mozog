@@ -6,6 +6,7 @@ using Mozog.Utils.Math;
 
 namespace NeuralNetwork.HopfieldNet.HopfieldNetworkImps
 {
+    /*
     class SparseHopfieldNetworkImpl : IHopfieldNetworkImpl
     {
         private HopfieldNeuron[] neurons;
@@ -139,4 +140,5 @@ namespace NeuralNetwork.HopfieldNet.HopfieldNetworkImps
             synapse.Neuron2.Synapses.Remove(synapse);
         }
     }
+    */
 }

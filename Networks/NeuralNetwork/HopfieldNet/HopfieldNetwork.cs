@@ -25,7 +25,7 @@ namespace NeuralNetwork.HopfieldNet
     public class HopfieldNetwork<T> : IHopfieldNetwork
         where T : IPosition
     {
-        private IHopfieldNetworkImpl networkImpl;
+        private HopfieldImpl networkImpl;
         private Topology<T> topology;
 
         private Func<int, T> positionFactory;
@@ -46,9 +46,7 @@ namespace NeuralNetwork.HopfieldNet
                 .Select(index => positionFactory(index));
             this.topology = topology ?? defaultTopology;
 
-            networkImpl = sparse
-                ? (IHopfieldNetworkImpl)new SparseHopfieldNetworkImpl(neuronCount, activation)
-                : (IHopfieldNetworkImpl)new FullHopfieldNetworkImpl(neuronCount, activation);
+            networkImpl = new HopfieldImpl(neuronCount, activation);
         }
 
         // 2D
