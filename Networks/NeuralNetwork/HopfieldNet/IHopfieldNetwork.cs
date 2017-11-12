@@ -10,17 +10,17 @@ namespace NeuralNetwork.HopfieldNet
 
         double Energy { get; }
 
-        double GetNeuronBias(int neuronIndex);
+        double GetNeuronBias(int neuron);
 
-        void SetNeuronBias(int neuronIndex, double neuronBias);
+        void SetNeuronBias(int neuron, double bias);
 
-        double GetSynapseWeight(int neuronIndex, int sourceNeuronIndex);
+        double GetSynapseWeight(int neuron, int source);
 
-        void SetSynapseWeight(int neuronIndex, int sourceNeuronIndex, double synapseWeight);
+        void SetSynapseWeight(int neuron, int source, double weight);
 
         void Train(DataSet dataSet);
 
-        double[] Evaluate(double[] patternToRecall, int evaluationIterationCount);
+        double[] Evaluate(double[] input, int iterations);
 
         string ToString();
     }
