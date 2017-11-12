@@ -76,6 +76,7 @@
     <Compile Include="ErrorFunctions\IErrorFunction.cs" />
     <Compile Include="ErrorFunctions\MeanSquaredError.cs" />
     <Compile Include="HopfieldNet\Functions.cs" />
+    <Compile Include="HopfieldNet\IPosition.cs" />
     <Compile Include="Interfaces\NetworkArchitecture.cs" />
     <Compile Include="Interfaces\INetworkSerializer.cs" />
     <Compile Include="HopfieldNet\HopfieldNetwork.cs" />

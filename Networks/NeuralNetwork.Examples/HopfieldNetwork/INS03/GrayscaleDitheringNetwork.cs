@@ -12,7 +12,7 @@ namespace NeuralNetwork.Examples.HopfieldNet.INS03
         private static int radius;
         private static double alpha;
 
-        private static HopfieldNetwork net;
+        private static HopfieldNetwork<Position2D> net;
 
         public static Bitmap DitherImage(Bitmap image, int radius, double alpha)
         {
@@ -26,8 +26,8 @@ namespace NeuralNetwork.Examples.HopfieldNet.INS03
 
             // Step 2: Create the network.
 
-            net = new HopfieldNetwork(rows: image.Height, cols: image.Width, sparse: true,
-                activationFunction: Activation, topology_pos: Topology);
+            net = HopfieldNetwork.Build2DNetwork(rows: image.Height, cols: image.Width, sparse: true,
+                activation: Activation, topology: Topology);
 
             // Step 3: train the network.
 
@@ -47,9 +47,9 @@ namespace NeuralNetwork.Examples.HopfieldNet.INS03
             return 1 / (1 + Math.Exp(-lambda * input));
         }
 
-        private static IEnumerable<Position> Topology(Position p, HopfieldNetwork net)
+        private static IEnumerable<Position2D> Topology(Position2D p, HopfieldNetwork<Position2D> net)
         {
-            var sourceNeurons = new List<Position>();
+            var sourceNeurons = new List<Position2D>();
 
             // Limits
             int xmin = Math.Max(p.Col - radius, 0);
@@ -61,35 +61,39 @@ namespace NeuralNetwork.Examples.HopfieldNet.INS03
                 for (int sourceX = xmin; sourceX <= xmax; sourceX++)
                 {
                     if (sourceX != p.Col || sourceY != p.Row)
-                        sourceNeurons.Add(new Position(sourceX, sourceY));
+                        sourceNeurons.Add(new Position2D(sourceX, sourceY, net.Cols.Value));
                 }
 
             return sourceNeurons;
         }
 
-        private static double InitNeuronBias(Position p, HopfieldNetwork net)
+        #region Initialization
+
+        private static double InitNeuronBias(Position2D p, HopfieldNetwork<Position2D> net)
         {
             double localBias = 2 * C(p) - 1;
-            var sum = net.Topology_Pos(p).Select(s => C(s) * D(p, s)).Sum();
+            var sum = net.Topology(p).Select(s => C(s) * D(p, s)).Sum();
             double globalBias = 2 * sum - radius * radius;
             return alpha * localBias + (1 - alpha) * globalBias;
         }
 
-        private static double InitSynapseWeight(Position p, Position sourceP, HopfieldNetwork net)
+        private static double InitSynapseWeight(Position2D p, Position2D sourceP, HopfieldNetwork<Position2D> net)
         {
             double localW = 0.0;
             double globalW = -2 * D(p, sourceP);
             return alpha * localW + (1 - alpha) * globalW;
         }
 
-        private static double C(Position p) => image.GetPixel(p.Col, p.Row).GetBrightness();
+        private static double C(Position2D p) => image.GetPixel(p.Col, p.Row).GetBrightness();
 
-        private static int D(Position p1, Position p2)
+        private static int D(Position2D p1, Position2D p2)
             => Math.Max(radius - Math.Abs(p1.Col - p2.Col) + 1, 0) * Math.Max(radius - Math.Abs(p1.Row - p2.Row) + 1, 0);
+
+        #endregion // Initialization
 
         #region Evaluation
 
-        private static Bitmap Evaluate(HopfieldNetwork net, Bitmap image)
+        private static Bitmap Evaluate(HopfieldNetwork<Position2D> net, Bitmap image)
         {
             var originalPixels = ImageToPixels(image);
             var ditheredPixels = net.Evaluate(originalPixels, 20);
@@ -99,7 +103,7 @@ namespace NeuralNetwork.Examples.HopfieldNet.INS03
         private static double[] ImageToPixels(Bitmap image)
         {
             double[] pixels = new double[net.Neurons];
-            foreach (Point p in GetPoints())
+            foreach (Pixel p in GetPoints())
             {
                 int neuron = CoordinatesToIndex(p);
                 pixels[neuron] = image.GetPixel(p.X, p.Y).GetBrightness();
@@ -119,14 +123,14 @@ namespace NeuralNetwork.Examples.HopfieldNet.INS03
             return image;
         }
 
-        private static IEnumerable<Point> GetPoints()
+        private static IEnumerable<Pixel> GetPoints()
         {
             for (int y = 0; y < Height; y++)
                 for (int x = 0; x < Width; x++)
-                    yield return new Point(x, y);
+                    yield return new Pixel(x, y);
         }
 
-        private static int CoordinatesToIndex(Point c) => c.Y * Width + c.X;
+        private static int CoordinatesToIndex(Pixel c) => c.Y * Width + c.X;
 
         private static int Width => image.Width;
 
@@ -135,9 +139,9 @@ namespace NeuralNetwork.Examples.HopfieldNet.INS03
         #endregion // Evaluation
     }
 
-    struct Point
+    struct Pixel
     {
-        public Point(int x, int y)
+        public Pixel(int x, int y)
         {
             X = x;
             Y = y;

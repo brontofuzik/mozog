@@ -16,7 +16,7 @@ namespace NeuralNetwork.Examples.HopfieldNet
 
             int rows = 8;
             int cols = 8;
-            var net = new HopfieldNetwork(rows, cols, true, (input, _) => input > 0 ? 1.0 : 0.0);
+            var net = HopfieldNetwork.Build2DNetwork(rows, cols, true, (input, _) => input > 0 ? 1.0 : 0.0);
 
             // Step 3: Train the network.
 

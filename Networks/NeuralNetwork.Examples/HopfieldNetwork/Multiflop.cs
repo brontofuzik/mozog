@@ -15,15 +15,15 @@ namespace NeuralNetwork.Examples.HopfieldNet
             // Step 2: Create the network.
 
             int neuronCount = 4;
-            var net = new HopfieldNetwork(neuronCount, false, (input, _) => input > 0 ? 1.0 : 0.0);
+            var net = HopfieldNetwork.Build1DNetwork(neuronCount, false, (input, _) => input > 0 ? 1.0 : 0.0);
 
             // Step 3: Train the network.
 
-            net.Initialize((Position p, HopfieldNetwork _net) => 1.0, (p, sourceP, _net) => -2.0);
+            net.Initialize((p, _net) => 1.0, (p, sourceP, _net) => -2.0);
 
             // Step 4: Test the network.
 
-            double[] recalled = net.Evaluate(new double[neuronCount], iterations: 10);
+            var recalled = net.Evaluate(new double[neuronCount], iterations: 10);
 
             Console.WriteLine(Vector.ToString(recalled));
         }
