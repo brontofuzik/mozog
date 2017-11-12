@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -10,27 +11,51 @@ namespace NeuralNetwork.HopfieldNet
 {
     public class HopfieldNetwork : IHopfieldNetwork
     {
-        private static ActivationFunction DefaultActivation = (double input, double evaluationProgress) => Math.Sign(input);
+        private Topology<int> topology_Int;
+        private Topology<Position> topology_Pos;
 
         private IHopfieldNetworkImpl networkImpl;
-
+        
         // 1D
-        public HopfieldNetwork(int neuronCount, bool sparse = false, ActivationFunction activationFunction = null)
+        public HopfieldNetwork(int neuronCount, bool sparse = false, ActivationFunction activation = null,
+            Topology<int> topology_int = null, Topology<Position> topology_pos = null)
         {
-            activationFunction = activationFunction ?? DefaultActivation;
+            // Default activation
+            ActivationFunction defaultActivation = ((input, _) => Math.Sign(input));
+            activation = activation ?? defaultActivation;
+
+            if (topology_int != null)
+            {
+                SetTopology(topology_int);
+            }
+            else if (topology_pos != null)
+            {
+                SetTopology(topology_pos);
+            }
+            else
+            {
+                // Default topology
+                Topology<int> defaultTopology = (neuronIndex, net) => Enumerable.Range(0, Neurons).Where(sourceNeuronIndex => sourceNeuronIndex != neuronIndex).ToList();
+                SetTopology(defaultTopology);
+            }
 
             networkImpl = sparse
-                ? (IHopfieldNetworkImpl)new SparseHopfieldNetworkImpl(neuronCount, activationFunction)
-                : (IHopfieldNetworkImpl)new FullHopfieldNetworkImpl(neuronCount, activationFunction);
+                ? (IHopfieldNetworkImpl)new SparseHopfieldNetworkImpl(neuronCount, activation)
+                : (IHopfieldNetworkImpl)new FullHopfieldNetworkImpl(neuronCount, activation);
         }
 
         // 2D
-        public HopfieldNetwork(int rows, int cols, bool sparse = false, ActivationFunction activationFunction = null)
-            : this(rows * cols, sparse, activationFunction)
+        public HopfieldNetwork(int rows, int cols, bool sparse = false, ActivationFunction activationFunction = null,
+            Topology<int> topology_int = null, Topology<Position> topology_pos = null)
+            : this(rows * cols, sparse, activationFunction, topology_int, topology_pos)
         {
             Rows = rows;
             Cols = cols;
         }
+
+        public IEnumerable<int> Topology_Int(int neuronIndex) => topology_Int(neuronIndex, this);
+
+        public IEnumerable<Position> Topology_Pos(Position neuronPosition) => topology_Pos(neuronPosition, this);
 
         public int Neurons => networkImpl.Neurons;
 
@@ -44,40 +69,52 @@ namespace NeuralNetwork.HopfieldNet
 
         #region Initialization
 
+        public void SetTopology(Topology<int> topology)
+        {
+            topology_Int = topology;
+            topology_Pos = (p, net) => topology(NeuronPositionToIndex(p), net).Select(i => NeuronIndexToPosition(i));
+        }
+
+        public void SetTopology(Topology<Position> topology)
+        {
+            topology_Pos = topology;
+            topology_Int = (i, net) => topology(NeuronIndexToPosition(i), net).Select(p => NeuronPositionToIndex(p));
+        }
+
         // Index-based
-        public void Initialize(Func<int, double> initNeuronBias, Func<int, int, double> initSynapseWeight)
+        public void Initialize(InitNeuronBias<int> initNeuronBias, InitSynapseWeight<int> initSynapseWeight)
         {
             for (int neuronIndex = 0; neuronIndex < Neurons; neuronIndex++)
                 InitializeNeuron(neuronIndex, initNeuronBias, initSynapseWeight);
         }
 
         // Position-based
-        public void Initialize(Func<Position, double> initNeuronBias, Func<Position, Position, double> initSynapseWeight)
+        public void Initialize(InitNeuronBias<Position> initNeuronBias, InitSynapseWeight<Position> initSynapseWeight)
         {
-            Func<int, double> initNeuronBiasByIndex = (int neuronIndex)
-                => initNeuronBias(NeuronIndexToPosition(neuronIndex));
+            InitNeuronBias<int> initNeuronBiasByIndex = (neuronIndex, net)
+                => initNeuronBias(NeuronIndexToPosition(neuronIndex), net);
 
-            Func<int, int, double> initSynapseWeightByIndex = (int neuronIndex, int sourceNeuronIndex)
-                => initSynapseWeight(NeuronIndexToPosition(neuronIndex), NeuronIndexToPosition(sourceNeuronIndex));
+            InitSynapseWeight<int> initSynapseWeightByIndex = (neuronIndex, sourceNeuronIndex, net)
+                => initSynapseWeight(NeuronIndexToPosition(neuronIndex), NeuronIndexToPosition(sourceNeuronIndex), net);
 
             Initialize(initNeuronBiasByIndex, initSynapseWeightByIndex);
         }
 
         private Position NeuronIndexToPosition(int index) => new Position(index / Cols.Value, index % Cols.Value);
 
-        private void InitializeNeuron(int neuronIndex, Func<int, double> initNeuronBias, Func<int, int, double> initSynapseWeight)
+        private int NeuronPositionToIndex(Position p) => p.Row * Cols.Value + p.Col;
+
+        private void InitializeNeuron(int neuronIndex, InitNeuronBias<int> initNeuronBias, InitSynapseWeight<int> initSynapseWeight)
         {
             SetNeuronBias(neuronIndex, initNeuronBias);
             InitializeSynapses(neuronIndex, initSynapseWeight);
         }
 
-        private void InitializeSynapses(int neuronIndex, Func<int, int, double> initSynapseWeight)
+        private void InitializeSynapses(int neuronIndex, InitSynapseWeight<int> initSynapseWeight)
         {
-            for (int sourceNeuronIndex = 0; sourceNeuronIndex < Neurons; sourceNeuronIndex++)
-            {
-                if (sourceNeuronIndex == neuronIndex) continue;
+            var sourceNeurons = Topology_Int(neuronIndex);
+            foreach (int sourceNeuronIndex in sourceNeurons)
                 SetSynapseWeight(neuronIndex, sourceNeuronIndex, initSynapseWeight);
-            }
         }
 
         public double GetNeuronBias(int neuronIndex)
@@ -94,9 +131,9 @@ namespace NeuralNetwork.HopfieldNet
             networkImpl.SetNeuronBias(neuronIndex, bias);
         }
 
-        private void SetNeuronBias(int neuronIndex, Func<int, double> initNeuronBias)
+        private void SetNeuronBias(int neuronIndex, InitNeuronBias<int> initNeuronBias)
         {
-            SetNeuronBias(neuronIndex, initNeuronBias(neuronIndex));
+            SetNeuronBias(neuronIndex, initNeuronBias(neuronIndex, this));
         }
 
         public double GetSynapseWeight(int neuronIndex, int sourceNeuronIndex)
@@ -115,9 +152,9 @@ namespace NeuralNetwork.HopfieldNet
             networkImpl.SetSynapseWeight(neuronIndex, sourceNeuronIndex, weight);
         }
 
-        private void SetSynapseWeight(int neuronIndex, int sourceNeuronIndex, Func<int, int, double> initSynapseWeight)
+        private void SetSynapseWeight(int neuronIndex, int sourceNeuronIndex, InitSynapseWeight<int> initSynapseWeight)
         {
-            SetSynapseWeight(neuronIndex, sourceNeuronIndex, initSynapseWeight(neuronIndex, sourceNeuronIndex));
+            SetSynapseWeight(neuronIndex, sourceNeuronIndex, initSynapseWeight(neuronIndex, sourceNeuronIndex, this));
         }
 
         #endregion // Initialization

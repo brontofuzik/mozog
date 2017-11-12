@@ -21,12 +21,12 @@ namespace NeuralNetwork.Examples.HopfieldNet
             // Step 3: Train the network.
 
             net.Initialize(
-                p => 1.0,
-                (p, sourceP) => (p.Row == sourceP.Row || p.Col == sourceP.Col || System.Math.Abs(p.Row - sourceP.Row) == System.Math.Abs(p.Col - sourceP.Col)) ? -2.0 : 0.0);
+                (p, _net) => 1.0,
+                (p, sourceP, _net) => (p.Row == sourceP.Row || p.Col == sourceP.Col || System.Math.Abs(p.Row - sourceP.Row) == System.Math.Abs(p.Col - sourceP.Col)) ? -2.0 : 0.0);
 
             // Step 4: Test the network.
 
-            double[] solution = net.Evaluate(new double[rows * cols], 10);
+            var solution = net.Evaluate(new double[rows * cols], 10);
 
             Console.WriteLine(Vector.ToString(solution));
         }

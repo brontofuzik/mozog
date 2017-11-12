@@ -19,7 +19,7 @@ namespace NeuralNetwork.Examples.HopfieldNet
 
             // Step 3: Train the network.
 
-            net.Initialize((Position p) => 1.0, (p, sourceP) => -2.0);
+            net.Initialize((Position p, HopfieldNetwork _net) => 1.0, (p, sourceP, _net) => -2.0);
 
             // Step 4: Test the network.
 
