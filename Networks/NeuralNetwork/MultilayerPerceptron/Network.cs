@@ -5,7 +5,6 @@ using Mozog.Utils;
 using NeuralNetwork.Data;
 using NeuralNetwork.ErrorFunctions;
 using NeuralNetwork.Interfaces;
-using NeuralNetwork.Training;
 
 namespace NeuralNetwork.MultilayerPerceptron
 {
