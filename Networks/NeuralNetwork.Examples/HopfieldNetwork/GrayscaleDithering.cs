@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using NeuralNetwork.HopfieldNet;
+using NeuralNetwork.Hopfield;
 
 namespace NeuralNetwork.Examples.HopfieldNetwork
 {
@@ -52,7 +52,7 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
 
             // Step 2: Create the network.
 
-            net = NeuralNetwork.HopfieldNet.HopfieldNetwork.Build2DNetwork(rows: image.Height, cols: image.Width, sparse: true,
+            net = NeuralNetwork.Hopfield.HopfieldNetwork.Build2DNetwork(rows: image.Height, cols: image.Width, sparse: true,
                 activation: Activation, topology: Topology);
 
             // Step 3: train the network.

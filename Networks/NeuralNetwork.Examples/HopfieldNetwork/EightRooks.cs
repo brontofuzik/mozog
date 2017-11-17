@@ -16,7 +16,7 @@ namespace NeuralNetwork.Examples.HopfieldNet
 
             int rows = 8;
             int cols = 8;
-            var net = NeuralNetwork.HopfieldNet.HopfieldNetwork.Build2DNetwork(rows, cols,
+            var net = NeuralNetwork.Hopfield.HopfieldNetwork.Build2DNetwork(rows, cols,
                 sparse: true,
                 activation: (input, _) => input > 0 ? 1.0 : 0.0);
 

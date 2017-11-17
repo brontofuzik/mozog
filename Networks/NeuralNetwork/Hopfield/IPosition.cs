@@ -1,4 +1,4 @@
-﻿namespace NeuralNetwork.HopfieldNet
+﻿namespace NeuralNetwork.Hopfield
 {
     public interface IPosition
     {

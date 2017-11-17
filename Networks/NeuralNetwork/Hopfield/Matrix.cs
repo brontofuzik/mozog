@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NeuralNetwork.HopfieldNet.HopfieldNetworkImps
+namespace NeuralNetwork.Hopfield.HopfieldNetworkImps
 {
     interface IMatrix
     {

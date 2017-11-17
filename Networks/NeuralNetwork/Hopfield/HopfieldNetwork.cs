@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using Mozog.Utils;
 using NeuralNetwork.Data;
-using NeuralNetwork.HopfieldNet.HopfieldNetworkImps;
+using NeuralNetwork.Hopfield.HopfieldNetworkImps;
 using Mozog.Utils.Math;
 
-namespace NeuralNetwork.HopfieldNet
+namespace NeuralNetwork.Hopfield
 {
     public static class HopfieldNetwork
     {

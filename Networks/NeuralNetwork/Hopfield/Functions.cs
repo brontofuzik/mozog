@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NeuralNetwork.HopfieldNet
+namespace NeuralNetwork.Hopfield
 {
     public delegate double ActivationFunction(double input, double progress);
 

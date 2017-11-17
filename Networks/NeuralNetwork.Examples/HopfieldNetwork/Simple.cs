@@ -17,7 +17,7 @@ namespace NeuralNetwork.Examples.HopfieldNet
 
             // Step 2: Create the network.
 
-            var net = NeuralNetwork.HopfieldNet.HopfieldNetwork.Build1DNetwork(dataSet.InputSize, sparse: false);
+            var net = NeuralNetwork.Hopfield.HopfieldNetwork.Build1DNetwork(dataSet.InputSize, sparse: false);
 
             // Step 3: Train the network.
 
