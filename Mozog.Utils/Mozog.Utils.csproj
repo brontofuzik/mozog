@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArrayExtensions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Math\MathExtensions.cs" />
     <Compile Include="Math\Probability.cs" />

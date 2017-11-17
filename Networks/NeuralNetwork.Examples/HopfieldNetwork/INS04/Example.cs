@@ -3,6 +3,7 @@ using System.Drawing;
 
 namespace NeuralNetwork.Examples.HopfieldNet.INS04
 {
+    /*
     class Example
     {
         public static void Run()
@@ -103,4 +104,5 @@ namespace NeuralNetwork.Examples.HopfieldNet.INS04
         /// </summary>
         static string imageFileNameExtension = "png";
     }
+    */
 }

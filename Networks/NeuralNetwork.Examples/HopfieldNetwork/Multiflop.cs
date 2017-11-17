@@ -1,6 +1,5 @@
-﻿using Mozog.Utils.Math;
-using NeuralNetwork.HopfieldNet;
-using System;
+﻿using System;
+using Mozog.Utils.Math;
 
 namespace NeuralNetwork.Examples.HopfieldNet
 {
@@ -15,7 +14,9 @@ namespace NeuralNetwork.Examples.HopfieldNet
             // Step 2: Create the network.
 
             int neuronCount = 4;
-            var net = HopfieldNetwork.Build1DNetwork(neuronCount, false, (input, _) => input > 0 ? 1.0 : 0.0);
+            var net = NeuralNetwork.HopfieldNet.HopfieldNetwork.Build1DNetwork(neuronCount,
+                sparse: false,
+                activation: (input, _) => input > 0 ? 1.0 : 0.0);
 
             // Step 3: Train the network.
 

@@ -5,6 +5,7 @@ using System.Drawing;
 
 namespace NeuralNetwork.Examples.HopfieldNet.INS04
 {
+    /*
     class ColourDitheringNetwork
     {
         static ColourDitheringNetwork()
@@ -687,4 +688,5 @@ namespace NeuralNetwork.Examples.HopfieldNet.INS04
         Green,
         Blue
     }
+    */
 }

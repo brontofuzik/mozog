@@ -65,7 +65,7 @@ namespace NeuralNetwork.HopfieldNet.HopfieldNetworkImps
 
             weights = new Dictionary<int, IDictionary<int, double>>(rows);
             for (int r = 0; r < rows; r++)
-                weights[r] = new Dictionary<int, double>(cols);
+                weights[r] = new Dictionary<int, double>();
         }
 
         public int Rows { get; }

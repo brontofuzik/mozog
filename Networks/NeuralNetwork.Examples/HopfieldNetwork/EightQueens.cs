@@ -1,6 +1,6 @@
 ﻿using System;
-using Mozog.Utils.Math;
-using NeuralNetwork.HopfieldNet;
+using System.Linq;
+using Mozog.Utils;
 
 namespace NeuralNetwork.Examples.HopfieldNet
 {
@@ -16,7 +16,9 @@ namespace NeuralNetwork.Examples.HopfieldNet
 
             int rows = 8;
             int cols = 8;
-            var net = HopfieldNetwork.Build2DNetwork(rows, cols, true, (input, _) => input > 0 ? 1.0 : 0.0);
+            var net = NeuralNetwork.HopfieldNet.HopfieldNetwork.Build2DNetwork(rows, cols,
+                sparse: true,
+                activation: (input, _) => input > 0 ? 1.0 : 0.0);
 
             // Step 3: Train the network.
 
@@ -28,7 +30,10 @@ namespace NeuralNetwork.Examples.HopfieldNet
 
             var solution = net.Evaluate(new double[rows * cols], 10);
 
-            Console.WriteLine(Vector.ToString(solution));
+            var chessboard = solution.Select(n => n == 1.0 ? 'X' : '_').ToArray().Split(8);
+            var chessboardStr = String.Join(Environment.NewLine, chessboard.Select(r => ArrayExtensions.ToString(r)));
+
+            Console.WriteLine(chessboardStr);
         }
     }
 }

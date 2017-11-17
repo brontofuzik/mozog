@@ -49,9 +49,8 @@
   <ItemGroup>
     <Compile Include="HopfieldNetwork\EightQueens.cs" />
     <Compile Include="HopfieldNetwork\EightRooks.cs" />
+    <Compile Include="HopfieldNetwork\GrayscaleDithering.cs" />
     <Compile Include="HopfieldNetwork\Simple.cs" />
-    <Compile Include="HopfieldNetwork\INS03\GrayscaleDitheringNetwork.cs" />
-    <Compile Include="HopfieldNetwork\INS03\Example.cs" />
     <Compile Include="HopfieldNetwork\INS04\ColourDitheringNetwork.cs" />
     <Compile Include="HopfieldNetwork\INS04\PalettingNetwork.cs" />
     <Compile Include="HopfieldNetwork\INS04\Example.cs" />

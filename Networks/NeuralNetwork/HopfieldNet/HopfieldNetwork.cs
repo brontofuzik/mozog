@@ -83,8 +83,9 @@ namespace NeuralNetwork.HopfieldNet
 
                 // Syanpse energy
                 for (int neuron = 0; neuron < Neurons; neuron++)
-                    for (int source = neuron + 1; source < Neurons; source++)
-                        energy -= weights[neuron, source] * outputs[neuron] * outputs[source];
+                    foreach (int source in weights.GetSourceNeurons(neuron))
+                        if (source > neuron)
+                            energy -= weights[neuron, source] * outputs[neuron] * outputs[source];
 
                 // Neuron energy
                 for (int neuron = 0; neuron < Neurons; neuron++)
