@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mozog.Utils;
-using NeuralNetwork.ActivationFunctions;
-using NeuralNetwork.Interfaces;
+using NeuralNetwork.MLP.ActivationFunctions;
 
 namespace NeuralNetwork.MLP
 {

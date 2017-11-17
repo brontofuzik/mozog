@@ -1,6 +1,4 @@
-﻿using NeuralNetwork.Interfaces;
-
-namespace NeuralNetwork.MLP
+﻿namespace NeuralNetwork.MLP
 {
     internal class NetworkSerializer : INetworkSerializer
     {

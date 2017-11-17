@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Mozog.Utils;
-using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MLP
 {

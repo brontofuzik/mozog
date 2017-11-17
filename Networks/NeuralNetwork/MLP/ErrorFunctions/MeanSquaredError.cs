@@ -2,7 +2,7 @@
 using System.Linq;
 using NeuralNetwork.MLP.Backpropagation;
 
-namespace NeuralNetwork.ErrorFunctions
+namespace NeuralNetwork.MLP.ErrorFunctions
 {
     public class MeanSquaredError : IDifferentiableErrorFunction
     {

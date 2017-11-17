@@ -4,7 +4,6 @@ using System.Linq;
 using Mozog.Utils;
 using Mozog.Utils.Math;
 using NeuralNetwork.Data;
-using NeuralNetwork.Interfaces;
 using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NeuralNetwork.ActivationFunctions
+namespace NeuralNetwork.MLP.ActivationFunctions
 {
     public class LinearFunction : IDifferentiableActivationFunction1
     {

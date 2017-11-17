@@ -70,16 +70,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActivationFunctions\LogisticFunction.cs" />
-    <Compile Include="ActivationFunctions\SoftmaxFunction.cs" />
-    <Compile Include="ErrorFunctions\CrossEntropyError.cs" />
-    <Compile Include="ErrorFunctions\IErrorFunction.cs" />
-    <Compile Include="ErrorFunctions\MeanSquaredError.cs" />
+    <Compile Include="MLP\ActivationFunctions\LogisticFunction.cs" />
+    <Compile Include="MLP\ActivationFunctions\SoftmaxFunction.cs" />
+    <Compile Include="MLP\ErrorFunctions\CrossEntropyError.cs" />
+    <Compile Include="MLP\ErrorFunctions\IErrorFunction.cs" />
+    <Compile Include="MLP\ErrorFunctions\MeanSquaredError.cs" />
     <Compile Include="Hopfield\Functions.cs" />
     <Compile Include="Hopfield\Matrix.cs" />
     <Compile Include="Hopfield\IPosition.cs" />
-    <Compile Include="Interfaces\NetworkArchitecture.cs" />
-    <Compile Include="Interfaces\INetworkSerializer.cs" />
+    <Compile Include="MLP\NetworkArchitecture.cs" />
+    <Compile Include="MLP\INetworkSerializer.cs" />
     <Compile Include="Hopfield\HopfieldNetwork.cs" />
     <Compile Include="Hopfield\IHopfieldNetwork.cs" />
     <Compile Include="Kohonen\IKohonenNetwork.cs" />
@@ -94,21 +94,21 @@
     <Compile Include="Kohonen\KohonenNetwork.cs" />
     <Compile Include="Kohonen\DataPointEventArgs.cs" />
     <Compile Include="Kohonen\DataSetEventArgs.cs" />
-    <Compile Include="ActivationFunctions\HyperbolicTangent.cs" />
-    <Compile Include="ActivationFunctions\LinearFunction.cs" />
-    <Compile Include="Interfaces\ILayer.cs" />
+    <Compile Include="MLP\ActivationFunctions\HyperbolicTangent.cs" />
+    <Compile Include="MLP\ActivationFunctions\LinearFunction.cs" />
+    <Compile Include="MLP\ILayer.cs" />
     <Compile Include="MLP\Backpropagation\BackpropagationArgs.cs" />
     <Compile Include="MLP\Backpropagation\Optimizers.cs" />
     <Compile Include="MLP\InputLayer.cs" />
-    <Compile Include="Interfaces\INetwork.cs" />
-    <Compile Include="ActivationFunctions\IActivationFunction.cs" />
+    <Compile Include="MLP\INetwork.cs" />
+    <Compile Include="MLP\ActivationFunctions\IActivationFunction.cs" />
     <Compile Include="MLP\ActivationLayer.cs" />
     <Compile Include="MLP\LayerBase.cs" />
     <Compile Include="MLP\Network.cs" />
-    <Compile Include="Interfaces\INeuron.cs" />
+    <Compile Include="MLP\INeuron.cs" />
     <Compile Include="MLP\InputNeuron.cs" />
     <Compile Include="MLP\ActivationNeuron.cs" />
-    <Compile Include="Interfaces\ISynapse.cs" />
+    <Compile Include="MLP\ISynapse.cs" />
     <Compile Include="MLP\NeuronBase.cs" />
     <Compile Include="MLP\NetworkSerializer.cs" />
     <Compile Include="MLP\Synapse.cs" />
@@ -163,6 +163,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ErrorFunctions\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,6 +1,6 @@
 ﻿using NeuralNetwork.MLP.Backpropagation;
 
-namespace NeuralNetwork.ErrorFunctions
+namespace NeuralNetwork.MLP.ErrorFunctions
 {
     public interface IErrorFunction
     {

@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mozog.Utils;
-using NeuralNetwork.ActivationFunctions;
-using NeuralNetwork.Interfaces;
+using NeuralNetwork.MLP.ActivationFunctions;
 
 namespace NeuralNetwork.MLP.Backpropagation
 {

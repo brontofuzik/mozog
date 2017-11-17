@@ -1,4 +1,4 @@
-﻿namespace NeuralNetwork.Interfaces
+﻿namespace NeuralNetwork.MLP
 {
     internal interface INetworkSerializer
     {

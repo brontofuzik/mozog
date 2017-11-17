@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using NeuralNetwork.ActivationFunctions;
+using NeuralNetwork.MLP.ActivationFunctions;
 
-namespace NeuralNetwork.Interfaces
+namespace NeuralNetwork.MLP
 {
     public interface ILayer
     {

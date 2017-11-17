@@ -1,7 +1,7 @@
 ﻿using System;
 using AntColonyOptimization;
 using NeuralNetwork.Data;
-using NeuralNetwork.Interfaces;
+using NeuralNetwork.MLP;
 
 namespace NeuralNetwork.Training.Ants
 {

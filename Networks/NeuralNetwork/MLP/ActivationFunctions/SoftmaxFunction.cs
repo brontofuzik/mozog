@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace NeuralNetwork.ActivationFunctions
+namespace NeuralNetwork.MLP.ActivationFunctions
 {
     public class SoftmaxFunction : IDifferentiableActivationFunction2
     {

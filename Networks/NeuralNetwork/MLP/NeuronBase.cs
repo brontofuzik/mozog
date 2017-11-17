@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using NeuralNetwork.Interfaces;
 
 namespace NeuralNetwork.MLP
 {

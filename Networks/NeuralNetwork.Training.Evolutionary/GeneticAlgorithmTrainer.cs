@@ -2,7 +2,7 @@
 using GeneticAlgorithm;
 using Mozog.Utils.Math;
 using NeuralNetwork.Data;
-using NeuralNetwork.Interfaces;
+using NeuralNetwork.MLP;
 
 namespace NeuralNetwork.Training.Evolutionary
 {

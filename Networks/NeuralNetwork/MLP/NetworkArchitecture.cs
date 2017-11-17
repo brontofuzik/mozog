@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using NeuralNetwork.ActivationFunctions;
-using NeuralNetwork.ErrorFunctions;
+using NeuralNetwork.MLP.ActivationFunctions;
+using NeuralNetwork.MLP.ErrorFunctions;
 
-namespace NeuralNetwork.Interfaces
+namespace NeuralNetwork.MLP
 {
     // Network topology
     public interface INetworkArchitecture

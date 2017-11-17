@@ -1,4 +1,4 @@
-﻿namespace NeuralNetwork.ActivationFunctions
+﻿namespace NeuralNetwork.MLP.ActivationFunctions
 {
     // Marker iface
     public interface IActivationFunction

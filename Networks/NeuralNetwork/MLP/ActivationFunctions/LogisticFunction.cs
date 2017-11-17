@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NeuralNetwork.ActivationFunctions
+namespace NeuralNetwork.MLP.ActivationFunctions
 {
     /// <summary>
     /// https://en.wikipedia.org/wiki/Logistic_function

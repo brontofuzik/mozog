@@ -1,10 +1,9 @@
 ﻿using System;
 using Mozog.Utils.Math;
-using NeuralNetwork.ActivationFunctions;
-using NeuralNetwork.ErrorFunctions;
-using NeuralNetwork.Interfaces;
 using NeuralNetwork.MLP;
+using NeuralNetwork.MLP.ActivationFunctions;
 using NeuralNetwork.MLP.Backpropagation;
+using NeuralNetwork.MLP.ErrorFunctions;
 using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates

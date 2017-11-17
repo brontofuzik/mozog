@@ -3,7 +3,7 @@ using System.Linq;
 using Mozog.Utils;
 using Mozog.Utils.Math;
 using NeuralNetwork.Data;
-using NeuralNetwork.Interfaces;
+using NeuralNetwork.MLP;
 using SimulatedAnnealing;
 using SimulatedAnnealing.Functions.Cooling;
 using SimulatedAnnealing.Functions.Initialization;

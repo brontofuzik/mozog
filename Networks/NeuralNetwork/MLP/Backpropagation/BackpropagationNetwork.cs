@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Mozog.Utils;
-using NeuralNetwork.ErrorFunctions;
-using NeuralNetwork.Interfaces;
+using NeuralNetwork.MLP.ErrorFunctions;
 
 namespace NeuralNetwork.MLP.Backpropagation
 {

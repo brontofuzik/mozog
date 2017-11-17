@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Mozog.Utils;
 using NeuralNetwork.Data;
-using NeuralNetwork.Interfaces;
 using NeuralNetwork.Training;
 
 namespace NeuralNetwork.MLP.Backpropagation
