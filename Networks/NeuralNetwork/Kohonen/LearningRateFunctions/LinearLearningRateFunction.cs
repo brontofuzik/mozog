@@ -1,30 +1,22 @@
 ﻿namespace NeuralNetwork.Kohonen.LearningRateFunctions
 {
     // LR = ((LR_f - LR_i) / TIC) * TII + LR_i
-    public class LinearLearningRateFunction
-        : AbstractLearningRateFunction
+    public class LinearLearningRateFunction : LearningRateFunctionBase
     {
-        public LinearLearningRateFunction(int trainingIterationCount, double initialLearningRate, double finalLearningRate)
-            : base(trainingIterationCount, initialLearningRate, finalLearningRate)
+        private readonly double learningRate;
+
+        public LinearLearningRateFunction(int iterations, double initialRate, double finalRate)
+            : base(iterations, initialRate, finalRate)
         {
-            _learningRateParameter = (finalLearningRate - initialLearningRate) / trainingIterationCount;
+            learningRate = (finalRate - initialRate) / iterations;
         }
 
-        public LinearLearningRateFunction(int trainingIterationCount)
-            : base(trainingIterationCount, MinLearningRate, MaxLearningRate)
+        public LinearLearningRateFunction(int iterations)
+            : base(iterations, MinLearningRate, MaxLearningRate)
         {
         }
 
-        /// <summary>
-        /// Calculates the learning rate for the specified trianing iteration.
-        /// </summary>
-        /// <param name="trainingIterationIndex">The trianing iteration.</param>
-        /// <returns>The learning rate.</returns>
-        public override double CalculateLearningRate(int trainingIterationIndex)
-        {
-            return InitialLearningRate + _learningRateParameter * trainingIterationIndex;
-        }
-
-        private double _learningRateParameter;
+        public override double Evaluate(int iteration)
+            => InitialRate + learningRate * iteration;
     }
 }

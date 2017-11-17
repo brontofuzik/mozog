@@ -7,233 +7,74 @@ using Mozog.Utils.Math;
 using NeuralNetwork.Data;
 using NeuralNetwork.Kohonen.LearningRateFunctions;
 using NeuralNetwork.Kohonen.NeighbourhoodFunctions;
-using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Kohonen
 {
-    public class KohonenNetwork
-        : IKohonenNetwork
+    public class KohonenNetwork : IKohonenNetwork
     {
-        /// <summary>
-        /// Initializes a new instance of the KohonenNetwork class.
-        /// </summary>
-        /// <param name="inputLayerNeuronCount">The number of input neurons.</param>
-        /// <param name="outputLayerDimensions">The dimensions (i.e. the numbers of neurons) of the output layer.</param>
-        public KohonenNetwork(int inputLayerNeuronCount, int[] outputLayerDimensions)
+        private readonly double[] inputNeuronOutputs;
+        private readonly int outputLayerDimension;
+        private readonly int[] outputLayerDimensions;
+        private readonly double[][] outputNeuronWeights;
+        private readonly double[] outputNeuronOutputs;
+        private readonly double outputLayerDiameter;
+
+        private ILearningRateFunction learningRateFunction;
+        private ILearningRateFunction neighbourhoodRadiusFunction;
+        private INeighbourhoodFunction neighbourhoodFunction;
+
+        public KohonenNetwork(int inputLayerNeurons, int[] outputLayerDimensions)
         {
-            Require.IsPositive(inputLayerNeuronCount, nameof(inputLayerNeuronCount));
+            Require.IsPositive(inputLayerNeurons, nameof(inputLayerNeurons));
             Require.IsPositive(outputLayerDimensions.Length, nameof(outputLayerDimensions));
 
-            foreach (int outputLayerDimension in outputLayerDimensions)
-            {
-                Require.IsPositive(outputLayerDimension, "outputLayerDimension");
-            }
+            foreach (int dim in outputLayerDimensions)
+                Require.IsPositive(dim, "outputLayerDimension");
 
             // ---------------------------
             // Initialize the input layer.
             // ---------------------------
 
             // Initialize the number of neurons in the input layer (i.e. the input neurons).
-            _inputLayerNeuronCount = inputLayerNeuronCount;
+            InputNeuronCount = inputLayerNeurons;
 
             // Initialize the outputs of the input neurons.
-            _inputLayerNeuronOutputs = new double[inputLayerNeuronCount];
+            inputNeuronOutputs = new double[inputLayerNeurons];
 
             // ----------------------------
             // Initialize the output layer.
             // ----------------------------
 
             // INitialize the number of neurons in the output layer (i.e. the output nerouns).
-            _outputLayerDimension = outputLayerDimensions.Length;
+            outputLayerDimension = outputLayerDimensions.Length;
 
             // Initialize the dimensions of the output layer.
-            _outputLayerDimensions = outputLayerDimensions;
+            this.outputLayerDimensions = outputLayerDimensions;
 
             // Calculate the number of output neurons.
-            _outputLayerNeuronCount = 1;
+            OutputNeuronCount = 1;
             foreach (int outputLayerDimension in outputLayerDimensions)
             {
-                _outputLayerNeuronCount *= outputLayerDimension;
+                OutputNeuronCount *= outputLayerDimension;
             }
 
             // Initialize the weights of the output neurons.
-            _outputLayerNeuronWeights = new double[_outputLayerNeuronCount][];
-            for (int outputNeuronIndex = 0; outputNeuronIndex < _outputLayerNeuronCount; ++outputNeuronIndex)
+            outputNeuronWeights = new double[OutputNeuronCount][];
+            for (int outputNeuronIndex = 0; outputNeuronIndex < OutputNeuronCount; ++outputNeuronIndex)
             {
-                _outputLayerNeuronWeights[outputNeuronIndex] = new double[_inputLayerNeuronCount];
+                outputNeuronWeights[outputNeuronIndex] = new double[InputNeuronCount];
             }
 
             // Initialize the outputs of the output neurons.
-            _outputLayerNeuronOutputs = new double[_outputLayerNeuronCount];
+            outputNeuronOutputs = new double[OutputNeuronCount];
 
             // Calculate the diameter of the output layer (using Pythagoras theorem).
             double tmp = 0.0;
-            for (int i = 0; i < _outputLayerDimension; ++i)
+            for (int i = 0; i < outputLayerDimension; ++i)
             {
-                tmp += _outputLayerDimensions[i] * _outputLayerDimensions[i];
+                tmp += this.outputLayerDimensions[i] * this.outputLayerDimensions[i];
             }
-            _outputLayerDiameter = System.Math.Sqrt(tmp);
-        }
-
-        /// <summary>
-        /// Trains the Kohonen network with a training set for a number of iterations.
-        /// </summary>
-        /// <param name="trainingSet">The training set.</param>
-        /// <param name="trainingIterationCount">The number of training iterations.</param>
-        public void Train(DataSet trainingSet, int trainingIterationCount)
-        {
-            Require.IsNotNull(trainingSet, nameof(trainingSet));
-
-            if (trainingSet.InputSize != _inputLayerNeuronCount)
-            {
-                throw new ArgumentException("The training set is not compatible with the network (i.e. the length of the input vector does not match the number of neurons in the input layer).", nameof(trainingSet));
-            }
-
-            Require.IsPositive(trainingIterationCount, nameof(trainingIterationCount));
-
-            // The learning rate function.
-            double initialLearningRate = 0.999;
-            double finalLearningRate = 0.001;
-            _learningRateFunction = new ExponentialLearningRateFunction(trainingIterationCount, initialLearningRate, finalLearningRate);
-
-            // The neighbourhood neighbourhoodRadius function.
-            double initialNeighbourhoodRadius = _outputLayerDiameter;
-            double finalneighbourhoodRadius = 0.001;
-            _neighbourhoodRadiusFunction = new ExponentialLearningRateFunction(trainingIterationCount, initialNeighbourhoodRadius, finalneighbourhoodRadius);
-
-            // The neighbourhood function.
-            _neighbourhoodFunction = new GaussianNeighbourhoodFunction();
-
-            // Initialize the network.
-            double minWeight = 0.0;
-            double maxWeight = 1.0;
-            Initialize(minWeight, maxWeight);
-
-            for (int trainingIterationIndex = 0; trainingIterationIndex < trainingIterationCount; ++trainingIterationIndex)
-            {
-                // Calculate the learning rate.
-                double learningRate = _learningRateFunction.CalculateLearningRate(trainingIterationIndex);
-                
-                // Calculate the neighbourhood radius.
-                double neighbourhoodRadius = _neighbourhoodRadiusFunction.CalculateLearningRate(trainingIterationIndex);
-                
-                Trace.WriteLine($"{trainingIterationIndex}: learning rate = {learningRate:0.000}, neighbourhood radius = {neighbourhoodRadius:0.000}");
-
-                TrainSet(trainingSet, trainingIterationIndex, learningRate, neighbourhoodRadius);
-            }
-        }
-
-        /// <summary>
-        /// Evaluates the network.
-        /// </summary>
-        /// <param name="inputVector">The input vector.</param>
-        /// <returns>The coordinates of the output.</returns>
-        public int[] Evaluate(double[] inputVector)
-        {
-            Require.IsNotNull(inputVector, nameof(inputVector));
-
-            if (inputVector.Length != _inputLayerNeuronCount)
-            {
-                throw new ArgumentException("The input vector is not compatible with the network (i.e. the length of the input vector does not match the number of input neurons).", nameof(inputVector));
-            }
-
-            // Set the outputs of the input neurons.
-            Array.Copy(inputVector, _inputLayerNeuronOutputs, _inputLayerNeuronCount);
-
-            // Evaluate the output neurons and determine the winner output neuron.
-            int winnerOutputNeuronIndex = 0;
-            for (int outputNeuronIndex = 0; outputNeuronIndex < _outputLayerNeuronCount; ++outputNeuronIndex)
-            {
-                _outputLayerNeuronOutputs[outputNeuronIndex] = Vector.Distance(_outputLayerNeuronWeights[outputNeuronIndex], _inputLayerNeuronOutputs);
-
-                // Update the winner neuron index.
-                if (_outputLayerNeuronOutputs[outputNeuronIndex] < _outputLayerNeuronOutputs[winnerOutputNeuronIndex])
-                {
-                    winnerOutputNeuronIndex = outputNeuronIndex;
-                }
-            }
-
-            // Convert the index of the winner output neuron to its coordinates.
-            int[] winnerOutputNeuronCoordinates = OutputNeuronIndexToCoordinates(winnerOutputNeuronIndex);
-
-            return winnerOutputNeuronCoordinates;
-        }
-
-        /// <summary>
-        /// Gets the weights of an output neuron's synapses.
-        /// </summary>
-        /// <param name="outputNeuronIndex">The index of the neuron.</param>
-        /// <returns>The weights of the output neuron's synapses.</returns>
-        public double[] GetOutputNeuronSynapseWeights(int outputNeuronIndex)
-        {
-            return _outputLayerNeuronWeights[outputNeuronIndex];
-        }
-
-        /// <summary>
-        /// Gets the weights of an output neuron's synapses.
-        /// </summary>
-        /// <param name="outputNeuronCoordinates">The coordinates of the </param>
-        /// <returns>The weights of the output neuron's synapses.</returns>
-        public double[] GetOutputNeuronSynapseWeights(int[] outputNeuronCoordinates)
-        {
-            int outputNeuronIndex = OutputNeuronCoordinatesToIndex(outputNeuronCoordinates);
-            return GetOutputNeuronSynapseWeights(outputNeuronIndex);
-        }
-
-        /// <summary>
-        /// Converts the network to its bitmap representation.
-        /// </summary>
-        /// <param name="bitmapWidth">The width of the bitmap.</param>
-        /// <param name="bitmapHeight">The height of the bitmap.</param>
-        /// <returns>The bitmap representation of the network.</returns>
-        public Bitmap ToBitmap(int bitmapWidth, int bitmapHeight)
-        {
-            Bitmap bitmap = new Bitmap(bitmapWidth, bitmapHeight);
-            Graphics graphics = Graphics.FromImage(bitmap);
-            Pen pen = new Pen(Color.Black);
-
-            int neuronDiameter = 3;
-
-            for (int outputNeuronIndex = 0; outputNeuronIndex < _outputLayerNeuronCount; ++outputNeuronIndex)
-            {
-                // Draw the neuron.
-                double xWeight = _outputLayerNeuronWeights[outputNeuronIndex][0];
-                int xCoordinate = (int)System.Math.Round(xWeight * bitmapWidth);
-                double yWeight = _outputLayerNeuronWeights[outputNeuronIndex].Length > 1 ? _outputLayerNeuronWeights[outputNeuronIndex][1] : 0.5;
-                int yCoordinate = (int)System.Math.Round(yWeight * bitmapHeight);
-
-                graphics.DrawEllipse(pen, xCoordinate, yCoordinate, neuronDiameter, neuronDiameter);
-
-                // Draw the grid.
-                ICollection<int> neighbourOutputNeuronsIndices = GetNeighbourOutputNeuronsIndices(outputNeuronIndex);
-                foreach (int neighbourOutputNeuronIndex in neighbourOutputNeuronsIndices)
-                {
-                    double neighbourXWeight = _outputLayerNeuronWeights[neighbourOutputNeuronIndex][0];
-                    int neighbourXCoordinate = (int)System.Math.Round(neighbourXWeight * bitmapWidth);
-                    double neighbourYWeight = _outputLayerNeuronWeights[neighbourOutputNeuronIndex].Length > 1 ? _outputLayerNeuronWeights[neighbourOutputNeuronIndex][1] : 0.5;
-                    int neighbourYCoordinate = (int)System.Math.Round(neighbourYWeight * bitmapHeight);
-
-                    graphics.DrawLine(pen, xCoordinate, yCoordinate, neighbourXCoordinate, neighbourYCoordinate);
-                }
-            }
-
-            return bitmap;
-        }
-
-        public int InputNeuronCount
-        {
-            get
-            {
-                return _inputLayerNeuronCount;
-            }
-        }
-
-        public int OutputNeuronCount
-        {
-            get
-            {
-                return _outputLayerNeuronCount;
-            }
+            outputLayerDiameter = System.Math.Sqrt(tmp);
         }
 
         #region Events
@@ -248,73 +89,82 @@ namespace NeuralNetwork.Kohonen
 
         #endregion // Events
 
-        /// <summary>
-        /// Initializes the network.
-        /// </summary>
-        /// <param name="maxWeight">The minimum weight.</param>
-        /// <param name="minWeight">The maximum weight.</param>
+        public int InputNeuronCount { get; }
+
+        public int OutputNeuronCount { get; }
+
+        public void Train(DataSet trainingSet, int iterations)
+        {
+            Require.IsNotNull(trainingSet, nameof(trainingSet));
+
+            if (trainingSet.InputSize != InputNeuronCount)
+            {
+                throw new ArgumentException("The training set is not compatible with the network (i.e. the length of the input vector does not match the number of neurons in the input layer).", nameof(trainingSet));
+            }
+
+            Require.IsPositive(iterations, nameof(iterations));
+
+            // The learning rate function.
+            double initialLearningRate = 0.999;
+            double finalLearningRate = 0.001;
+            learningRateFunction = new ExponentialLearningRateFunction(iterations, initialLearningRate, finalLearningRate);
+
+            // The neighbourhood neighbourhoodRadius function.
+            double initialNeighbourhoodRadius = outputLayerDiameter;
+            double finalneighbourhoodRadius = 0.001;
+            neighbourhoodRadiusFunction = new ExponentialLearningRateFunction(iterations, initialNeighbourhoodRadius, finalneighbourhoodRadius);
+
+            // The neighbourhood function.
+            neighbourhoodFunction = new GaussianNeighbourhoodFunction();
+
+            // Initialize the network.
+            double minWeight = 0.0;
+            double maxWeight = 1.0;
+            Initialize(minWeight, maxWeight);
+
+            for (int trainingIterationIndex = 0; trainingIterationIndex < iterations; ++trainingIterationIndex)
+            {
+                // Calculate the learning rate.
+                double learningRate = learningRateFunction.Evaluate(trainingIterationIndex);
+                
+                // Calculate the neighbourhood radius.
+                double neighbourhoodRadius = neighbourhoodRadiusFunction.Evaluate(trainingIterationIndex);
+                
+                Trace.WriteLine($"{trainingIterationIndex}: learning rate = {learningRate:0.000}, neighbourhood radius = {neighbourhoodRadius:0.000}");
+
+                TrainSet(trainingSet, trainingIterationIndex, learningRate, neighbourhoodRadius);
+            }
+        }
+
         private void Initialize(double minWeight, double maxWeight)
         {
             if (maxWeight < minWeight)
-            {
                 throw new ArgumentException("The maximum weight must be greater than or equal to the minimum weight.", nameof(maxWeight));
-            }
 
             // Initialize the input layer.
-            for (int inputNeuronIndex = 0; inputNeuronIndex < _inputLayerNeuronCount; ++inputNeuronIndex)
-            {
-                _inputLayerNeuronOutputs[inputNeuronIndex] = 0.0;
-            }
+            for (int inputNeuronIndex = 0; inputNeuronIndex < InputNeuronCount; ++inputNeuronIndex)
+                inputNeuronOutputs[inputNeuronIndex] = 0.0;
 
             // Initialize the output layer.
-            for (int outputNeuronIndex = 0; outputNeuronIndex < _outputLayerNeuronCount; ++outputNeuronIndex)
+            for (int outputNeuronIndex = 0; outputNeuronIndex < OutputNeuronCount; ++outputNeuronIndex)
             {
-                for (int weightIndex = 0; weightIndex < _inputLayerNeuronCount; ++weightIndex)
-                {
-                    _outputLayerNeuronWeights[outputNeuronIndex][weightIndex] = StaticRandom.Double(minWeight, maxWeight);
-                }
-                _outputLayerNeuronOutputs[outputNeuronIndex] = 0.0;
+                for (int weightIndex = 0; weightIndex < InputNeuronCount; ++weightIndex)
+                    outputNeuronWeights[outputNeuronIndex][weightIndex] = StaticRandom.Double(minWeight, maxWeight);
+
+                outputNeuronOutputs[outputNeuronIndex] = 0.0;
             }
         }
 
-        ///// <summary>
-        ///// Normalizes the weight vectors of the output neurons.
-        ///// </summary>
-        //private void NormalizeOutputLayerNeuronWeights()
-        //{
-        //    for (int outputNeuronIndex = 0; outputNeuronIndex < _outputLayerNeuronCount; ++outputNeuronIndex)
-        //    {
-        //        double[] normalizedWeightVector = SupervisedTrainingPattern.NormalizeVector(_outputLayerNeuronWeights[outputNeuronIndex]);
-        //        Array.Copy(normalizedWeightVector, _outputLayerNeuronWeights[outputNeuronIndex], _inputLayerNeuronCount);
-        //    }
-        //}
-
-        /// <summary>
-        /// Trains the networks with a training set.
-        /// </summary>
-        /// <param name="trainingSet">The training set.</param>
-        /// <param name="trainingIterationIndex">The index of the trianing iteration.</param>
-        /// <param name="learningRate">The learning rate.</param>
-        /// <param name="neighbourhoodRadius">The neighbourhood neighbourhoodRadius.</param>
-        private void TrainSet(IDataSet trainingSet, int trainingIterationIndex, double learningRate, double neighbourhoodRadius)
+        private void TrainSet(IDataSet trainingSet, int iteration, double learningRate, double neighbourhoodRadius)
         {
-            BeforeTrainingSet?.Invoke(this, new DataSetEventArgs(trainingSet, trainingIterationIndex));
+            BeforeTrainingSet?.Invoke(this, new DataSetEventArgs(trainingSet, iteration));
 
             foreach (var point in trainingSet.Random())
-            {
-                TrainPattern(point, trainingIterationIndex, learningRate, neighbourhoodRadius);
-            }
+                TrainPattern(point, iteration, learningRate, neighbourhoodRadius);
 
-            AfterTrainingSet?.Invoke(this, new DataSetEventArgs(trainingSet, trainingIterationIndex));
+            AfterTrainingSet?.Invoke(this, new DataSetEventArgs(trainingSet, iteration));
         }
 
-        /// <summary>
-        /// Trains the network with a training pattern.
-        /// </summary>
-        /// <param name="trainingPattern">The training pattern.</param>
-        /// <param name="trainingIterationIndex">The index of the trianing iteration.</param>
-        /// <param name="learningRate">The learning rate.</param>
-        /// <param name="neighbourhoodRadius">The neighbourhood neighbourhoodRadius.</param>
         private void TrainPattern(ILabeledDataPoint trainingPattern, int trainingIterationIndex, double learningRate, double neighbourhoodRadius)
         {
             BeforeTrainingPoint?.Invoke(this, new DataPointEventArgs(trainingPattern, trainingIterationIndex));
@@ -325,13 +175,6 @@ namespace NeuralNetwork.Kohonen
             AfterTrainingPoint?.Invoke(this, new DataPointEventArgs(trainingPattern, trainingIterationIndex));
         }
 
-        /// <summary>
-        /// Adapts the weights of the output neurons.
-        /// </summary>
-        /// <param name="trainingPattern">The training pattern.</param>
-        /// <param name="winnerOutputNeuronCoordinates">The coordinates of the winner output neuron.</param>
-        /// <param name="learningRate">The learning rate.</param>
-        /// <param name="neighbourhoodRadius">The neighbourhood neighbourhoodRadius.</param>
         private void AdaptOutputLayerNeuronWeights(ILabeledDataPoint trainingPattern, int[] winnerOutputNeuronCoordinates, double learningRate, double neighbourhoodRadius)
         {
             // (OPTIMIZATION) No need to adapt if the learning rate is zero.
@@ -340,7 +183,7 @@ namespace NeuralNetwork.Kohonen
                 return;
             }
 
-            for (int outputNeuronIndex = 0; outputNeuronIndex < _outputLayerNeuronCount; ++outputNeuronIndex)
+            for (int outputNeuronIndex = 0; outputNeuronIndex < OutputNeuronCount; ++outputNeuronIndex)
             {
                 // Get the coordinates of the output neuron.
                 int[] outputNeuronCoordinates = OutputNeuronIndexToCoordinates(outputNeuronIndex);
@@ -349,61 +192,94 @@ namespace NeuralNetwork.Kohonen
                 double distanceBetweenOutputNeurons = Vector.Distance(outputNeuronCoordinates, winnerOutputNeuronCoordinates);
 
                 // Calculate the neighbourhood.
-                double neighbourhood = _neighbourhoodFunction.CalculateNeighbourhood(distanceBetweenOutputNeurons, neighbourhoodRadius);
-                
+                double neighbourhood = neighbourhoodFunction.Evaluate(distanceBetweenOutputNeurons, neighbourhoodRadius);
+
                 // (OPTIMIZATION) No need to adapt if the neighbourhood is zero.
                 if (neighbourhood == 0.0)
                 {
                     continue;
                 }
 
-                for (int weightIndex = 0; weightIndex < _inputLayerNeuronCount; ++weightIndex)
+                for (int weightIndex = 0; weightIndex < InputNeuronCount; ++weightIndex)
                 {
-                    double weightDelta = learningRate * neighbourhood * (trainingPattern.Input[weightIndex] - _outputLayerNeuronWeights[outputNeuronIndex][weightIndex]);
-                    _outputLayerNeuronWeights[outputNeuronIndex][weightIndex] += weightDelta;
+                    double weightDelta = learningRate * neighbourhood * (trainingPattern.Input[weightIndex] - outputNeuronWeights[outputNeuronIndex][weightIndex]);
+                    outputNeuronWeights[outputNeuronIndex][weightIndex] += weightDelta;
                 }
             }
         }
 
-        /// <summary>
-        /// Converts the index of an output neuron to its coordinates.
-        /// </summary>
-        /// <param name="outputNeuronIndex">The index of the output neuron.</param>
-        /// <returns>The coordiantes of the output neuron.</returns>
-        private int[] OutputNeuronIndexToCoordinates(int outputNeuronIndex)
+        public int[] Evaluate(double[] input)
         {
-            int[] outputNeuronCoordinates = new int[_outputLayerDimension];
-            for (int i = _outputLayerDimension - 1; i >= 0; --i)
+            Require.IsNotNull(input, nameof(input));
+
+            if (input.Length != InputNeuronCount)
             {
-                int lowerDimensionsNeuronCount = 1;
-                for (int j = i - 1; j >= 0; --j)
-                {
-                    lowerDimensionsNeuronCount *= _outputLayerDimensions[j];
-                }
-                outputNeuronCoordinates[i] = outputNeuronIndex / lowerDimensionsNeuronCount;
-                outputNeuronIndex = outputNeuronIndex % lowerDimensionsNeuronCount;
+                throw new ArgumentException("The input vector is not compatible with the network (i.e. the length of the input vector does not match the number of input neurons).", nameof(input));
             }
-            return outputNeuronCoordinates;
+
+            // Set the outputs of the input neurons.
+            Array.Copy(input, inputNeuronOutputs, InputNeuronCount);
+
+            // Evaluate the output neurons and determine the winner output neuron.
+            int winnerOutputNeuronIndex = 0;
+            for (int outputNeuronIndex = 0; outputNeuronIndex < OutputNeuronCount; ++outputNeuronIndex)
+            {
+                outputNeuronOutputs[outputNeuronIndex] = Vector.Distance(outputNeuronWeights[outputNeuronIndex], inputNeuronOutputs);
+
+                // Update the winner neuron index.
+                if (outputNeuronOutputs[outputNeuronIndex] < outputNeuronOutputs[winnerOutputNeuronIndex])
+                {
+                    winnerOutputNeuronIndex = outputNeuronIndex;
+                }
+            }
+
+            // Convert the index of the winner output neuron to its coordinates.
+            int[] winnerOutputNeuronCoordinates = OutputNeuronIndexToCoordinates(winnerOutputNeuronIndex);
+
+            return winnerOutputNeuronCoordinates;
         }
 
-        /// <summary>
-        /// Converts the coordiantes of an output neuron to its index.
-        /// </summary>
-        /// <param name="outputNeuronCoordinates">The coordinates of the output neuron.</param>
-        /// <returns>The index of the output neuron.</returns>
-        private int OutputNeuronCoordinatesToIndex(int[] outputNeuronCoordinates)
+        public double[] GetOutputNeuronSynapseWeights(int neuronIndex)
+            => outputNeuronWeights[neuronIndex];
+
+        public double[] GetOutputNeuronSynapseWeights(int[] neuronCoordinates)
         {
-            int outputNeuronIndex = 0;
-            for (int i = _outputLayerDimension - 1; i >= 0; --i)
+            int outputNeuronIndex = OutputNeuronCoordinatesToIndex(neuronCoordinates);
+            return GetOutputNeuronSynapseWeights(outputNeuronIndex);
+        }
+
+        public Bitmap ToBitmap(int width, int height)
+        {
+            Bitmap bitmap = new Bitmap(width, height);
+            Graphics graphics = Graphics.FromImage(bitmap);
+            Pen pen = new Pen(Color.Black);
+
+            int neuronDiameter = 3;
+
+            for (int outputNeuronIndex = 0; outputNeuronIndex < OutputNeuronCount; ++outputNeuronIndex)
             {
-                int lowerDimensionsNeuronCount = 1;
-                for (int j = i - 1; j >= 0; --j)
+                // Draw the neuron.
+                double xWeight = outputNeuronWeights[outputNeuronIndex][0];
+                int xCoordinate = (int)System.Math.Round(xWeight * width);
+                double yWeight = outputNeuronWeights[outputNeuronIndex].Length > 1 ? outputNeuronWeights[outputNeuronIndex][1] : 0.5;
+                int yCoordinate = (int)System.Math.Round(yWeight * height);
+
+                graphics.DrawEllipse(pen, xCoordinate, yCoordinate, neuronDiameter, neuronDiameter);
+
+                // Draw the grid.
+                ICollection<int> neighbourOutputNeuronsIndices = GetNeighbourOutputNeuronsIndices(outputNeuronIndex);
+                foreach (int neighbourOutputNeuronIndex in neighbourOutputNeuronsIndices)
                 {
-                    lowerDimensionsNeuronCount *= _outputLayerDimensions[j];
+                    double neighbourXWeight = outputNeuronWeights[neighbourOutputNeuronIndex][0];
+                    int neighbourXCoordinate = (int)System.Math.Round(neighbourXWeight * width);
+                    double neighbourYWeight = outputNeuronWeights[neighbourOutputNeuronIndex].Length > 1 ? outputNeuronWeights[neighbourOutputNeuronIndex][1] : 0.5;
+                    int neighbourYCoordinate = (int)System.Math.Round(neighbourYWeight * height);
+
+                    graphics.DrawLine(pen, xCoordinate, yCoordinate, neighbourXCoordinate, neighbourYCoordinate);
                 }
-                outputNeuronIndex += outputNeuronCoordinates[i] * lowerDimensionsNeuronCount;
             }
-            return outputNeuronIndex;
+
+            return bitmap;
         }
 
         private ICollection<int> GetNeighbourOutputNeuronsIndices(int outputNeuronIndex)
@@ -411,24 +287,24 @@ namespace NeuralNetwork.Kohonen
             int[] outputNeuronCoordinates = OutputNeuronIndexToCoordinates(outputNeuronIndex);
 
             ICollection<int> neighbourOutputNeuronsIndices = new HashSet<int>();
-            for (int d = 0; d < _outputLayerDimension; ++d)
+            for (int d = 0; d < outputLayerDimension; ++d)
             {
                 int outputNeuronCoordinate = outputNeuronCoordinates[d];
 
                 if (outputNeuronCoordinate > 0)
                 {
-                    int[] neighbourOutputNeuronCoordinates = new int[_outputLayerDimension];
-                    Array.Copy(outputNeuronCoordinates, neighbourOutputNeuronCoordinates, _outputLayerDimension);
+                    int[] neighbourOutputNeuronCoordinates = new int[outputLayerDimension];
+                    Array.Copy(outputNeuronCoordinates, neighbourOutputNeuronCoordinates, outputLayerDimension);
                     neighbourOutputNeuronCoordinates[d] = outputNeuronCoordinate - 1;
 
                     int neighbourOutputNeuronIndex = OutputNeuronCoordinatesToIndex(neighbourOutputNeuronCoordinates);
                     neighbourOutputNeuronsIndices.Add(neighbourOutputNeuronIndex);
                 }
 
-                if (outputNeuronCoordinate < _outputLayerDimensions[d] - 1)
+                if (outputNeuronCoordinate < outputLayerDimensions[d] - 1)
                 {
-                    int[] neighbourOutputNeuronCoordinates = new int[_outputLayerDimension];
-                    Array.Copy(outputNeuronCoordinates, neighbourOutputNeuronCoordinates, _outputLayerDimension);
+                    int[] neighbourOutputNeuronCoordinates = new int[outputLayerDimension];
+                    Array.Copy(outputNeuronCoordinates, neighbourOutputNeuronCoordinates, outputLayerDimension);
                     neighbourOutputNeuronCoordinates[d] = outputNeuronCoordinate + 1;
 
                     int neighbourOutputNeuronIndex = OutputNeuronCoordinatesToIndex(neighbourOutputNeuronCoordinates);
@@ -439,71 +315,47 @@ namespace NeuralNetwork.Kohonen
             return neighbourOutputNeuronsIndices;
         }
 
-        #region Input layer
+        private int[] OutputNeuronIndexToCoordinates(int neuronIndex)
+        {
+            int[] outputNeuronCoordinates = new int[outputLayerDimension];
+            for (int i = outputLayerDimension - 1; i >= 0; --i)
+            {
+                int lowerDimensionsNeuronCount = 1;
+                for (int j = i - 1; j >= 0; --j)
+                {
+                    lowerDimensionsNeuronCount *= outputLayerDimensions[j];
+                }
+                outputNeuronCoordinates[i] = neuronIndex / lowerDimensionsNeuronCount;
+                neuronIndex = neuronIndex % lowerDimensionsNeuronCount;
+            }
+            return outputNeuronCoordinates;
+        }
 
-        /// <summary>
-        /// The number of neurons in the input layer (input neurons).
-        /// </summary>
-        private int _inputLayerNeuronCount;
+        private int OutputNeuronCoordinatesToIndex(int[] neuronCoordinates)
+        {
+            int outputNeuronIndex = 0;
+            for (int i = outputLayerDimension - 1; i >= 0; --i)
+            {
+                int lowerDimensionsNeuronCount = 1;
+                for (int j = i - 1; j >= 0; --j)
+                {
+                    lowerDimensionsNeuronCount *= outputLayerDimensions[j];
+                }
+                outputNeuronIndex += neuronCoordinates[i] * lowerDimensionsNeuronCount;
+            }
+            return outputNeuronIndex;
+        }
 
-        /// <summary>
-        /// The outputs of the input neurons.
-        /// </summary>
-        private double[] _inputLayerNeuronOutputs;
-
-        #endregion // Input layer
-
-        #region Output layer
-
-        /// <summary>
-        /// The dimension of the output layer.
-        /// </summary>
-        private int _outputLayerDimension;
-
-        /// <summary>
-        /// The dimensions of the output neuron.
-        /// </summary>
-        private int[] _outputLayerDimensions;
-
-        /// <summary>
-        /// The number of neurons in the output layer (output neurons).
-        /// </summary>
-        private int _outputLayerNeuronCount;
-
-        /// <summary>
-        /// The weights of the output neurons.
-        /// </summary>
-        private double[][] _outputLayerNeuronWeights;
-
-        /// <summary>
-        /// The outputs of the output neurons.
-        /// </summary>
-        private double[] _outputLayerNeuronOutputs;
-
-        /// <summary>
-        /// The diameter of the output layer.
-        /// </summary>
-        private double _outputLayerDiameter;
-
-        #endregion // Output layer
-
-        #region Training
-
-        /// <summary>
-        /// The learning rate function.
-        /// </summary>
-        private ILearningRateFunction _learningRateFunction;
-
-        /// <summary>
-        /// The neighbourhood neighbourhoodRadius function.
-        /// </summary>
-        private ILearningRateFunction _neighbourhoodRadiusFunction;
-
-        /// <summary>
-        /// The neighbourhood function.
-        /// </summary>
-        private INeighbourhoodFunction _neighbourhoodFunction;
-
-        #endregion // Training
+        ///// <summary>
+        ///// Normalizes the weight vectors of the output neurons.
+        ///// </summary>
+        //private void NormalizeOutputLayerNeuronWeights()
+        //{
+        //    for (int neuronIndex = 0; neuronIndex < _outputLayerNeuronCount; ++neuronIndex)
+        //    {
+        //        double[] normalizedWeightVector = SupervisedTrainingPattern.NormalizeVector(outputNeuronWeights[neuronIndex]);
+        //        Array.Copy(normalizedWeightVector, outputNeuronWeights[neuronIndex], _inputLayerNeurons);
+        //    }
+        //}
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using NeuralNetwork.Data;
-using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Kohonen
 {
@@ -19,40 +18,14 @@ namespace NeuralNetwork.Kohonen
 
         int OutputNeuronCount { get; }
 
-        /// <summary>
-        /// Trains the network with a training set for a number of iterations.
-        /// </summary>
-        /// <param name="trainingSet">The training set.</param>
-        /// <param name="trainingIterationCount">The number of training iterations.</param>
-        void Train(DataSet trainingSet, int trainingIterationCount);
+        void Train(DataSet trainingSet, int iterations);
 
-        /// <summary>
-        /// Evaluates the network.
-        /// </summary>
-        /// <param name="inputVector">The input vector.</param>
-        /// <returns>The coordinates of the output.</returns>
-        int[] Evaluate(double[] inputVector);
+        int[] Evaluate(double[] input);
 
-        /// <summary>
-        /// Gets the weights of an output neuron's synapses.
-        /// </summary>
-        /// <param name="outputNeuronIndex">The index of the neuron.</param>
-        /// <returns>The weights of the output neuron's synapses.</returns>
-        double[] GetOutputNeuronSynapseWeights(int outputNeuronIndex);
+        double[] GetOutputNeuronSynapseWeights(int neuronIndex);
 
-        /// <summary>
-        /// Gets the weights of an output neuron's synapses.
-        /// </summary>
-        /// <param name="outputNeuronCoordinates">The coordinates of the </param>
-        /// <returns>The weights of the output neuron's synapses.</returns>
-        double[] GetOutputNeuronSynapseWeights(int[] outputNeuronCoordinates);
+        double[] GetOutputNeuronSynapseWeights(int[] neuronCoordinates);
 
-        /// <summary>
-        /// Converts the network to its bitmap representation.
-        /// </summary>
-        /// <param name="bitmapWidth">The width of the bitmap.</param>
-        /// <param name="bitmapHeight">The height of the bitmap.</param>
-        /// <returns>The bitmap representation of the network.</returns>
-        Bitmap ToBitmap(int bitmapWidth, int bitmapHeight);
+        Bitmap ToBitmap(int width, int height);
     }
 }

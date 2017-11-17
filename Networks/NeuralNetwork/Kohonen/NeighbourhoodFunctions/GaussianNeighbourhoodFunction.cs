@@ -1,12 +1,9 @@
 ﻿using System;
 namespace NeuralNetwork.Kohonen.NeighbourhoodFunctions
 {
-    public class GaussianNeighbourhoodFunction
-        : AbstractNeighbourhoodFunction
+    public class GaussianNeighbourhoodFunction : INeighbourhoodFunction
     {
-        public override double CalculateNeighbourhood(double distanceBetweenOutputNeurons, double neighbourhoodRadius)
-        {
-            return 1 * Math.Exp(-(distanceBetweenOutputNeurons * distanceBetweenOutputNeurons / (2 * neighbourhoodRadius * neighbourhoodRadius)));
-        }
+        public double Evaluate(double distance, double radius)
+            => 1 * Math.Exp(-(distance * distance / (2 * radius * radius)));
     }
 }

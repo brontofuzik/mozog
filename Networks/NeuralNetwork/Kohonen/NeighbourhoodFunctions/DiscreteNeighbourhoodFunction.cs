@@ -2,12 +2,9 @@
 
 namespace NeuralNetwork.Kohonen.NeighbourhoodFunctions
 {
-    public class DiscreteNeighbourhoodFunction
-        : AbstractNeighbourhoodFunction
+    public class DiscreteNeighbourhoodFunction : INeighbourhoodFunction
     {
-        public override double CalculateNeighbourhood(double distanceBetweenOutputNeurons, double neighbourhoodRadius)
-        {
-            return distanceBetweenOutputNeurons <= Math.Abs(neighbourhoodRadius) ? 1.0 : 0.0;
-        }
+        public double Evaluate(double distance, double radius)
+            => distance <= Math.Abs(radius) ? 1.0 : 0.0;
     }
 }

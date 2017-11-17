@@ -29,7 +29,7 @@ namespace NeuralNetwork.Examples.KohonenNetwork
             // Step 2: Train the network.
             // --------------------------
 
-            network.Train(trainingSet, trainingIterationCount: 10000);
+            network.Train(trainingSet, iterations: 10000);
 
             // -------------------------
             // Step 2: Test the network.
