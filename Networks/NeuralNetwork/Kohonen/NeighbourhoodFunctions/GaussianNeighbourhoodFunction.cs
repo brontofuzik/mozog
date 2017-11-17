@@ -1,5 +1,5 @@
 ﻿using System;
-namespace NeuralNetwork.KohonenNetwork.NeighbourhoodFunctions
+namespace NeuralNetwork.Kohonen.NeighbourhoodFunctions
 {
     public class GaussianNeighbourhoodFunction
         : AbstractNeighbourhoodFunction

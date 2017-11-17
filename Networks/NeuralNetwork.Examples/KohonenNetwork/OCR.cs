@@ -23,7 +23,7 @@ namespace NeuralNetwork.Examples.KohonenNetwork
 
             int inputLayerNeuronCount = trainingSet.InputSize;
             int[] outputLayerDimensions = new int[] { 26 };
-            NeuralNetwork.KohonenNetwork.KohonenNetwork network = new NeuralNetwork.KohonenNetwork.KohonenNetwork(inputLayerNeuronCount, outputLayerDimensions);
+            NeuralNetwork.Kohonen.KohonenNetwork network = new NeuralNetwork.Kohonen.KohonenNetwork(inputLayerNeuronCount, outputLayerDimensions);
 
             // --------------------------
             // Step 2: Train the network.

@@ -1,4 +1,4 @@
-﻿namespace NeuralNetwork.KohonenNetwork.LearningRateFunctions
+﻿namespace NeuralNetwork.Kohonen.LearningRateFunctions
 {
     public interface ILearningRateFunction
     {

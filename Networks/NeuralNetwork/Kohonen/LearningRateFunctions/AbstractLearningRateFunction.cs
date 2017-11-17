@@ -1,7 +1,7 @@
 ﻿using System;
 using Mozog.Utils;
 
-namespace NeuralNetwork.KohonenNetwork.LearningRateFunctions
+namespace NeuralNetwork.Kohonen.LearningRateFunctions
 {
     public abstract class AbstractLearningRateFunction
         : ILearningRateFunction

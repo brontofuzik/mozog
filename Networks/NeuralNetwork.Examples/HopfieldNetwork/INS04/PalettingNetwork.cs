@@ -14,7 +14,7 @@ namespace NeuralNetwork.Examples.HopfieldNet.INS04
         /// <param name="paletteSize">The size of the palette (i.e. the number of colours in the palette).</param>
         public PalettingNetwork(int paletteSize)
         {
-            _underlyingKohonenNetwork = new NeuralNetwork.KohonenNetwork.KohonenNetwork(3, new int[] { paletteSize });
+            _underlyingKohonenNetwork = new NeuralNetwork.Kohonen.KohonenNetwork(3, new int[] { paletteSize });
         }
 
         /// <summary>
@@ -301,6 +301,6 @@ namespace NeuralNetwork.Examples.HopfieldNet.INS04
         /// <summary>
         /// The underlying Kohonen network.
         /// </summary>
-        private NeuralNetwork.KohonenNetwork.KohonenNetwork _underlyingKohonenNetwork;
+        private NeuralNetwork.Kohonen.KohonenNetwork _underlyingKohonenNetwork;
     }
 }

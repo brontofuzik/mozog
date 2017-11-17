@@ -1,16 +1,18 @@
-﻿namespace NeuralNetwork.KohonenNetwork.LearningRateFunctions
+﻿using System;
+
+namespace NeuralNetwork.Kohonen.LearningRateFunctions
 {
-    // LR = ((LR_f - LR_i) / TIC) * TII + LR_i
-    public class LinearLearningRateFunction
+    // LR = LR_i * ((LR_f / LR_i)^(1/TIC))^TII
+    public class ExponentialLearningRateFunction
         : AbstractLearningRateFunction
     {
-        public LinearLearningRateFunction(int trainingIterationCount, double initialLearningRate, double finalLearningRate)
+        public ExponentialLearningRateFunction(int trainingIterationCount, double initialLearningRate, double finalLearningRate)
             : base(trainingIterationCount, initialLearningRate, finalLearningRate)
         {
-            _learningRateParameter = (finalLearningRate - initialLearningRate) / trainingIterationCount;
+            _learningRateParameter = Math.Pow(finalLearningRate / initialLearningRate, 1 / (double)trainingIterationCount);
         }
 
-        public LinearLearningRateFunction(int trainingIterationCount)
+        public ExponentialLearningRateFunction(int trainingIterationCount)
             : base(trainingIterationCount, MinLearningRate, MaxLearningRate)
         {
         }
@@ -22,7 +24,7 @@
         /// <returns>The learning rate.</returns>
         public override double CalculateLearningRate(int trainingIterationIndex)
         {
-            return InitialLearningRate + _learningRateParameter * trainingIterationIndex;
+            return InitialLearningRate * Math.Pow(_learningRateParameter, trainingIterationIndex);
         }
 
         private double _learningRateParameter;

@@ -5,11 +5,11 @@ using System.Drawing;
 using Mozog.Utils;
 using Mozog.Utils.Math;
 using NeuralNetwork.Data;
-using NeuralNetwork.KohonenNetwork.LearningRateFunctions;
-using NeuralNetwork.KohonenNetwork.NeighbourhoodFunctions;
+using NeuralNetwork.Kohonen.LearningRateFunctions;
+using NeuralNetwork.Kohonen.NeighbourhoodFunctions;
 using NeuralNetwork.Training;
 
-namespace NeuralNetwork.KohonenNetwork
+namespace NeuralNetwork.Kohonen
 {
     public class KohonenNetwork
         : IKohonenNetwork

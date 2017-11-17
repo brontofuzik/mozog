@@ -57,7 +57,7 @@ namespace NeuralNetwork.Examples.KohonenNetwork
             // Step 2: Create the network.
             // ---------------------------
 
-            NeuralNetwork.KohonenNetwork.KohonenNetwork network = new NeuralNetwork.KohonenNetwork.KohonenNetwork(1, outputLayerDimensions);
+            NeuralNetwork.Kohonen.KohonenNetwork network = new NeuralNetwork.Kohonen.KohonenNetwork(1, outputLayerDimensions);
 
             // --------------------------
             // Step 3: Train the network.
@@ -119,7 +119,7 @@ namespace NeuralNetwork.Examples.KohonenNetwork
             // Step 2: Create the network.
             // ---------------------------
 
-            NeuralNetwork.KohonenNetwork.KohonenNetwork network = new NeuralNetwork.KohonenNetwork.KohonenNetwork(1, outputLayerDimensions);
+            NeuralNetwork.Kohonen.KohonenNetwork network = new NeuralNetwork.Kohonen.KohonenNetwork(1, outputLayerDimensions);
 
             // --------------------------
             // Step 3: Train the network.
@@ -181,7 +181,7 @@ namespace NeuralNetwork.Examples.KohonenNetwork
             // Step 2: Create the network.
             // ---------------------------
 
-            NeuralNetwork.KohonenNetwork.KohonenNetwork network = new NeuralNetwork.KohonenNetwork.KohonenNetwork(2, outputLayerDimensions);
+            NeuralNetwork.Kohonen.KohonenNetwork network = new NeuralNetwork.Kohonen.KohonenNetwork(2, outputLayerDimensions);
 
             // --------------------------
             // Step 3: Train the network.
@@ -243,7 +243,7 @@ namespace NeuralNetwork.Examples.KohonenNetwork
             // Step 2: Create the network.
             // ---------------------------
 
-            NeuralNetwork.KohonenNetwork.KohonenNetwork network = new NeuralNetwork.KohonenNetwork.KohonenNetwork(2, outputLayerDimensions);
+            NeuralNetwork.Kohonen.KohonenNetwork network = new NeuralNetwork.Kohonen.KohonenNetwork(2, outputLayerDimensions);
 
             // --------------------------
             // Step 3: Train the network.

@@ -2,7 +2,7 @@
 using NeuralNetwork.Data;
 using NeuralNetwork.Training;
 
-namespace NeuralNetwork.KohonenNetwork
+namespace NeuralNetwork.Kohonen
 {
     public class DataPointEventArgs : EventArgs
     {

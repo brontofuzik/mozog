@@ -3,7 +3,7 @@ using System.Drawing;
 using NeuralNetwork.Data;
 using NeuralNetwork.Training;
 
-namespace NeuralNetwork.KohonenNetwork
+namespace NeuralNetwork.Kohonen
 {
     public interface IKohonenNetwork
     {

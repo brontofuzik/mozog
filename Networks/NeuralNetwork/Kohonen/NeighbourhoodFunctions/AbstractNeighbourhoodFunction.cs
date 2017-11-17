@@ -1,4 +1,4 @@
-﻿namespace NeuralNetwork.KohonenNetwork.NeighbourhoodFunctions
+﻿namespace NeuralNetwork.Kohonen.NeighbourhoodFunctions
 {
     public abstract class AbstractNeighbourhoodFunction
         : INeighbourhoodFunction
