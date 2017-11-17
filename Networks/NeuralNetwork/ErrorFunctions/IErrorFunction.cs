@@ -1,4 +1,4 @@
-﻿using NeuralNetwork.MultilayerPerceptron.Backpropagation;
+﻿using NeuralNetwork.MLP.Backpropagation;
 
 namespace NeuralNetwork.ErrorFunctions
 {

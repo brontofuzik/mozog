@@ -4,7 +4,7 @@ using Mozog.Utils;
 using NeuralNetwork.ErrorFunctions;
 using NeuralNetwork.Interfaces;
 
-namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
+namespace NeuralNetwork.MLP.Backpropagation
 {
     public class BackpropagationNetwork : Network
     {

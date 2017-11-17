@@ -3,7 +3,7 @@ using Mozog.Utils;
 using NeuralNetwork.ActivationFunctions;
 using NeuralNetwork.Interfaces;
 
-namespace NeuralNetwork.MultilayerPerceptron
+namespace NeuralNetwork.MLP
 {
     public class ActivationLayer : LayerBase<ActivationNeuron>, IActivationLayer
     {

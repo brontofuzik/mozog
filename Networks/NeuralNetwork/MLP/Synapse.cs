@@ -2,7 +2,7 @@
 using Mozog.Utils.Math;
 using NeuralNetwork.Interfaces;
 
-namespace NeuralNetwork.MultilayerPerceptron
+namespace NeuralNetwork.MLP
 {
     public class Synapse : ISynapse
     {

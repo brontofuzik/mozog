@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using NeuralNetwork.MultilayerPerceptron.Backpropagation;
+using NeuralNetwork.MLP.Backpropagation;
 
 namespace NeuralNetwork.ErrorFunctions
 {

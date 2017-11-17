@@ -5,7 +5,7 @@ using NeuralNetwork.Data;
 using NeuralNetwork.Interfaces;
 using NeuralNetwork.Training;
 
-namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
+namespace NeuralNetwork.MLP.Backpropagation
 {
     public class BackpropagationTrainer : TrainerBase<BackpropagationArgs>
     {

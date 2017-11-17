@@ -3,7 +3,7 @@ using System.Linq;
 using Mozog.Utils;
 using NeuralNetwork.Interfaces;
 
-namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
+namespace NeuralNetwork.MLP.Backpropagation
 {
     public class BackpropagationNeuron : ActivationNeuron
     {

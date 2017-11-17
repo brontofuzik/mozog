@@ -1,6 +1,6 @@
 ﻿using NeuralNetwork.Interfaces;
 
-namespace NeuralNetwork.MultilayerPerceptron
+namespace NeuralNetwork.MLP
 {
     internal class NetworkSerializer : INetworkSerializer
     {

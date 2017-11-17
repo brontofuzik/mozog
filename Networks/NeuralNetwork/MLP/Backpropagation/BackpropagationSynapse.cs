@@ -1,4 +1,4 @@
-﻿namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
+﻿namespace NeuralNetwork.MLP.Backpropagation
 {
     public class BackpropagationSynapse : Synapse
     {

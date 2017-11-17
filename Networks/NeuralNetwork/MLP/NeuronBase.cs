@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NeuralNetwork.Interfaces;
 
-namespace NeuralNetwork.MultilayerPerceptron
+namespace NeuralNetwork.MLP
 {
     public abstract class NeuronBase : INeuron
     {

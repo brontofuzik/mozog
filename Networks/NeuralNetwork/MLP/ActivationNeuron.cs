@@ -2,7 +2,7 @@
 using System.Linq;
 using NeuralNetwork.Interfaces;
 
-namespace NeuralNetwork.MultilayerPerceptron
+namespace NeuralNetwork.MLP
 {
     public class ActivationNeuron : NeuronBase, IActivationNeuron
     {

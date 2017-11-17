@@ -5,7 +5,7 @@ using System.Linq;
 using Mozog.Utils;
 using NeuralNetwork.Interfaces;
 
-namespace NeuralNetwork.MultilayerPerceptron
+namespace NeuralNetwork.MLP
 {
     public abstract class LayerBase<TNeuron> : ILayer<TNeuron>
         where TNeuron : INeuron

@@ -1,7 +1,7 @@
 using System;
 using NeuralNetwork.Training;
 
-namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
+namespace NeuralNetwork.MLP.Backpropagation
 {
     public class BackpropagationArgs : TrainingArgs
     {

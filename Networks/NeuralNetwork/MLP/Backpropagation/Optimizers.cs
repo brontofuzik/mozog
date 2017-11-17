@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
+namespace NeuralNetwork.MLP.Backpropagation
 {
     public interface IOptimizer
     {

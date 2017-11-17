@@ -5,7 +5,7 @@ using Mozog.Utils;
 using NeuralNetwork.ActivationFunctions;
 using NeuralNetwork.Interfaces;
 
-namespace NeuralNetwork.MultilayerPerceptron.Backpropagation
+namespace NeuralNetwork.MLP.Backpropagation
 {
     public class BackpropagationLayer : ActivationLayer
     {

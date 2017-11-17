@@ -6,7 +6,7 @@ using NeuralNetwork.Data;
 using NeuralNetwork.ErrorFunctions;
 using NeuralNetwork.Interfaces;
 
-namespace NeuralNetwork.MultilayerPerceptron
+namespace NeuralNetwork.MLP
 {
     public class Network : INetwork
     {
