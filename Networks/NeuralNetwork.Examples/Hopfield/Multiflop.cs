@@ -1,7 +1,7 @@
 ﻿using System;
 using Mozog.Utils.Math;
 
-namespace NeuralNetwork.Examples.HopfieldNet
+namespace NeuralNetwork.Examples.Hopfield
 {
     class Multiflop
     {

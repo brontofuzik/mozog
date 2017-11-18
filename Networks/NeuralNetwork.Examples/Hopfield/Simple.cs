@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using NeuralNetwork.Data;
 
-namespace NeuralNetwork.Examples.HopfieldNet
+namespace NeuralNetwork.Examples.Hopfield
 {
     class Simple
     {

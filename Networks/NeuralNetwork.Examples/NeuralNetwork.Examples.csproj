@@ -47,25 +47,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HopfieldNetwork\EightQueens.cs" />
-    <Compile Include="HopfieldNetwork\EightRooks.cs" />
-    <Compile Include="HopfieldNetwork\GrayscaleDithering.cs" />
-    <Compile Include="HopfieldNetwork\Simple.cs" />
-    <Compile Include="HopfieldNetwork\INS04\ColourDitheringNetwork.cs" />
-    <Compile Include="HopfieldNetwork\INS04\PalettingNetwork.cs" />
-    <Compile Include="HopfieldNetwork\INS04\Example.cs" />
-    <Compile Include="HopfieldNetwork\Multiflop.cs" />
-    <Compile Include="KohonenNetwork\Examples.cs" />
-    <Compile Include="MultilayerPerceptron\02_Keywords\Data.cs" />
-    <Compile Include="MultilayerPerceptron\01_LogicGates\Data.cs" />
-    <Compile Include="MultilayerPerceptron\01_LogicGates\Example.cs" />
-    <Compile Include="MultilayerPerceptron\04_Tiling\Data.cs" />
-    <Compile Include="MultilayerPerceptron\04_Tiling\Example.cs" />
-    <Compile Include="MultilayerPerceptron\02_Keywords\Example.cs" />
-    <Compile Include="KohonenNetwork\OCR.cs" />
-    <Compile Include="MultilayerPerceptron\03_Iris\Data.cs" />
-    <Compile Include="MultilayerPerceptron\03_Iris\Example.cs" />
-    <Compile Include="MultilayerPerceptron\Test.cs" />
+    <Compile Include="Hopfield\EightQueens.cs" />
+    <Compile Include="Hopfield\EightRooks.cs" />
+    <Compile Include="Hopfield\GrayscaleDithering.cs" />
+    <Compile Include="Hopfield\Simple.cs" />
+    <Compile Include="Hopfield\INS04\ColourDitheringNetwork.cs" />
+    <Compile Include="Hopfield\INS04\PalettingNetwork.cs" />
+    <Compile Include="Hopfield\INS04\Example.cs" />
+    <Compile Include="Hopfield\Multiflop.cs" />
+    <Compile Include="Kohonen\Examples.cs" />
+    <Compile Include="MLP\02_Keywords\Data.cs" />
+    <Compile Include="MLP\01_LogicGates\Data.cs" />
+    <Compile Include="MLP\01_LogicGates\Example.cs" />
+    <Compile Include="MLP\04_Tiling\Data.cs" />
+    <Compile Include="MLP\04_Tiling\Example.cs" />
+    <Compile Include="MLP\02_Keywords\Example.cs" />
+    <Compile Include="Kohonen\OCR.cs" />
+    <Compile Include="MLP\03_Iris\Data.cs" />
+    <Compile Include="MLP\03_Iris\Example.cs" />
+    <Compile Include="MLP\Test.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

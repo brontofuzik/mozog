@@ -7,7 +7,7 @@ using Mozog.Utils.Math;
 using NeuralNetwork.Data;
 using NeuralNetwork.Training;
 
-namespace NeuralNetwork.Examples.MultilayerPerceptron.Keywords
+namespace NeuralNetwork.Examples.MLP.Keywords
 {
     static class Data
     {

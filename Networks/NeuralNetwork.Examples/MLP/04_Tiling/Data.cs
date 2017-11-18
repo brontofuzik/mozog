@@ -6,7 +6,7 @@ using Mozog.Utils.Math;
 using NeuralNetwork.Data;
 using NeuralNetwork.Training;
 
-namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
+namespace NeuralNetwork.Examples.MLP.Tiling
 {
     static class Data
     {

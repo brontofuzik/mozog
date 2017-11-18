@@ -3,7 +3,7 @@ using System.Linq;
 using Mozog.Utils;
 using NeuralNetwork.Training;
 
-namespace NeuralNetwork.Examples.MultilayerPerceptron
+namespace NeuralNetwork.Examples.MLP
 {
     public static class Test
     {

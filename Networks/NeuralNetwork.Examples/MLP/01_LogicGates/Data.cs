@@ -1,7 +1,7 @@
 ﻿using NeuralNetwork.Data;
 using NeuralNetwork.Training;
 
-namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
+namespace NeuralNetwork.Examples.MLP.LogicGates
 {
     static class Data
     {

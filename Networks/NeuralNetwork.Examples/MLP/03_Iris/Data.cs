@@ -5,7 +5,7 @@ using Mozog.Utils.Math;
 using NeuralNetwork.Data;
 using NeuralNetwork.Training;
 
-namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
+namespace NeuralNetwork.Examples.MLP.Iris
 {
     public class Data
     {

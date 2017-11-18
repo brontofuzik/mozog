@@ -4,7 +4,7 @@ using System.Drawing;
 using NeuralNetwork.Data;
 using NeuralNetwork.Training;
 
-namespace NeuralNetwork.Examples.HopfieldNet.INS04
+namespace NeuralNetwork.Examples.Hopfield.INS04
 {
     class PalettingNetwork
     {

@@ -1,13 +1,11 @@
 ﻿using System;
-using Mozog.Utils;
-using NeuralNetwork.Data;
 using NeuralNetwork.MLP;
 using NeuralNetwork.MLP.ActivationFunctions;
 using NeuralNetwork.MLP.Backpropagation;
 using NeuralNetwork.MLP.ErrorFunctions;
 using NeuralNetwork.Training;
 
-namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
+namespace NeuralNetwork.Examples.MLP.Keywords
 {
     static class Example
     {
@@ -17,23 +15,15 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
         {
             // Parameters
 
-            const int hiddenNeurons = 2;
+            const int hiddenNeurons = 5;
             const double learningRate = 0.1;
-            const double maxError = 0.01;
-            const int resetInterval = 1_000;
+            const double maxError = 0.1;
+            const int restartInterval = 1_000;
 
             // Step 1: Create the training set.
 
-            var data = Data.Create();
-            var trainingData = ClassificationData.New(Data.Encoder, 4, 3);
-            var testData = ClassificationData.New(Data.Encoder, 4, 3);
-            data.Random().ForEach((p, i) =>
-            {
-                if (i < 20)
-                    trainingData.Add(p);
-                else
-                    testData.Add(p);
-            });
+            var trainingData = Data.Create();
+            var testData = Data.Create();
 
             // Step 2: Create the network.
 
@@ -49,8 +39,7 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
 
             // Step 3: Train the network.
 
-            var trainer = new RestartingBackpropTrainer(resetInterval);
-            //var trainer = new ValidatingTrainer<BackpropagationArgs>(new BackpropagationTrainer(), 0.6, 0.2, 0.2);
+            var trainer = new RestartingBackpropTrainer(restartInterval);
             trainer.WeightsUpdated += LogTrainingProgress;
 
             var args = BackpropagationArgs.Batch(Optimizer.RmsProp(learningRate), maxError);
@@ -61,11 +50,28 @@ namespace NeuralNetwork.Examples.MultilayerPerceptron.Iris
 
             var testingLog = trainer.Test(network, testData);
             Console.WriteLine(testingLog);
+
+            for (int i = 0; i < testData.Size; i += 5)
+            {
+                // Original keyword
+                string originalKeyword = (string)testData[i].Tag;
+                var index = network.EvaluateUnlabeled(originalKeyword, Data.Encoder);
+                Console.Write($"{originalKeyword}: {index}");                
+
+                // Mutated keywords
+                for (int j = i + 1; j < i + 5; j++)
+                {
+                    string mutatedKeyword = (string)testData[j].Tag;
+                    index = network.EvaluateUnlabeled(mutatedKeyword, Data.Encoder);
+                    Console.Write($", {mutatedKeyword}: {index}");
+                }
+                Console.WriteLine();
+            }
         }
 
         private static void LogTrainingProgress(object sender, TrainingStatus e)
         {
-            if (e.Iterations % 100 == 0)
+            if (e.Iterations % 10 == 0)
             {
                 Console.WriteLine($"{e.Iterations:D5}: {e.Error:F2}");
             }

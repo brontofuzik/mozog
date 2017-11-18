@@ -4,7 +4,7 @@ using System.Drawing.Imaging;
 using NeuralNetwork.Data;
 using NeuralNetwork.Training;
 
-namespace NeuralNetwork.Examples.KohonenNetwork
+namespace NeuralNetwork.Examples.Kohonen
 {
     static class Examples
     {

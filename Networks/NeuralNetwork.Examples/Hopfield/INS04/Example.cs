@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace NeuralNetwork.Examples.HopfieldNet.INS04
+namespace NeuralNetwork.Examples.Hopfield.INS04
 {
     /*
     class Example

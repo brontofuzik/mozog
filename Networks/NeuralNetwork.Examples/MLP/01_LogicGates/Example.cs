@@ -6,7 +6,7 @@ using NeuralNetwork.MLP.Backpropagation;
 using NeuralNetwork.MLP.ErrorFunctions;
 using NeuralNetwork.Training;
 
-namespace NeuralNetwork.Examples.MultilayerPerceptron.LogicGates
+namespace NeuralNetwork.Examples.MLP.LogicGates
 {
     static class Example
     { 

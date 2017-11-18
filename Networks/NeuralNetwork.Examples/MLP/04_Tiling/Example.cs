@@ -9,7 +9,7 @@ using NeuralNetwork.MLP.Backpropagation;
 using NeuralNetwork.MLP.ErrorFunctions;
 using NeuralNetwork.Training;
 
-namespace NeuralNetwork.Examples.MultilayerPerceptron.Tiling
+namespace NeuralNetwork.Examples.MLP.Tiling
 {
     static class Example
     {

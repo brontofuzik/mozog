@@ -2,7 +2,7 @@
 using System.Linq;
 using Mozog.Utils;
 
-namespace NeuralNetwork.Examples.HopfieldNet
+namespace NeuralNetwork.Examples.Hopfield
 {
     class EightQueens
     {
