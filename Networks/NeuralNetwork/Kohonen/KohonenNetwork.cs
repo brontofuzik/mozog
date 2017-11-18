@@ -206,7 +206,7 @@ namespace NeuralNetwork.Kohonen
                 graphics.DrawEllipse(pen, xCoordinate, yCoordinate, neuronDiameter, neuronDiameter);
 
                 // Draw the grid.
-                ICollection<int> neighbourOutputNeuronsIndices = GetNeighbourhoodNeurons(outputNeuronIndex);
+                var neighbourOutputNeuronsIndices = GetNeighbourhoodNeurons(outputNeuronIndex);
                 foreach (int neighbourOutputNeuronIndex in neighbourOutputNeuronsIndices)
                 {
                     double neighbourXWeight = outputNeuronWeights[neighbourOutputNeuronIndex][0];
