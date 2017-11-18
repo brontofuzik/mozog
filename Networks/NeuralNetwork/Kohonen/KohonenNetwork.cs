@@ -189,32 +189,35 @@ namespace NeuralNetwork.Kohonen
 
         public Bitmap ToBitmap(int width, int height)
         {
-            Bitmap bitmap = new Bitmap(width, height);
-            Graphics graphics = Graphics.FromImage(bitmap);
-            Pen pen = new Pen(Color.Black);
+            const int diameter = 3;
 
-            int neuronDiameter = 3;
+            (double, double) GetOutputNeuronWeights(int neuron)
+                => (outputNeuronWeights[neuron][0], outputNeuronWeights[neuron].Length > 1
+                ? outputNeuronWeights[neuron][1]
+                : 0.5);
 
-            for (int outputNeuronIndex = 0; outputNeuronIndex < OutputSize; ++outputNeuronIndex)
+            var bitmap = new Bitmap(width, height);
+            var graphics = Graphics.FromImage(bitmap);
+            var pen = new Pen(Color.Black);
+
+            foreach (int neuron in OutputNeurons)
             {
                 // Draw the neuron.
-                double xWeight = outputNeuronWeights[outputNeuronIndex][0];
-                int xCoordinate = (int)System.Math.Round(xWeight * width);
-                double yWeight = outputNeuronWeights[outputNeuronIndex].Length > 1 ? outputNeuronWeights[outputNeuronIndex][1] : 0.5;
-                int yCoordinate = (int)System.Math.Round(yWeight * height);
+                var (xw, yw) = GetOutputNeuronWeights(neuron);
+                int x = (int)System.Math.Round(xw * width);
+                int y = (int)System.Math.Round(yw * height);
 
-                graphics.DrawEllipse(pen, xCoordinate, yCoordinate, neuronDiameter, neuronDiameter);
+                graphics.DrawEllipse(pen, x, y, diameter, diameter);
 
                 // Draw the grid.
-                var neighbourOutputNeuronsIndices = GetNeighbourhoodNeurons(outputNeuronIndex);
-                foreach (int neighbourOutputNeuronIndex in neighbourOutputNeuronsIndices)
+                var neighbours = GetNeighbourhoodNeurons(neuron);
+                foreach (int neighbour in neighbours)
                 {
-                    double neighbourXWeight = outputNeuronWeights[neighbourOutputNeuronIndex][0];
-                    int neighbourXCoordinate = (int)System.Math.Round(neighbourXWeight * width);
-                    double neighbourYWeight = outputNeuronWeights[neighbourOutputNeuronIndex].Length > 1 ? outputNeuronWeights[neighbourOutputNeuronIndex][1] : 0.5;
-                    int neighbourYCoordinate = (int)System.Math.Round(neighbourYWeight * height);
+                    (xw, yw) = GetOutputNeuronWeights(neighbour);
+                    int xn = (int)System.Math.Round(xw * width);
+                    int yn = (int)System.Math.Round(yw * height);
 
-                    graphics.DrawLine(pen, xCoordinate, yCoordinate, neighbourXCoordinate, neighbourYCoordinate);
+                    graphics.DrawLine(pen, x, y, xn, yn);
                 }
             }
 
