@@ -219,7 +219,7 @@ namespace NeuralNetwork.Examples.HopfieldNet.INS04
         {
             get
             {
-                return _underlyingKohonenNetwork.InputNeuronCount;
+                return _underlyingKohonenNetwork.InputSize;
             }
         }
 
@@ -227,7 +227,7 @@ namespace NeuralNetwork.Examples.HopfieldNet.INS04
         {
             get
             {
-                return _underlyingKohonenNetwork.OutputNeuronCount;
+                return _underlyingKohonenNetwork.OutputSize;
             }
         }
 

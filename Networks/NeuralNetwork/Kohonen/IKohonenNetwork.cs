@@ -14,11 +14,11 @@ namespace NeuralNetwork.Kohonen
 
         event EventHandler<DataPointEventArgs> AfterTrainingPoint;
 
-        int InputNeuronCount { get; }
+        int InputSize { get; }
 
-        int OutputNeuronCount { get; }
+        int OutputSize { get; }
 
-        void Train(DataSet trainingSet, int iterations);
+        void Train(DataSet data, int iterations);
 
         int[] Evaluate(double[] input);
 
