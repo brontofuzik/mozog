@@ -32,7 +32,7 @@ namespace Mozog.Utils.Math
             return min + (max - min) * random.Value.NextDouble();
         }
 
-        public static double[] DoubleArray(int dimension, double min, double max)
+        public static double[] DoubleArray(int dimension, double min = 0.0, double max = 1.0)
             => dimension.Times(() => Double(min, max)).ToArray();
 
         public static double Normal(double mean, double stdDev)

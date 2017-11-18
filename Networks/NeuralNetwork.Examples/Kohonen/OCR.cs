@@ -1,6 +1,5 @@
 ﻿using System;
 using NeuralNetwork.Data;
-using NeuralNetwork.Training;
 
 namespace NeuralNetwork.Examples.Kohonen
 {
@@ -8,44 +7,34 @@ namespace NeuralNetwork.Examples.Kohonen
     {
         public static void Run()
         {
-            // --------------------------------
-            // Step 1: Create the training set.
-            // --------------------------------
+            // Step 1: Create the training set
 
-            var trainingSetSerializer = new DataSetSerializer();
-            DataSet trainingSet = trainingSetSerializer.Deserialize("training.txt");
-            DataSet validationSet = trainingSetSerializer.Deserialize("validation.txt");
+            var serializer = new DataSetSerializer();
+            var trainingSet = serializer.Deserialize("training.txt");
+            var validationSet = serializer.Deserialize("validation.txt");
             trainingSet.Add(validationSet);
 
-            // ---------------------------
-            // Step 2: Create the network.
-            // ---------------------------
+            // Step 2: Create the network
 
-            int inputLayerNeuronCount = trainingSet.InputSize;
-            int[] outputLayerDimensions = new int[] { 26 };
-            NeuralNetwork.Kohonen.KohonenNetwork network = new NeuralNetwork.Kohonen.KohonenNetwork(inputLayerNeuronCount, outputLayerDimensions);
+            var net = new NeuralNetwork.Kohonen.KohonenNetwork(trainingSet.InputSize, new[] { 26 });
 
-            // --------------------------
-            // Step 2: Train the network.
-            // --------------------------
+            // Step 2: Train the network
 
-            network.Train(trainingSet, iterations: 10000);
+            net.Train(trainingSet, iterations: 10000);
 
-            // -------------------------
-            // Step 2: Test the network.
-            // -------------------------
+            // Step 2: Test the network
 
-            DataSet testSet = trainingSetSerializer.Deserialize("test.txt");
+            var testSet = serializer.Deserialize("test.txt");
 
-            for (int letterIndex = 0; letterIndex < 26; letterIndex++)
+            for (int l = 0; l < 26; l++)
             {
-                Console.Write((char)(letterIndex + (int)'a') + " : ");
+                Console.Write($"{(char)(l + 'a')}: ");
                 foreach (var point in testSet)
                 {
-                    if (point.Output[letterIndex] == 1.0)
+                    if (point.Output[l] == 1.0)
                     {
-                        int[] winnerOutputNeuronCoordinates = network.Evaluate(point.Input);
-                        Console.Write(winnerOutputNeuronCoordinates[0] + ", ");
+                        int[] winnerCoordinates = net.Evaluate(point.Input);
+                        Console.Write($"{winnerCoordinates[0]}, ");
                     }
                 }
                 Console.WriteLine();
