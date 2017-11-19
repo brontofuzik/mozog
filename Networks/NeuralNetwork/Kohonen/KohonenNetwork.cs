@@ -189,7 +189,7 @@ namespace NeuralNetwork.Kohonen
 
         public Bitmap ToBitmap(int width, int height)
         {
-            const int diameter = 3;
+            const int diameter = 20;
 
             (double, double) GetOutputNeuronWeights(int neuron)
                 => (outputNeuronWeights[neuron][0], outputNeuronWeights[neuron].Length > 1
@@ -198,7 +198,7 @@ namespace NeuralNetwork.Kohonen
 
             var bitmap = new Bitmap(width, height);
             var graphics = Graphics.FromImage(bitmap);
-            var pen = new Pen(Color.Black);
+            var pen = new Pen(Color.White);
 
             foreach (int neuron in OutputNeurons)
             {

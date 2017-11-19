@@ -4,34 +4,36 @@
     {
         static void Main(string[] args)
         {
-            //
-            // Multilayer perceptron
-            //
+            //MLP();
+            //Hopfield();
+            Kohonen();
+        }
 
-            //MLP.LogicGates.Example.Run();
-            //MLP.Keywords.Example.Run();
-            //MLP.Iris.Example.Run();
-            //MLP.Tiling.Example.Run();
+        private static void MLP()
+        {
+            Examples.MLP.LogicGates.Example.Run();
+            Examples.MLP.LogicGates.Example.Run();
+            Examples.MLP.Keywords.Example.Run();
+            Examples.MLP.Iris.Example.Run();
+            Examples.MLP.Tiling.Example.Run();
+        }
 
-            //
-            // Hopfield network
-            //
+        private static void Hopfield()
+        {
+            Examples.Hopfield.Simple.Run();
+            Examples.Hopfield.Multiflop.Run();
+            Examples.Hopfield.EightRooks.Run();
+            Examples.Hopfield.EightQueens.Run();
+            Examples.Hopfield.GrayscaleDithering.Run();
+            //Examples.Hopfield.INS04.Example.Run();
+        }
 
-            //Hopfield.Simple.Run();
-            //Hopfield.Multiflop.Run();
-            //Hopfield.EightRooks.Run();
-            //Hopfield.EightQueens.Run();
-            //Hopfield.GrayscaleDithering.Run();
-            //Hopfield.INS04.Example.Run();
-
-            //
-            // Kohonen network
-            //
-
-            Kohonen.Mapping.Test1DTo1D();
-            Kohonen.Mapping.Test1DTo2D();
-            Kohonen.Mapping.Test2DTo1D();
-            Kohonen.Mapping.Test2DTo2D();
+        private static void Kohonen()
+        {
+            Examples.Kohonen.Mapping.Test1DTo1D();
+            Examples.Kohonen.Mapping.Test1DTo2D();
+            Examples.Kohonen.Mapping.Test2DTo1D();
+            Examples.Kohonen.Mapping.Test2DTo2D();
         }
     }
 }

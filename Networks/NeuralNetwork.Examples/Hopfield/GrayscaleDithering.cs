@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using NeuralNetwork.Hopfield;
 
-namespace NeuralNetwork.Examples.HopfieldNetwork
+namespace NeuralNetwork.Examples.Hopfield
 {
     public class GrayscaleDithering
     {
@@ -13,10 +13,10 @@ namespace NeuralNetwork.Examples.HopfieldNetwork
         public static void Run()
         {
             string imageName = "lenna";
-            //var radii = new int[] { 0, 1, 2, 3, 4 };
-            var radii = new int[] { 1 };
-            //var alphas = new double[] { 1.0, 0.995, 0.99, 0.985, 0.98 };
-            var alphas = new double[] { 0.995 };
+            //var radii = new[] { 0, 1, 2, 3, 4 };
+            var radii = new[] { 1 };
+            //var alphas = new[] { 1.0, 0.995, 0.99, 0.985, 0.98 };
+            var alphas = new[] { 0.995 };
 
             foreach (int radius in radii)
                 foreach (double alpha in alphas)

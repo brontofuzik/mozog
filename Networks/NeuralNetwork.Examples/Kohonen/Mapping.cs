@@ -1,4 +1,5 @@
-﻿using System.Drawing.Imaging;
+﻿using System;
+using System.Drawing.Imaging;
 using Mozog.Utils;
 using NeuralNetwork.Data;
 
@@ -15,7 +16,7 @@ namespace NeuralNetwork.Examples.Kohonen
 
             const int datasetSize = 1000;
             int[] outputSizes = { 100 };
-            const int iterations = 1000;
+            const int iterations = 100;
 
             // Step 1: Create the training set
 
@@ -28,6 +29,7 @@ namespace NeuralNetwork.Examples.Kohonen
 
             // Step 3: Train the network
 
+            net.BeforeTrainingSet += (sender, args) => Console.WriteLine(args.Iteration);
             net.Train(dataSet, iterations);
 
             // Step 4: Test the network
@@ -42,7 +44,7 @@ namespace NeuralNetwork.Examples.Kohonen
 
             const int datasetSize = 1000;
             int[] outputSizes = { 10, 10 };
-            const int iterations = 1000;
+            const int iterations = 100;
 
             // Step 1: Create the training set
 
@@ -69,7 +71,7 @@ namespace NeuralNetwork.Examples.Kohonen
 
             const int datasetSize = 1000;
             int[] outputSizes = { 100 };
-            const int iterations = 1000;
+            const int iterations = 100;
 
             // Step 1: Create the training set
 
@@ -96,7 +98,7 @@ namespace NeuralNetwork.Examples.Kohonen
 
             const int datasetSize = 1000;
             int[] outputSizes = { 10, 10 };
-            const int iterations = 1000;
+            const int iterations = 100;
 
             // Step 1: Create the training set
 
