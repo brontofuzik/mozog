@@ -9,16 +9,32 @@ namespace Mozog.Utils
         public static IEnumerable<int> Range(int from, int to)
             => Enumerable.Range(from, to - from);
 
+        // No return value, no counter
         public static void Times(this int count, Action action)
         {
             for (int i = 0; i < count; i++)
                 action();
         }
 
+        // No return value, with counter
+        public static void Times(this int count, Action<int> action)
+        {
+            for (int i = 0; i < count; i++)
+                action(i);
+        }
+
+        // With return value, no counter
         public static IEnumerable<T> Times<T>(this int count, Func<T> func)
         {
             for (int i = 0; i < count; i++)
                 yield return func();
+        }
+
+        // With return value, with counter
+        public static IEnumerable<T> Times<T>(this int count, Func<int, T> func)
+        {
+            for (int i = 0; i < count; i++)
+                yield return func(i);
         }
 
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)

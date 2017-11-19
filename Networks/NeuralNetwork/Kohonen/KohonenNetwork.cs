@@ -42,8 +42,8 @@ namespace NeuralNetwork.Kohonen
             this.outputSizes = outputSizes;
             outputDimension = outputSizes.Length;
             OutputSize = outputSizes.Product();
-       
-            outputNeuronWeights = Enumerable.Repeat(new double[InputSize], OutputSize).ToArray();
+
+            outputNeuronWeights = OutputSize.Times(() => new double[InputSize]).ToArray();
             outputNeuronOutputs = new double[OutputSize];
 
             // Pythagoras theorem
@@ -70,6 +70,8 @@ namespace NeuralNetwork.Kohonen
 
         private IEnumerable<int> OutputNeurons => Enumerable.Range(0, OutputSize);
 
+        #region Training
+
         public void Train(DataSet data, int iterations)
         {
             Require.IsNotNull(data, nameof(data));
@@ -89,7 +91,7 @@ namespace NeuralNetwork.Kohonen
             {
                 double learningRate = learningRateFunction.Evaluate(i);
                 double neighbourhoodRadius = neighbourhoodRadiusFunction.Evaluate(i);
-                
+
                 Trace.WriteLine($"{i}: LR = {learningRate:F2}, NR = {neighbourhoodRadius:F2}");
 
                 TrainSet(data, i, learningRate, neighbourhoodRadius);
@@ -134,31 +136,6 @@ namespace NeuralNetwork.Kohonen
             AfterTrainingPoint?.Invoke(this, new DataPointEventArgs(point, iteration));
         }
 
-        public int[] Evaluate(double[] input)
-        {
-            Require.IsNotNull(input, nameof(input));
-
-            if (input.Length != InputSize)
-                throw new ArgumentException("The input vector is not compatible with the network (i.e. the length of the input vector does not match the number of input neurons).", nameof(input));
-
-            SetInput(input);
-            EvaluateNeurons();
-            var winnerNeuron = GetWinnerNeuron();
-            return NeuronIndexToCoordinates(winnerNeuron);
-        }
-
-        private void SetInput(double[] input)
-        {
-            Array.Copy(input, inputNeuronOutputs, InputSize);
-        }
-
-        private void EvaluateNeurons()
-        {
-            OutputNeurons.ForEach(n => outputNeuronOutputs[n] = Vector.Distance(outputNeuronWeights[n], inputNeuronOutputs));
-        }
-
-        private int GetWinnerNeuron() => OutputNeurons.MaxBy(n => outputNeuronOutputs[n]);
-
         private void AdaptNeuronWeights(ILabeledDataPoint point, int[] winnerNeuronCoordinates, double learningRate, double neighbourhoodRadius)
         {
             // Optimization
@@ -182,11 +159,44 @@ namespace NeuralNetwork.Kohonen
             }
         }
 
+        #endregion // Training
+
+        #region // Evaluation
+
+        public int[] Evaluate(double[] input)
+        {
+            Require.IsNotNull(input, nameof(input));
+
+            if (input.Length != InputSize)
+                throw new ArgumentException("The input vector is not compatible with the network (i.e. the length of the input vector does not match the number of input neurons).", nameof(input));
+
+            SetInput(input);
+            EvaluateNeurons();
+            var winnerNeuron = GetWinnerNeuron();
+            return NeuronIndexToCoordinates(winnerNeuron);
+        }
+
+        private void SetInput(double[] input)
+        {
+            Array.Copy(input, inputNeuronOutputs, InputSize);
+        }
+
+        private void EvaluateNeurons()
+        {
+            OutputNeurons.ForEach(n => outputNeuronOutputs[n] = Vector.Distance(outputNeuronWeights[n], inputNeuronOutputs));
+        }
+
+        private int GetWinnerNeuron() => OutputNeurons.MinBy(n => outputNeuronOutputs[n]);
+
+        #endregion // Evaluation
+
         public double[] GetOutputNeuronSynapseWeights(int neuronIndex)
             => outputNeuronWeights[neuronIndex];
 
         public double[] GetOutputNeuronSynapseWeights(int[] neuronCoordinates)
             => GetOutputNeuronSynapseWeights(NeuronCoordinatesToIndex(neuronCoordinates));
+
+        #region Bitmap
 
         public Bitmap ToBitmap(int width, int height)
         {
@@ -251,6 +261,75 @@ namespace NeuralNetwork.Kohonen
 
             return neighbours;
         }
+
+        public Bitmap ToBitmap_OLD(int width, int height)
+        {
+            Bitmap bitmap = new Bitmap(width, height);
+            Graphics graphics = Graphics.FromImage(bitmap);
+            Pen pen = new Pen(Color.Black);
+
+            int neuronDiameter = 3;
+
+            for (int outputNeuronIndex = 0; outputNeuronIndex < OutputSize; ++outputNeuronIndex)
+            {
+                // Draw the neuron.
+                double xWeight = outputNeuronWeights[outputNeuronIndex][0];
+                int xCoordinate = (int)System.Math.Round(xWeight * width);
+                double yWeight = outputNeuronWeights[outputNeuronIndex].Length > 1 ? outputNeuronWeights[outputNeuronIndex][1] : 0.5;
+                int yCoordinate = (int)System.Math.Round(yWeight * height);
+
+                graphics.DrawEllipse(pen, xCoordinate, yCoordinate, neuronDiameter, neuronDiameter);
+
+                // Draw the grid.
+                ICollection<int> neighbourOutputNeuronsIndices = GetNeighbourOutputNeuronsIndices_OLD(outputNeuronIndex);
+                foreach (int neighbourOutputNeuronIndex in neighbourOutputNeuronsIndices)
+                {
+                    double neighbourXWeight = outputNeuronWeights[neighbourOutputNeuronIndex][0];
+                    int neighbourXCoordinate = (int)System.Math.Round(neighbourXWeight * width);
+                    double neighbourYWeight = outputNeuronWeights[neighbourOutputNeuronIndex].Length > 1 ? outputNeuronWeights[neighbourOutputNeuronIndex][1] : 0.5;
+                    int neighbourYCoordinate = (int)System.Math.Round(neighbourYWeight * height);
+
+                    graphics.DrawLine(pen, xCoordinate, yCoordinate, neighbourXCoordinate, neighbourYCoordinate);
+                }
+            }
+
+            return bitmap;
+        }
+
+        private ICollection<int> GetNeighbourOutputNeuronsIndices_OLD(int outputNeuronIndex)
+        {
+            int[] outputNeuronCoordinates = NeuronIndexToCoordinates(outputNeuronIndex);
+
+            ICollection<int> neighbourOutputNeuronsIndices = new HashSet<int>();
+            for (int d = 0; d < outputDimension; ++d)
+            {
+                int outputNeuronCoordinate = outputNeuronCoordinates[d];
+
+                if (outputNeuronCoordinate > 0)
+                {
+                    int[] neighbourOutputNeuronCoordinates = new int[outputDimension];
+                    Array.Copy(outputNeuronCoordinates, neighbourOutputNeuronCoordinates, outputDimension);
+                    neighbourOutputNeuronCoordinates[d] = outputNeuronCoordinate - 1;
+
+                    int neighbourOutputNeuronIndex = NeuronCoordinatesToIndex(neighbourOutputNeuronCoordinates);
+                    neighbourOutputNeuronsIndices.Add(neighbourOutputNeuronIndex);
+                }
+
+                if (outputNeuronCoordinate < outputSizes[d] - 1)
+                {
+                    int[] neighbourOutputNeuronCoordinates = new int[outputDimension];
+                    Array.Copy(outputNeuronCoordinates, neighbourOutputNeuronCoordinates, outputDimension);
+                    neighbourOutputNeuronCoordinates[d] = outputNeuronCoordinate + 1;
+
+                    int neighbourOutputNeuronIndex = NeuronCoordinatesToIndex(neighbourOutputNeuronCoordinates);
+                    neighbourOutputNeuronsIndices.Add(neighbourOutputNeuronIndex);
+                }
+            }
+
+            return neighbourOutputNeuronsIndices;
+        }
+
+        #endregion Bitmap
 
         private int[] NeuronIndexToCoordinates(int neuronIndex)
         {
