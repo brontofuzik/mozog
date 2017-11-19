@@ -15,8 +15,8 @@ namespace NeuralNetwork.Examples.Kohonen
         {
             // Parameters
 
-            const int datasetSize = 1000;
-            int[] outputSizes = { 100 };
+            const int datasetSize = 100;
+            int[] outputSizes = { 10 };
             const int iterations = 100;
 
             // Step 1: Create the training set

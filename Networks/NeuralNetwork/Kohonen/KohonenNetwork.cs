@@ -66,6 +66,8 @@ namespace NeuralNetwork.Kohonen
 
         public int OutputSize { get; }
 
+        private IEnumerable<int> InputNeurons => Enumerable.Range(0, InputSize);
+
         private IEnumerable<int> OutputNeurons => Enumerable.Range(0, OutputSize);
 
         public void Train(DataSet data, int iterations)
@@ -77,8 +79,8 @@ namespace NeuralNetwork.Kohonen
 
             Require.IsPositive(iterations, nameof(iterations));
 
-            learningRateFunction = new ExponentialLearningRateFunction(iterations, initialRate: 0.999, finalRate: 0.001);
-            neighbourhoodRadiusFunction = new ExponentialLearningRateFunction(iterations, initialRate: outputDiameter, finalRate: 0.001);
+            learningRateFunction = new ExponentialLearningRateFunction(iterations, initialRate: 0.99, finalRate: 0.01);
+            neighbourhoodRadiusFunction = new ExponentialLearningRateFunction(iterations, initialRate: outputDiameter, finalRate: 0.01);
             neighbourhoodFunction = new GaussianNeighbourhoodFunction();
 
             Initialize();
@@ -88,27 +90,26 @@ namespace NeuralNetwork.Kohonen
                 double learningRate = learningRateFunction.Evaluate(i);
                 double neighbourhoodRadius = neighbourhoodRadiusFunction.Evaluate(i);
                 
-                Trace.WriteLine($"{i}: LR = {learningRate:0.000}, NR = {neighbourhoodRadius:0.000}");
+                Trace.WriteLine($"{i}: LR = {learningRate:F2}, NR = {neighbourhoodRadius:F2}");
 
                 TrainSet(data, i, learningRate, neighbourhoodRadius);
             }
         }
 
+        // Initialize before training
         private void Initialize(double minWeight = 0.0, double maxWeight = 1.0)
         {
             if (maxWeight < minWeight)
                 throw new ArgumentException("The maximum weight must be greater than or equal to the minimum weight.", nameof(maxWeight));
 
             // Input layer
-            for (int n = 0; n < InputSize; n++)
+            foreach (int n in InputNeurons)
                 inputNeuronOutputs[n] = 0.0;
 
             // Output layer
-            for (int n = 0; n < OutputSize; n++)
+            foreach (int n in OutputNeurons)
             {
-                for (int w = 0; w < InputSize; w++)
-                    outputNeuronWeights[n][w] = StaticRandom.Double(minWeight, maxWeight);
-
+                outputNeuronWeights[n] = StaticRandom.DoubleArray(InputSize, minWeight, maxWeight);
                 outputNeuronOutputs[n] = 0.0;
             }
         }
@@ -131,29 +132,6 @@ namespace NeuralNetwork.Kohonen
             AdaptNeuronWeights(point, winnerNeuronCoordinates, learningRate, neighbourhoodRadius);
 
             AfterTrainingPoint?.Invoke(this, new DataPointEventArgs(point, iteration));
-        }
-
-        private void AdaptNeuronWeights(ILabeledDataPoint point, int[] winnerNeuronCoordinates, double learningRate, double neighbourhoodRadius)
-        {
-            // Optimization
-            if (learningRate == 0.0) return;
-
-            foreach (int neuron in OutputNeurons)
-            {
-                var neuronCoordinates = NeuronIndexToCoordinates(neuron);
-
-                double distance = Vector.Distance(neuronCoordinates, winnerNeuronCoordinates);
-                double neighbourhood = neighbourhoodFunction.Evaluate(distance, neighbourhoodRadius);
-
-                // Optimization
-                if (neighbourhood == 0.0) continue;
-
-                for (int weight = 0; weight < InputSize; weight++)
-                {
-                    double weightDelta = learningRate * neighbourhood * (point.Input[weight] - outputNeuronWeights[neuron][weight]);
-                    outputNeuronWeights[neuron][weight] += weightDelta;
-                }
-            }
         }
 
         public int[] Evaluate(double[] input)
@@ -180,6 +158,29 @@ namespace NeuralNetwork.Kohonen
         }
 
         private int GetWinnerNeuron() => OutputNeurons.MaxBy(n => outputNeuronOutputs[n]);
+
+        private void AdaptNeuronWeights(ILabeledDataPoint point, int[] winnerNeuronCoordinates, double learningRate, double neighbourhoodRadius)
+        {
+            // Optimization
+            if (learningRate == 0.0) return;
+
+            foreach (int neuron in OutputNeurons)
+            {
+                var neuronCoordinates = NeuronIndexToCoordinates(neuron);
+
+                double distance = Vector.Distance(neuronCoordinates, winnerNeuronCoordinates);
+                double neighbourhood = neighbourhoodFunction.Evaluate(distance, neighbourhoodRadius);
+
+                // Optimization
+                if (neighbourhood == 0.0) continue;
+
+                for (int weight = 0; weight < InputSize; weight++)
+                {
+                    double weightDelta = learningRate * neighbourhood * (point.Input[weight] - outputNeuronWeights[neuron][weight]);
+                    outputNeuronWeights[neuron][weight] += weightDelta;
+                }
+            }
+        }
 
         public double[] GetOutputNeuronSynapseWeights(int neuronIndex)
             => outputNeuronWeights[neuronIndex];
