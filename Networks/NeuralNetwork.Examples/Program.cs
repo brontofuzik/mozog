@@ -31,9 +31,9 @@
         private static void Kohonen()
         {
             Examples.Kohonen.Mapping.Test1DTo1D();
-            Examples.Kohonen.Mapping.Test1DTo2D();
-            Examples.Kohonen.Mapping.Test2DTo1D();
-            Examples.Kohonen.Mapping.Test2DTo2D();
+            //Examples.Kohonen.Mapping.Test1DTo2D();
+            //Examples.Kohonen.Mapping.Test2DTo1D();
+            //Examples.Kohonen.Mapping.Test2DTo2D();
         }
     }
 }

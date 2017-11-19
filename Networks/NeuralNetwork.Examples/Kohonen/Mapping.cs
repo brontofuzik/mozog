@@ -2,6 +2,7 @@
 using System.Drawing.Imaging;
 using Mozog.Utils;
 using NeuralNetwork.Data;
+using ShellProgressBar;
 
 namespace NeuralNetwork.Examples.Kohonen
 {
@@ -29,7 +30,8 @@ namespace NeuralNetwork.Examples.Kohonen
 
             // Step 3: Train the network
 
-            net.BeforeTrainingSet += (sender, args) => Console.WriteLine(args.Iteration);
+            var pbar = new ProgressBar(iterations, "Training...");
+            net.BeforeTrainingSet += (sender, args) => pbar.Tick($"Iteration {args.Iteration}/{iterations}");
             net.Train(dataSet, iterations);
 
             // Step 4: Test the network
@@ -57,6 +59,8 @@ namespace NeuralNetwork.Examples.Kohonen
 
             // Step 3: Train the network
 
+            var pbar = new ProgressBar(iterations, "Training...");
+            net.BeforeTrainingSet += (sender, args) => pbar.Tick($"Iteration {args.Iteration}/{iterations}");
             net.Train(dataSet, iterations);
 
             // Step 4: Test the network
@@ -84,6 +88,8 @@ namespace NeuralNetwork.Examples.Kohonen
 
             // Step 3: Train the network
 
+            var pbar = new ProgressBar(iterations, "Training...");
+            net.BeforeTrainingSet += (sender, args) => pbar.Tick($"Iteration {args.Iteration}/{iterations}");
             net.Train(dataSet, iterations);
 
             // Step 4: Test the network
@@ -111,6 +117,8 @@ namespace NeuralNetwork.Examples.Kohonen
 
             // Step 3: Train the network
 
+            var pbar = new ProgressBar(iterations, "Training...");
+            net.BeforeTrainingSet += (sender, args) => pbar.Tick($"Iteration {args.Iteration}/{iterations}");
             net.Train(dataSet, iterations);
 
             // Step 4: Test the network
