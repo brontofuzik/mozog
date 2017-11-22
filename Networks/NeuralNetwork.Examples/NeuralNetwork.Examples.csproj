@@ -111,8 +111,8 @@
     <Compile Include="Hopfield\GrayscaleDithering.cs" />
     <Compile Include="Hopfield\Simple.cs" />
     <Compile Include="Hopfield\INS04\ColourDitheringNetwork.cs" />
-    <Compile Include="Hopfield\INS04\PalettingNetwork.cs" />
-    <Compile Include="Hopfield\INS04\Example.cs" />
+    <Compile Include="Kohonen\PaletteExtraction.cs" />
+    <Compile Include="Hopfield\ColouredDithering.cs" />
     <Compile Include="Hopfield\Multiflop.cs" />
     <Compile Include="Kohonen\Mapping.cs" />
     <Compile Include="MLP\02_Keywords\Data.cs" />

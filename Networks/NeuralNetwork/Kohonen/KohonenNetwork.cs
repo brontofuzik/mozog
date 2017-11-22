@@ -20,6 +20,8 @@ namespace NeuralNetwork.Kohonen
         private readonly double[] outputNeuronOutputs;
         private readonly double outputDiameter;
 
+        private readonly int[] optimization;
+
         private ILearningRateFunction learningRateFunction;
         private ILearningRateFunction neighbourhoodRadiusFunction;
         private INeighbourhoodFunction neighbourhoodFunction;
@@ -48,6 +50,11 @@ namespace NeuralNetwork.Kohonen
 
             // Pythagoras theorem
             outputDiameter = System.Math.Sqrt(outputSizes.Sum(s => s * s));
+
+            // Optimization
+            optimization = Enumerable.Range(0, outputDimension)
+                .Select(d => EnumerableExtensions.Range(0, d).Select(d1 => outputSizes[d1]).Product())
+                .ToArray();
         }
 
         #region Events
@@ -200,16 +207,19 @@ namespace NeuralNetwork.Kohonen
 
         public Bitmap ToBitmap(int width, int height)
         {
-            const int diameter = 20;
+            const int diameter = 10;
 
-            (double, double) GetOutputNeuronWeights(int neuron)
-                => (outputNeuronWeights[neuron][0], outputNeuronWeights[neuron].Length > 1
-                ? outputNeuronWeights[neuron][1]
-                : 0.5);
+            (double x, double y) GetOutputNeuronWeights(int neuron)
+                => (outputNeuronWeights[neuron][0], outputNeuronWeights[neuron].Length > 1 ? outputNeuronWeights[neuron][1] : 0.5);
 
             var bitmap = new Bitmap(width, height);
             var graphics = Graphics.FromImage(bitmap);
-            var pen = new Pen(Color.White);
+
+            // White background
+            using (var brush = new SolidBrush(Color.White))
+                graphics.FillRectangle(brush, 0, 0, width, height);
+
+            var pen = new Pen(Color.Black);
 
             foreach (int neuron in OutputNeurons)
             {
@@ -218,7 +228,7 @@ namespace NeuralNetwork.Kohonen
                 int x = (int)System.Math.Round(xw * width);
                 int y = (int)System.Math.Round(yw * height);
 
-                graphics.DrawEllipse(pen, x, y, diameter, diameter);
+                graphics.DrawEllipse(pen, x - diameter/2, y - diameter/2, diameter, diameter);
 
                 // Draw the grid.
                 var neighbours = GetNeighbourhoodNeurons(neuron);
@@ -231,6 +241,9 @@ namespace NeuralNetwork.Kohonen
                     graphics.DrawLine(pen, x, y, xn, yn);
                 }
             }
+
+            pen.Dispose();
+            graphics.Dispose();
 
             return bitmap;
         }
@@ -262,84 +275,15 @@ namespace NeuralNetwork.Kohonen
             return neighbours;
         }
 
-        public Bitmap ToBitmap_OLD(int width, int height)
-        {
-            Bitmap bitmap = new Bitmap(width, height);
-            Graphics graphics = Graphics.FromImage(bitmap);
-            Pen pen = new Pen(Color.Black);
-
-            int neuronDiameter = 3;
-
-            for (int outputNeuronIndex = 0; outputNeuronIndex < OutputSize; ++outputNeuronIndex)
-            {
-                // Draw the neuron.
-                double xWeight = outputNeuronWeights[outputNeuronIndex][0];
-                int xCoordinate = (int)System.Math.Round(xWeight * width);
-                double yWeight = outputNeuronWeights[outputNeuronIndex].Length > 1 ? outputNeuronWeights[outputNeuronIndex][1] : 0.5;
-                int yCoordinate = (int)System.Math.Round(yWeight * height);
-
-                graphics.DrawEllipse(pen, xCoordinate, yCoordinate, neuronDiameter, neuronDiameter);
-
-                // Draw the grid.
-                ICollection<int> neighbourOutputNeuronsIndices = GetNeighbourOutputNeuronsIndices_OLD(outputNeuronIndex);
-                foreach (int neighbourOutputNeuronIndex in neighbourOutputNeuronsIndices)
-                {
-                    double neighbourXWeight = outputNeuronWeights[neighbourOutputNeuronIndex][0];
-                    int neighbourXCoordinate = (int)System.Math.Round(neighbourXWeight * width);
-                    double neighbourYWeight = outputNeuronWeights[neighbourOutputNeuronIndex].Length > 1 ? outputNeuronWeights[neighbourOutputNeuronIndex][1] : 0.5;
-                    int neighbourYCoordinate = (int)System.Math.Round(neighbourYWeight * height);
-
-                    graphics.DrawLine(pen, xCoordinate, yCoordinate, neighbourXCoordinate, neighbourYCoordinate);
-                }
-            }
-
-            return bitmap;
-        }
-
-        private ICollection<int> GetNeighbourOutputNeuronsIndices_OLD(int outputNeuronIndex)
-        {
-            int[] outputNeuronCoordinates = NeuronIndexToCoordinates(outputNeuronIndex);
-
-            ICollection<int> neighbourOutputNeuronsIndices = new HashSet<int>();
-            for (int d = 0; d < outputDimension; ++d)
-            {
-                int outputNeuronCoordinate = outputNeuronCoordinates[d];
-
-                if (outputNeuronCoordinate > 0)
-                {
-                    int[] neighbourOutputNeuronCoordinates = new int[outputDimension];
-                    Array.Copy(outputNeuronCoordinates, neighbourOutputNeuronCoordinates, outputDimension);
-                    neighbourOutputNeuronCoordinates[d] = outputNeuronCoordinate - 1;
-
-                    int neighbourOutputNeuronIndex = NeuronCoordinatesToIndex(neighbourOutputNeuronCoordinates);
-                    neighbourOutputNeuronsIndices.Add(neighbourOutputNeuronIndex);
-                }
-
-                if (outputNeuronCoordinate < outputSizes[d] - 1)
-                {
-                    int[] neighbourOutputNeuronCoordinates = new int[outputDimension];
-                    Array.Copy(outputNeuronCoordinates, neighbourOutputNeuronCoordinates, outputDimension);
-                    neighbourOutputNeuronCoordinates[d] = outputNeuronCoordinate + 1;
-
-                    int neighbourOutputNeuronIndex = NeuronCoordinatesToIndex(neighbourOutputNeuronCoordinates);
-                    neighbourOutputNeuronsIndices.Add(neighbourOutputNeuronIndex);
-                }
-            }
-
-            return neighbourOutputNeuronsIndices;
-        }
-
         #endregion Bitmap
 
         private int[] NeuronIndexToCoordinates(int neuronIndex)
         {
             int[] coordinates = new int[outputDimension];
-            for (int i = outputDimension - 1; i >= 0; i--)
+            for (int d = outputDimension - 1; d >= 0; d--)
             {
-                int lowerNeurons = EnumerableExtensions.Range(0, i).Select(j => outputSizes[j]).Product();
-
-                coordinates[i] = neuronIndex / lowerNeurons;
-                neuronIndex = neuronIndex % lowerNeurons;
+                coordinates[d] = neuronIndex / optimization[d];
+                neuronIndex = neuronIndex % optimization[d];
             }
             return coordinates;
         }
@@ -347,11 +291,9 @@ namespace NeuralNetwork.Kohonen
         private int NeuronCoordinatesToIndex(int[] neuronCoordinates)
         {
             int index = 0;
-            for (int i = outputDimension - 1; i >= 0; i--)
+            for (int d = outputDimension - 1; d >= 0; d--)
             {
-                int lowerNeurons = EnumerableExtensions.Range(0, i).Select(j => outputSizes[j]).Product();
-
-                index += neuronCoordinates[i] * lowerNeurons;
+                index += neuronCoordinates[d] * optimization[d];
             }
             return index;
         }

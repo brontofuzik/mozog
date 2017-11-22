@@ -6,30 +6,32 @@ using NeuralNetwork.Hopfield;
 
 namespace NeuralNetwork.Examples.Hopfield
 {
-    public class GrayscaleDithering
+    class GrayscaleDithering
     {
-        const string imageDir = @"..\..\..\images\";
+        const string ImageDir = @"..\..\..\images\";
 
         public static void Run()
         {
             string imageName = "lenna";
+
             //var radii = new[] { 0, 1, 2, 3, 4 };
             var radii = new[] { 1 };
             //var alphas = new[] { 1.0, 0.995, 0.99, 0.985, 0.98 };
             var alphas = new[] { 0.995 };
 
             foreach (int radius in radii)
-                foreach (double alpha in alphas)
-                    DitherImage(imageName, radius, alpha);
+            foreach (double alpha in alphas)
+                DitherImage(imageName, radius, alpha);
         }
 
         private static void DitherImage(string imageName, int radius, double alpha)
         {
-            Console.Write($"DitherImage({radius}, {alpha})...");
+            Console.Write($"DitherImage(radius: {radius}, alpha: {alpha:F3})...");
 
-            var originalImage = new Bitmap($@"{imageDir}\{imageName}.png");
+            var originalImage = new Bitmap($@"{ImageDir}\{imageName}.png");
             var ditheredImage = DitherImage(originalImage, radius, alpha);
-            ditheredImage.Save($"{imageName}_{radius}_{alpha:0.000}.png");
+
+            ditheredImage.Save($"{imageName}_{radius}_{alpha:F3}.png");
 
             Console.WriteLine("Done");
         }

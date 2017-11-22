@@ -2,211 +2,90 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using NeuralNetwork.Examples.Kohonen;
+using NeuralNetwork.Hopfield;
+using NeuralNetwork.Kohonen;
 
 namespace NeuralNetwork.Examples.Hopfield.INS04
 {
-    /*
     class ColourDitheringNetwork
     {
-        static ColourDitheringNetwork()
-        {
-            _random = new Random();
-        }
+        private static int _evaluationIterationCount = 20;
 
-        /// <summary>
-        /// Dithers a (colour) image.
-        /// </summary>
-        /// <param name="image">The original (colour) image.</param>
-        /// <param name="paletteSize">The size of the palette (i.e. the number of colours in the palette).</param>
-        /// <param name="radius">The radius.</param>
-        /// <param name="alpha">The alpha coefficient.</param>
-        /// <param name="beta">The beta coefficient.</param>
-        /// <param name="gamma">The gamma coefficient.</param>
-        /// <returns>The dithered image.</returns>
+        private static KohonenNetwork _kohonenNet;
+
+        private static HopfieldNetwork<Position1D> _hopfieldNet;
+
+        private static Color[] _palette;
+
+        // Dimensions
+        private static int _width;
+        private static int _height;
+        private static int _depth;
+
+        // alpha - pixel energy coefficient
+        // beta - local energy coefficient
+        // gamma - global energy coefficient
         public static Bitmap DitherImage(Bitmap originalImage, int paletteSize, int radius, double alpha, double beta, double gamma)
         {
-            // -------------------------------
-            // Step 1: Build the training set.
-            // -------------------------------
+            if (radius < 0)
+                throw new ArgumentOutOfRangeException(nameof(radius), "The radius must be non-negative.");
 
-            Trace.Write("Step 1: Building the training set... ");
+            if (alpha < 0.0 || 1.0 < alpha)
+                throw new ArgumentOutOfRangeException(nameof(alpha), "The alpha must be within the range [0, 1] (inclusive).");
+
+            if (beta < 0.0 || 1.0 < beta)
+                throw new ArgumentOutOfRangeException(nameof(beta), "The betamust be within the range [0, 1] (inclusive).");
+
+            if (gamma < 0.0 || 1.0 < gamma)
+                throw new ArgumentOutOfRangeException(nameof(gamma), "The gamma must be within the range [0, 1] (inclusive).");
+
+            // Step 1: Build the training set.
 
             // Do nothing.
 
-            Trace.WriteLine("Done");
-
-            // --------------------------
             // Step 2: Build the network.
-            // --------------------------
 
-            Trace.Write("Step 2: Build the network... ");
+            _hopfieldNet = HopfieldNetwork.Build1DNetwork(originalImage.Width * originalImage.Height * paletteSize, sparse: true, activation: Activation);
+            _width = originalImage.Width;
+            _height = originalImage.Height;
+            _depth = paletteSize;
 
-            int width = originalImage.Width;
-            int height = originalImage.Height;
-            int depth = paletteSize;
-            ColourDitheringNetwork colourDitheringNetwork = new ColourDitheringNetwork(width, height, depth);
-
-            Trace.WriteLine("Done");
-
-            // --------------------------
             // Step 3: Train the network.
-            // --------------------------
 
-            Trace.Write("Step 3: Training the network... ");
+            Train(originalImage, radius, alpha, beta, gamma);
 
-            colourDitheringNetwork.train(originalImage, radius, alpha, beta, gamma);
-
-            Trace.WriteLine("Done");
-
-            // ------------------------
             // Step 4: Use the network.
-            // ------------------------
 
-            Trace.Write("Step 4: Using the network... ");
-
-            Bitmap ditheredImage = colourDitheringNetwork.evaluate(originalImage);
-
-            Trace.WriteLine("Done");
+            var ditheredImage = colourDitheringNetwork.evaluate(originalImage);
 
             return ditheredImage;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the ColourDitheringNetwork class.
-        /// </summary>
-        /// <param name="width">The width of the network.</param>
-        /// <param name="height">The height of the network.</param>
-        /// <param name="depth">The depth of the network.</param>
-        private ColourDitheringNetwork(int width, int height, int depth)
+        private static double Activation(double input, double progress)
         {
-            if (width <= 0)
-            {
-                throw new ArgumentException("The width must be positive.", nameof(width));
-            }
+            const double initialLambda = 1.0;
+            const double finalLambda = 100;
 
-            if (height <= 0)
-            {
-                throw new ArgumentException("The height must be positive.", nameof(height));
-            }
-
-            if (depth <= 0)
-            {
-                throw new ArgumentException("The depth must be positive", nameof(depth));
-            }
-
-            _underlyingHopfieldNetwork = new NeuralNetwork.HopfieldNet.HopfieldNetwork(width * height * depth, true, colourDitheringNetworkActivationFunction);
-            _width = width;
-            _height = height;
-            _depth = depth;
-        }
-
-        /// <summary>
-        /// The activation function of the colour dithering network.
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        private static double colourDitheringNetworkActivationFunction(double input, double evaluationProgressRatio)
-        {
-            // The initial and final lambda values.
-            double initialLambda = 1.0;
-            double finalLambda = 100;
-
-            double lambda = initialLambda + (finalLambda - initialLambda) * evaluationProgressRatio;
+            double lambda = initialLambda + (finalLambda - initialLambda) * progress;
             return 1 / (1 + Math.Exp(-lambda * input));
         }
 
-        // DEBUG
-        private static Bitmap paletteToImage(Color[] palette)
+        private static void Train(Bitmap image, int radius, double alpha, double beta, double gamma)
         {
-            Bitmap paletteImage = new Bitmap(palette.Length * 10, 10);
-
-            for (int colorIndex = 0; colorIndex < palette.Length; ++colorIndex)
-            {
-                for (int y = 0; y < 10; ++y)
-                {
-                    for (int x = colorIndex * 10; x < (colorIndex + 1) * 10; ++x)
-                    {
-                        paletteImage.SetPixel(x, y, palette[colorIndex]);
-                    }
-                }
-            }
-
-            return paletteImage;
-        }
-
-        /// <summary>
-        /// Trains the colour dithering network.
-        /// </summary>
-        /// <param name="trainingImage">The (colour) training image.</param>
-        /// <pa
-        /// <param name="radius">The radius (i.e. the "extent of globality").</param>
-        /// <param name="alpha">The alpha.</param>
-        /// <param name="beta">The beta.</param>
-        /// <param name="gamma">The gamma.</param>
-        private void train(Bitmap trainingImage, int radius, double alpha, double beta, double gamma)
-        {
-            if (trainingImage == null)
-            {
-                throw new ArgumentNullException(nameof(trainingImage));
-            }
-
-            if (radius < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(radius), "The radius must be non-negative.");
-            }
-
-            if (alpha < 0.0 || 1.0 < alpha)
-            {
-                throw new ArgumentOutOfRangeException(nameof(alpha), "The alpha must be within the range [0, 1] (inclusive).");
-            }
-
-            if (beta < 0.0 || 1.0 < beta)
-            {
-                throw new ArgumentOutOfRangeException(nameof(beta), "The betamust be within the range [0, 1] (inclusive).");
-            }
-
-            if (gamma < 0.0 || 1.0 < gamma)
-            {
-                throw new ArgumentOutOfRangeException(nameof(gamma), "The gamma must be within the range [0, 1] (inclusive).");
-            }
-
-            #region Paletting network & palette
-
-            // Build the paletting network.
-            _palettingNetwork = new PalettingNetwork(_depth);
-
-            // Train the paletting network.
-            _palettingNetwork.Train(trainingImage);
-
-            // Get the palette.
-            _palette = _palettingNetwork.GetPalette();
-
-            #endregion // Paletting network & palette
+            _palette = PaletteExtraction.ExtractPalette(image, _depth);
 
             // Train the neurons.
-            for (int neuronYCoordinate = 0; neuronYCoordinate < _height; ++neuronYCoordinate)
+            for (int y = 0; y < _height; y++)
+            for (int x = 0; x < _width; x++)
+            for (int z = 0; z < _depth; z++)
             {
-                for (int neuronXCoordinate = 0; neuronXCoordinate < _width; ++neuronXCoordinate)
-                {
-                    for (int neuronZCoordinate = 0; neuronZCoordinate < _depth; ++neuronZCoordinate)
-                    {
-                        NeuronCoordinates neuronCoordinates = new NeuronCoordinates(neuronXCoordinate, neuronYCoordinate, neuronZCoordinate);
-                        trainNeuron(neuronCoordinates, trainingImage, radius, alpha, beta, gamma);
-                    } 
-                }
+                var neuronCoordinates = new NeuronCoordinates(x, y, z);
+                TrainNeuron(neuronCoordinates, image, radius, alpha, beta, gamma);
             }
         }
 
-        /// <summary>
-        /// Trains a neuron.
-        /// </summary>
-        /// <param name="neuronCoordinates">The coordinates of the neuron.</param>
-        /// <param name="trainingImage">The training image.</param>
-        /// <param name="radius">The radius.</param>
-        /// <param name="alpha">The pixel energy coefficient.</param>
-        /// <param name="beta">The local energy coefficient.</param>
-        /// <param name="gamma">The global energy coefficient.</param>
-        private void trainNeuron(NeuronCoordinates neuronCoordinates, Bitmap trainingImage, int radius, double alpha, double beta, double gamma)
+        private static void TrainNeuron(NeuronCoordinates neuronCoordinates, Bitmap image, int radius, double alpha, double beta, double gamma)
         {
             // Get the coordinates of the "chain" source neurons.
             ICollection<NeuronCoordinates> chainSourceNeuronsCoordinates = getChainSourceNeuronsCoordinates(neuronCoordinates);
@@ -221,7 +100,7 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
             double sum = 0.0;
             foreach (ColorComponent colorComponent in Enum.GetValues(typeof(ColorComponent)))
             {
-                double x = c_ijb(trainingImage, neuronCoordinates.X, neuronCoordinates.Y, colorComponent) - p_kb(neuronCoordinates.Z, colorComponent);
+                double x = c_ijb(image, neuronCoordinates.X, neuronCoordinates.Y, colorComponent) - p_kb(neuronCoordinates.Z, colorComponent);
                 sum += x * x;
             }
             double localNeuronBias = -sum;
@@ -233,7 +112,7 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
                 double innerSum = 0.0;
                 foreach (NeuronCoordinates sourceNeuronCoordinates in neighbourhoodSourceNeuronsCoordinates)
                 {
-                    innerSum += d_ijkl(radius, neuronCoordinates.X, neuronCoordinates.Y, sourceNeuronCoordinates.X, sourceNeuronCoordinates.Y) * c_ijb(trainingImage, sourceNeuronCoordinates.X, sourceNeuronCoordinates.Y, colorComponent);
+                    innerSum += d_ijkl(radius, neuronCoordinates.X, neuronCoordinates.Y, sourceNeuronCoordinates.X, sourceNeuronCoordinates.Y) * c_ijb(image, sourceNeuronCoordinates.X, sourceNeuronCoordinates.Y, colorComponent);
                 }
                 double x = p_kb(neuronCoordinates.Z, colorComponent);
                 outerSum += 2 * x * innerSum - radius * radius * x * x;
@@ -249,14 +128,27 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
             // Train the "chain" synapses.
             foreach (NeuronCoordinates sourceNeuronCoordinates in chainSourceNeuronsCoordinates)
             {
-                trainChainSynapse(neuronCoordinates, sourceNeuronCoordinates, trainingImage, radius, alpha, beta, gamma);
+                trainChainSynapse(neuronCoordinates, sourceNeuronCoordinates, image, radius, alpha, beta, gamma);
             }
 
             // Train the "neighbourhood" synapes.
             foreach (NeuronCoordinates sourceNeuronCoordinates in neighbourhoodSourceNeuronsCoordinates)
             {
-                trainNeighbourhoodSynapse(neuronCoordinates, sourceNeuronCoordinates, trainingImage, radius, alpha, beta, gamma);
+                trainNeighbourhoodSynapse(neuronCoordinates, sourceNeuronCoordinates, image, radius, alpha, beta, gamma);
             }
+        }
+
+        // DEBUG
+        private static Bitmap PaletteToImage(Color[] palette)
+        {
+            var paletteImage = new Bitmap(palette.Length * 10, 10);
+
+            for (int c = 0; c < palette.Length; c++)
+            for (int y = 0; y < 10; y++)
+            for (int x = c * 10; x < (c + 1) * 10; x++)
+                paletteImage.SetPixel(x, y, palette[c]);
+
+            return paletteImage;
         }
 
         /// <summary>
@@ -389,7 +281,7 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
             int neuronIndex = neuronCoordinatesToIndex(neuronCoordinates);
 
             // Set the bias of the neuron in the underlying network.
-            _underlyingHopfieldNetwork.SetNeuronBias(neuronIndex, neuronBias);
+            _hopfieldNet.SetNeuronBias(neuronIndex, neuronBias);
         }
 
         /// <summary>
@@ -407,7 +299,7 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
             int sourceNeuronIndex = neuronCoordinatesToIndex(sourceNeuronCoordinates);
 
             // Set the weight of the synapse in the underlying network.
-            _underlyingHopfieldNetwork.SetSynapseWeight(neuronIndex, sourceNeuronIndex, synapseWeight);
+            _hopfieldNet.SetSynapseWeight(neuronIndex, sourceNeuronIndex, synapseWeight);
         }
 
         /// <summary>
@@ -523,7 +415,7 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
             double[] patternToRecall = imageToPattern(originalImage);
 
             // Evaluate the underlying Hopfield netowork on the pattern to recall to obtain the recalled pattern.
-            double[] recalledPattern = _underlyingHopfieldNetwork.Evaluate(patternToRecall, _evaluationIterationCount);
+            double[] recalledPattern = _hopfieldNet.Evaluate(patternToRecall, _evaluationIterationCount);
 
             // Convert the recalled pattern into the dithered image.
             Bitmap ditheredImage = patternToImage(recalledPattern);
@@ -545,7 +437,7 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
                 for (int x = 0; x < _width; ++x)
                 {
                     Color pixelColor = image.GetPixel(x, y);
-                    int[] winnerOutputNeuronCoordinates = _palettingNetwork.Evaluate(pixelColor);
+                    int[] winnerOutputNeuronCoordinates = _kohonenNet.Evaluate(pixelColor);
                     int colorIndex = winnerOutputNeuronCoordinates[0];
                     for (int z = 0; z < _depth; ++z)
                     {
@@ -592,94 +484,27 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
         {
             get
             {
-                return _underlyingHopfieldNetwork.Neurons;
+                return _hopfieldNet.Neurons;
             }
         }
-
-        /// <summary>
-        /// The pseudo-random number generator.
-        /// </summary>
-        private static Random _random;
-        
-        /// <summary>
-        /// The number of evaluation iterations.
-        /// </summary>
-        private static int _evaluationIterationCount = 20;
-
-        /// <summary>
-        /// The underlying Hopfield network.
-        /// </summary>
-        private NeuralNetwork.HopfieldNet.HopfieldNetwork _underlyingHopfieldNetwork;
-
-        /// <summary>
-        /// The width of the dithering network.
-        /// </summary>
-        private int _width;
-
-        /// <summary>
-        /// The height of the dithering network.
-        /// </summary>
-        private int _height;
-
-        /// <summary>
-        /// The depth of the network.
-        /// </summary>
-        private int _depth;
-
-        /// <summary>
-        /// The paletting network.
-        /// </summary>
-        private PalettingNetwork _palettingNetwork;
-
-        /// <summary>
-        /// The palette.
-        /// </summary>
-        private Color[] _palette;
     }
 
     struct NeuronCoordinates
     {
         public NeuronCoordinates(int x, int y, int z)
         {
-            _x = x;
-            _y = y;
-            _z = z;
+            X = x;
+            Y = y;
+            Z = z;
         }
 
-        public int X
-        {
-            get
-            {
-                return _x;
-            }
-        }
+        public int X { get; }
 
-        public int Y
-        {
-            get
-            {
-                return _y;
-            }
-        }
+        public int Y { get; }
 
-        public int Z
-        {
-            get
-            {
-                return _z;
-            }
-        }
+        public int Z { get; }
 
-        public override string ToString()
-        {
-            return String.Format("({0}, {1}, {2})", _x, _y, _z);
-        }
-
-        private int _x;
-
-        private int _y;
-
-        private int _z;
+        public override string ToString() => $"({X}, {Y}, {Z})";
     }
 
     enum ColorComponent
@@ -688,5 +513,4 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
         Green,
         Blue
     }
-    */
 }
