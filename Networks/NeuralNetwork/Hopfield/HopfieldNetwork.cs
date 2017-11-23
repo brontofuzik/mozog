@@ -21,6 +21,12 @@ namespace NeuralNetwork.Hopfield
         {
             return new HopfieldNetwork<Position2D>(rows, cols, sparse, activation, topology, i => new Position2D(i / rows, i % rows, cols));
         }
+
+        public static HopfieldNetwork<Position2D> Build3DNetwork(int neurons, bool sparse = false,
+            ActivationFunction activation = null, Topology<Position1D> topology = null)
+        {
+
+        }
     }
 
     public class HopfieldNetwork<T> : IHopfieldNetwork

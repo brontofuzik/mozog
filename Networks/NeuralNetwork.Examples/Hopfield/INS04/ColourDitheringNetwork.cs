@@ -10,11 +10,11 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
 {
     class ColourDitheringNetwork
     {
-        private static int _evaluationIterationCount = 20;
+        private const int EvaluationIterations = 20;
 
         private static KohonenNetwork _kohonenNet;
 
-        private static HopfieldNetwork<Position1D> _hopfieldNet;
+        private static HopfieldNetwork<Position3D> _hopfieldNet;
 
         private static Color[] _palette;
 
@@ -22,6 +22,8 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
         private static int _width;
         private static int _height;
         private static int _depth;
+
+        private static int NeuronCount => _width * _height * _depth;
 
         // alpha - pixel energy coefficient
         // beta - local energy coefficient
@@ -71,6 +73,8 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
             return 1 / (1 + Math.Exp(-lambda * input));
         }
 
+        #region Training
+
         private static void Train(Bitmap image, int radius, double alpha, double beta, double gamma)
         {
             _palette = PaletteExtraction.ExtractPalette(image, _depth);
@@ -80,18 +84,18 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
             for (int x = 0; x < _width; x++)
             for (int z = 0; z < _depth; z++)
             {
-                var neuronCoordinates = new NeuronCoordinates(x, y, z);
+                var neuronCoordinates = new Position3D(x, y, z);
                 TrainNeuron(neuronCoordinates, image, radius, alpha, beta, gamma);
             }
         }
 
-        private static void TrainNeuron(NeuronCoordinates neuronCoordinates, Bitmap image, int radius, double alpha, double beta, double gamma)
+        private static void TrainNeuron(Position3D neuronCoordinates, Bitmap image, int radius, double alpha, double beta, double gamma)
         {
             // Get the coordinates of the "chain" source neurons.
-            ICollection<NeuronCoordinates> chainSourceNeuronsCoordinates = getChainSourceNeuronsCoordinates(neuronCoordinates);
+            ICollection<Position3D> chainSourceNeuronsCoordinates = getChainSourceNeuronsCoordinates(neuronCoordinates);
 
             // Get the coordinates of the "neighbourhood" source neurons.
-            ICollection<NeuronCoordinates> neighbourhoodSourceNeuronsCoordinates = getNeighbourhoodSourceNeuronsCoordinates(neuronCoordinates, radius);
+            ICollection<Position3D> neighbourhoodSourceNeuronsCoordinates = getNeighbourhoodSourceNeuronsCoordinates(neuronCoordinates, radius);
 
             // Calculate the pixel bias of the neuron.
             double pixelNeuronBias = 1.0;
@@ -110,7 +114,7 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
             foreach (ColorComponent colorComponent in Enum.GetValues(typeof(ColorComponent)))
             {
                 double innerSum = 0.0;
-                foreach (NeuronCoordinates sourceNeuronCoordinates in neighbourhoodSourceNeuronsCoordinates)
+                foreach (Position3D sourceNeuronCoordinates in neighbourhoodSourceNeuronsCoordinates)
                 {
                     innerSum += d_ijkl(radius, neuronCoordinates.X, neuronCoordinates.Y, sourceNeuronCoordinates.X, sourceNeuronCoordinates.Y) * c_ijb(image, sourceNeuronCoordinates.X, sourceNeuronCoordinates.Y, colorComponent);
                 }
@@ -126,16 +130,90 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
             setNeuronBias(neuronCoordinates, neuronBias);
 
             // Train the "chain" synapses.
-            foreach (NeuronCoordinates sourceNeuronCoordinates in chainSourceNeuronsCoordinates)
+            foreach (Position3D sourceNeuronCoordinates in chainSourceNeuronsCoordinates)
             {
                 trainChainSynapse(neuronCoordinates, sourceNeuronCoordinates, image, radius, alpha, beta, gamma);
             }
 
             // Train the "neighbourhood" synapes.
-            foreach (NeuronCoordinates sourceNeuronCoordinates in neighbourhoodSourceNeuronsCoordinates)
+            foreach (Position3D sourceNeuronCoordinates in neighbourhoodSourceNeuronsCoordinates)
             {
                 trainNeighbourhoodSynapse(neuronCoordinates, sourceNeuronCoordinates, image, radius, alpha, beta, gamma);
             }
+        }
+
+        #endregion // Training
+
+        #region Evaluation
+
+        private static Bitmap Evaluate(HopfieldNetwork<Position3D> net, Bitmap originalImage)
+        {
+            var input = ImageToVector(originalImage);
+            var output = _hopfieldNet.Evaluate(input, EvaluationIterations);
+            var ditheredImage = VectorToImage(output);
+
+            return ditheredImage;
+        }
+
+        private static double[] ImageToVector(Bitmap image)
+        {
+            var vector = new double[NeuronCount];
+
+            for (int y = 0; y < _height; y++)
+            for (int x = 0; x < _width; x++)
+            {
+                Color color = image.GetPixel(x, y);
+                int[] winner = _kohonenNet.Evaluate(color); // TODO
+                int colorIndex = winner[0];
+
+                for (int z = 0; z < _depth; z++)
+                {
+                    int index = NeuronPositionToIndex(x, y, z);
+                    vector[index] = z == colorIndex ? 1.0 : 0.0;
+                }
+            }
+            return vector;
+        }
+
+        private static Bitmap VectorToImage(double[] vector)
+        {
+            var image = new Bitmap(_width, _height);
+
+            for (int y = 0; y < _height; y++)
+            for (int x = 0; x < _width; x++)
+            {
+                Color color = Color.White;
+                for (int z = 0; z < _depth; z++)
+                {
+                    int neuronIndex = NeuronPositionToIndex(x, y, z);
+                    if (vector[neuronIndex] >= 0.99)
+                    {
+                        color = _palette[z];
+                        break;
+                    }
+                }
+                image.SetPixel(x, y, color);
+            }
+
+            return image;
+        }
+
+        #endregion // Evaluation
+
+        private static int NeuronPositionToIndex(int x, int y, int z)
+        {
+            return z * _height * _width + y * _width + x * 1;
+        }
+
+        private static (int x, int y, int z) NeuronIndexToPosition(int index)
+        {
+            int x = index % _width;
+            index /= _width;
+            int y = index % _height;
+            index /= _height;
+            int z = index % _depth;
+
+            return (x, y, z);
         }
 
         // DEBUG
@@ -156,9 +234,9 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
         /// </summary>
         /// <param name="neuronCoordinates">The coordinates of the neuron.</param>
         /// <returns>The coordinates of the neuron's "chain" source neurons.</returns>
-        private ICollection<NeuronCoordinates> getChainSourceNeuronsCoordinates(NeuronCoordinates neuronCoordinates)
+        private ICollection<Position3D> getChainSourceNeuronsCoordinates(Position3D neuronCoordinates)
         {
-            ICollection<NeuronCoordinates> chainSourceNeuronsCoordinates = new HashSet<NeuronCoordinates>();
+            ICollection<Position3D> chainSourceNeuronsCoordinates = new HashSet<Position3D>();
 
             int sourceNeuronXCoordinate = neuronCoordinates.X;
             int sourceNeuronYCoordinate = neuronCoordinates.Y;
@@ -168,7 +246,7 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
                 {
                     continue;
                 }
-                NeuronCoordinates sourceNeuronCoordinates = new NeuronCoordinates(sourceNeuronXCoordinate, sourceNeuronYCoordinate, sourceNeuronZCoordinate);
+                Position3D sourceNeuronCoordinates = new Position3D(sourceNeuronXCoordinate, sourceNeuronYCoordinate, sourceNeuronZCoordinate);
                 chainSourceNeuronsCoordinates.Add(sourceNeuronCoordinates);
             }
 
@@ -181,9 +259,9 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
         /// <param name="neuronCoordinates">The coordinates of the neuron.</param>
         /// <param name="radius">The radius.</param>
         /// <returns>The coordinates of the neuron's "neighbourhood" source neurons.</returns>
-        private ICollection<NeuronCoordinates> getNeighbourhoodSourceNeuronsCoordinates(NeuronCoordinates neuronCoordinates, int radius)
+        private ICollection<Position3D> getNeighbourhoodSourceNeuronsCoordinates(Position3D neuronCoordinates, int radius)
         {
-            ICollection<NeuronCoordinates> neighbourhoodSourceNeuronsCoordinates = new HashSet<NeuronCoordinates>();
+            ICollection<Position3D> neighbourhoodSourceNeuronsCoordinates = new HashSet<Position3D>();
 
             // Calculate the limits.
             int sourceNeuronXCoordinateMin = Math.Max(neuronCoordinates.X - radius, 0);
@@ -200,7 +278,7 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
                     {
                         continue;
                     }
-                    NeuronCoordinates sourceNeuronCoordinates = new NeuronCoordinates(sourceNeuronXCoordinate, sourceNeuronYCoordinate, sourceNeuronZCoordinate);
+                    Position3D sourceNeuronCoordinates = new Position3D(sourceNeuronXCoordinate, sourceNeuronYCoordinate, sourceNeuronZCoordinate);
                     neighbourhoodSourceNeuronsCoordinates.Add(sourceNeuronCoordinates);
                 }
             }
@@ -218,7 +296,7 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
         /// <param name="alpha">The pixel energy coefficient.</param>
         /// <param name="beta">The local energy coefficient.</param>
         /// <param name="gamma">The global energy coefficient.</param>
-        private void trainChainSynapse(NeuronCoordinates neuronCoordinates, NeuronCoordinates sourceNeuronCoordinates, Bitmap trainingImage, int radius, double alpha, double beta, double gamma)
+        private void trainChainSynapse(Position3D neuronCoordinates, Position3D sourceNeuronCoordinates, Bitmap trainingImage, int radius, double alpha, double beta, double gamma)
         {
             // Calculate the pixel weight of the syanpse.
             double pixelSynapseWeight = -2.0;
@@ -246,7 +324,7 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
         /// <param name="alpha">The pixel energy coefficient.</param>
         /// <param name="beta">The local energy coefficient.</param>
         /// <param name="gamma">The global energy coefficient.</param>
-        private void trainNeighbourhoodSynapse(NeuronCoordinates neuronCoordinates, NeuronCoordinates sourceNeuronCoordinates, Bitmap trainingImage, int radius, double alpha, double beta, double gamma)
+        private void trainNeighbourhoodSynapse(Position3D neuronCoordinates, Position3D sourceNeuronCoordinates, Bitmap trainingImage, int radius, double alpha, double beta, double gamma)
         {
             // Calculate the pixel weight of the syanpse.
             double pixelSynapseWeight = 0.0;
@@ -275,7 +353,7 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
         /// </summary>
         /// <param name="neuronCoordinates">The coordinates of the neuron.</param>
         /// <param name="neuronBias">The bias of the neuron.</param>
-        private void setNeuronBias(NeuronCoordinates neuronCoordinates, double neuronBias)
+        private void setNeuronBias(Position3D neuronCoordinates, double neuronBias)
         {
             // Calculate the index of the neuron.
             int neuronIndex = neuronCoordinatesToIndex(neuronCoordinates);
@@ -290,7 +368,7 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
         /// <param name="neuronCoordinates">The coordinates of the neuron.</param>
         /// <param name="sourceNeuronCoordinates">The coordinates of the source neuron.</param>
         /// <param name="synapseWeight">The weight of the synapse.</param>
-        private void setSynapseWeight(NeuronCoordinates neuronCoordinates, NeuronCoordinates sourceNeuronCoordinates, double synapseWeight)
+        private void setSynapseWeight(Position3D neuronCoordinates, Position3D sourceNeuronCoordinates, double synapseWeight)
         {
             // Calculate the index of the neuron.
             int neuronIndex = neuronCoordinatesToIndex(neuronCoordinates);
@@ -302,36 +380,7 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
             _hopfieldNet.SetSynapseWeight(neuronIndex, sourceNeuronIndex, synapseWeight);
         }
 
-        /// <summary>
-        /// Converts the index of a neuron to its coordinates.
-        /// </summary>
-        /// <param name="neuronIndex">The index of the neuron.</param>
-        /// <returns>The coordinates of the neuron.</returns>
-        private NeuronCoordinates neuronIndexToCoordinates(int neuronIndex)
-        {
-            // Calculate the neuronXCoordinate coordinate.
-            int neuronXCoordinate = neuronIndex % _width;
 
-            // Calculate the neuronYCoordinate coordiante.
-            neuronIndex /= _width;
-            int neuronYCoordinate = neuronIndex % _height;
-
-            // Calculate the neuronXCoordinate coordinate.
-            neuronIndex /= _height;
-            int neuronZCoordinate = neuronIndex % _depth;
-
-            return new NeuronCoordinates(neuronXCoordinate, neuronYCoordinate, neuronZCoordinate);
-        }
-
-        /// <summary>
-        /// Converts the coordinates of the neuron to its index.
-        /// </summary>
-        /// <param name="neuronCoordinates">The coordinates of the neuron.</param> 
-        /// <returns>The index of the neuron.</returns>
-        private int neuronCoordinatesToIndex(NeuronCoordinates neuronCoordinates)
-        {
-            return neuronCoordinates.Z * _height * _width + neuronCoordinates.Y * _width + neuronCoordinates.X * 1;
-        }
 
         /// <summary>
         /// c_ijb
@@ -402,100 +451,20 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
                 return 0;
             }
         }
-
-        /// <summary>
-        /// Evaluates the colour dithering network.
-        /// </summary>
-        /// <param name="image">The original (colour) image.</param>
-        /// <param name="evaluationIterationCount">The number of evaluation iterations.</param>
-        /// <returns>The dithered image.</returns>
-        private Bitmap evaluate(Bitmap originalImage)
-        {
-            // Convert the original image into the pattern to recall.
-            double[] patternToRecall = imageToPattern(originalImage);
-
-            // Evaluate the underlying Hopfield netowork on the pattern to recall to obtain the recalled pattern.
-            double[] recalledPattern = _hopfieldNet.Evaluate(patternToRecall, _evaluationIterationCount);
-
-            // Convert the recalled pattern into the dithered image.
-            Bitmap ditheredImage = patternToImage(recalledPattern);
-
-            return ditheredImage;
-        }
-
-        /// <summary>
-        /// Converts an image to a pattern.
-        /// </summary>
-        /// <param name="image">The image.</param>
-        /// <returns>The pattern.</returns>
-        private double[] imageToPattern(Bitmap image)
-        {
-            double[] pattern = new double[neuronCount];
-
-            for (int y = 0; y < _height; ++y)
-            {
-                for (int x = 0; x < _width; ++x)
-                {
-                    Color pixelColor = image.GetPixel(x, y);
-                    int[] winnerOutputNeuronCoordinates = _kohonenNet.Evaluate(pixelColor);
-                    int colorIndex = winnerOutputNeuronCoordinates[0];
-                    for (int z = 0; z < _depth; ++z)
-                    {
-                        int neuronIndex = neuronCoordinatesToIndex(new NeuronCoordinates(x, y, z));
-                        pattern[neuronIndex] = z == colorIndex ? 1.0 : 0.0; 
-                    }
-                }
-            }
-
-            return pattern;
-        }
-
-        /// <summary>
-        /// Converts a pattern to an image.
-        /// </summary>
-        /// <param name="pattern">The pattern.</param>
-        /// <returns>The image.</returns>
-        private Bitmap patternToImage(double[] pattern)
-        {
-            Bitmap image = new Bitmap(_width, _height);
-
-            for (int y = 0; y < _height; ++y)
-            {
-                for (int x = 0; x < _width; ++x)
-                {
-                    Color color = Color.White;
-                    for (int z = 0; z < _depth; ++z)
-                    {
-                        int neuronIndex = neuronCoordinatesToIndex(new NeuronCoordinates(x, y, z));
-                        if (pattern[neuronIndex] >= 0.99)
-                        {
-                            color = _palette[z];
-                            break;
-                        }
-                    }
-                    image.SetPixel(x, y, color);
-                }
-            }
-
-            return image;
-        }
-
-        private int neuronCount
-        {
-            get
-            {
-                return _hopfieldNet.Neurons;
-            }
-        }
     }
 
-    struct NeuronCoordinates
+    struct Position3D : IPosition
     {
-        public NeuronCoordinates(int x, int y, int z)
+        private readonly int width;
+        private readonly int height;
+
+        public Position3D(int x, int y, int z, int width, int height)
         {
             X = x;
             Y = y;
             Z = z;
+            this.width = width;
+            this.height = height;
         }
 
         public int X { get; }
@@ -503,6 +472,8 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
         public int Y { get; }
 
         public int Z { get; }
+
+        public int Index => 0;
 
         public override string ToString() => $"({X}, {Y}, {Z})";
     }

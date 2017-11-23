@@ -19,7 +19,7 @@
 
     public struct Position2D : IPosition
     {
-        private int width;
+        private readonly int width;
 
         public Position2D(int row, int col, int width)
         {
