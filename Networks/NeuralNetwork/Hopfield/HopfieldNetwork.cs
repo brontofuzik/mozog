@@ -41,6 +41,8 @@ namespace NeuralNetwork.Hopfield
             biases = new double[Neurons];
             outputs = new double[Neurons];
 
+            this.positionFactory = positionFactory;
+
             // Default activation
             double DefaultActivation(double input, double _) => System.Math.Sign(input);
 
@@ -53,8 +55,6 @@ namespace NeuralNetwork.Hopfield
                 .Select(index => positionFactory(index));
 
             this.topology = topology ?? DefaultTopology;
-
-            this.positionFactory = positionFactory;
         }
 
         // TODO Hopfield

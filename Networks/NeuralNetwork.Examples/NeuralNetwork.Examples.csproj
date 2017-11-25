@@ -106,11 +106,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Hopfield\EightQueens.cs" />
-    <Compile Include="Hopfield\EightRooks.cs" />
+    <Compile Include="Hopfield\Chessboard.cs" />
     <Compile Include="Hopfield\GrayscaleDithering.cs" />
     <Compile Include="Hopfield\Simple.cs" />
-    <Compile Include="Hopfield\INS04\ColourDitheringNetwork.cs" />
     <Compile Include="Kohonen\PaletteExtraction.cs" />
     <Compile Include="Hopfield\ColouredDithering.cs" />
     <Compile Include="Hopfield\Multiflop.cs" />

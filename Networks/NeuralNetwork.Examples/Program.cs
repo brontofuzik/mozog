@@ -22,8 +22,8 @@
         {
             Examples.Hopfield.Simple.Run();
             Examples.Hopfield.Multiflop.Run();
-            Examples.Hopfield.EightRooks.Run();
-            Examples.Hopfield.EightQueens.Run();
+            Examples.Hopfield.Chessboard.RunEightRooks();
+            Examples.Hopfield.Chessboard.RunEightQueens();
             Examples.Hopfield.GrayscaleDithering.Run();
             Examples.Hopfield.ColourDithering.Run();
         }
