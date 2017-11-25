@@ -22,9 +22,9 @@ namespace NeuralNetwork.Examples.Hopfield
         private static double beta;
         private static double gamma;
 
+        private static Color[] palette;
         private static KohonenNetwork kohonenNet;
         private static HopfieldNetwork hopfieldNet;
-        private static Color[] palette;
 
         // TODO
         //private static int NeuronCount => _height * _width * _depth;
@@ -33,20 +33,19 @@ namespace NeuralNetwork.Examples.Hopfield
         {
             string imageName = "lenna-col";
 
-            int[] paletteSizes = { 4, 8, 12, 16 };
-            int[] radii = { 1, 2 };
-            double alpha = 0.3;
-            double beta = 0.695;
-            double gamma = 0.005;
+            //int[] paletteSizes = { 4, 8, 12, 16 };
+            int[] paletteSizes = { 4 };
+            //int[] radii = { 1, 2 };
+            int[] radii = { 1 };
+            double alpha = 0.3; // Pixel energy coefficient
+            double beta = 0.695; // Local energy coefficient
+            double gamma = 0.005; // Global energy coefficient
 
             foreach (int paletteSize in paletteSizes)
             foreach (int radius in radii)
                 DitherImage(imageName, paletteSize, radius, alpha, beta, gamma);
         }
 
-        // alpha - pixel energy coefficient
-        // beta - local energy coefficient
-        // gamma - global energy coefficient
         static void DitherImage(string imageName, int paletteSize, int radius, double alpha, double beta, double gamma)
         {
             Console.Write($"DitherImage(paletteSize: {paletteSize}, radius: {radius}, alpha: {alpha:F3}, beta: {beta:F3}, gamma: {gamma:F3})...");
@@ -69,7 +68,7 @@ namespace NeuralNetwork.Examples.Hopfield
             ColourDithering.beta = beta;
             ColourDithering.gamma = gamma;
 
-            palette = PaletteExtraction.ExtractPalette(image, paletteSize);
+            (palette, kohonenNet) = PaletteExtraction.ExtractPalette(image, paletteSize);
 
             // Step 1: Build the training set.
 
@@ -228,10 +227,9 @@ namespace NeuralNetwork.Examples.Hopfield
             for (int y = 0; y < Height; y++)
             for (int x = 0; x < Depth; x++)
             {
-                Color color = image.GetPixel(x, y);
-                int[] winner = null; // TODO _kohonenNet.Evaluate(color); 
-                int colorIndex = winner[0];
-
+                var color = image.GetPixel(x, y);
+                int colorIndex = PaletteExtraction.EvaluateIndex(kohonenNet, color); 
+               
                 for (int z = 0; z < Depth; z++)
                 {
                     int index = NeuronPositionToIndex(x, y, z);
@@ -269,19 +267,6 @@ namespace NeuralNetwork.Examples.Hopfield
             => row * (Width * Depth) + col * Depth + depth;
 
         #endregion // Evaluation
-
-        // DEBUG
-        private static Bitmap PaletteToImage(Color[] palette)
-        {
-            var paletteImage = new Bitmap(palette.Length * 10, 10);
-
-            for (int c = 0; c < palette.Length; c++)
-            for (int y = 0; y < 10; y++)
-            for (int x = c * 10; x < (c + 1) * 10; x++)
-                paletteImage.SetPixel(x, y, palette[c]);
-
-            return paletteImage;
-        }
 
         private static byte GetColorComponent(Color color, ColorComponent component)
         {

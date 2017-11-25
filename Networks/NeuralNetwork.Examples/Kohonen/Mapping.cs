@@ -21,8 +21,8 @@ namespace NeuralNetwork.Examples.Kohonen
 
             // Step 1: Create the training set
 
-            var dataSet = new DataSet(1);
-            datasetSize.Times(() => dataSet.Add(new LabeledDataPoint(Mozog.Utils.Math.StaticRandom.DoubleArray(1), new double[0])));
+            var data = new DataSet(1);
+            datasetSize.Times(() => data.Add(new LabeledDataPoint(Mozog.Utils.Math.StaticRandom.DoubleArray(1), new double[0])));
 
             // Step 2: Create the network
 
@@ -32,7 +32,7 @@ namespace NeuralNetwork.Examples.Kohonen
 
             var pbar = new ProgressBar(iterations, "Training...");
             net.BeforeTrainingSet += (sender, args) => pbar.Tick($"Iteration {args.Iteration}/{iterations}");
-            net.Train(dataSet, iterations);
+            net.Train(data, iterations);
 
             // Step 4: Test the network
 
@@ -50,8 +50,8 @@ namespace NeuralNetwork.Examples.Kohonen
 
             // Step 1: Create the training set
 
-            var dataSet = new DataSet(2);
-            datasetSize.Times(() => dataSet.Add(new LabeledDataPoint(Mozog.Utils.Math.StaticRandom.DoubleArray(2), new double[0])));
+            var data = new DataSet(2);
+            datasetSize.Times(() => data.Add(new LabeledDataPoint(Mozog.Utils.Math.StaticRandom.DoubleArray(2), new double[0])));
 
             // Step 2: Create the network
 
@@ -61,7 +61,7 @@ namespace NeuralNetwork.Examples.Kohonen
 
             var pbar = new ProgressBar(iterations, "Training...");
             net.BeforeTrainingSet += (sender, args) => pbar.Tick($"Iteration {args.Iteration}/{iterations}");
-            net.Train(dataSet, iterations);
+            net.Train(data, iterations);
 
             // Step 4: Test the network
 
@@ -79,8 +79,8 @@ namespace NeuralNetwork.Examples.Kohonen
 
             // Step 1: Create the training set
 
-            var dataSet = new DataSet(2);
-            datasetSize.Times(() => dataSet.Add(new LabeledDataPoint(Mozog.Utils.Math.StaticRandom.DoubleArray(2), new double[0])));
+            var data = new DataSet(2);
+            datasetSize.Times(() => data.Add(new LabeledDataPoint(Mozog.Utils.Math.StaticRandom.DoubleArray(2), new double[0])));
 
             // Step 2: Create the network
 
@@ -90,7 +90,7 @@ namespace NeuralNetwork.Examples.Kohonen
 
             var pbar = new ProgressBar(iterations, "Training...");
             net.BeforeTrainingSet += (sender, args) => pbar.Tick($"Iteration {args.Iteration}/{iterations}");
-            net.Train(dataSet, iterations);
+            net.Train(data, iterations);
 
             // Step 4: Test the network
 

@@ -20,11 +20,11 @@
 
         private static void Hopfield()
         {
-            Examples.Hopfield.Simple.Run();
-            Examples.Hopfield.Multiflop.Run();
-            Examples.Hopfield.Chessboard.RunEightRooks();
-            Examples.Hopfield.Chessboard.RunEightQueens();
-            Examples.Hopfield.GrayscaleDithering.Run();
+            //Examples.Hopfield.Simple.Run();
+            //Examples.Hopfield.Multiflop.Run();
+            //Examples.Hopfield.Chessboard.RunEightRooks();
+            //Examples.Hopfield.Chessboard.RunEightQueens();
+            //Examples.Hopfield.GrayscaleDithering.Run();
             Examples.Hopfield.ColourDithering.Run();
         }
 
@@ -33,6 +33,7 @@
             Examples.Kohonen.Mapping.Map_1D_with_1D();
             Examples.Kohonen.Mapping.Map_2D_with_1D();
             Examples.Kohonen.Mapping.Map_2D_with_2D();
+            Examples.Kohonen.PaletteExtraction.Run();
         }
     }
 }
