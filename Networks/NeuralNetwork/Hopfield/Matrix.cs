@@ -19,7 +19,7 @@ namespace NeuralNetwork.Hopfield.HopfieldNetworkImps
 
     class FullMatrix : IMatrix
     {
-        private double[,] weights;
+        private readonly double[,] weights;
 
         public FullMatrix(int rows, int cols)
         {
@@ -36,14 +36,8 @@ namespace NeuralNetwork.Hopfield.HopfieldNetworkImps
 
         public double this[int row, int col]
         {
-            get
-            {
-                return weights[row, col];
-            }
-            set
-            {
-                weights[row, col] = value;
-            }
+            get => weights[row, col];
+            set => weights[row, col] = value;
         }
 
         public IEnumerable<int> GetSourceNeurons(int neuron)

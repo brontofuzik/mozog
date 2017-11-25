@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Diagnostics;
 using NeuralNetwork.Data;
+using NeuralNetwork.Hopfield;
 
 namespace NeuralNetwork.Examples.Hopfield
 {
@@ -17,7 +18,7 @@ namespace NeuralNetwork.Examples.Hopfield
 
             // Step 2: Create the network.
 
-            var net = NeuralNetwork.Hopfield.HopfieldNetwork.Build1DNetwork(dataSet.InputSize, sparse: false);
+            var net = HopfieldNetwork.Build1DNetwork(dataSet.InputSize, sparse: false);
 
             // Step 3: Train the network.
 

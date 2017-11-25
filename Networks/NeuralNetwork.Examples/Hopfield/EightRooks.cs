@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Mozog.Utils;
+using NeuralNetwork.Hopfield;
 
 namespace NeuralNetwork.Examples.Hopfield
 {
@@ -16,15 +17,14 @@ namespace NeuralNetwork.Examples.Hopfield
 
             int rows = 8;
             int cols = 8;
-            var net = NeuralNetwork.Hopfield.HopfieldNetwork.Build2DNetwork(rows, cols,
-                sparse: true,
+            var net = HopfieldNetwork.Build2DNetwork(rows, cols, sparse: true,
                 activation: (input, _) => input > 0 ? 1.0 : 0.0);
 
             // Step 3: Train the network.
 
             net.Initialize(
                 (p, _net) => 1.0,
-                (p, sourceP, _net) => (p.Row == sourceP.Row || p.Col == sourceP.Col) ? -2.0 : 0.0);
+                (p, sourceP, _net) => p[0] == sourceP[0] || p[1] == sourceP[1] ? -2.0 : 0.0);
 
             // Step 4: Test the network.
 

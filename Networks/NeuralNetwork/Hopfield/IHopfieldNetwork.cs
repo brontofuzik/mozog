@@ -4,6 +4,8 @@ namespace NeuralNetwork.Hopfield
 {
     public interface IHopfieldNetwork
     {
+        int[] Dimensions { get; }
+
         int Neurons { get; }
 
         int Synapses { get; }

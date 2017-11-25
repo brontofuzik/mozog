@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using NeuralNetwork.Examples.Kohonen;
 using NeuralNetwork.Hopfield;
 using NeuralNetwork.Kohonen;
+using static Mozog.Utils.Math.Math;
 
 namespace NeuralNetwork.Examples.Hopfield.INS04
 {
@@ -14,7 +15,7 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
 
         private static KohonenNetwork _kohonenNet;
 
-        private static HopfieldNetwork<Position3D> _hopfieldNet;
+        private static HopfieldNetwork _hopfieldNet;
 
         private static Color[] _palette;
 
@@ -48,7 +49,7 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
 
             // Step 2: Build the network.
 
-            _hopfieldNet = HopfieldNetwork.Build1DNetwork(originalImage.Width * originalImage.Height * paletteSize, sparse: true, activation: Activation);
+            _hopfieldNet = HopfieldNetwork.Build3DNetwork(originalImage.Height, originalImage.Width, paletteSize, sparse: true, activation: Activation);
             _width = originalImage.Width;
             _height = originalImage.Height;
             _depth = paletteSize;
@@ -59,7 +60,7 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
 
             // Step 4: Use the network.
 
-            var ditheredImage = colourDitheringNetwork.evaluate(originalImage);
+            var ditheredImage = EvaluateHopfield(_hopfieldNet, originalImage);
 
             return ditheredImage;
         }
@@ -83,73 +84,131 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
             for (int y = 0; y < _height; y++)
             for (int x = 0; x < _width; x++)
             for (int z = 0; z < _depth; z++)
-            {
-                var neuronCoordinates = new Position3D(x, y, z);
-                TrainNeuron(neuronCoordinates, image, radius, alpha, beta, gamma);
-            }
+                TrainNeuron(new[] {y, x, z}, image, radius, alpha, beta, gamma);
         }
 
-        private static void TrainNeuron(Position3D neuronCoordinates, Bitmap image, int radius, double alpha, double beta, double gamma)
+        private static void TrainNeuron(int[] neuron, Bitmap image, int radius, double alpha, double beta, double gamma)
         {
-            // Get the coordinates of the "chain" source neurons.
-            ICollection<Position3D> chainSourceNeuronsCoordinates = getChainSourceNeuronsCoordinates(neuronCoordinates);
+            //
+            // Train bias
+            //
 
-            // Get the coordinates of the "neighbourhood" source neurons.
-            ICollection<Position3D> neighbourhoodSourceNeuronsCoordinates = getNeighbourhoodSourceNeuronsCoordinates(neuronCoordinates, radius);
+            double localNeuronBias = -ColorComponents.Sum(c => Square(C_ijb(image, X(neuron), Y(neuron), c) - P_kb(Z(neuron), c)));
 
-            // Calculate the pixel bias of the neuron.
-            double pixelNeuronBias = 1.0;
+            var neighbourhoodSourceNeurons = GetNeighbourhoodSourceNeurons(neuron, radius);
+            double globalNeuronBias = ColorComponents.Sum(c =>
+            {
+                var innerSum = neighbourhoodSourceNeurons.Sum(source =>
+                    D_ijkl(radius, X(neuron), Y(neuron), X(source), Y(source)) * C_ijb(image, X(source), Y(source), c));
+                var x = P_kb(Z(neuron), c);
 
-            // Calculate the local bias of the neuron.
+                return 2 * x * innerSum - Square(radius) * Square(x * x);
+            });
+
+            const double pixelNeuronBias = 1.0;
+            double neuronBias = alpha * pixelNeuronBias + beta * localNeuronBias + gamma * globalNeuronBias;
+
+            SetNeuronBias(neuron, neuronBias);
+
+            //
+            // Train synapses
+            //
+
+            // Train the "chain" synapses.
+            var sourceNeurons = GetChainSourceNeurons(neuron);
+            foreach (var source in sourceNeurons)
+                TrainChainSynapse(neuron, source, image, radius, alpha, beta, gamma);
+
+            // Train the "neighbourhood" synapes.
+            foreach (var source in neighbourhoodSourceNeurons)
+                TrainNeighbourhoodSynapse(neuron, source, image, radius, alpha, beta, gamma);
+        }
+
+        // Gets the coordinates of a neuron's "chain" source neurons.
+        // Along the z-axis.
+        private static IEnumerable<int[]> GetChainSourceNeurons(int[] position)
+        {
+            var neurons = new List<int[]>();
+
+            for (int sourceZ = 0; sourceZ < _depth; sourceZ++)
+            {
+                if (sourceZ == Z(position)) continue;
+                neurons.Add(P(X(position), Y(position), sourceZ));
+            }
+
+            return neurons;
+        }
+
+        // Gets the coordinates of a neuron's "neighbourhood" source neurons.
+        // Along the x and y-axes.
+        private static IEnumerable<int[]> GetNeighbourhoodSourceNeurons(int[] position, int radius)
+        {
+            var neurons = new List<int[]>();
+
+            // Calculate the limits.
+            int xmin = Math.Max(X(position) - radius, 0);
+            int xmax = Math.Min(X(position) + radius, _width - 1);
+            int ymin = Math.Max(Y(position) - radius, 0);
+            int ymax = Math.Min(Y(position) + radius, _height - 1);
+
+            for (int sourceY = ymin; sourceY <= ymax; sourceY++)
+            for (int sourceX = xmin; sourceX <= xmax; sourceX++)
+            {
+                if (sourceX == X(position) && sourceY == Y(position)) continue;
+                neurons.Add(P(sourceX, sourceY, Z(position)));
+            }
+
+            return neurons;
+        }
+
+        private static void TrainChainSynapse(int[] neuron, int[] source, Bitmap image, int radius, double alpha, double beta, double gamma)
+        {
+            double pixelSynapseWeight = -2.0;
+            double localSynapseWeight = 0.0;
+            double globalSynapseWeight = 0.0;
+            double synapseWeight = alpha * pixelSynapseWeight + beta * localSynapseWeight + gamma * globalSynapseWeight;
+            SetSynapseWeight(neuron, source, synapseWeight);
+        }
+
+        private static void TrainNeighbourhoodSynapse(int[] neuron, int[] source, Bitmap image, int radius, double alpha, double beta, double gamma)
+        {
+            double pixelSynapseWeight = 0.0;
+            double localSynapseWeight = 0.0;
+
             double sum = 0.0;
             foreach (ColorComponent colorComponent in Enum.GetValues(typeof(ColorComponent)))
             {
-                double x = c_ijb(image, neuronCoordinates.X, neuronCoordinates.Y, colorComponent) - p_kb(neuronCoordinates.Z, colorComponent);
-                sum += x * x;
+                double x = P_kb(neuron[2], colorComponent);
+                sum += D_ijkl(radius, neuron[1], neuron[0], source[1], source[0]) * x * x;
             }
-            double localNeuronBias = -sum;
+            double globalSynapseWeight = -2 * sum;
 
-            // Calculate the global bias of the neuron.
-            double outerSum = 0.0;
-            foreach (ColorComponent colorComponent in Enum.GetValues(typeof(ColorComponent)))
-            {
-                double innerSum = 0.0;
-                foreach (Position3D sourceNeuronCoordinates in neighbourhoodSourceNeuronsCoordinates)
-                {
-                    innerSum += d_ijkl(radius, neuronCoordinates.X, neuronCoordinates.Y, sourceNeuronCoordinates.X, sourceNeuronCoordinates.Y) * c_ijb(image, sourceNeuronCoordinates.X, sourceNeuronCoordinates.Y, colorComponent);
-                }
-                double x = p_kb(neuronCoordinates.Z, colorComponent);
-                outerSum += 2 * x * innerSum - radius * radius * x * x;
-            }
-            double globalNeuronBias = outerSum;
+            double synapseWeight = alpha * pixelSynapseWeight + beta * localSynapseWeight + gamma * globalSynapseWeight;
 
-            // Calculate the (total) bias of the neuron.
-            double neuronBias = alpha * pixelNeuronBias + beta * localNeuronBias + gamma * globalNeuronBias;
+            SetSynapseWeight(neuron, source, synapseWeight);
+        }
 
-            // Set the bias of the neuron.
-            setNeuronBias(neuronCoordinates, neuronBias);
+        private static void SetNeuronBias(int[] neuron, double bias)
+        {
+            int index = NeuronPositionToIndex(neuron);
+            _hopfieldNet.SetNeuronBias(index, bias);
+        }
 
-            // Train the "chain" synapses.
-            foreach (Position3D sourceNeuronCoordinates in chainSourceNeuronsCoordinates)
-            {
-                trainChainSynapse(neuronCoordinates, sourceNeuronCoordinates, image, radius, alpha, beta, gamma);
-            }
-
-            // Train the "neighbourhood" synapes.
-            foreach (Position3D sourceNeuronCoordinates in neighbourhoodSourceNeuronsCoordinates)
-            {
-                trainNeighbourhoodSynapse(neuronCoordinates, sourceNeuronCoordinates, image, radius, alpha, beta, gamma);
-            }
+        private static void SetSynapseWeight(int[] neuron, int[] source, double weight)
+        {
+            int index = NeuronPositionToIndex(neuron);
+            int sourceIndex = NeuronPositionToIndex(source);
+            _hopfieldNet.SetSynapseWeight(index, sourceIndex, weight);
         }
 
         #endregion // Training
 
         #region Evaluation
 
-        private static Bitmap Evaluate(HopfieldNetwork<Position3D> net, Bitmap originalImage)
+        private static Bitmap EvaluateHopfield(HopfieldNetwork net, Bitmap originalImage)
         {
             var input = ImageToVector(originalImage);
-            var output = _hopfieldNet.Evaluate(input, EvaluationIterations);
+            var output = net.Evaluate(input, EvaluationIterations);
             var ditheredImage = VectorToImage(output);
 
             return ditheredImage;
@@ -200,21 +259,11 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
 
         #endregion // Evaluation
 
-        private static int NeuronPositionToIndex(int x, int y, int z)
-        {
-            return z * _height * _width + y * _width + x * 1;
-        }
+        private static int NeuronPositionToIndex(int row, int col, int depth)
+            => row * (_width * _depth) + col * _depth + depth;
 
-        private static (int x, int y, int z) NeuronIndexToPosition(int index)
-        {
-            int x = index % _width;
-            index /= _width;
-            int y = index % _height;
-            index /= _height;
-            int z = index % _depth;
-
-            return (x, y, z);
-        }
+        private static int NeuronPositionToIndex(int[] position)
+            => NeuronPositionToIndex(row: position[0], col: position[1], depth: position[2]);
 
         // DEBUG
         private static Bitmap PaletteToImage(Color[] palette)
@@ -229,253 +278,48 @@ namespace NeuralNetwork.Examples.Hopfield.INS04
             return paletteImage;
         }
 
-        /// <summary>
-        /// Gets the coordinates of a neuron's "chain" source neurons.
-        /// </summary>
-        /// <param name="neuronCoordinates">The coordinates of the neuron.</param>
-        /// <returns>The coordinates of the neuron's "chain" source neurons.</returns>
-        private ICollection<Position3D> getChainSourceNeuronsCoordinates(Position3D neuronCoordinates)
+        private static double C_ijb(Bitmap image, int i, int j, ColorComponent colorComponent)
         {
-            ICollection<Position3D> chainSourceNeuronsCoordinates = new HashSet<Position3D>();
-
-            int sourceNeuronXCoordinate = neuronCoordinates.X;
-            int sourceNeuronYCoordinate = neuronCoordinates.Y;
-            for (int sourceNeuronZCoordinate = 0; sourceNeuronZCoordinate < _depth; ++sourceNeuronZCoordinate)
-            {
-                if (sourceNeuronZCoordinate == neuronCoordinates.Z)
-                {
-                    continue;
-                }
-                Position3D sourceNeuronCoordinates = new Position3D(sourceNeuronXCoordinate, sourceNeuronYCoordinate, sourceNeuronZCoordinate);
-                chainSourceNeuronsCoordinates.Add(sourceNeuronCoordinates);
-            }
-
-            return chainSourceNeuronsCoordinates;
+            var color = image.GetPixel(i, j);
+            return GetColorComponent(color, colorComponent) / (double)Byte.MaxValue;
         }
 
-        /// <summary>
-        /// Gets the coordinates of a neuron's "neighbourhood" source neurons.
-        /// </summary>
-        /// <param name="neuronCoordinates">The coordinates of the neuron.</param>
-        /// <param name="radius">The radius.</param>
-        /// <returns>The coordinates of the neuron's "neighbourhood" source neurons.</returns>
-        private ICollection<Position3D> getNeighbourhoodSourceNeuronsCoordinates(Position3D neuronCoordinates, int radius)
+        private static double P_kb(int k, ColorComponent colorComponent)
         {
-            ICollection<Position3D> neighbourhoodSourceNeuronsCoordinates = new HashSet<Position3D>();
-
-            // Calculate the limits.
-            int sourceNeuronXCoordinateMin = Math.Max(neuronCoordinates.X - radius, 0);
-            int sourceNeuronXCoordinateMax = Math.Min(neuronCoordinates.X + radius, _width - 1);
-            int sourceNeuronYCoordinateMin = Math.Max(neuronCoordinates.Y - radius, 0);
-            int sourceNeuronYCoordinateMax = Math.Min(neuronCoordinates.Y + radius, _height - 1);
-
-            int sourceNeuronZCoordinate = neuronCoordinates.Z;
-            for (int sourceNeuronYCoordinate = sourceNeuronYCoordinateMin; sourceNeuronYCoordinate <= sourceNeuronYCoordinateMax; ++sourceNeuronYCoordinate)
-            {
-                for (int sourceNeuronXCoordinate = sourceNeuronXCoordinateMin; sourceNeuronXCoordinate <= sourceNeuronXCoordinateMax; ++sourceNeuronXCoordinate)
-                {
-                    if (sourceNeuronXCoordinate == neuronCoordinates.X && sourceNeuronYCoordinate == neuronCoordinates.Y)
-                    {
-                        continue;
-                    }
-                    Position3D sourceNeuronCoordinates = new Position3D(sourceNeuronXCoordinate, sourceNeuronYCoordinate, sourceNeuronZCoordinate);
-                    neighbourhoodSourceNeuronsCoordinates.Add(sourceNeuronCoordinates);
-                }
-            }
-
-            return neighbourhoodSourceNeuronsCoordinates;
+            var color = _palette[k];
+            return GetColorComponent(color, colorComponent) / (double)Byte.MaxValue;
         }
 
-        /// <summary>
-        /// Trains a "chain" synapse.
-        /// </summary>
-        /// <param name="neuronCoordinates">The coordiantes of the neuron.</param>
-        /// <param name="sourceNeuronCoordinates">The coordinates of the source neuron.</param>
-        /// <param name="trainingImage">The training image.</param>
-        /// <param name="radius">The radius.</param>
-        /// <param name="alpha">The pixel energy coefficient.</param>
-        /// <param name="beta">The local energy coefficient.</param>
-        /// <param name="gamma">The global energy coefficient.</param>
-        private void trainChainSynapse(Position3D neuronCoordinates, Position3D sourceNeuronCoordinates, Bitmap trainingImage, int radius, double alpha, double beta, double gamma)
+        private static int D_ijkl(int radius, int i, int j, int k, int l)
         {
-            // Calculate the pixel weight of the syanpse.
-            double pixelSynapseWeight = -2.0;
-
-            // Calculate the local weight of the synapse.
-            double localSynapseWeight = 0.0;
-
-            // Calculate the global weight of the synapse.
-            double globalSynapseWeight = 0.0;
-
-            // Calculate the (total) weight of the synapse.
-            double synapseWeight = alpha * pixelSynapseWeight + beta * localSynapseWeight + gamma * globalSynapseWeight;
-
-            // Set the weight of the synapse.
-            setSynapseWeight(neuronCoordinates,sourceNeuronCoordinates, synapseWeight);
+            return Math.Abs(i - k) <= radius && Math.Abs(j - l) <= radius
+                ? (radius - Math.Abs(i - k) + 1) * (radius - Math.Abs(j - l) + 1) : 0;
         }
 
-        /// <summary>
-        /// Trains a "neighbourhood" synapse.
-        /// </summary>
-        /// <param name="neuronCoordinates">The coordiantes of the neuron.</param>
-        /// <param name="sourceNeuronCoordinates">The coordinates of the source neuron.</param>
-        /// <param name="trainingImage">The training image.</param>
-        /// <param name="radius">The radius.</param>
-        /// <param name="alpha">The pixel energy coefficient.</param>
-        /// <param name="beta">The local energy coefficient.</param>
-        /// <param name="gamma">The global energy coefficient.</param>
-        private void trainNeighbourhoodSynapse(Position3D neuronCoordinates, Position3D sourceNeuronCoordinates, Bitmap trainingImage, int radius, double alpha, double beta, double gamma)
-        {
-            // Calculate the pixel weight of the syanpse.
-            double pixelSynapseWeight = 0.0;
-
-            // Calculate the local weight of the synapse.
-            double localSynapseWeight = 0.0;
-
-            // Calculate the global weight of the synapse.
-            double sum = 0.0;
-            foreach (ColorComponent colorComponent in Enum.GetValues(typeof(ColorComponent)))
-            {
-                double x = p_kb(neuronCoordinates.Z, colorComponent);
-                sum += d_ijkl(radius, neuronCoordinates.X, neuronCoordinates.Y, sourceNeuronCoordinates.X, sourceNeuronCoordinates.Y) * x * x;
-            }
-            double globalSynapseWeight = -2 * sum;
-
-            // Calculate the (total) weight of the synapse.
-            double synapseWeight = alpha * pixelSynapseWeight + beta * localSynapseWeight + gamma * globalSynapseWeight;
-
-            // Set the weight of the synapse.
-            setSynapseWeight(neuronCoordinates, sourceNeuronCoordinates, synapseWeight);
-        }
-
-        /// <summary>
-        /// Sets the bias of a neuron.
-        /// </summary>
-        /// <param name="neuronCoordinates">The coordinates of the neuron.</param>
-        /// <param name="neuronBias">The bias of the neuron.</param>
-        private void setNeuronBias(Position3D neuronCoordinates, double neuronBias)
-        {
-            // Calculate the index of the neuron.
-            int neuronIndex = neuronCoordinatesToIndex(neuronCoordinates);
-
-            // Set the bias of the neuron in the underlying network.
-            _hopfieldNet.SetNeuronBias(neuronIndex, neuronBias);
-        }
-
-        /// <summary>
-        /// Sets the weight of a synapse.
-        /// </summary>
-        /// <param name="neuronCoordinates">The coordinates of the neuron.</param>
-        /// <param name="sourceNeuronCoordinates">The coordinates of the source neuron.</param>
-        /// <param name="synapseWeight">The weight of the synapse.</param>
-        private void setSynapseWeight(Position3D neuronCoordinates, Position3D sourceNeuronCoordinates, double synapseWeight)
-        {
-            // Calculate the index of the neuron.
-            int neuronIndex = neuronCoordinatesToIndex(neuronCoordinates);
-
-            // Calculate the index of the source neuron.
-            int sourceNeuronIndex = neuronCoordinatesToIndex(sourceNeuronCoordinates);
-
-            // Set the weight of the synapse in the underlying network.
-            _hopfieldNet.SetSynapseWeight(neuronIndex, sourceNeuronIndex, synapseWeight);
-        }
-
-
-
-        /// <summary>
-        /// c_ijb
-        /// </summary>
-        /// <param name="image">The image.</param>
-        /// <param name="i">The i coordinate.</param>
-        /// <param name="j">The j coordinate.</param>
-        /// <param name="colorComponent">The component of the color.</param>
-        /// <returns></returns>
-        private double c_ijb(Bitmap image, int i, int j, ColorComponent colorComponent)
-        {
-            Color color = image.GetPixel(i, j);
-            return getColorComponent(color, colorComponent) / (double)Byte.MaxValue;
-        }
-
-        /// <summary>
-        /// p_kb
-        /// </summary>
-        /// <param name="k"></param>
-        /// <param name="colorComponent">The component of the color.</param>
-        /// <returns></returns>
-        private double p_kb(int k, ColorComponent colorComponent)
-        {
-            Color color = _palette[k];
-            return getColorComponent(color, colorComponent) / (double)Byte.MaxValue;
-        }
-
-        /// <summary>
-        /// Gets a component of the given color.
-        /// </summary>
-        /// <param name="color">The color.</param>
-        /// <param name="colorComponent">The component of the color (Red, Green, or Blue).</param>
-        /// <returns></returns>
-        private byte getColorComponent(Color color, ColorComponent colorComponent)
+        private static byte GetColorComponent(Color color, ColorComponent colorComponent)
         {
             switch (colorComponent)
             {
-                case ColorComponent.Red:
-                    return color.R;
-
-                case ColorComponent.Green:
-                    return color.G;
-
-                case ColorComponent.Blue:
-                    return color.B;
-
-                default:
-                    throw new ArgumentException("colorComponent");
+                case ColorComponent.Red: return color.R;
+                case ColorComponent.Green: return color.G;
+                case ColorComponent.Blue: return color.B;
+                default: throw new ArgumentException("colorComponent");
             }
         }
 
-        /// <summary>
-        /// D_ijkl
-        /// </summary>
-        /// <param name="i">The i coordinate.</param>
-        /// <param name="j">The j coordinate.</param>
-        /// <param name="k">The k coordinate.</param>
-        /// <param name="l">The l coordinate.</param>
-        /// <returns></returns>
-        private int d_ijkl(int radius, int i, int j, int k, int l)
-        {
-            if (Math.Abs(i - k) <= radius && Math.Abs(j - l) <= radius)
-            {
-                return (radius - Math.Abs(i - k) + 1) * (radius - Math.Abs(j - l) + 1);
-            }
-            else
-            {
-                return 0;
-            }
-        }
-    }
+        private static int[] P(int X, int Y, int Z) => new[] {X, Y, Z};
 
-    struct Position3D : IPosition
-    {
-        private readonly int width;
-        private readonly int height;
+        // Row
+        private static int Y(int[] position) => position[0];
 
-        public Position3D(int x, int y, int z, int width, int height)
-        {
-            X = x;
-            Y = y;
-            Z = z;
-            this.width = width;
-            this.height = height;
-        }
+        // Column
+        private static int X(int[] position) => position[1];
 
-        public int X { get; }
+        // Depth
+        private static int Z(int[] position) => position[2];
 
-        public int Y { get; }
-
-        public int Z { get; }
-
-        public int Index => 0;
-
-        public override string ToString() => $"({X}, {Y}, {Z})";
+        private static IEnumerable<ColorComponent> ColorComponents
+            => Enum.GetValues(typeof(ColorComponent)).Cast<ColorComponent>();
     }
 
     enum ColorComponent

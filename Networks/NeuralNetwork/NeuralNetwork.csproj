@@ -77,7 +77,6 @@
     <Compile Include="MLP\ErrorFunctions\MeanSquaredError.cs" />
     <Compile Include="Hopfield\Functions.cs" />
     <Compile Include="Hopfield\Matrix.cs" />
-    <Compile Include="Hopfield\IPosition.cs" />
     <Compile Include="MLP\NetworkArchitecture.cs" />
     <Compile Include="MLP\INetworkSerializer.cs" />
     <Compile Include="Hopfield\HopfieldNetwork.cs" />

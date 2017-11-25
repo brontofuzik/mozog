@@ -22,5 +22,7 @@ namespace Mozog.Utils.Math
     {
         // Modulo
         public static int Mod(int a, int n) => (a % n + n) % n;
+
+        public static double Square(double x) => x * x;
     }
 }
