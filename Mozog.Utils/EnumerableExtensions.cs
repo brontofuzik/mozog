@@ -6,8 +6,8 @@ namespace Mozog.Utils
 {
     public static class EnumerableExtensions
     {
-        public static IEnumerable<int> Range(int from, int to)
-            => Enumerable.Range(from, to - from);
+        public static IEnumerable<int> Range(int from, int to, bool inclusive = false)
+            => Enumerable.Range(from, to - from + (inclusive ? 1 : 0));
 
         // No return value, no counter
         public static void Times(this int count, Action action)

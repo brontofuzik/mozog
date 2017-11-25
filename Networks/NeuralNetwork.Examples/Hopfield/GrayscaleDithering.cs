@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Mozog.Utils;
 using NeuralNetwork.Hopfield;
 using static Mozog.Utils.Math.Math;
 
@@ -11,6 +12,7 @@ namespace NeuralNetwork.Examples.Hopfield
     {
         const string ImageDir = @"..\..\..\images\";
 
+        // Params
         private static Bitmap image;
         private static int radius;
         private static double alpha;
@@ -45,6 +47,7 @@ namespace NeuralNetwork.Examples.Hopfield
 
         public static Bitmap DitherImage(Bitmap image, int radius, double alpha)
         {
+            // Params
             GrayscaleDithering.image = image;
             GrayscaleDithering.radius = radius;
             GrayscaleDithering.alpha = alpha;
@@ -58,7 +61,7 @@ namespace NeuralNetwork.Examples.Hopfield
             net = HopfieldNetwork.Build2DNetwork(rows: image.Height, cols: image.Width,
                 sparse: true, activation: Activation, topology: Topology);
 
-            // Step 3: train the network.
+            // Step 3: Train (initialize) the network.
 
             net.Initialize(InitNeuronBias, InitSynapseWeight);
 
@@ -78,23 +81,21 @@ namespace NeuralNetwork.Examples.Hopfield
 
         private static IEnumerable<int[]> Topology(int[] neuron, HopfieldNetwork net)
         {
-            var sourceNeurons = new List<int[]>();
-
             // Bounds
             int rmin = Math.Max(Row(neuron) - radius, 0);
             int rmax = Math.Min(Row(neuron) + radius, net.Dimensions[0] - 1);
             int cmin = Math.Max(Col(neuron) - radius, 0);
             int cmax = Math.Min(Col(neuron) + radius, net.Dimensions[1] - 1);
 
-            for (int row = rmin; row <= rmax; row++)
-            for (int col = cmin; col <= cmax; col++)
-            {
-                if (col != Col(neuron) || row != Row(neuron))
-                    sourceNeurons.Add(Pos(row, col));
-            }
-
-            return sourceNeurons;
+            return EnumerableExtensions.Range(rmin, rmax, inclusive: true)
+                .SelectMany(row => EnumerableExtensions.Range(cmin, cmax, inclusive: true), (row, col) => new {row, col})
+                .Where(s => s.row != Row(neuron) || s.col != Col(neuron))
+                .Select(s => Pos(s.row, s.col));
         }
+
+        private static int Height => image.Height;
+
+        private static int Width => image.Width;
 
         #region Initialization
 
@@ -156,10 +157,6 @@ namespace NeuralNetwork.Examples.Hopfield
             }
         }
 
-        private static int Width => image.Width;
-
-        private static int Height => image.Height;
-
         #endregion // Evaluation
 
         #region Utils
@@ -175,7 +172,7 @@ namespace NeuralNetwork.Examples.Hopfield
         #endregion // Utils
     }
 
-    struct Pixel
+    internal struct Pixel
     {
         public Pixel(int x, int y)
         {
