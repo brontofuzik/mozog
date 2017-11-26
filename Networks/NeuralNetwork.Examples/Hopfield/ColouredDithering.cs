@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Mozog.Utils;
+using Mozog.Utils.Math;
 using NeuralNetwork.Examples.Kohonen;
 using NeuralNetwork.Hopfield;
 using NeuralNetwork.Kohonen;
 using static Mozog.Utils.Math.Math;
+using Math = System.Math;
 
 namespace NeuralNetwork.Examples.Hopfield
 {
@@ -224,17 +226,12 @@ namespace NeuralNetwork.Examples.Hopfield
         {
             var vector = new double[Height * Width * Depth];
 
-            for (int y = 0; y < Height; y++)
-            for (int x = 0; x < Depth; x++)
+            foreach (var p in GrayscaleDithering.Pixels(image))
             {
-                var color = image.GetPixel(x, y);
-                int colorIndex = PaletteExtraction.EvaluateIndex(kohonenNet, color); 
-               
-                for (int z = 0; z < Depth; z++)
-                {
-                    int index = NeuronPositionToIndex(x, y, z);
-                    vector[index] = z == colorIndex ? 1.0 : 0.0;
-                }
+                var color = image.GetPixel(p.pixel.X, p.pixel.X);
+                int colorIndex = PaletteExtraction.EvaluateIndex(kohonenNet, color);
+                var colorVector = Vector.IndexToVector(colorIndex, Depth);
+                vector.ReplaceSubarray(p.index, colorVector);
             }
 
             return vector;
@@ -244,20 +241,12 @@ namespace NeuralNetwork.Examples.Hopfield
         {
             var image = new Bitmap(Width, Height);
 
-            for (int y = 0; y < Height; y++)
-            for (int x = 0; x < Width; x++)
+            foreach (var p in GrayscaleDithering.Pixels(image))
             {
-                Color color = Color.White;
-                for (int z = 0; z < Depth; z++)
-                {
-                    int neuronIndex = NeuronPositionToIndex(x, y, z);
-                    if (vector[neuronIndex] >= 0.99)
-                    {
-                        color = palette[z];
-                        break;
-                    }
-                }
-                image.SetPixel(x, y, color);
+                var colorVector = vector.GetSubarray(p.index, Depth);
+                int colorIndex = Vector.VectorToIndex(colorVector);
+                var color = palette[colorIndex];
+                image.SetPixel(p.pixel.X, p.pixel.Y, color);
             }
 
             return image;

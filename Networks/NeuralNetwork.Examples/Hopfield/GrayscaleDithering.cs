@@ -133,28 +133,25 @@ namespace NeuralNetwork.Examples.Hopfield
         }
 
         private static double[] ImageToPixels(Bitmap image)
-            => Pixels.Select(p => (double)image.GetPixel(p.Item1.X, p.Item1.Y).GetBrightness()).ToArray();
+            => Pixels(image).Select(p => (double)image.GetPixel(p.pixel.X, p.pixel.Y).GetBrightness()).ToArray();
 
         private static Bitmap PixelsToImage(double[] pixels)
         {
             var image = new Bitmap(Width, Height);
-            foreach (var p in Pixels)
+            foreach (var p in Pixels(image))
             {
-                var color = pixels[p.Item2] >= 0.5 ? Color.White : Color.Black;
-                image.SetPixel(p.Item1.X, p.Item1.Y, color);
+                var color = pixels[p.index] >= 0.5 ? Color.White : Color.Black;
+                image.SetPixel(p.pixel.X, p.pixel.Y, color);
             }
             return image;
         }
 
-        private static IEnumerable<Tuple<Pixel, int>> Pixels
+        public static IEnumerable<(Pixel pixel, int index)> Pixels(Bitmap image)
         {
-            get
-            {
-                int index = 0;
-                for (int y = 0; y < Height; y++)
-                for (int x = 0; x < Width; x++)
-                    yield return new Tuple<Pixel, int>(new Pixel(x, y), index++);
-            }
+            int index = 0;
+            for (int y = 0; y < image.Height; y++)
+            for (int x = 0; x < image.Width; x++)
+                yield return (new Pixel(x, y), index++);
         }
 
         #endregion // Evaluation
