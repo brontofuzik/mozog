@@ -5,8 +5,8 @@
         static void Main(string[] args)
         {
             //MLP();
-            Hopfield();
-            //Kohonen();
+            //Hopfield();
+            Kohonen();
         }
 
         private static void MLP()
@@ -25,14 +25,14 @@
             //Examples.Hopfield.Chessboard.RunEightRooks();
             //Examples.Hopfield.Chessboard.RunEightQueens();
             //Examples.Hopfield.GrayscaleDithering.Run();
-            Examples.Hopfield.ColourDithering.Run();
+            Examples.Hopfield.ColourDithering.Run(); // + Kohonen
         }
 
         private static void Kohonen()
         {
-            Examples.Kohonen.Mapping.Map_1D_with_1D();
-            Examples.Kohonen.Mapping.Map_2D_with_1D();
-            Examples.Kohonen.Mapping.Map_2D_with_2D();
+            //Examples.Kohonen.Mapping.Map_1D_with_1D();
+            //Examples.Kohonen.Mapping.Map_2D_with_1D();
+            //Examples.Kohonen.Mapping.Map_2D_with_2D();
             Examples.Kohonen.PaletteExtraction.Run();
         }
     }

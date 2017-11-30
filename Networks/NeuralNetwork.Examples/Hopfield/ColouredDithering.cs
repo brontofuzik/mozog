@@ -231,7 +231,7 @@ namespace NeuralNetwork.Examples.Hopfield
                 var color = image.GetPixel(p.pixel.X, p.pixel.X);
                 int colorIndex = PaletteExtraction.EvaluateIndex(kohonenNet, color);
                 var colorVector = Vector.IndexToVector(colorIndex, Depth);
-                vector.ReplaceSubarray(p.index, colorVector);
+                vector.ReplaceSubarray(p.index * Depth, colorVector);
             }
 
             return vector;
@@ -243,7 +243,7 @@ namespace NeuralNetwork.Examples.Hopfield
 
             foreach (var p in GrayscaleDithering.Pixels(image))
             {
-                var colorVector = vector.GetSubarray(p.index, Depth);
+                var colorVector = vector.GetSubarray(p.index * Depth, Depth);
                 int colorIndex = Vector.VectorToIndex(colorVector);
                 var color = palette[colorIndex];
                 image.SetPixel(p.pixel.X, p.pixel.Y, color);

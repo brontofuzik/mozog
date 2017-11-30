@@ -16,11 +16,11 @@ namespace NeuralNetwork.Examples.Kohonen
         {
             string imageName = "lenna-col";
 
-            //int[] paletteSizes = { 4, 8, 12, 16 };
-            int[] paletteSizes = { 16 };
+            int[] paletteSizes = { 4, 8, 12, 16 };
+            //int[] paletteSizes = { 16 };
 
             foreach (int paletteSize in paletteSizes)
-                TestExtractPalette(imageName, paletteSize);
+                TestProcessImage(imageName, paletteSize);
         }
 
         // Tests ProcessImage(originalImage, paletteSize): processedImage
@@ -63,6 +63,8 @@ namespace NeuralNetwork.Examples.Kohonen
 
             // Step 3: Train the network.
 
+            var pbar = new ProgressBar(TrainingIterations, "Training...");
+            net.BeforeTrainingSet += (sender, args) => pbar.Tick($"Iteration {args.Iteration}/{TrainingIterations}");
             net.Train(data, TrainingIterations);
 
             // Step 4 : Use the network.
