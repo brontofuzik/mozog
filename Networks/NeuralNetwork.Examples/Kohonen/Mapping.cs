@@ -15,9 +15,9 @@ namespace NeuralNetwork.Examples.Kohonen
         {
             // Parameters
 
-            const int datasetSize = 1000;
+            const int datasetSize = 1_000;
             int[] outputSizes = { 10 };
-            const int iterations = 1000;
+            const int iterations = 1_000;
 
             // Step 1: Create the training set
 
@@ -44,9 +44,9 @@ namespace NeuralNetwork.Examples.Kohonen
         {
             // Parameters
 
-            const int datasetSize = 1000;
+            const int datasetSize = 1_000;
             int[] outputSizes = { 10 };
-            const int iterations = 1000;
+            const int iterations = 1_000;
 
             // Step 1: Create the training set
 
@@ -73,9 +73,9 @@ namespace NeuralNetwork.Examples.Kohonen
         {
             // Parameters
 
-            const int datasetSize = 1000;
+            const int datasetSize = 1_000;
             int[] outputSizes = { 10, 10 };
-            const int iterations = 1000;
+            const int iterations = 1_000;
 
             // Step 1: Create the training set
 

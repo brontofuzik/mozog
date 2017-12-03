@@ -23,10 +23,10 @@ namespace NeuralNetwork.Examples.Hopfield
         {
             string imageName = "lenna";
 
-            //var radii = new[] { 0, 1, 2, 3, 4 };
-            var radii = new[] { 1 };
-            //var alphas = new[] { 1.0, 0.995, 0.99, 0.985, 0.98 };
-            var alphas = new[] { 0.995 };
+            var radii = new[] { 0, 1, 2, 3, 4 };
+            //var radii = new[] { 1 };
+            var alphas = new[] { 1.0, 0.995, 0.99, 0.985, 0.98 };
+            //var alphas = new[] { 0.995 };
 
             foreach (int radius in radii)
             foreach (double alpha in alphas)
@@ -58,7 +58,7 @@ namespace NeuralNetwork.Examples.Hopfield
 
             // Step 2: Create the network.
 
-            net = HopfieldNetwork.Build2DNetwork(rows: image.Height, cols: image.Width,
+            net = new HopfieldNetwork(new[] {image.Height, image.Width},
                 sparse: true, activation: Activation, topology: Topology);
 
             // Step 3: Train (initialize) the network.

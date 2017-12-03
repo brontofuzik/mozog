@@ -78,7 +78,7 @@ namespace NeuralNetwork.Examples.Hopfield
 
             // Step 2: Build the network.
 
-            hopfieldNet = HopfieldNetwork.Build3DNetwork(image.Height, image.Width, paletteSize, sparse: true, activation: Activation);
+            hopfieldNet = new HopfieldNetwork(new[] {image.Height, image.Width, paletteSize}, sparse: true, activation: Activation);
 
             // Step 3: Train (initialize) the network.
 

@@ -29,7 +29,7 @@ namespace Mozog.Utils
         public static string ToString<T>(T[] vector)
         {
             Require.IsNotNull(vector, nameof(vector));
-            return $"[{String.Join(", ", vector.Select(e => e.ToString()))}]";
+            return $"[{String.Join(",", vector.Select(e => e.ToString()))}]";
         }
     }
 }

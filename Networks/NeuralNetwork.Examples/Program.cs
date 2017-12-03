@@ -25,7 +25,7 @@
             //Examples.Hopfield.Chessboard.RunEightRooks();
             //Examples.Hopfield.Chessboard.RunEightQueens();
             //Examples.Hopfield.GrayscaleDithering.Run();
-            Examples.Hopfield.ColourDithering.Run(); // + Kohonen
+            //Examples.Hopfield.ColourDithering.Run(); // + Kohonen
         }
 
         private static void Kohonen()

@@ -19,26 +19,25 @@ namespace NeuralNetwork.Hopfield
         private readonly ActivationFunction activation;
         private readonly Topology topology;
 
-        private readonly Func<int, int[]> indexToPosition;
-        private readonly Func<int[], int> positionToIndex;
+        //private readonly Func<int, int[]> indexToPosition;
+        //private readonly Func<int[], int> positionToIndex;
 
-        public static HopfieldNetwork Build1DNetwork(int neurons, bool sparse = false, ActivationFunction activation = null, Topology topology = null)
-            => new HopfieldNetwork(new[] {neurons}, sparse, activation, topology,
-                indexToPosition: i => new[] {i},
-                positionToIndex: p => p[0]);
+        //public static HopfieldNetwork Build1DNetwork(int neurons, bool sparse = false, ActivationFunction activation = null, Topology topology = null)
+        //    => new HopfieldNetwork(new[] {neurons}, sparse, activation, topology,
+        //        indexToPosition: i => new[] {i},
+        //        positionToIndex: p => p[0]);
 
-        public static HopfieldNetwork Build2DNetwork(int rows, int cols, bool sparse = false, ActivationFunction activation = null, Topology topology = null)
-            => new HopfieldNetwork(new[] { rows, cols }, sparse, activation, topology,
-                indexToPosition: i => new[] {i / cols, i % cols},
-                positionToIndex: p => p[0] * cols + p[1]);
+        //public static HopfieldNetwork Build2DNetwork(int rows, int cols, bool sparse = false, ActivationFunction activation = null, Topology topology = null)
+        //    => new HopfieldNetwork(new[] { rows, cols }, sparse, activation, topology,
+        //        indexToPosition: i => new[] {i / cols, i % cols},
+        //        positionToIndex: p => p[0] * cols + p[1]);
 
-        public static HopfieldNetwork Build3DNetwork(int rows, int cols, int depth, bool sparse = false, ActivationFunction activation = null, Topology topology = null)
-            => new HopfieldNetwork(new[] { rows, cols, depth }, sparse, activation, topology,
-                indexToPosition: i => new[] { i / (cols * depth), (i % (cols * depth)) / depth, (i % (cols * depth)) % depth},
-                positionToIndex: p => p[0] * (cols * depth) + p[1] * depth + p[2]);
+        //public static HopfieldNetwork Build3DNetwork(int rows, int cols, int depth, bool sparse = false, ActivationFunction activation = null, Topology topology = null)
+        //    => new HopfieldNetwork(new[] { rows, cols, depth }, sparse, activation, topology,
+        //        indexToPosition: i => new[] { i / (cols * depth), (i % (cols * depth)) / depth, (i % (cols * depth)) % depth},
+        //        positionToIndex: p => p[0] * (cols * depth) + p[1] * depth + p[2]);
 
-        public HopfieldNetwork(int[] dimensions, bool sparse = false, ActivationFunction activation = null,
-            Topology topology = null, Func<int, int[]> indexToPosition = null, Func<int[], int> positionToIndex = null)
+        public HopfieldNetwork(int[] dimensions, bool sparse = false, ActivationFunction activation = null, Topology topology = null)
         {
             Dimensions = dimensions;
             Neurons = dimensions.Product();
@@ -46,8 +45,8 @@ namespace NeuralNetwork.Hopfield
             biases = new double[Neurons];
             outputs = new double[Neurons];
 
-            this.indexToPosition = indexToPosition;
-            this.positionToIndex = positionToIndex;
+            //this.indexToPosition = indexToPosition;
+            //this.positionToIndex = positionToIndex;
 
             // Default activation: signum function
             double DefaultActivation(double input, double _) => System.Math.Sign(input);
@@ -57,8 +56,8 @@ namespace NeuralNetwork.Hopfield
             // Default topology: all neurons
             IEnumerable<int[]> DefaultTopology(int[] neuron, HopfieldNetwork net)
             {
-                var index = positionToIndex(neuron);
-                return NeuronsEnumerable.Where(source => source != index).Select(source => indexToPosition(source));
+                var index = PositionToIndex(neuron);
+                return NeuronsEnumerable.Where(source => source != index).Select(source => IndexToPosition(source));
             }
 
             this.topology = topology ?? DefaultTopology;
@@ -106,37 +105,37 @@ namespace NeuralNetwork.Hopfield
         {
             SetNeuronBias(neuron, initNeuronBias);
 
-            var sourceNeurons = Topology(indexToPosition(neuron));
+            var sourceNeurons = Topology(IndexToPosition(neuron));
             foreach (var sn in sourceNeurons)
-                SetSynapseWeight(neuron, positionToIndex(sn), initSynapseWeight);
+                SetSynapseWeight(neuron, PositionToIndex(sn), initSynapseWeight);
         }
 
         public double GetNeuronBias(int neuron) => biases[neuron];
 
         public double GetNeuronBias(int[] neuron)
-            => GetNeuronBias(positionToIndex(neuron));
+            => GetNeuronBias(PositionToIndex(neuron));
 
         public void SetNeuronBias(int neuron, double bias) => biases[neuron] = bias;
 
         public void SetNeuronBias(int[] neuron, double bias)
-            => SetNeuronBias(positionToIndex(neuron), bias);
+            => SetNeuronBias(PositionToIndex(neuron), bias);
 
         private void SetNeuronBias(int neuron, InitNeuronBias initNeuronBias)
-            => SetNeuronBias(neuron, initNeuronBias(indexToPosition(neuron), this));
+            => SetNeuronBias(neuron, initNeuronBias(IndexToPosition(neuron), this));
 
         public double GetSynapseWeight(int neuron, int source) => weights[neuron, source];
 
         public double GetSynapseWeight(int[] neuron, int[] source)
-            => GetSynapseWeight(positionToIndex(neuron), positionToIndex(source));
+            => GetSynapseWeight(PositionToIndex(neuron), PositionToIndex(source));
 
         public void SetSynapseWeight(int neuron, int source, double weight)
             => weights[neuron, source] = weights[source, neuron] = weight;
 
         public void SetSynapseWeight(int[] neuron, int[] source, double weight)
-            => SetSynapseWeight(positionToIndex(neuron), positionToIndex(source), weight);
+            => SetSynapseWeight(PositionToIndex(neuron), PositionToIndex(source), weight);
 
         private void SetSynapseWeight(int neuron, int source, InitSynapseWeight initSynapseWeight)
-            => SetSynapseWeight(neuron, source, initSynapseWeight(indexToPosition(neuron), indexToPosition(source), this));
+            => SetSynapseWeight(neuron, source, initSynapseWeight(IndexToPosition(neuron), IndexToPosition(source), this));
 
         #endregion // Initialization
 
@@ -217,6 +216,27 @@ namespace NeuralNetwork.Hopfield
         }
 
         #endregion // Evaluation
+
+        private int[] IndexToPosition(int index)
+        {
+            var position = new int[Dimensions.Length];
+            for (int i = Dimensions.Length - 1; i >= 0; i--)
+            {
+                position[i] = index % Dimensions[i];
+                index /= Dimensions[i];
+            }
+            return position;
+        }
+
+        private int PositionToIndex(int[] position)
+        {
+            var index = 0;
+            for (int i = 0; i < Dimensions.Length; i++)
+            {
+                index = index * Dimensions[i] + position[i];
+            }
+            return index;
+        }
 
         // TODO Hopfield
         public override string ToString()

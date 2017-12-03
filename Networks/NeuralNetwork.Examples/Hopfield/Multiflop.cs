@@ -15,7 +15,7 @@ namespace NeuralNetwork.Examples.Hopfield
             // Step 2: Create the network.
 
             int neuronCount = 4;
-            var net = HopfieldNetwork.Build1DNetwork(neuronCount, sparse: false,
+            var net = new HopfieldNetwork(new [] {neuronCount}, sparse: false,
                 activation: (input, _) => input > 0 ? 1.0 : 0.0);
 
             // Step 3: Train the network.
