@@ -7,7 +7,7 @@ using ShellProgressBar;
 
 namespace NeuralNetwork.Examples.Kohonen
 {
-    class PaletteExtraction
+    class ColourQuantization
     {
         const string ImageDir = @"..\..\..\images\";
         const int TrainingIterations = 100;
@@ -16,65 +16,58 @@ namespace NeuralNetwork.Examples.Kohonen
         {
             string imageName = "lenna-col";
 
-            int[] paletteSizes = { 4, 8, 12, 16 };
-            //int[] paletteSizes = { 16 };
+            int[] paletteSizes = { 4, 8, 16, 32 };
 
             foreach (int paletteSize in paletteSizes)
-                TestProcessImage(imageName, paletteSize);
+                TestQuantizeColours(imageName, paletteSize);
         }
 
-        // Tests ProcessImage(originalImage, paletteSize): processedImage
-        private static void TestProcessImage(string imageName, int paletteSize)
+        private static void TestQuantizeColours(string imageName, int paletteSize)
         {
             Console.Write($"ProcessImage({paletteSize})...");
 
             var originalImage = new Bitmap($@"{ImageDir}\{imageName}.png");
-            var processedImage = ProcessImage(originalImage, paletteSize);
+            var (processedImage, paletteImage) = QuantizeColours(originalImage, paletteSize);
 
             processedImage.Save($"{imageName}_{paletteSize}.png");
-
-            Console.WriteLine("Done");
-        }
-
-        // Test ExtractPalette(image, paletteSize): colours
-        private static void TestExtractPalette(string imageName, int paletteSize)
-        {
-            Console.Write($"ExtractPalette({paletteSize})...");
-
-            var image = new Bitmap($@"{ImageDir}\{imageName}.png");
-
-            var (palette, _) = ExtractPalette(image, paletteSize);
-            var paletteImage = PaletteToImage(palette);
-
             paletteImage.Save($"{imageName}_palette_{paletteSize}.png");
 
             Console.WriteLine("Done");
         }
 
-        public static Bitmap ProcessImage(Bitmap originalImage, int paletteSize)
+        private static (Bitmap processedImage, Bitmap paletteImage) QuantizeColours(Bitmap originalImage, int paletteSize)
+        {
+            var (net, palette) = QuantizeColours2(originalImage, paletteSize);
+
+            var processedImage = ProcessImage(net, originalImage);
+            var paletteImage = PaletteToImage(palette);
+
+            return (processedImage, paletteImage);
+        }
+
+        public static (KohonenNetwork net, Color[] palette) QuantizeColours2(Bitmap image, int paletteSize)
         {
             // Step 1: Build the training set.
 
-            var data = BuildTrainingSet(originalImage);
+            var data = BuildTrainingSet(image);
 
-            // Step 2 : Build the network.
+            // Step 2: Build the network.
 
             var net = new KohonenNetwork(3, new[] { paletteSize });
 
             // Step 3: Train the network.
 
             var pbar = new ProgressBar(TrainingIterations, "Training...");
-            net.BeforeTrainingSet += (sender, args) => pbar.Tick($"Iteration {args.Iteration}/{TrainingIterations}");
+            net.TrainingIteration += (sender, args) => pbar.Tick($"Iteration {args.Iteration}/{TrainingIterations}");
             net.Train(data, TrainingIterations);
 
             // Step 4 : Use the network.
 
-            var processedImage = ProcessImage(net, originalImage);
+            var palette = ExtractPalette(net);
 
-            return processedImage;
+            return (net, palette);
         }
 
-        // Uses a trained net
         private static Bitmap ProcessImage(KohonenNetwork net, Bitmap originalImage)
         {
             var processedImage = new Bitmap(originalImage.Width, originalImage.Height);
@@ -90,30 +83,6 @@ namespace NeuralNetwork.Examples.Kohonen
             return processedImage;
         }
 
-        public static (Color[] palette, KohonenNetwork net) ExtractPalette(Bitmap image, int paletteSize)
-        {
-            // Step 1: Build the training set.
-
-            var data = BuildTrainingSet(image);
-
-            // Step 2: Build the network.
-
-            var net = new KohonenNetwork(3, new[] { paletteSize });
-
-            // Step 3: Train the network.
-
-            var pbar = new ProgressBar(TrainingIterations, "Training...");
-            net.BeforeTrainingSet += (sender, args) => pbar.Tick($"Iteration {args.Iteration}/{TrainingIterations}");
-            net.Train(data, TrainingIterations);
-
-            // Step 4 : Use the network.
-
-            var palette = ExtractPalette(net);
-
-            return (palette, net);
-        }
-
-        // Uses a trained net
         private static Color[] ExtractPalette(KohonenNetwork net)
             => Enumerable.Range(0, net.OutputSize).Select(n => GetOutputNeuronColor(net, n)).ToArray();
 

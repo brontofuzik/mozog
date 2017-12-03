@@ -31,7 +31,7 @@ namespace NeuralNetwork.Examples.Kohonen
             // Step 3: Train the network
 
             var pbar = new ProgressBar(iterations, "Training...");
-            net.BeforeTrainingSet += (sender, args) => pbar.Tick($"Iteration {args.Iteration}/{iterations}");
+            net.TrainingIteration += (sender, args) => pbar.Tick($"Iteration {args.Iteration}/{iterations}");
             net.Train(data, iterations);
 
             // Step 4: Test the network
@@ -60,7 +60,7 @@ namespace NeuralNetwork.Examples.Kohonen
             // Step 3: Train the network
 
             var pbar = new ProgressBar(iterations, "Training...");
-            net.BeforeTrainingSet += (sender, args) => pbar.Tick($"Iteration {args.Iteration}/{iterations}");
+            net.TrainingIteration += (sender, args) => pbar.Tick($"Iteration {args.Iteration}/{iterations}");
             net.Train(data, iterations);
 
             // Step 4: Test the network
@@ -89,7 +89,7 @@ namespace NeuralNetwork.Examples.Kohonen
             // Step 3: Train the network
 
             var pbar = new ProgressBar(iterations, "Training...");
-            net.BeforeTrainingSet += (sender, args) => pbar.Tick($"Iteration {args.Iteration}/{iterations}");
+            net.TrainingIteration += (sender, args) => pbar.Tick($"Iteration {args.Iteration}/{iterations}");
             net.Train(data, iterations);
 
             // Step 4: Test the network

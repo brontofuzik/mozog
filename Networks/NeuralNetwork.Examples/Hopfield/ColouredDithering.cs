@@ -7,6 +7,7 @@ using Mozog.Utils.Math;
 using NeuralNetwork.Examples.Kohonen;
 using NeuralNetwork.Hopfield;
 using NeuralNetwork.Kohonen;
+using ShellProgressBar;
 using static Mozog.Utils.Math.Math;
 using Math = System.Math;
 
@@ -35,12 +36,13 @@ namespace NeuralNetwork.Examples.Hopfield
         {
             string imageName = "lenna-col";
 
-            //int[] paletteSizes = { 4, 8, 12, 16 };
-            int[] paletteSizes = { 4 };
-            //int[] radii = { 1, 2 };
-            int[] radii = { 1 };
-            double alpha = 0.3; // Pixel energy coefficient
-            double beta = 0.695; // Local energy coefficient
+            //int[] paletteSizes = { 2, 4, 8, 16 };
+            int[] paletteSizes = { 12 };
+            //int[] radii = { 1, 2, 3, 4 };
+            int[] radii = { 1, 2 };
+
+            double alpha = 0.3;   // Pixel energy coefficient
+            double beta  = 0.695; // Local energy coefficient
             double gamma = 0.005; // Global energy coefficient
 
             foreach (int paletteSize in paletteSizes)
@@ -70,7 +72,7 @@ namespace NeuralNetwork.Examples.Hopfield
             ColourDithering.beta = beta;
             ColourDithering.gamma = gamma;
 
-            (palette, kohonenNet) = PaletteExtraction.ExtractPalette(image, paletteSize);
+            (kohonenNet, palette) = ColourQuantization.QuantizeColours2(image, paletteSize);
 
             // Step 1: Build the training set.
 
@@ -110,6 +112,15 @@ namespace NeuralNetwork.Examples.Hopfield
 
         private static void Initialize()
         {
+            const int tickInterval = 1_000;
+            var options = new ProgressBarOptions { DisplayTimeInRealTime = false };
+            var pbar = new ProgressBar(hopfieldNet.Neurons / tickInterval, "Initializing...", options);
+            hopfieldNet.NeuronInitialized += (sender, args) =>
+            {
+                if (args.NeuronIndex % tickInterval == 0)
+                    pbar.Tick($"Neuron {args.NeuronIndex}/{hopfieldNet.Neurons}");
+            };
+
             for (int y = 0; y < Height; y++)
             for (int x = 0; x < Width; x++)
             for (int z = 0; z < Depth; z++)
@@ -229,7 +240,7 @@ namespace NeuralNetwork.Examples.Hopfield
             foreach (var p in GrayscaleDithering.Pixels(image))
             {
                 var color = image.GetPixel(p.pixel.X, p.pixel.X);
-                int colorIndex = PaletteExtraction.EvaluateIndex(kohonenNet, color);
+                int colorIndex = ColourQuantization.EvaluateIndex(kohonenNet, color);
                 var colorVector = Vector.IndexToVector(colorIndex, Depth);
                 vector.ReplaceSubarray(p.index * Depth, colorVector);
             }

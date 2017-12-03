@@ -90,8 +90,7 @@
     <Compile Include="Kohonen\NeighbourhoodFunctions\GaussianNeighbourhoodFunction.cs" />
     <Compile Include="Kohonen\NeighbourhoodFunctions\INeighbourhoodFunction.cs" />
     <Compile Include="Kohonen\KohonenNetwork.cs" />
-    <Compile Include="Kohonen\DataPointEventArgs.cs" />
-    <Compile Include="Kohonen\DataSetEventArgs.cs" />
+    <Compile Include="Common\EventArgs.cs" />
     <Compile Include="MLP\ActivationFunctions\HyperbolicTangent.cs" />
     <Compile Include="MLP\ActivationFunctions\LinearFunction.cs" />
     <Compile Include="MLP\ILayer.cs" />
@@ -162,9 +161,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ErrorFunctions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

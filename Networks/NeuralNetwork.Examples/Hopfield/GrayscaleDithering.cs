@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using Mozog.Utils;
 using NeuralNetwork.Hopfield;
+using ShellProgressBar;
 using static Mozog.Utils.Math.Math;
 
 namespace NeuralNetwork.Examples.Hopfield
@@ -23,10 +24,8 @@ namespace NeuralNetwork.Examples.Hopfield
         {
             string imageName = "lenna";
 
-            var radii = new[] { 0, 1, 2, 3, 4 };
-            //var radii = new[] { 1 };
-            var alphas = new[] { 1.0, 0.995, 0.99, 0.985, 0.98 };
-            //var alphas = new[] { 0.995 };
+            var radii = new[] { 1, 2, 3, 4 };
+            var alphas = new[] { 0.995, 0.99, 0.985, 0.98 };
 
             foreach (int radius in radii)
             foreach (double alpha in alphas)
@@ -127,8 +126,14 @@ namespace NeuralNetwork.Examples.Hopfield
 
         private static Bitmap Evaluate(HopfieldNetwork net, Bitmap image)
         {
+            const int iterations = 20;
+
             var originalPixels = ImageToPixels(image);
-            var ditheredPixels = net.Evaluate(originalPixels, iterations: 20);
+
+            var pbar = new ProgressBar(iterations, "Evaluating...");
+            net.EvaluatingIteration += (sender, args) => pbar.Tick($"Iteration {args.Iteration}/{iterations}");
+            var ditheredPixels = net.Evaluate(originalPixels, iterations);
+
             return PixelsToImage(ditheredPixels);
         }
 

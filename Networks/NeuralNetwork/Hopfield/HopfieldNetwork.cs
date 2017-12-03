@@ -7,6 +7,7 @@ using Mozog.Utils;
 using NeuralNetwork.Data;
 using NeuralNetwork.Hopfield.HopfieldNetworkImps;
 using Mozog.Utils.Math;
+using NeuralNetwork.Common;
 
 namespace NeuralNetwork.Hopfield
 {
@@ -19,24 +20,6 @@ namespace NeuralNetwork.Hopfield
         private readonly ActivationFunction activation;
         private readonly Topology topology;
 
-        //private readonly Func<int, int[]> indexToPosition;
-        //private readonly Func<int[], int> positionToIndex;
-
-        //public static HopfieldNetwork Build1DNetwork(int neurons, bool sparse = false, ActivationFunction activation = null, Topology topology = null)
-        //    => new HopfieldNetwork(new[] {neurons}, sparse, activation, topology,
-        //        indexToPosition: i => new[] {i},
-        //        positionToIndex: p => p[0]);
-
-        //public static HopfieldNetwork Build2DNetwork(int rows, int cols, bool sparse = false, ActivationFunction activation = null, Topology topology = null)
-        //    => new HopfieldNetwork(new[] { rows, cols }, sparse, activation, topology,
-        //        indexToPosition: i => new[] {i / cols, i % cols},
-        //        positionToIndex: p => p[0] * cols + p[1]);
-
-        //public static HopfieldNetwork Build3DNetwork(int rows, int cols, int depth, bool sparse = false, ActivationFunction activation = null, Topology topology = null)
-        //    => new HopfieldNetwork(new[] { rows, cols, depth }, sparse, activation, topology,
-        //        indexToPosition: i => new[] { i / (cols * depth), (i % (cols * depth)) / depth, (i % (cols * depth)) % depth},
-        //        positionToIndex: p => p[0] * (cols * depth) + p[1] * depth + p[2]);
-
         public HopfieldNetwork(int[] dimensions, bool sparse = false, ActivationFunction activation = null, Topology topology = null)
         {
             Dimensions = dimensions;
@@ -44,9 +27,6 @@ namespace NeuralNetwork.Hopfield
             weights = sparse ? (IMatrix)new SparseMatrix(Neurons, Neurons) : (IMatrix)new FullMatrix(Neurons, Neurons);
             biases = new double[Neurons];
             outputs = new double[Neurons];
-
-            //this.indexToPosition = indexToPosition;
-            //this.positionToIndex = positionToIndex;
 
             // Default activation: signum function
             double DefaultActivation(double input, double _) => System.Math.Sign(input);
@@ -62,6 +42,16 @@ namespace NeuralNetwork.Hopfield
 
             this.topology = topology ?? DefaultTopology;
         }
+
+        #region Events
+
+        public event EventHandler<TrainingEventArgs> EvaluatingIteration;
+
+        public event EventHandler<TrainingEventArgs> IterationEvaluated;
+
+        public event EventHandler<InitializationEventArgs> NeuronInitialized;
+
+        #endregion // Events
 
         public IEnumerable<int[]> Topology(int[] neuron) => topology(neuron, this);
 
@@ -115,7 +105,12 @@ namespace NeuralNetwork.Hopfield
         public double GetNeuronBias(int[] neuron)
             => GetNeuronBias(PositionToIndex(neuron));
 
-        public void SetNeuronBias(int neuron, double bias) => biases[neuron] = bias;
+        public void SetNeuronBias(int neuron, double bias)
+        {
+            biases[neuron] = bias;
+
+            NeuronInitialized?.Invoke(this, new InitializationEventArgs(neuron));
+        }
 
         public void SetNeuronBias(int[] neuron, double bias)
             => SetNeuronBias(PositionToIndex(neuron), bias);
@@ -186,16 +181,21 @@ namespace NeuralNetwork.Hopfield
             for (int i = 0; i < iterations; i++)
             {
                 Trace.WriteLine($"{i}: Energy = {Energy:0.000}");
-                Evaluate(i / (double)iterations);
+                Evaluate(i, iterations);
             }
 
             return (double[])outputs.Clone();
         }
 
-        private void Evaluate(double progress)
+        private void Evaluate(int interation, int iterations)
         {
+            EvaluatingIteration?.Invoke(this, new TrainingEventArgs(interation));
+
+            double progress = interation / (double) iterations;
             foreach (int n in RandomNeurons)
                 EvaluateNeuron(n, progress);
+
+            EvaluatingIteration?.Invoke(this, new TrainingEventArgs(interation));
         }
 
         private void EvaluateNeuron(int neuron, double progress)

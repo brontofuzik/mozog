@@ -17,20 +17,28 @@ namespace NeuralNetwork.Hopfield.HopfieldNetworkImps
         IEnumerable<int> GetSourceNeurons(int neuron);
     }
 
-    class FullMatrix : IMatrix
+    abstract class MatrixBase
+    {
+        public int Rows { get; }
+
+        public int Cols { get; }
+
+        protected MatrixBase(int rows, int cols)
+        {
+            Rows = rows;
+            Cols = cols;
+        }
+    }
+
+    class FullMatrix : MatrixBase, IMatrix
     {
         private readonly double[,] weights;
 
         public FullMatrix(int rows, int cols)
+            : base(rows, cols)
         {
-            Rows = rows;
-            Cols = cols;
             weights = new double[rows, cols];
         }
-
-        public int Rows { get; }
-
-        public int Cols { get; }
 
         public int Size => weights.Length;
 
@@ -48,23 +56,17 @@ namespace NeuralNetwork.Hopfield.HopfieldNetworkImps
         }
     }
 
-    class SparseMatrix : IMatrix
+    class SparseMatrix : MatrixBase, IMatrix
     {
-        private IDictionary<int, IDictionary<int, double>> weights;
+        private readonly IDictionary<int, IDictionary<int, double>> weights;
 
         public SparseMatrix(int rows, int cols)
+            : base(rows, cols)
         {
-            Rows = rows;
-            Cols = cols;
-
             weights = new Dictionary<int, IDictionary<int, double>>(rows);
             for (int r = 0; r < rows; r++)
                 weights[r] = new Dictionary<int, double>();
         }
-
-        public int Rows { get; }
-
-        public int Cols { get; }
 
         public int Size => throw new NotImplementedException();
 

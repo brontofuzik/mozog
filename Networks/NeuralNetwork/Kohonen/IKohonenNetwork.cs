@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Drawing;
+using NeuralNetwork.Common;
 using NeuralNetwork.Data;
 
 namespace NeuralNetwork.Kohonen
 {
     public interface IKohonenNetwork
     {
-        event EventHandler<DataSetEventArgs> BeforeTrainingSet;
+        event EventHandler<TrainingEventArgs> TrainingIteration;
 
-        event EventHandler<DataSetEventArgs> AfterTrainingSet;
-
-        event EventHandler<DataPointEventArgs> BeforeTrainingPoint;
-
-        event EventHandler<DataPointEventArgs> AfterTrainingPoint;
+        event EventHandler<TrainingEventArgs> IterationTrained;
 
         int InputSize { get; }
 

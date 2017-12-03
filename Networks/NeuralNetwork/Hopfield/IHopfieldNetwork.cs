@@ -1,9 +1,18 @@
-﻿using NeuralNetwork.Data;
+﻿using System;
+using NeuralNetwork.Common;
+using NeuralNetwork.Data;
+using NeuralNetwork.Kohonen;
 
 namespace NeuralNetwork.Hopfield
 {
     public interface IHopfieldNetwork
     {
+        event EventHandler<TrainingEventArgs> EvaluatingIteration;
+
+        event EventHandler<TrainingEventArgs> IterationEvaluated;
+
+        event EventHandler<InitializationEventArgs> NeuronInitialized;
+
         int[] Dimensions { get; }
 
         int Neurons { get; }
