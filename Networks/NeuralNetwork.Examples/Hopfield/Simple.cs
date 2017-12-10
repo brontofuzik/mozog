@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using System.Diagnostics;
+using Mozog.Utils;
+using Mozog.Utils.Math;
 using NeuralNetwork.Data;
 using NeuralNetwork.Hopfield;
 
@@ -18,7 +20,7 @@ namespace NeuralNetwork.Examples.Hopfield
 
             // Step 2: Create the network.
 
-            var net = new HopfieldNetwork(new[] {dataSet.InputSize}, sparse: false);
+            var net = new HopfieldNetwork(new[] {dataSet.InputSize});
 
             // Step 3: Train the network.
 
@@ -26,10 +28,18 @@ namespace NeuralNetwork.Examples.Hopfield
 
             // Step 4: Test the network.
 
-            double[] toRecall = { -1.0, 1.0, 1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0 };
-            double[] recalled = net.Evaluate(toRecall, iterations: 10);
+            var corrupted = (double[])dataSet[0].Input.Clone();
+            3.Times(() => Corrupt(corrupted));
 
-            Debug.Assert(recalled.SequenceEqual(dataSet[0].Input));
+            double[] restored = net.Evaluate(corrupted, iterations: 10);
+
+            Debug.Assert(restored.SequenceEqual(dataSet[0].Input));
+        }
+
+        private static void Corrupt(double[] array)
+        {
+            var index = StaticRandom.Int(array.Length);
+            array[index] = array[index] == 1.0 ? -1.0 : 1.0;
         }
     }
 }

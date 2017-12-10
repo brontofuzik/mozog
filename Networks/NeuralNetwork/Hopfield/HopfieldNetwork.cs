@@ -24,7 +24,7 @@ namespace NeuralNetwork.Hopfield
         {
             Dimensions = dimensions;
             Neurons = dimensions.Product();
-            weights = sparse ? (IMatrix)new SparseMatrix(Neurons, Neurons) : (IMatrix)new FullMatrix(Neurons, Neurons);
+            weights = sparse ? (IMatrix)new SparseMatrix(Neurons, Neurons) : (IMatrix)new DenseMatrix(Neurons, Neurons);
             biases = new double[Neurons];
             outputs = new double[Neurons];
 
@@ -61,7 +61,8 @@ namespace NeuralNetwork.Hopfield
 
         private IEnumerable<int> NeuronsEnumerable => Enumerable.Range(0, Neurons);
 
-        public int Synapses => (weights.Size - Neurons) / 2;
+        // Not used?
+        //public int Synapses => (weights.Size - Neurons) / 2;
 
         public double Energy
         {
@@ -195,7 +196,7 @@ namespace NeuralNetwork.Hopfield
             foreach (int n in RandomNeurons)
                 EvaluateNeuron(n, progress);
 
-            EvaluatingIteration?.Invoke(this, new TrainingEventArgs(interation));
+            IterationEvaluated?.Invoke(this, new TrainingEventArgs(interation));
         }
 
         private void EvaluateNeuron(int neuron, double progress)
@@ -266,5 +267,21 @@ namespace NeuralNetwork.Hopfield
             sb.Remove(sb.Length - 1, 1);
             return sb.ToString();
         }
+
+        #region Utils
+
+        // 2D
+        public static int[] Position(int r, int c) => new[] { r, c };
+
+        // 3D
+        public static int[] Position(int r, int c, int z) => new[] { r, c, z };
+
+        public static int Row(int[] neuron) => neuron[0];
+
+        public static int Col(int[] neuron) => neuron[1];
+
+        public static int Z(int[] neuron) => neuron[2];
+
+        #endregion // Utils
     }
 }

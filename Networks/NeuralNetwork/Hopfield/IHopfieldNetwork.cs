@@ -17,7 +17,8 @@ namespace NeuralNetwork.Hopfield
 
         int Neurons { get; }
 
-        int Synapses { get; }
+        // Not used?
+        //int Synapses { get; }
 
         double Energy { get; }
 

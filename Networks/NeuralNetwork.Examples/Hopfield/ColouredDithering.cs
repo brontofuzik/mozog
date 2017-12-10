@@ -9,6 +9,7 @@ using NeuralNetwork.Hopfield;
 using NeuralNetwork.Kohonen;
 using ShellProgressBar;
 using static Mozog.Utils.Math.Math;
+using static NeuralNetwork.Hopfield.HopfieldNetwork;
 using Math = System.Math;
 
 namespace NeuralNetwork.Examples.Hopfield
@@ -36,7 +37,7 @@ namespace NeuralNetwork.Examples.Hopfield
         {
             string imageName = "lenna-col";
 
-            //int[] paletteSizes = { 2, 4, 8, 16 };
+            //int[] paletteSizes = { 2, 4, 8 };
             int[] paletteSizes = { 12 };
             //int[] radii = { 1, 2, 3, 4 };
             int[] radii = { 1, 2 };
@@ -133,22 +134,20 @@ namespace NeuralNetwork.Examples.Hopfield
             // Train bias
             //
 
-            double localNeuronBias = -ColorComponents.Sum(c => Square(C(Col(neuron), Row(neuron), c) - P(Dep(neuron), c)));
+            double localB = -ColorComponents.Sum(k => Square(C(neuron, k) - P(neuron, k)));
 
-            var neighbourhoodSourceNeurons = GetNeighbourhoodSourceNeurons(neuron);
-            double globalNeuronBias = ColorComponents.Sum(c =>
+            var sources = GetNeighbourhoodSourceNeurons(neuron);
+            double globalB = ColorComponents.Sum(k =>
             {
-                var innerSum = neighbourhoodSourceNeurons.Sum(source =>
-                    D(Col(neuron), Row(neuron), Col(source), Row(source)) * C(Col(source), Row(source), c));
-                var x = P(Dep(neuron), c);
-
-                return 2 * x * innerSum - Square(radius) * Square(x * x);
+                var sum = sources.Sum(source => D(neuron, source) * C(source, k));
+                var p = P(neuron, k);
+                return 2 * p * sum - Square(radius) * Square(p * p);
             });
 
-            const double pixelNeuronBias = 1.0;
-            double neuronBias = alpha * pixelNeuronBias + beta * localNeuronBias + gamma * globalNeuronBias;
+            const double pixelB = 1.0;
+            double bias = alpha * pixelB + beta * localB + gamma * globalB;
 
-            hopfieldNet.SetNeuronBias(neuron, neuronBias);
+            hopfieldNet.SetNeuronBias(neuron, bias);
 
             //
             // Train synapses
@@ -160,14 +159,14 @@ namespace NeuralNetwork.Examples.Hopfield
                 InitializeChainSynapse(neuron, source);
 
             // Train the "neighbourhood" synapes.
-            foreach (var source in neighbourhoodSourceNeurons)
+            foreach (var source in sources)
                 InitializeNeighbourhoodSynapse(neuron, source);
         }
 
         // Gets the coordinates of a neuron's "chain" source neurons.
         // Along the z-axis.
         private static IEnumerable<int[]> GetChainSourceNeurons(int[] neuron)
-            => Enumerable.Range(0, Depth).Where(z => z != Dep(neuron)).Select(z => Pos(Row(neuron), Col(neuron), z)).ToList();
+            => Enumerable.Range(0, Depth).Where(z => z != Z(neuron)).Select(z => Position(Row(neuron), Col(neuron), z)).ToList();
 
         // Gets the coordinates of a neuron's "neighbourhood" source neurons.
         // Along the x1 and y-axes.
@@ -180,47 +179,40 @@ namespace NeuralNetwork.Examples.Hopfield
             int cmax = Math.Min(Col(neuron) + radius, hopfieldNet.Dimensions[1] - 1);
 
             return EnumerableExtensions.Range(rmin, rmax, inclusive: true)
-                .SelectMany(row => EnumerableExtensions.Range(cmin, cmax, inclusive: true), (row, col) => new { row, col })
+                .SelectMany(row => EnumerableExtensions.Range(cmin, cmax, inclusive: true), (row, col) => new {row, col})
                 .Where(s => s.row != Row(neuron) || s.col != Col(neuron))
-                .Select(s => Pos(s.row, s.col, Dep(neuron)));
+                .Select(s => Position(s.row, s.col, Z(neuron)))
+                .ToList();
         }
 
         private static void InitializeChainSynapse(int[] neuron, int[] source)
         {
-            const double pixelW = -2.0;
-            const double localW = 0.0;
-            const double globalW = 0.0;
-
-            double synapseWeight = alpha * pixelW + beta * localW + gamma * globalW;
-
-            hopfieldNet.SetSynapseWeight(neuron, source, synapseWeight);
+            InitializeSynapse(neuron, source, pixelW: -2.0, localW: 0.0, globalW: 0.0);
         }
 
         private static void InitializeNeighbourhoodSynapse(int[] neuron, int[] source)
         {
-            const double pixelW = 0.0;
-            const double localW = 0.0;
-            double globalW = -2 * ColorComponents.Sum(c => D(neuron[1], neuron[0], source[1], source[0]) * Square(P(neuron[2], c)));
+            double globalW = -2 * ColorComponents.Sum(k => D(neuron, source) * Square(P(neuron, k)));
+            InitializeSynapse(neuron, source, pixelW: 0.0, localW: 0.0, globalW: globalW);
+        }
 
-            double synapseWeight = alpha * pixelW + beta * localW + gamma * globalW;
-
-            hopfieldNet.SetSynapseWeight(neuron, source, synapseWeight);
+        private static void InitializeSynapse(int[] neuron, int[] source, double pixelW, double localW, double globalW)
+        {
+            double weight = alpha * pixelW + beta * localW + gamma * globalW;
+            hopfieldNet.SetSynapseWeight(neuron, source, weight);
         }
 
         // Color
-        private static double C(int x, int y, ColorComponent component)
-            => GetColorComponent(image.GetPixel(x, y), component) / (double)byte.MaxValue;
+        private static double C(int[] neuron, ColorComponent component)
+            => GetIntensity(image.GetPixel(Col(neuron), Row(neuron)), component);
 
         // Palette
-        private static double P(int k, ColorComponent colorComponent)
-            => GetColorComponent(palette[k], colorComponent) / (double)byte.MaxValue;
+        private static double P(int[] neuron, ColorComponent component)
+            => GetIntensity(palette[Z(neuron)], component);
 
         // Distance
-        private static int D(int x1, int y1, int x2, int y2)
-        {
-            return Math.Abs(x1 - x2) <= radius && Math.Abs(y1 - y2) <= radius
-                ? (radius - Math.Abs(x1 - x2) + 1) * (radius - Math.Abs(y1 - y2) + 1) : 0;
-        }
+        private static int D(int[] n1, int[] n2)
+            => Math.Max(radius - Math.Abs(Col(n1) - Col(n2)) + 1, 0) * Math.Max(radius - Math.Abs(Row(n1) - Row(n2)) + 1, 0);
 
         #endregion // Initialization
 
@@ -268,34 +260,19 @@ namespace NeuralNetwork.Examples.Hopfield
 
         #endregion // Evaluation
 
-        private static byte GetColorComponent(Color color, ColorComponent component)
+        private static double GetIntensity(Color color, ColorComponent component)
         {
             switch (component)
             {
-                case ColorComponent.Red: return color.R;
-                case ColorComponent.Green: return color.G;
-                case ColorComponent.Blue: return color.B;
+                case ColorComponent.Red: return color.R / (double)byte.MaxValue;
+                case ColorComponent.Green: return color.G / (double)byte.MaxValue;
+                case ColorComponent.Blue: return color.B / (double)byte.MaxValue;
                 default: throw new ArgumentException(nameof(component));
             }
         }
 
         private static IEnumerable<ColorComponent> ColorComponents
             => Enum.GetValues(typeof(ColorComponent)).Cast<ColorComponent>();
-
-        #region Utils
-
-        private static int[] Pos(int r, int c, int d) => new[] { r, c, d };
-
-        // Row
-        private static int Row(int[] neuron) => neuron[0];
-
-        // Column
-        private static int Col(int[] neuron) => neuron[1];
-
-        // Depth
-        private static int Dep(int[] neuron) => neuron[2];
-
-        #endregion // Utils
     }
 
     enum ColorComponent

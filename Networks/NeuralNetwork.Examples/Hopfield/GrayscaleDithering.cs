@@ -6,6 +6,7 @@ using Mozog.Utils;
 using NeuralNetwork.Hopfield;
 using ShellProgressBar;
 using static Mozog.Utils.Math.Math;
+using static NeuralNetwork.Hopfield.HopfieldNetwork;
 
 namespace NeuralNetwork.Examples.Hopfield
 {
@@ -87,9 +88,9 @@ namespace NeuralNetwork.Examples.Hopfield
             int cmax = Math.Min(Col(neuron) + radius, net.Dimensions[1] - 1);
 
             return EnumerableExtensions.Range(rmin, rmax, inclusive: true)
-                .SelectMany(row => EnumerableExtensions.Range(cmin, cmax, inclusive: true), (row, col) => new {row, col})
-                .Where(s => s.row != Row(neuron) || s.col != Col(neuron))
-                .Select(s => Pos(s.row, s.col));
+                .SelectMany(row => EnumerableExtensions.Range(cmin, cmax, inclusive: true), (row, col) => Position(row, col))
+                .Where(s => !s.SequenceEqual(neuron))
+                .ToList();
         }
 
         private static int Height => image.Height;
@@ -160,18 +161,6 @@ namespace NeuralNetwork.Examples.Hopfield
         }
 
         #endregion // Evaluation
-
-        #region Utils
-
-        private static int[] Pos(int r, int c) => new[] { r, c };
-
-        // Row
-        private static int Row(int[] neuron) => neuron[0];
-
-        // Column
-        private static int Col(int[] neuron) => neuron[1];
-
-        #endregion // Utils
     }
 
     internal struct Pixel

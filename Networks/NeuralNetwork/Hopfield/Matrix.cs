@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace NeuralNetwork.Hopfield.HopfieldNetworkImps
@@ -19,64 +18,63 @@ namespace NeuralNetwork.Hopfield.HopfieldNetworkImps
 
     abstract class MatrixBase
     {
-        public int Rows { get; }
-
-        public int Cols { get; }
-
         protected MatrixBase(int rows, int cols)
         {
             Rows = rows;
             Cols = cols;
         }
+
+        public int Rows { get; }
+
+        public int Cols { get; }
+
+        public int Size => Rows * Cols;
     }
 
-    class FullMatrix : MatrixBase, IMatrix
+    class DenseMatrix : MatrixBase, IMatrix
     {
-        private readonly double[,] weights;
+        private readonly double[,] elements;
 
-        public FullMatrix(int rows, int cols)
+        public DenseMatrix(int rows, int cols)
             : base(rows, cols)
         {
-            weights = new double[rows, cols];
+            elements = new double[rows, cols];
         }
-
-        public int Size => weights.Length;
 
         public double this[int row, int col]
         {
-            get => weights[row, col];
-            set => weights[row, col] = value;
+            get => elements[row, col];
+            set => elements[row, col] = value;
         }
 
         public IEnumerable<int> GetSourceNeurons(int neuron)
         {
             for (int i = 0; i < Cols; i++)
-                if (weights[neuron, i] != 0)
+                if (elements[neuron, i] != 0)
                     yield return i;
         }
     }
 
+    // Inefficient
     class SparseMatrix : MatrixBase, IMatrix
     {
-        private readonly IDictionary<int, IDictionary<int, double>> weights;
+        private readonly IDictionary<int, IDictionary<int, double>> elements;
 
         public SparseMatrix(int rows, int cols)
             : base(rows, cols)
         {
-            weights = new Dictionary<int, IDictionary<int, double>>(rows);
+            elements = new Dictionary<int, IDictionary<int, double>>(rows);
             for (int r = 0; r < rows; r++)
-                weights[r] = new Dictionary<int, double>();
+                elements[r] = new Dictionary<int, double>();
         }
-
-        public int Size => throw new NotImplementedException();
 
         public double this[int row, int col]
         {
-            get => weights[row].ContainsKey(col) ? weights[row][col] : 0.0;
-            set => weights[row][col] = value;
+            get => elements[row].ContainsKey(col) ? elements[row][col] : 0.0;
+            set => elements[row][col] = value;
         }
 
         public IEnumerable<int> GetSourceNeurons(int neuron)
-            => weights[neuron].Where(kvp => kvp.Value != 0.0).Select(kvp => kvp.Key);
+            => elements[neuron].Where(kvp => kvp.Value != 0.0).Select(kvp => kvp.Key);
     }
 }

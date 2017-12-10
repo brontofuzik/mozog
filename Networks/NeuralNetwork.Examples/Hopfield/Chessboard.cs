@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using Mozog.Utils;
 using NeuralNetwork.Hopfield;
+using static NeuralNetwork.Hopfield.HopfieldNetwork;
 
 namespace NeuralNetwork.Examples.Hopfield
 {
@@ -56,7 +57,7 @@ namespace NeuralNetwork.Examples.Hopfield
         }
 
         private static HopfieldNetwork BuildNetwork()
-            => new HopfieldNetwork(new[] {8, 8}, sparse: true, activation: (input, _) => input > 0 ? 1.0 : 0.0);
+            => new HopfieldNetwork(new[] {8, 8}, activation: (input, _) => input > 0 ? 1.0 : 0.0);
 
         private static string SolutionToChessboard(double[] solution)
         {
@@ -64,9 +65,5 @@ namespace NeuralNetwork.Examples.Hopfield
             var chessboard = solution.Select(n => n == 1.0 ? 'X' : '_').ToArray().Split(8);
             return string.Join(Environment.NewLine, chessboard.Select(ArrayExtensions.ToString));
         }
-
-        private static int Row(int[] neuron) => neuron[0];
-
-        private static int Col(int[] neuron) => neuron[1];
     }
 }
