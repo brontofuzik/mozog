@@ -76,7 +76,7 @@ namespace NeuralNetwork.Examples.Kohonen
             for (int x = 0; x < originalImage.Width; x++)
             {
                 var originalColor = originalImage.GetPixel(x, y);
-                var processedColor = EvaluateColor(net, originalColor);
+                var processedColor = EvaluateColorToColor(net, originalColor);
                 processedImage.SetPixel(x, y, processedColor);
             }
 
@@ -88,43 +88,36 @@ namespace NeuralNetwork.Examples.Kohonen
 
         private static DataSet BuildTrainingSet(Bitmap image)
         {
-            var trainingSet = new DataSet(3, 0);
+            var trainingSet = new DataSet(3);
 
             for (int y = 0; y < image.Height; y++)
             for (int x = 0; x < image.Width; x++)
-            {
-                var color = image.GetPixel(x, y);
-                var point = new LabeledDataPoint(ColorToVector(color), new double[0]);
-                trainingSet.Add(point);
-            }
+                trainingSet.Add(new LabeledDataPoint(ColorToVector(image.GetPixel(x, y)), new double[0]));
 
             return trainingSet;
         }
 
-        public static int EvaluateIndex(KohonenNetwork net, Color color)
+        private static Color EvaluateColorToColor(KohonenNetwork net, Color color)
         {
-            var input = ColorToVector(color);
-            var winner = net.Evaluate(input);
-            return winner[0];
+            var winner = EvaluateColorToNeuron(net, color);
+            return GetOutputNeuronColor(net, winner);
         }
 
-        private static Color EvaluateColor(KohonenNetwork net, Color color)
+        public static int[] EvaluateColorToNeuron(KohonenNetwork net, Color color)
         {
             var input = ColorToVector(color);
-            var winner = net.Evaluate(input);
-            var output = net.GetOutputNeuronSynapseWeights(winner);
-            return VectorToColor(output);
+            return net.Evaluate(input);
         }
 
-        private static Color GetOutputNeuronColor(KohonenNetwork net, int neuronIndex)
+        private static Color GetOutputNeuronColor(KohonenNetwork net, int[] neuron)
         {
-            var weights = net.GetOutputNeuronSynapseWeights(neuronIndex);
+            var weights = net.GetOutputNeuronSynapseWeights(neuron);
             return VectorToColor(weights);
         }
 
-        private static Color GetOutputNeuronColor(KohonenNetwork net, int[] neuronCoordinates)
+        private static Color GetOutputNeuronColor(KohonenNetwork net, int neuron)
         {
-            var weights = net.GetOutputNeuronSynapseWeights(neuronCoordinates);
+            var weights = net.GetOutputNeuronSynapseWeights(neuron);
             return VectorToColor(weights);
         }
 

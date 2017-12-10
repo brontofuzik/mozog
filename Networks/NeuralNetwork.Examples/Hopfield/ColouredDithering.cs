@@ -134,17 +134,19 @@ namespace NeuralNetwork.Examples.Hopfield
             // Train bias
             //
 
+            const double pixelB = 1.0;
+
             double localB = -ColorComponents.Sum(k => Square(C(neuron, k) - P(neuron, k)));
 
             var sources = GetNeighbourhoodSourceNeurons(neuron);
             double globalB = ColorComponents.Sum(k =>
             {
-                var sum = sources.Sum(source => D(neuron, source) * C(source, k));
                 var p = P(neuron, k);
-                return 2 * p * sum - Square(radius) * Square(p * p);
+                var sum = sources.Sum(source => D(neuron, source) * C(source, k));
+                return 2 * p * sum - Square(radius) * Square(p);
             });
 
-            const double pixelB = 1.0;
+
             double bias = alpha * pixelB + beta * localB + gamma * globalB;
 
             hopfieldNet.SetNeuronBias(neuron, bias);
@@ -232,7 +234,7 @@ namespace NeuralNetwork.Examples.Hopfield
             foreach (var p in GrayscaleDithering.Pixels(image))
             {
                 var color = image.GetPixel(p.pixel.X, p.pixel.X);
-                int colorIndex = ColourQuantization.EvaluateIndex(kohonenNet, color);
+                int colorIndex = ColourQuantization.EvaluateColorToNeuron(kohonenNet, color)[0];
                 var colorVector = Vector.IndexToVector(colorIndex, Depth);
                 vector.ReplaceSubarray(p.index * Depth, colorVector);
             }
