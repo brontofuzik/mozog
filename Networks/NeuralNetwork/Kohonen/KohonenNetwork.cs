@@ -130,13 +130,13 @@ namespace NeuralNetwork.Kohonen
             IterationTrained?.Invoke(this, new TrainingEventArgs(iteration));
         }
 
-        private void TrainPoint(ILabeledDataPoint point, int iteration, double learningRate, double neighbourhoodRadius)
+        private void TrainPoint(IDataPoint point, int iteration, double learningRate, double neighbourhoodRadius)
         {
             int[] winnerNeuron = Evaluate(point.Input);
             AdaptNeuronWeights(point, winnerNeuron, learningRate, neighbourhoodRadius);
         }
 
-        private void AdaptNeuronWeights(ILabeledDataPoint point, int[] winnerNeuron, double learningRate, double neighbourhoodRadius)
+        private void AdaptNeuronWeights(IDataPoint point, int[] winnerNeuron, double learningRate, double neighbourhoodRadius)
         {
             // Optimization
             if (learningRate == 0.0) return;
@@ -153,7 +153,7 @@ namespace NeuralNetwork.Kohonen
 
                 for (int weight = 0; weight < InputSize; weight++)
                 {
-                    double weightDelta = learningRate * neighbourhood * (point.Input[weight] - outputNeuronWeights[n][weight]);
+                    double weightDelta = learningRate * neighbourhood * (point[weight] - outputNeuronWeights[n][weight]);
                     outputNeuronWeights[n][weight] += weightDelta;
                 }
             }

@@ -153,7 +153,7 @@ namespace NeuralNetwork.Hopfield
 
         private void TrainSynapse(int neuron, int source, DataSet data)
         {
-            double weight = data.Select(p => p.Input[neuron] * p.Input[source]).Sum();
+            double weight = data.Select(p => p[neuron] * p[source]).Sum();
             SetSynapseWeight(neuron, source, weight);
         }
 

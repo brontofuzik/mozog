@@ -22,6 +22,8 @@ namespace NeuralNetwork.Data
 
         public object Tag { get; set; }
 
+        public double this[int index] => Input[index];
+
         // TODO Data normalization
         //public double[] NormalizedInput { get; }
 
@@ -33,6 +35,8 @@ namespace NeuralNetwork.Data
         double[] Input { get; }
 
         object Tag { get; }
+
+        double this[int index] { get; }
 
         // TODO Data normalization
         //public double[] NormalizedInput { get; }
