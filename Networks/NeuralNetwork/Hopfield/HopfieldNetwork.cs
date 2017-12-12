@@ -68,19 +68,11 @@ namespace NeuralNetwork.Hopfield
         {
             get
             {
-                double energy = 0.0;
+                double NeuronEnergy(int n)
+                    => -weights.GetSourceNeurons(n).Where(s => s > n).Sum(s => weights[n, s] * outputs[n] * outputs[s])
+                       -biases[n] * outputs[n];
 
-                // Syanpse energy
-                for (int neuron = 0; neuron < Neurons; neuron++)
-                    foreach (int source in weights.GetSourceNeurons(neuron))
-                        if (source > neuron)
-                            energy -= weights[neuron, source] * outputs[neuron] * outputs[source];
-
-                // Neuron energy
-                for (int neuron = 0; neuron < Neurons; neuron++)
-                    energy -= biases[neuron] * outputs[neuron];
-
-                return energy;
+                return NeuronsEnumerable.Sum(n => NeuronEnergy(n));
             }
         }
 
@@ -99,25 +91,27 @@ namespace NeuralNetwork.Hopfield
             var sourceNeurons = Topology(IndexToPosition(neuron));
             foreach (var sn in sourceNeurons)
                 SetSynapseWeight(neuron, PositionToIndex(sn), initSynapseWeight);
+
+            NeuronInitialized?.Invoke(this, new InitializationEventArgs(neuron));
         }
 
-        public double GetNeuronBias(int neuron) => biases[neuron];
+        public double GetNeuronBias(int neuron)
+            => biases[neuron];
 
         public double GetNeuronBias(int[] neuron)
             => GetNeuronBias(PositionToIndex(neuron));
 
         public void SetNeuronBias(int neuron, double bias)
-        {
-            biases[neuron] = bias;
-
-            NeuronInitialized?.Invoke(this, new InitializationEventArgs(neuron));
-        }
+            => biases[neuron] = bias;      
 
         public void SetNeuronBias(int[] neuron, double bias)
             => SetNeuronBias(PositionToIndex(neuron), bias);
 
         private void SetNeuronBias(int neuron, InitNeuronBias initNeuronBias)
             => SetNeuronBias(neuron, initNeuronBias(IndexToPosition(neuron), this));
+
+        private void SetNeuronBias(int[] neuron, InitNeuronBias initNeuronBias)
+            => SetNeuronBias(neuron, initNeuronBias(neuron, this));
 
         public double GetSynapseWeight(int neuron, int source) => weights[neuron, source];
 
@@ -144,19 +138,17 @@ namespace NeuralNetwork.Hopfield
             if (data.InputSize != Neurons)
                 throw new ArgumentException("The training set is not compatible with the network.", nameof(data));
 
-            for (int neuronIndex = 0; neuronIndex < Neurons; ++neuronIndex)
-                TrainNeuron(neuronIndex, data);
+            foreach (var neuron in NeuronsEnumerable)
+                TrainNeuron(neuron, data);
         }
 
         private void TrainNeuron(int neuron, DataSet data)
         {
             SetNeuronBias(neuron, 0.0);
 
-            for (int sourceNeuronIndex = 0; sourceNeuronIndex < Neurons; sourceNeuronIndex++)
-            {
-                if (sourceNeuronIndex == neuron) continue;
-                TrainSynapse(neuron, sourceNeuronIndex, data);
-            }
+            foreach (var source in NeuronsEnumerable)
+                if (source > neuron)
+                    TrainSynapse(neuron, source, data);
         }
 
         private void TrainSynapse(int neuron, int source, DataSet data)
@@ -201,8 +193,7 @@ namespace NeuralNetwork.Hopfield
 
         private void EvaluateNeuron(int neuron, double progress)
         {
-            double input = weights.GetSourceNeurons(neuron).Sum(source => weights[neuron, source] * outputs[source])
-                + biases[neuron];
+            double input = weights.GetSourceNeurons(neuron).Sum(source => weights[neuron, source] * outputs[source]) + biases[neuron];
             outputs[neuron] = activation(input, progress);
         }
 

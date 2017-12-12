@@ -7,7 +7,7 @@ using NeuralNetwork.Hopfield;
 
 namespace NeuralNetwork.Examples.Hopfield
 {
-    class Simple
+    class AssociativeMemory
     {
         public static void Run()
         {

@@ -5,7 +5,7 @@ using ShellProgressBar;
 
 namespace NeuralNetwork.Examples.Kohonen
 {
-    static class Mapping
+    static class SpaceMapping
     {
         const int DatasetSize = 1_000;
         const int TrainingIterations = 1_000;

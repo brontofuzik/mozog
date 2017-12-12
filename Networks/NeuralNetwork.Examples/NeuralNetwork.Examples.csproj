@@ -108,11 +108,11 @@
   <ItemGroup>
     <Compile Include="Hopfield\Chessboard.cs" />
     <Compile Include="Hopfield\GrayscaleDithering.cs" />
-    <Compile Include="Hopfield\Simple.cs" />
+    <Compile Include="Hopfield\AssociativeMemory.cs" />
     <Compile Include="Kohonen\ColourQuantization.cs" />
     <Compile Include="Hopfield\ColouredDithering.cs" />
     <Compile Include="Hopfield\Multiflop.cs" />
-    <Compile Include="Kohonen\Mapping.cs" />
+    <Compile Include="Kohonen\SpaceMapping.cs" />
     <Compile Include="MLP\02_Keywords\Data.cs" />
     <Compile Include="MLP\01_LogicGates\Data.cs" />
     <Compile Include="MLP\01_LogicGates\Example.cs" />
