@@ -5,9 +5,9 @@
         static void Main(string[] args)
         {
             //MLP();
-            //Hopfield();
+            Hopfield();
             //Kohonen();
-            Hopfield_and_Kohonen();
+            //Hopfield_and_Kohonen();
         }
 
         private static void MLP()
@@ -21,7 +21,7 @@
 
         private static void Hopfield()
         {
-            //Examples.Hopfield.Simple.Run();
+            Examples.Hopfield.AssociativeMemory.Run();
             //Examples.Hopfield.Multiflop.Run();
             //Examples.Hopfield.Chessboard.RunEightRooks();
             //Examples.Hopfield.Chessboard.RunEightQueens();

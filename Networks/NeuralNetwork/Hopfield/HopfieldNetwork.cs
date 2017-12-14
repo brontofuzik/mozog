@@ -61,6 +61,9 @@ namespace NeuralNetwork.Hopfield
 
         private IEnumerable<int> NeuronsEnumerable => Enumerable.Range(0, Neurons);
 
+        private IEnumerable<(int neuron, int source)> SynapsesEnumerable
+            => NeuronsEnumerable.SelectMany(n => NeuronsEnumerable, (n, s) => (neuron: n, source: s)).Where(s => s.source > s.neuron);
+
         // Not used?
         //public int Synapses => (weights.Size - Neurons) / 2;
 
@@ -131,7 +134,7 @@ namespace NeuralNetwork.Hopfield
 
         #region Training
 
-        public void Train(DataSet data)
+        public void Train(IDataSet data, bool batch = true)
         {
             Require.IsNotNull(data, nameof(data));
 
@@ -139,22 +142,30 @@ namespace NeuralNetwork.Hopfield
                 throw new ArgumentException("The training set is not compatible with the network.", nameof(data));
 
             foreach (var neuron in NeuronsEnumerable)
-                TrainNeuron(neuron, data);
+                SetNeuronBias(neuron, 0.0);
+
+            if (batch)
+                TrainSynapses(data);
+            else
+                foreach (var point in data) Train(point);
         }
 
-        private void TrainNeuron(int neuron, DataSet data)
+        private void TrainSynapses(IDataSet data)
         {
-            SetNeuronBias(neuron, 0.0);
-
-            foreach (var source in NeuronsEnumerable)
-                if (source > neuron)
-                    TrainSynapse(neuron, source, data);
+            foreach (var synapse in SynapsesEnumerable)
+            {
+                double weight = data.Select(point => point[synapse.neuron] * point[synapse.source]).Sum() / data.Size;
+                SetSynapseWeight(synapse.neuron, synapse.source, weight);
+            }
         }
 
-        private void TrainSynapse(int neuron, int source, DataSet data)
+        public void Train(IDataPoint point)
         {
-            double weight = data.Select(p => p[neuron] * p[source]).Sum();
-            SetSynapseWeight(neuron, source, weight);
+            foreach (var synapse in SynapsesEnumerable)
+            {
+                var weight = point[synapse.neuron] * point[synapse.source];
+                SetSynapseWeight(synapse.neuron, synapse.source, weight);
+            }
         }
 
         #endregion // Training

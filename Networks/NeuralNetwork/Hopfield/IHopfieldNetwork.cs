@@ -1,7 +1,6 @@
 ﻿using System;
 using NeuralNetwork.Common;
 using NeuralNetwork.Data;
-using NeuralNetwork.Kohonen;
 
 namespace NeuralNetwork.Hopfield
 {
@@ -30,7 +29,9 @@ namespace NeuralNetwork.Hopfield
 
         void SetSynapseWeight(int neuron, int source, double weight);
 
-        void Train(DataSet dataSet);
+        void Train(IDataSet data, bool batch = true);
+
+        void Train(IDataPoint point);
 
         double[] Evaluate(double[] input, int iterations);
 
