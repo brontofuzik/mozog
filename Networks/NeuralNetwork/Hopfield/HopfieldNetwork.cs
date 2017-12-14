@@ -169,17 +169,21 @@ namespace NeuralNetwork.Hopfield
             if (iterations < 0)
                 throw new ArgumentException("The number of iterations cannot be negative.", nameof(iterations));
 
-            Array.Copy(input, outputs, input.Length);
+            SetInput(input);
 
-            for (int i = 0; i < iterations; i++)
+            iterations.Times(i =>
             {
                 Trace.WriteLine($"{i}: Energy = {Energy:0.000}");
                 Evaluate(i, iterations);
-            }
+            });
 
-            return (double[])outputs.Clone();
+            return GetOutput();
         }
 
+        private void SetInput(double[] input)
+            => Array.Copy(input, outputs, input.Length);
+
+        // Evaluates all neurons
         private void Evaluate(int interation, int iterations)
         {
             EvaluatingIteration?.Invoke(this, new TrainingEventArgs(interation));
@@ -206,6 +210,9 @@ namespace NeuralNetwork.Hopfield
                 return randomNeurons;
             }
         }
+
+        private double[] GetOutput()
+            => (double[])outputs.Clone();
 
         #endregion // Evaluation
 

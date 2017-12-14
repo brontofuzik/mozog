@@ -2,6 +2,8 @@
 {
     public interface ILearningRateFunction
     {
-        double Evaluate(int iteration);
+        //double Evaluate(int iteration);
+
+        double Evaluate(double progress);
     }
 }

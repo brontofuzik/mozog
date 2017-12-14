@@ -19,9 +19,9 @@ namespace NeuralNetwork.Kohonen
 
         int[] Evaluate(double[] input);
 
-        double[] GetOutputNeuronSynapseWeights(int neuronIndex);
+        double[] GetOutputNeuronSynapseWeights(int neuron);
 
-        double[] GetOutputNeuronSynapseWeights(int[] neuronCoordinates);
+        double[] GetOutputNeuronSynapseWeights(int[] neuron);
 
         Bitmap ToBitmap(int width, int height);
     }
