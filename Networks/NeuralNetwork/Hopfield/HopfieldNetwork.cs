@@ -23,24 +23,22 @@ namespace NeuralNetwork.Hopfield
         public HopfieldNetwork(int[] dimensions, bool sparse = false, ActivationFunction activation = null, Topology topology = null)
         {
             Dimensions = dimensions;
-            Neurons = dimensions.Product();
-            weights = sparse ? (IMatrix)new SparseMatrix(Neurons, Neurons) : (IMatrix)new DenseMatrix(Neurons, Neurons);
-            biases = new double[Neurons];
-            outputs = new double[Neurons];
+            NeuronCount = dimensions.Product();
 
-            // Default activation: signum function
-            double DefaultActivation(double input, double _) => System.Math.Sign(input);
+            weights = sparse ? (IMatrix)new SparseMatrix(NeuronCount, NeuronCount) : (IMatrix)new DenseMatrix(NeuronCount, NeuronCount);
+            biases = new double[NeuronCount];
+            outputs = new double[NeuronCount];
 
             this.activation = activation ?? DefaultActivation;
-
-            // Default topology: all neurons
-            IEnumerable<int[]> DefaultTopology(int[] neuron, HopfieldNetwork net)
-            {
-                var index = PositionToIndex(neuron);
-                return NeuronsEnumerable.Where(source => source != index).Select(source => IndexToPosition(source));
-            }
-
             this.topology = topology ?? DefaultTopology;
+        }
+
+        private static double DefaultActivation(double input, double _) => System.Math.Sign(input);
+
+        private IEnumerable<int[]> DefaultTopology(int[] neuron, HopfieldNetwork net)
+        {
+            var index = PositionToIndex(neuron);
+            return Neurons.Where(source => source != index).Select(IndexToPosition);
         }
 
         #region Events
@@ -57,25 +55,20 @@ namespace NeuralNetwork.Hopfield
 
         public int[] Dimensions { get; }
 
-        public int Neurons { get; }
+        public int NeuronCount { get; }
 
-        private IEnumerable<int> NeuronsEnumerable => Enumerable.Range(0, Neurons);
+        private IEnumerable<int> Neurons => Enumerable.Range(0, NeuronCount);
 
-        private IEnumerable<(int neuron, int source)> SynapsesEnumerable
-            => NeuronsEnumerable.SelectMany(n => NeuronsEnumerable, (n, s) => (neuron: n, source: s)).Where(s => s.source > s.neuron);
-
-        // Not used?
-        //public int Synapses => (weights.Size - Neurons) / 2;
+        private IEnumerable<(int neuron, int source)> Synapses
+            => Neurons.SelectMany(n => weights.GetSourceNeurons(n), (n, s) => (neuron: n, source: s)).Where(s => s.source > s.neuron);
 
         public double Energy
         {
             get
             {
-                double NeuronEnergy(int n)
-                    => -weights.GetSourceNeurons(n).Where(s => s > n).Sum(s => weights[n, s] * outputs[n] * outputs[s])
-                       -biases[n] * outputs[n];
-
-                return NeuronsEnumerable.Sum(n => NeuronEnergy(n));
+                double neuronEnergy = -Neurons.Sum(n => biases[n] * outputs[n]);
+                double synapseEnergy = -Synapses.Sum(s => weights[s.neuron, s.source] * outputs[s.neuron] * outputs[s.source]);
+                return neuronEnergy + synapseEnergy;
             }
         }
 
@@ -83,7 +76,7 @@ namespace NeuralNetwork.Hopfield
 
         public void Initialize(InitNeuronBias initNeuronBias, InitSynapseWeight initSynapseWeight)
         {
-            foreach (int n in NeuronsEnumerable)
+            foreach (int n in Neurons)
                 InitializeNeuron(n, initNeuronBias, initSynapseWeight);
         }
 
@@ -138,10 +131,10 @@ namespace NeuralNetwork.Hopfield
         {
             Require.IsNotNull(data, nameof(data));
 
-            if (data.InputSize != Neurons)
+            if (data.InputSize != NeuronCount)
                 throw new ArgumentException("The training set is not compatible with the network.", nameof(data));
 
-            foreach (var neuron in NeuronsEnumerable)
+            foreach (var neuron in Neurons)
                 SetNeuronBias(neuron, 0.0);
 
             if (batch)
@@ -152,7 +145,7 @@ namespace NeuralNetwork.Hopfield
 
         private void TrainSynapses(IDataSet data)
         {
-            foreach (var synapse in SynapsesEnumerable)
+            foreach (var synapse in Synapses)
             {
                 double weight = data.Select(point => point[synapse.neuron] * point[synapse.source]).Sum() / data.Size;
                 SetSynapseWeight(synapse.neuron, synapse.source, weight);
@@ -161,7 +154,7 @@ namespace NeuralNetwork.Hopfield
 
         public void Train(IDataPoint point)
         {
-            foreach (var synapse in SynapsesEnumerable)
+            foreach (var synapse in Synapses)
             {
                 var weight = point[synapse.neuron] * point[synapse.source];
                 SetSynapseWeight(synapse.neuron, synapse.source, weight);
@@ -174,7 +167,7 @@ namespace NeuralNetwork.Hopfield
 
         public double[] Evaluate(double[] input, int iterations)
         {
-            if (input.Length != Neurons)
+            if (input.Length != NeuronCount)
                 throw new ArgumentException("The pattern to recall is not compatible with the Hopfield network.", nameof(input));
 
             if (iterations < 0)
@@ -216,7 +209,7 @@ namespace NeuralNetwork.Hopfield
         {
             get
             {
-                int[] randomNeurons = Enumerable.Range(0, Neurons).ToArray();
+                int[] randomNeurons = Enumerable.Range(0, NeuronCount).ToArray();
                 StaticRandom.Shuffle(randomNeurons);
                 return randomNeurons;
             }
@@ -252,10 +245,10 @@ namespace NeuralNetwork.Hopfield
         public override string ToString()
         {
             var sb = new StringBuilder();
-            for (int neuron = 0; neuron < Neurons; neuron++)
+            for (int neuron = 0; neuron < NeuronCount; neuron++)
             {
                 sb.Append("[");
-                for (int source = 0; source < Neurons; source++)
+                for (int source = 0; source < NeuronCount; source++)
                 {
                     if (source == neuron)
                     {

@@ -14,10 +14,7 @@ namespace NeuralNetwork.Hopfield
 
         int[] Dimensions { get; }
 
-        int Neurons { get; }
-
-        // Not used?
-        //int Synapses { get; }
+        int NeuronCount { get; }
 
         double Energy { get; }
 

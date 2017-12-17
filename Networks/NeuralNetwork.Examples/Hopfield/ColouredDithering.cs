@@ -115,11 +115,11 @@ namespace NeuralNetwork.Examples.Hopfield
         {
             const int tickInterval = 1_000;
             var options = new ProgressBarOptions { DisplayTimeInRealTime = false };
-            var pbar = new ProgressBar(hopfieldNet.Neurons / tickInterval, "Initializing...", options);
+            var pbar = new ProgressBar(hopfieldNet.NeuronCount / tickInterval, "Initializing...", options);
             hopfieldNet.NeuronInitialized += (sender, args) =>
             {
                 if (args.NeuronIndex % tickInterval == 0)
-                    pbar.Tick($"Neuron {args.NeuronIndex}/{hopfieldNet.Neurons}");
+                    pbar.Tick($"Neuron {args.NeuronIndex}/{hopfieldNet.NeuronCount}");
             };
 
             for (int y = 0; y < Height; y++)
