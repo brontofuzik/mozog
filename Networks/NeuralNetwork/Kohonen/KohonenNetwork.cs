@@ -7,8 +7,6 @@ using Mozog.Utils;
 using Mozog.Utils.Math;
 using NeuralNetwork.Common;
 using NeuralNetwork.Data;
-using NeuralNetwork.Kohonen.LearningRateFunctions;
-using NeuralNetwork.Kohonen.NeighbourhoodFunctions;
 
 namespace NeuralNetwork.Kohonen
 {
@@ -22,9 +20,9 @@ namespace NeuralNetwork.Kohonen
 
         //private readonly int[] optimization;
 
-        private readonly ILearningRateFunction learningRateFunction = new ExponentialDecayFunction(initialRate: 0.99, finalRate: 0.01);
-        private readonly ILearningRateFunction neighbourhoodSizeFunction;
-        private readonly INeighbourhoodFunction neighbourhoodFunction = new GaussianNeighbourhoodFunction();
+        private readonly DecayFunction learningRateFunction = Decay.Exponential(initialRate: 0.99, finalRate: 0.01);
+        private readonly DecayFunction neighbourhoodSizeFunction;
+        private readonly NeighbourhoodFunction neighbourhoodFunction = Neighbourhood.Gaussian();
 
         public KohonenNetwork(int inputSize, int[] outputSizes)
         {
@@ -50,7 +48,7 @@ namespace NeuralNetwork.Kohonen
 
             // Pythagoras theorem
             var neighbourhoodSize = System.Math.Sqrt(outputSizes.Sum(s => s * s));
-            neighbourhoodSizeFunction = new ExponentialDecayFunction(initialRate: neighbourhoodSize, finalRate: 0.01);
+            neighbourhoodSizeFunction = Decay.Exponential(initialRate: neighbourhoodSize, finalRate: 0.01);
         }
 
         #region Events
@@ -101,8 +99,8 @@ namespace NeuralNetwork.Kohonen
         {
             TrainingIteration?.Invoke(this, new TrainingEventArgs(iteration));
 
-            double learningRate = learningRateFunction.Evaluate(iteration);
-            double neighbourhoodRadius = neighbourhoodSizeFunction.Evaluate(iteration);
+            double learningRate = learningRateFunction(iteration);
+            double neighbourhoodRadius = neighbourhoodSizeFunction(iteration);
 
             Trace.WriteLine($"{iteration}: LR = {learningRate:F2}, NR = {neighbourhoodRadius:F2}");
 
@@ -129,7 +127,7 @@ namespace NeuralNetwork.Kohonen
                 var neuron = IndexToPosition(neuronIndex);
 
                 double rawDistance = Vector.Distance(neuron, winnerNeuron);
-                double distance = neighbourhoodFunction.Evaluate(rawDistance, neighbourhoodRadius);
+                double distance = neighbourhoodFunction(rawDistance, neighbourhoodRadius);
 
                 for (int weight = 0; weight < InputSize; weight++)
                 {

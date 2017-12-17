@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Kohonen\Functions.cs" />
     <Compile Include="MLP\ActivationFunctions\LogisticFunction.cs" />
     <Compile Include="MLP\ActivationFunctions\SoftmaxFunction.cs" />
     <Compile Include="MLP\ErrorFunctions\CrossEntropyError.cs" />
@@ -82,12 +83,6 @@
     <Compile Include="Hopfield\HopfieldNetwork.cs" />
     <Compile Include="Hopfield\IHopfieldNetwork.cs" />
     <Compile Include="Kohonen\IKohonenNetwork.cs" />
-    <Compile Include="Kohonen\DecayFunctions\ExponentialDecayFunction.cs" />
-    <Compile Include="Kohonen\DecayFunctions\IDecayFunction.cs" />
-    <Compile Include="Kohonen\DecayFunctions\LinearDecayFunction.cs" />
-    <Compile Include="Kohonen\NeighbourhoodFunctions\BubbleNeighbourhoodFunction.cs" />
-    <Compile Include="Kohonen\NeighbourhoodFunctions\GaussianNeighbourhoodFunction.cs" />
-    <Compile Include="Kohonen\NeighbourhoodFunctions\INeighbourhoodFunction.cs" />
     <Compile Include="Kohonen\KohonenNetwork.cs" />
     <Compile Include="Common\EventArgs.cs" />
     <Compile Include="MLP\ActivationFunctions\HyperbolicTangent.cs" />
