@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Networks", "Networks", "{0D96491B-CBF8-403A-9AE5-2A259A554ECD}"
 EndProject
@@ -46,6 +46,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QLearning", "Learning\QLearning\QLearning.csproj", "{FD7FA0D4-F366-4C80-8015-FB6E898EA46A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QLearning.Examples", "Learning\QLearning.Examples\QLearning.Examples.csproj", "{B61C22E8-9395-4BB9-99BC-68A4220CD758}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mozog.Search", "Mozog.Search\Mozog.Search.csproj", "{B332B8EB-8F1E-41BC-A706-624123516A21}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,6 +131,10 @@ Global
 		{B61C22E8-9395-4BB9-99BC-68A4220CD758}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B61C22E8-9395-4BB9-99BC-68A4220CD758}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B61C22E8-9395-4BB9-99BC-68A4220CD758}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B332B8EB-8F1E-41BC-A706-624123516A21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B332B8EB-8F1E-41BC-A706-624123516A21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B332B8EB-8F1E-41BC-A706-624123516A21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B332B8EB-8F1E-41BC-A706-624123516A21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
