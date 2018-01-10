@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Mozog.Search
 {
-    public interface ISearch<TState, TAction>
+    public interface ISearch
     {
-        TAction MakeDecision(TState state);
+        IAction MakeDecision(IState state);
     }
 }

@@ -4,117 +4,122 @@ using System.Collections.Generic;
 
 namespace Mozog.Search
 {
-    public class TicTacToe : IGame<TicTacToeState, TicTacToeAction, char>
+    public class TicTacToe : IGame
     {
-        public const char PlayerX = 'X';
-        public const char PlayerO = 'O';
+        public const string PlayerX = "X";
+        public const string PlayerO = "O";
 
         private TicTacToeState initialState = new TicTacToeState();
 
-        public TicTacToeState InitialState => initialState;
+        public IState InitialState => initialState;
 
-        public IList<char> Players => new List<char>() { PlayerX, PlayerO };
+        public IList<string> Players => new List<string>() { PlayerX, PlayerO };
 
-        public IList<TicTacToeAction> GetActions(TicTacToeState state) => state.GetLegalMoves();
+        public IList<IAction> GetActions(IState state) => state.GetLegalMoves();
 
-        public char GetPlayer(TicTacToeState state) => state.PlayerToMove;
+        public string GetPlayer(IState state) => state.PlayerToMove;
 
-        public TicTacToeState GetReult(TicTacToeState state, TicTacToeAction action) => state.MakeMove(action);
+        public IState GetResult(IState state, IAction action) => state.MakeMove(action);
 
-        public double? GetUtility(TicTacToeState state, char player) => state.Utility;
+        public double? GetUtility(IState state, string player)
+        {
+            var u = state.Evaluation;
+            if (!u.HasValue) return null;
+            return player == PlayerX ? u : 1 - u;
+        }
 
-        public bool IsTerminal(TicTacToeState state) => state.IsTerminal;
+        public bool IsTerminal(IState state) => state.IsTerminal;
     }
 
-    public class TicTacToeState
+    public class TicTacToeState : IState
     {
-        private Char[,] board = new Char[,]
+        private string[,] board = new string[,]
         {
-            { '_', '_', '_' },
-            { '_', '_', '_' },
-            { '_', '_', '_' }
+            { "_", "_", "_" },
+            { "_", "_", "_" },
+            { "_", "_", "_" }
         };
 
-        private char playerToMove = TicTacToe.PlayerX;
+        private string playerToMove = TicTacToe.PlayerX;
 
-        private double? utility = null;
+        private double? evaluation = null;
 
         public bool IsTerminal => IsGameWon || IsGameDrawn;
 
-        public char PlayerToMove => playerToMove;
+        public string PlayerToMove => playerToMove;
 
-        public IList<TicTacToeAction> GetLegalMoves()
+        public IList<IAction> GetLegalMoves()
         {
-            var result = new List<TicTacToeAction>();
+            var result = new List<IAction>();
 
             for (int row = 0; row < 3; row++)
-            for (int col = 0; col < 3; col++)
-                if (board[row, col] == '_')
-                    result.Add(new TicTacToeAction(row, col));
+                for (int col = 0; col < 3; col++)
+                    if (board[row, col] == "_")
+                        result.Add(new TicTacToeAction(row, col));
 
             return result;
         }
 
-        public TicTacToeState MakeMove(TicTacToeAction action)
+        public IState MakeMove(IAction action)
         {
-            var newBoard = (Char[,])board.Clone();
-            newBoard[action.Row, action.Col] = playerToMove;
             return new TicTacToeState()
             {
-                board = newBoard,
+                board = NewBoard(action as TicTacToeAction),
                 playerToMove = playerToMove == TicTacToe.PlayerX ? TicTacToe.PlayerO : TicTacToe.PlayerX
             };
         }
 
-        public double? Utility
+        private string[,] NewBoard(TicTacToeAction action)
+        {
+            var newBoard = (string[,])board.Clone();
+            newBoard[action.Row, action.Col] = playerToMove;
+            return newBoard;
+        }
+
+        public double? Evaluation
         {
             get
             {
                 if (IsGameWon)
-                    utility = playerToMove == TicTacToe.PlayerX ? 1.0 : 0.0;
+                    evaluation = playerToMove == TicTacToe.PlayerX ? 1.0 : 0.0;
                 else if (IsGameDrawn)
-                    utility = 0.0;
+                    evaluation = 0.5;
 
-                return utility;
+                return evaluation;
             }
         }
 
         private bool IsGameWon
+            => IsAnyRowComplete() || IsAnyColComplete() || IsAnyDiagonalComplete;
+
+        private bool IsAnyRowComplete()
         {
-            get
-            {
-                // Any row?
-                for (int row = 0; row < 3; row++)
-                    if (IsRowComplete(row)) return true;
+            bool IsRowComplete(int row)
+                => board[row, 0] != "_" && board[row, 0] == board[row, 1] && board[row, 1] == board[row, 2];
 
-                // Any col?
-                for (int col = 0; col < 3; col++)
-                    if (IsColComplete(col)) return true;
-
-                // Any diag?
-                return IsAnyDiagonalComplete;
-            }
+            for (int row = 0; row < 3; row++)
+                if (IsRowComplete(row)) return true;
+            return false;
         }
 
-        // TODO
-        private bool IsRowComplete(int row)
+        private bool IsAnyColComplete()
         {
-            throw new NotImplementedException();
+            bool IsColComplete(int col)
+                => board[0, col] != "_" && board[0, col] == board[1, col] && board[1, col] == board[2, col];
+
+            for (int col = 0; col < 3; col++)
+                if (IsColComplete(col)) return true;
+            return false;
         }
 
-        // TODO
-        private bool IsColComplete(int col)
-        {
-            throw new NotImplementedException();
-        }
+        private bool IsAnyDiagonalComplete
+            => board[0, 0] == board[1, 1] && board[1, 1] == board[2, 2]
+            || board[0, 2] == board[1, 1] && board[1, 1] == board[2, 0]; 
 
-        // TODO
-        private bool IsAnyDiagonalComplete { get; }
-
-        private bool IsGameDrawn => board.Cast<char>().All(c => c != '_');
+        private bool IsGameDrawn => board.Cast<string>().All(c => c != "_");
     }
 
-    public class TicTacToeAction
+    public class TicTacToeAction : IAction
     {
         public TicTacToeAction(int row, int col)
         {

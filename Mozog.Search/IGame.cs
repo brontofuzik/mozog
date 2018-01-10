@@ -2,20 +2,42 @@
 
 namespace Mozog.Search
 {
-    interface IGame<TState, TAction, TPlayer>
+    public interface IGame
     {
-        TState InitialState { get; }
+        IState InitialState { get; }
 
-        IList<TPlayer> Players { get; }
+        IList<string> Players { get; }
 
-        TPlayer GetPlayer(TState state);
+        // Minimax
+        string GetPlayer(IState state);
 
-        IList<TAction> GetActions(TState state);
+        // Minimax
+        IList<IAction> GetActions(IState state);
 
-        bool IsTerminal(TState state);
+        // Minimax
+        bool IsTerminal(IState state);
 
-        TState GetReult(TState state, TAction action);
+        // Minimax
+        IState GetResult(IState state, IAction action);
 
-        double? GetUtility(TState state, TPlayer player);
+        // Minimax
+        double? GetUtility(IState state, string player);
+    }
+
+    public interface IState
+    {
+        bool IsTerminal { get; }
+
+        string PlayerToMove { get; }
+
+        double? Evaluation { get; }
+
+        IList<IAction> GetLegalMoves();
+
+        IState MakeMove(IAction action);
+    }
+
+    public interface IAction
+    {
     }
 }
