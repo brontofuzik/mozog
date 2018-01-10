@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlphaBetaSearch.cs" />
     <Compile Include="IGame.cs" />
     <Compile Include="ISearch.cs" />
     <Compile Include="MinimaxSearch.cs" />

@@ -2,14 +2,14 @@
 
 namespace Mozog.Search
 {
-    public class MinimaxSearch : ISearch
+    public class AlphaBetaSearch : ISearch
     {
         private const string NodesExpanded = "NodesExpanded";
 
         private readonly IGame game;
         //private readonly Metrics metrics;
 
-        public MinimaxSearch(IGame game)
+        public AlphaBetaSearch(IGame game)
         {
             this.game = game;
         }
@@ -23,9 +23,9 @@ namespace Mozog.Search
 
             string player = game.GetPlayer(state);
 
-            foreach (var action in game.GetActions(state))
+            foreach (IAction action in game.GetActions(state))
             {
-                double value = Minimax(game.GetResult(state, action), Objective.Min, player);
+                double value = Minimax(game.GetResult(state, action), Objective.Min, player, Double.MinValue, Double.MaxValue);
 
                 if (value > resultValue)
                 {
@@ -37,7 +37,7 @@ namespace Mozog.Search
             return result;
         }
 
-        private double Minimax(IState state, Objective objective, string player)
+        private double Minimax(IState state, Objective objective, string player, double alpha, double beta)
         {
             //metrics.IncrementInt(NodesExpanded);
 
@@ -50,12 +50,24 @@ namespace Mozog.Search
             Objective opposite = maximizing ? Objective.Min : Objective.Max;
 
             foreach (IAction action in game.GetActions(state))
-                value = optimize(value, Minimax(game.GetResult(state, action), opposite, player));
+            {
+                value = optimize(value, Minimax(game.GetResult(state, action), opposite, player, alpha, beta));
+
+                // Prune search
+                if (maximizing && value >= beta || !maximizing && value <= alpha)
+                    return value;
+
+                // Update bounds
+                if (maximizing)
+                    alpha = Math.Max(alpha, value);
+                else
+                    beta = Math.Min(beta, value);
+            }
 
             return value;
         }
 
-        //private double MinValue(IState state, string player)
+        //private double MinValue(IState state, string player, double alpha, double beta)
         //{
         //    //metrics.IncrementInt(NodesExpanded);
 
@@ -64,12 +76,18 @@ namespace Mozog.Search
 
         //    double value = Double.MaxValue;
         //    foreach (IAction action in game.GetActions(state))
-        //        value = Math.Min(value, MaxValue(game.GetResult(state, action), player));
+        //    {
+        //        value = Math.Min(value, MaxValue(game.GetResult(state, action), player, alpha, beta));
 
+        //        if (value <= alpha)
+        //            return value;
+
+        //        beta = Math.Min(beta, value);
+        //    }
         //    return value;
         //}
 
-        //private double MaxValue(IState state, string player)
+        //private double MaxValue(IState state, string player, double alpha, double beta)
         //{
         //    //metrics.IncrementInt(NodesExpanded);
 
@@ -78,14 +96,15 @@ namespace Mozog.Search
 
         //    double value = Double.MinValue;
         //    foreach (IAction action in game.GetActions(state))
-        //        value = Math.Max(value, MinValue(game.GetResult(state, action), player));
+        //    {
+        //        value = Math.Max(value, MinValue(game.GetResult(state, action), player, alpha, beta));
+
+        //        if (value >= beta)
+        //            return value;
+
+        //        alpha = Math.Max(alpha, value);
+        //    }
         //    return value;
         //}
-    }
-
-    internal enum Objective
-    {
-        Max,
-        Min
     }
 }
