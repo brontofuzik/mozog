@@ -2,12 +2,13 @@
 
 namespace Mozog.Search
 {
-    public class MinimaxSearch : ISearch
+    public class MinimaxSearch : IGameSearch
     {
         private const string NodesExpanded = "NodesExpanded";
 
         private readonly IGame game;
-        //private readonly Metrics metrics;
+
+        private Metrics Metrics { get; } = new Metrics();
 
         public MinimaxSearch(IGame game)
         {
@@ -16,8 +17,6 @@ namespace Mozog.Search
 
         public IAction MakeDecision(IState state)
         {
-            //metrics = new Metrics();
-
             IAction result = null;
             double resultValue = Double.MinValue;
 
@@ -39,7 +38,7 @@ namespace Mozog.Search
 
         private double Minimax(IState state, Objective objective, string player)
         {
-            //metrics.IncrementInt(NodesExpanded);
+            Metrics.IncrementInt(NodesExpanded);
 
             if (game.IsTerminal(state))
                 return game.GetUtility(state, player).Value;

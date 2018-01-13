@@ -1,6 +1,6 @@
 ﻿namespace Mozog.Search
 {
-    public interface ISearch
+    public interface IGameSearch
     {
         IAction MakeDecision(IState state);
     }
