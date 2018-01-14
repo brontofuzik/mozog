@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Mozog.Search
+namespace Mozog.Search.Problem
 {
     public interface IOnlineSearchProblem<S, A>
     {

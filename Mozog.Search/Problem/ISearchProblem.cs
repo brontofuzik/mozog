@@ -1,4 +1,4 @@
-﻿namespace Mozog.Search
+﻿namespace Mozog.Search.Problem
 {
     public interface ISearchProblem<S, A> : IOnlineSearchProblem<S, A>
     {

@@ -1,14 +1,14 @@
 ﻿using System;
 
-namespace Mozog.Search
+namespace Mozog.Search.Adversarial
 {
-    public class MinimaxSearch : IGameSearch
+    public class MinimaxSearch : IAdversarialSearch
     {
         private const string NodesExpanded = "NodesExpanded";
 
         private readonly IGame game;
 
-        private Metrics Metrics { get; } = new Metrics();
+        public Metrics Metrics { get; private set; }
 
         public MinimaxSearch(IGame game)
         {
@@ -17,6 +17,8 @@ namespace Mozog.Search
 
         public IAction MakeDecision(IState state)
         {
+            Metrics = new Metrics();
+
             IAction result = null;
             double resultValue = Double.MinValue;
 
@@ -53,33 +55,6 @@ namespace Mozog.Search
 
             return value;
         }
-
-        //private double MinValue(IState state, string player)
-        //{
-        //    //metrics.IncrementInt(NodesExpanded);
-
-        //    if (game.IsTerminal(state))
-        //        return game.GetUtility(state, player).Value;
-
-        //    double value = Double.MaxValue;
-        //    foreach (IAction action in game.GetActions(state))
-        //        value = Math.Min(value, MaxValue(game.GetResult(state, action), player));
-
-        //    return value;
-        //}
-
-        //private double MaxValue(IState state, string player)
-        //{
-        //    //metrics.IncrementInt(NodesExpanded);
-
-        //    if (game.IsTerminal(state))
-        //        return game.GetUtility(state, player).Value;
-
-        //    double value = Double.MinValue;
-        //    foreach (IAction action in game.GetActions(state))
-        //        value = Math.Max(value, MinValue(game.GetResult(state, action), player));
-        //    return value;
-        //}
     }
 
     internal enum Objective

@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QLearning.Examples", "Learn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mozog.Search", "Mozog.Search\Mozog.Search.csproj", "{B332B8EB-8F1E-41BC-A706-624123516A21}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mozog.Search.Examples", "Mozog.Search.Examples\Mozog.Search.Examples.csproj", "{5366826E-48BA-4B10-A95F-2A7A7332FCB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,10 @@ Global
 		{B332B8EB-8F1E-41BC-A706-624123516A21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B332B8EB-8F1E-41BC-A706-624123516A21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B332B8EB-8F1E-41BC-A706-624123516A21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5366826E-48BA-4B10-A95F-2A7A7332FCB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5366826E-48BA-4B10-A95F-2A7A7332FCB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5366826E-48BA-4B10-A95F-2A7A7332FCB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5366826E-48BA-4B10-A95F-2A7A7332FCB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,14 +1,14 @@
 ﻿using System;
 
-namespace Mozog.Search
+namespace Mozog.Search.Adversarial
 {
-    public class AlphaBetaSearch : IGameSearch
+    public class AlphaBetaSearch : IAdversarialSearch
     {
         private const string NodesExpanded = "NodesExpanded";
 
         private readonly IGame game;
 
-        private Metrics Metrics { get; } = new Metrics();
+        public Metrics Metrics { get; private set; }
 
         public AlphaBetaSearch(IGame game)
         {
@@ -17,6 +17,8 @@ namespace Mozog.Search
 
         public IAction MakeDecision(IState state)
         {
+            Metrics = new Metrics();
+
             IAction result = null;
             double resultValue = Double.MinValue;
 
@@ -65,45 +67,5 @@ namespace Mozog.Search
 
             return value;
         }
-
-        //private double MinValue(IState state, string player, double alpha, double beta)
-        //{
-        //    //metrics.IncrementInt(NodesExpanded);
-
-        //    if (game.IsTerminal(state))
-        //        return game.GetUtility(state, player).Value;
-
-        //    double value = Double.MaxValue;
-        //    foreach (IAction action in game.GetActions(state))
-        //    {
-        //        value = Math.Min(value, MaxValue(game.GetResult(state, action), player, alpha, beta));
-
-        //        if (value <= alpha)
-        //            return value;
-
-        //        beta = Math.Min(beta, value);
-        //    }
-        //    return value;
-        //}
-
-        //private double MaxValue(IState state, string player, double alpha, double beta)
-        //{
-        //    //metrics.IncrementInt(NodesExpanded);
-
-        //    if (game.IsTerminal(state))
-        //        return game.GetUtility(state, player).Value;
-
-        //    double value = Double.MinValue;
-        //    foreach (IAction action in game.GetActions(state))
-        //    {
-        //        value = Math.Max(value, MinValue(game.GetResult(state, action), player, alpha, beta));
-
-        //        if (value >= beta)
-        //            return value;
-
-        //        alpha = Math.Max(alpha, value);
-        //    }
-        //    return value;
-        //}
     }
 }

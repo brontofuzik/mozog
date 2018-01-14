@@ -1,12 +1,22 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+using Mozog.Search.Adversarial;
 
-namespace Mozog.Search
+namespace Mozog.Search.Examples.Adversarial
 {
     public class TicTacToe : IGame
     {
+        public static void Run()
+        {
+            var ticTacToe = new TicTacToe();
+            var minimax = new MinimaxSearch(ticTacToe);
+
+            // TODO
+        }
+
         public const string PlayerX = "X";
         public const string PlayerO = "O";
+        public const string Empty   = "_";
 
         private TicTacToeState initialState = new TicTacToeState();
 
@@ -34,18 +44,16 @@ namespace Mozog.Search
     {
         private string[,] board = new string[,]
         {
-            { "_", "_", "_" },
-            { "_", "_", "_" },
-            { "_", "_", "_" }
+            { TicTacToe.Empty, TicTacToe.Empty, TicTacToe.Empty },
+            { TicTacToe.Empty, TicTacToe.Empty, TicTacToe.Empty },
+            { TicTacToe.Empty, TicTacToe.Empty, TicTacToe.Empty }
         };
 
-        private string playerToMove = TicTacToe.PlayerX;
+        public string PlayerToMove { get; private set; }
 
         private double? evaluation = null;
 
         public bool IsTerminal => IsGameWon || IsGameDrawn;
-
-        public string PlayerToMove => playerToMove;
 
         public IList<IAction> GetLegalMoves()
         {
@@ -53,7 +61,7 @@ namespace Mozog.Search
 
             for (int row = 0; row < 3; row++)
                 for (int col = 0; col < 3; col++)
-                    if (board[row, col] == "_")
+                    if (board[row, col] == TicTacToe.Empty)
                         result.Add(new TicTacToeAction(row, col));
 
             return result;
@@ -64,14 +72,14 @@ namespace Mozog.Search
             return new TicTacToeState()
             {
                 board = NewBoard(action as TicTacToeAction),
-                playerToMove = playerToMove == TicTacToe.PlayerX ? TicTacToe.PlayerO : TicTacToe.PlayerX
+                PlayerToMove = PlayerToMove == TicTacToe.PlayerX ? TicTacToe.PlayerO : TicTacToe.PlayerX
             };
         }
 
         private string[,] NewBoard(TicTacToeAction action)
         {
             var newBoard = (string[,])board.Clone();
-            newBoard[action.Row, action.Col] = playerToMove;
+            newBoard[action.Row, action.Col] = PlayerToMove;
             return newBoard;
         }
 
@@ -80,7 +88,7 @@ namespace Mozog.Search
             get
             {
                 if (IsGameWon)
-                    evaluation = playerToMove == TicTacToe.PlayerX ? 1.0 : 0.0;
+                    evaluation = PlayerToMove == TicTacToe.PlayerX ? 1.0 : 0.0;
                 else if (IsGameDrawn)
                     evaluation = 0.5;
 
@@ -94,7 +102,7 @@ namespace Mozog.Search
         private bool IsAnyRowComplete()
         {
             bool IsRowComplete(int row)
-                => board[row, 0] != "_" && board[row, 0] == board[row, 1] && board[row, 1] == board[row, 2];
+                => board[row, 0] != TicTacToe.Empty && board[row, 0] == board[row, 1] && board[row, 1] == board[row, 2];
 
             for (int row = 0; row < 3; row++)
                 if (IsRowComplete(row)) return true;
@@ -104,7 +112,7 @@ namespace Mozog.Search
         private bool IsAnyColComplete()
         {
             bool IsColComplete(int col)
-                => board[0, col] != "_" && board[0, col] == board[1, col] && board[1, col] == board[2, col];
+                => board[0, col] != TicTacToe.Empty && board[0, col] == board[1, col] && board[1, col] == board[2, col];
 
             for (int col = 0; col < 3; col++)
                 if (IsColComplete(col)) return true;
@@ -115,7 +123,7 @@ namespace Mozog.Search
             => board[0, 0] == board[1, 1] && board[1, 1] == board[2, 2]
             || board[0, 2] == board[1, 1] && board[1, 1] == board[2, 0]; 
 
-        private bool IsGameDrawn => board.Cast<string>().All(c => c != "_");
+        private bool IsGameDrawn => board.Cast<string>().All(c => c != TicTacToe.Empty);
     }
 
     public class TicTacToeAction : IAction

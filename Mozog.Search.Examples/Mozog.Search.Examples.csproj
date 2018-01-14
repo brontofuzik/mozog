@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B332B8EB-8F1E-41BC-A706-624123516A21}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>Mozog.Search</RootNamespace>
-    <AssemblyName>Mozog.Search</AssemblyName>
+    <ProjectGuid>{5366826E-48BA-4B10-A95F-2A7A7332FCB0}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Mozog.Search.Examples</RootNamespace>
+    <AssemblyName>Mozog.Search.Examples</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -31,15 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,25 +42,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adversarial\AlphaBetaSearch.cs" />
-    <Compile Include="Adversarial\IterativeDeepeningAlphaBeta.cs" />
-    <Compile Include="Uninformed\DepthLimitedSearch.cs" />
-    <Compile Include="Adversarial\IGame.cs" />
-    <Compile Include="Problem\IOnlineSearchProblem.cs" />
-    <Compile Include="Adversarial\IAdversarialSearch.cs" />
-    <Compile Include="ISearchAlgo.cs" />
-    <Compile Include="Problem\ISearchProblem.cs" />
-    <Compile Include="Uninformed\IterativeDeepeningSearch.cs" />
-    <Compile Include="Metrics.cs" />
-    <Compile Include="Adversarial\MinimaxSearch.cs" />
-    <Compile Include="Node.cs" />
-    <Compile Include="NodeExpander.cs" />
+    <Compile Include="Adversarial\TicTacToe.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Mozog.Search\Mozog.Search.csproj">
+      <Project>{b332b8eb-8f1e-41bc-a706-624123516a21}</Project>
+      <Name>Mozog.Search</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

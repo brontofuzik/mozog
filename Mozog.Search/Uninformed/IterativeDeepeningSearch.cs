@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Mozog.Search.Problem;
+using System;
 using System.Collections.Generic;
 
-namespace Mozog.Search
+namespace Mozog.Search.Uninformed
 {
     public class IterativeDeepeningSearch<S, A> : ISearchAlgo<S, A>
         where S : class
@@ -34,7 +35,7 @@ namespace Mozog.Search
         {
             ClearMetrics();
 
-            for (int i = 0; !ThreadingUtils.IsCurrentThreadCancelled(); i++)
+            for (int i = 0; true; i++) // TODO
             {
                 var dls = new DepthLimitedSearch<S, A>(i, nodeExpander);
                 var result = dls.FindNode(problem);

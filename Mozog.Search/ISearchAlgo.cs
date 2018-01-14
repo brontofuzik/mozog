@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mozog.Search.Problem;
+using System;
 using System.Collections.Generic;
 
 namespace Mozog.Search

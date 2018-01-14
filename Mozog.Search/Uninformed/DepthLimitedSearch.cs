@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Mozog.Search.Problem;
+using System;
 using System.Collections.Generic;
 
-namespace Mozog.Search
+namespace Mozog.Search.Uninformed
 {
     public class DepthLimitedSearch<S, A> : ISearchAlgo<S, A>
         where S : class
@@ -67,7 +68,7 @@ namespace Mozog.Search
                 Metrics.Set(PathCost, node.PathCost);
                 return node;
             }
-            else if (0 == limit || ThreadingUtils.IsCurrentThreadCancelled())
+            else if (0 == limit)
             {
                 return cutoffNode;
             }

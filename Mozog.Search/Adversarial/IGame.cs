@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Mozog.Search
+namespace Mozog.Search.Adversarial
 {
     public interface IGame
     {
