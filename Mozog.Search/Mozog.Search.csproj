@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Adversarial\AlphaBetaSearch.cs" />
     <Compile Include="Adversarial\IterativeDeepeningAlphaBeta.cs" />
+    <Compile Include="Adversarial\GameEngine.cs" />
     <Compile Include="Uninformed\DepthLimitedSearch.cs" />
     <Compile Include="Adversarial\IGame.cs" />
     <Compile Include="Problem\IOnlineSearchProblem.cs" />

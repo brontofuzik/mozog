@@ -18,46 +18,59 @@ namespace Mozog.Search.Adversarial
         public IAction MakeDecision(IState state)
         {
             Metrics = new Metrics();
-
-            IAction result = null;
-            double resultValue = Double.MinValue;
-
-            string player = game.GetPlayer(state);
-
-            foreach (var action in game.GetActions(state))
-            {
-                double value = Minimax(game.GetResult(state, action), Objective.Min, player);
-
-                if (value > resultValue)
-                {
-                    result = action;
-                    resultValue = value;
-                }
-            }
-
-            return result;
+            var (utility, action) = Minimax_NEW(state);
+            return action;
         }
 
-        private double Minimax(IState state, Objective objective, string player)
+        //private double Minimax(IState state, Objective objective, string player)
+        //{
+        //    Metrics.IncrementInt(NodesExpanded);
+
+        //    if (game.IsTerminal(state))
+        //        return game.GetUtility(state, player).Value;
+
+        //    bool maximizing = objective == Objective.Max;
+        //    double value = maximizing ? Double.MinValue : Double.MaxValue;
+        //    Func<double, double, double> optimize = maximizing ? (Func<double, double, double>)Math.Max : (Func<double, double, double>)Math.Min;
+        //    Objective opposite = maximizing ? Objective.Min : Objective.Max;
+
+        //    foreach (var action in game.GetActions(state))
+        //        value = optimize(value, Minimax(game.GetResult(state, action), opposite, player));
+
+        //    return value;
+        //}
+
+        private (double utility, IAction action) Minimax_NEW(IState state)
         {
             Metrics.IncrementInt(NodesExpanded);
 
             if (game.IsTerminal(state))
-                return game.GetUtility(state, player).Value;
+                return (game.GetUtility_NEW(state).Value, null);
 
-            bool maximizing = objective == Objective.Max;
-            double value = maximizing ? Double.MinValue : Double.MaxValue;
-            Func<double, double, double> optimize = maximizing ? (Func<double, double, double>)Math.Max : (Func<double, double, double>)Math.Min;
-            Objective opposite = maximizing ? Objective.Min : Objective.Max;
+            string player = game.GetPlayer(state);
+            var objective = game.GetObjective(player);
 
-            foreach (IAction action in game.GetActions(state))
-                value = optimize(value, Minimax(game.GetResult(state, action), opposite, player));
+            IAction bestAction = null;
+            var bestUtility = objective == Objective.Max ? Double.MinValue : Double.MaxValue;
 
-            return value;
+            foreach (var action in game.GetActions(state))
+            {
+                var newState = game.GetResult(state, action);
+                var (newUtility, _) = Minimax_NEW(newState);
+
+                if (objective == Objective.Max && newUtility > bestUtility
+                    || objective == Objective.Min && newUtility < bestUtility)
+                {
+                    bestAction = action;
+                    bestUtility = newUtility;
+                }
+            }
+
+            return (bestUtility, bestAction);
         }
     }
 
-    internal enum Objective
+    public enum Objective
     {
         Max,
         Min
