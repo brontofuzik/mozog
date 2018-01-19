@@ -32,14 +32,7 @@ namespace Mozog.Search.Examples.Adversarial
 
         public IState GetResult(IState state, IAction action) => state.MakeMove(action);
 
-        public double? GetUtility(IState state, string player)
-        {
-            var u = state.Evaluation;
-            if (!u.HasValue) return null;
-            return player == PlayerX ? u : 1 - u;
-        }
-
-        public double? GetUtility_NEW(IState state) => state.Evaluation_NEW;
+        public double? GetUtility(IState state) => state.Evaluation;
 
         public bool IsTerminal(IState state) => state.IsTerminal;
 
@@ -94,7 +87,7 @@ namespace Mozog.Search.Examples.Adversarial
 
         public string PlayerToMove { get; private set; }
 
-        public bool IsTerminal => IsGameWon || IsGameDrawn;
+        public bool IsTerminal => Evaluation.HasValue;
 
         public IList<IAction> GetLegalMoves()
         {
@@ -125,21 +118,13 @@ namespace Mozog.Search.Examples.Adversarial
         {
             get
             {
-                if (IsGameWon)
-                    evaluation = PlayerToMove == TicTacToe.PlayerX ? 1.0 : 0.0;
-                else if (IsGameDrawn)
-                    evaluation = 0.5;
+                if (evaluation.HasValue)
+                    return evaluation;
 
-                return evaluation;
-            }
-        }
-
-        public double? Evaluation_NEW
-        {
-            get
-            {
-                if (IsGameWon)
-                    evaluation = PlayerToMove == TicTacToe.PlayerX ? 1.0 : -1.0;
+                if (IsGameWon(TicTacToe.PlayerX))
+                    evaluation = 1.0;
+                else if (IsGameWon(TicTacToe.PlayerO))
+                    evaluation = -1.0;
                 else if (IsGameDrawn)
                     evaluation = 0.0;
 
@@ -147,39 +132,38 @@ namespace Mozog.Search.Examples.Adversarial
             }
         }
 
-        private bool IsGameWon
-            => IsAnyRowComplete || IsAnyColComplete || IsAnyDiagonalComplete;
+        private bool IsGameWon(string player)
+            => IsAnyRowComplete(player) || IsAnyColComplete(player) || IsAnyDiagonalComplete(player);
 
-        private bool IsAnyRowComplete
+        private bool IsAnyRowComplete(string player)
         {
-            get
-            {
-                bool IsRowComplete(int row)
-                    => board[row, 0] != TicTacToe.Empty && board[row, 0] == board[row, 1] && board[row, 1] == board[row, 2];
+            bool IsRowComplete(int row) => Row(row).All(p => p == player);
 
-                for (int row = 0; row < 3; row++)
-                    if (IsRowComplete(row)) return true;
-                return false;
-            }
+            for (int row = 0; row < 3; row++)
+                if (IsRowComplete(row)) return true;
+            return false;
         }
 
-        private bool IsAnyColComplete
-        {
-            get
-            {
-                bool IsColComplete(int col)
-                    => board[0, col] != TicTacToe.Empty && board[0, col] == board[1, col] && board[1, col] == board[2, col];
+        private string[] Row(int r) => new string[] { board[r, 0], board[r, 1], board[r, 2] };
 
-                for (int col = 0; col < 3; col++)
-                    if (IsColComplete(col)) return true;
-                return false;
-            }
+        private bool IsAnyColComplete(string player)
+        {
+            bool IsColComplete(int col) => Col(col).All(p => p == player);
+
+            for (int col = 0; col < 3; col++)
+                if (IsColComplete(col)) return true;
+            return false;
         }
 
-        private bool IsAnyDiagonalComplete
-            => board[0, 0] != TicTacToe.Empty && board[0, 0] == board[1, 1] && board[1, 1] == board[2, 2]
-            || board[0, 2] != TicTacToe.Empty && board[0, 2] == board[1, 1] && board[1, 1] == board[2, 0]; 
+        private string[] Col(int c) => new string[] { board[0, c], board[1, c], board[2, c] };
 
+        private bool IsAnyDiagonalComplete(string player)
+            => PrimaryDiagonal.All(p => p == player) || SecondaryDiagonal.All(p => p == player);
+
+        private string[] PrimaryDiagonal => new string[] { board[0, 0], board[1, 1], board[2, 2] };
+
+        private string[] SecondaryDiagonal => new string[] { board[0, 2], board[1, 1], board[2, 0] };
+   
         private bool IsGameDrawn => board.Cast<string>().All(c => c != TicTacToe.Empty);
 
         public override string ToString()
@@ -195,6 +179,13 @@ namespace Mozog.Search.Examples.Adversarial
                 .Append($"{board[2, 0]}|{board[2, 1]}|{board[2, 2]}");
 
             return sb.ToString();
+        }
+
+        public string Debug()
+        {
+            return board[0,0] + board[0,1] + board[0,2] +
+                board[1,0] + board[1,1] + board[1,2] +
+                board[2,0] + board[2,1] + board[2,2];
         }
     }
 

@@ -184,7 +184,7 @@ namespace Mozog.Search.Adversarial
         {
             if (game.IsTerminal(state))
             {
-                return game.GetUtility(state, player.ToString()).Value;
+                return game.GetUtility(state/*, player.ToString()*/).Value;
             }
             else
             {

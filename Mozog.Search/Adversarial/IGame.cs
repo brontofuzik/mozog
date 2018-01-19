@@ -22,10 +22,7 @@ namespace Mozog.Search.Adversarial
         // Minimax
         IState GetResult(IState state, IAction action);
 
-        // Minimax
-        double? GetUtility(IState state, string player);
-
-        double? GetUtility_NEW(IState state);
+        double? GetUtility(IState state);
 
         string PrintState(IState state);
 
@@ -40,11 +37,11 @@ namespace Mozog.Search.Adversarial
 
         double? Evaluation { get; }
 
-        double? Evaluation_NEW { get; }
-
         IList<IAction> GetLegalMoves();
 
         IState MakeMove(IAction action);
+
+        string Debug();
     }
 
     public interface IAction

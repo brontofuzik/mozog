@@ -18,6 +18,8 @@ namespace Mozog.Search.Adversarial
         public IAction MakeDecision(IState state)
         {
             Metrics = new Metrics();
+            Metrics.Set(NodesExpanded, 0);
+
             var (utility, action) = Minimax_NEW(state);
             return action;
         }
@@ -45,7 +47,7 @@ namespace Mozog.Search.Adversarial
             Metrics.IncrementInt(NodesExpanded);
 
             if (game.IsTerminal(state))
-                return (game.GetUtility_NEW(state).Value, null);
+                return (game.GetUtility(state).Value, null);
 
             string player = game.GetPlayer(state);
             var objective = game.GetObjective(player);

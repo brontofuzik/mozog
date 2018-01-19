@@ -43,7 +43,7 @@ namespace Mozog.Search.Adversarial
             Metrics.IncrementInt(NodesExpanded);
 
             if (game.IsTerminal(state))
-                return game.GetUtility(state, player).Value;
+                return game.GetUtility(state/*, player*/).Value;
 
             bool maximizing = objective == Objective.Max;
             double value = maximizing ? Double.MinValue : Double.MaxValue;
