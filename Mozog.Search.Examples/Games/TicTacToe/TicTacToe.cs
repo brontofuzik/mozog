@@ -2,7 +2,7 @@
 
 namespace Mozog.Search.Examples.Games.TicTacToe
 {
-    public class TicTacToe : GameBase, IGame
+    public class TicTacToe : Game, IGame
     {
         public static void Play_Minimax()
         {

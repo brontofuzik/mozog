@@ -36,7 +36,7 @@ namespace Mozog.Search.Adversarial
 
             currDepthLimit = 0;
             string player = game.GetPlayer(state);
-            var candidateActions = OrderActions(state, game.GetActions(state), player, currDepthLimit);
+            var candidateActions = OrderActions(state, game.GetActions(state).ToList(), player, currDepthLimit);
 
             do
             {
@@ -81,7 +81,7 @@ namespace Mozog.Search.Adversarial
                 Func<double, double, double> optimize = maximizing ? (Func<double, double, double>)Math.Max : (Func<double, double, double>)Math.Min;
                 Objective opposite = maximizing ? Objective.Min : Objective.Max;
 
-                foreach (var action in OrderActions(state, game.GetActions(state), player, depth))
+                foreach (var action in OrderActions(state, game.GetActions(state).ToList(), player, depth))
                 {
                     var value2 = Minimax(opposite, game.GetResult(state, action), player, alpha, beta, depth + 1);
                     value = optimize(value, value2);

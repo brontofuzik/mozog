@@ -2,7 +2,7 @@
 
 namespace Mozog.Search.Adversarial
 {
-    public abstract class GameBase : IGame
+    public abstract class Game : IGame
     {
         public abstract string[] Players { get; }
 
@@ -13,7 +13,7 @@ namespace Mozog.Search.Adversarial
         public virtual string GetPlayer(IState state)
             => state.PlayerToMove;
 
-        public virtual IList<IAction> GetActions(IState state)
+        public virtual IEnumerable<IAction> GetActions(IState state)
             => state.GetLegalMoves();
 
         public virtual IState GetResult(IState state, IAction action)

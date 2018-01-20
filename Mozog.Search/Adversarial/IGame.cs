@@ -14,7 +14,7 @@ namespace Mozog.Search.Adversarial
         string GetPlayer(IState state);
 
         // Minimax
-        IList<IAction> GetActions(IState state);
+        IEnumerable<IAction> GetActions(IState state);
 
         // Minimax
         bool IsTerminal(IState state);
@@ -27,21 +27,6 @@ namespace Mozog.Search.Adversarial
         string PrintState(IState state);
 
         IAction ParseMove(string moveStr);
-    }
-
-    public interface IState
-    {
-        bool IsTerminal { get; }
-
-        string PlayerToMove { get; }
-
-        double? Evaluation { get; }
-
-        IList<IAction> GetLegalMoves();
-
-        IState MakeMove(IAction action);
-
-        string Debug();
     }
 
     public interface IAction

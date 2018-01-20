@@ -2,7 +2,7 @@
 
 namespace Mozog.Search.Examples.Games.Hexapawn
 {
-    public class Hexapawn : GameBase, IGame
+    public class Hexapawn : Game, IGame
     {
         public static void Play_Minimax()
         {
@@ -26,7 +26,7 @@ namespace Mozog.Search.Examples.Games.Hexapawn
 
         public override string[] Players { get; } = new string[] { PlayerW, PlayerB };
 
-        public override IState InitialState => HexapawnState.CreateInitial(this);
+        public override IState InitialState => HexapawnState.CreateInitial(rows, cols);
 
         public override Objective GetObjective(string player)
             => player == PlayerW ? Objective.Max : Objective.Min;
