@@ -4,9 +4,9 @@ namespace Mozog.Search.Adversarial
 {
     public interface IGame
     {
-        IState InitialState { get; }
+        string[] Players { get; }
 
-        IList<string> Players { get; }
+        IState InitialState { get; }
 
         Objective GetObjective(string player);
 

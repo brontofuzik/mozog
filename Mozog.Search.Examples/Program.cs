@@ -6,6 +6,7 @@
         {
             Adversarial.TicTacToe.Play_Minimax();
             //Adversarial.TicTacToe.Play_AlphaBeta();
+            Adversarial.Hexapawn.Play_Minimax();
         }
     }
 }

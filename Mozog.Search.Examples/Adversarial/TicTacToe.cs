@@ -6,16 +6,16 @@ using System.Text;
 
 namespace Mozog.Search.Examples.Adversarial
 {
-    public class TicTacToe : IGame
+    public class TicTacToe : GameBase, IGame
     {
-        internal static void Play_Minimax()
+        public static void Play_Minimax()
         {
             var ticTacToe = new TicTacToe();
             var engine = GameEngine.Minimax(ticTacToe);
             engine.Play();
         }
 
-        internal static void Play_AlphaBeta()
+        public static void Play_AlphaBeta()
         {
             var ticTacToe = new TicTacToe();
             var engine = GameEngine.AlphaBeta(ticTacToe);
@@ -26,48 +26,16 @@ namespace Mozog.Search.Examples.Adversarial
         public const string PlayerO = "O";
         public const string Empty = " ";
 
-        public IState InitialState { get; } = TicTacToeState.CreateInitial();
+        public override string[] Players { get; } = new string[] { PlayerX, PlayerO };
 
-        public IList<string> Players => new List<string>() { PlayerX, PlayerO };
+        public override IState InitialState
+            => TicTacToeState.CreateInitial();
 
-        public Objective GetObjective(string player)
+        public override Objective GetObjective(string player)
             => player == PlayerX ? Objective.Max : Objective.Min;
 
-        public IList<IAction> GetActions(IState state) => state.GetLegalMoves();
-
-        public string GetPlayer(IState state) => state.PlayerToMove;
-
-        public IState GetResult(IState state, IAction action) => state.MakeMove(action);
-
-        public double? GetUtility(IState state) => state.Evaluation;
-
-        public bool IsTerminal(IState state) => state.IsTerminal;
-
-        public string PrintState(IState state)
-        {
-            return state.ToString();
-        }
-
-        public IAction ParseMove(string moveStr)
-        {
-            int moveNumber = Int32.Parse(moveStr);
-            switch (moveNumber)
-            {
-                case 1: return new TicTacToeAction(0, 0);
-                case 2: return new TicTacToeAction(0, 1);
-                case 3: return new TicTacToeAction(0, 2);
-
-                case 4: return new TicTacToeAction(1, 0);
-                case 5: return new TicTacToeAction(1, 1);
-                case 6: return new TicTacToeAction(1, 2);
-
-                case 7: return new TicTacToeAction(2, 0);
-                case 8: return new TicTacToeAction(2, 1);
-                case 9: return new TicTacToeAction(2, 2);
-
-                default: throw new ArgumentException(nameof(moveStr));
-            }
-        }
+        public override IAction ParseMove(string moveStr)
+            => TicTacToeAction.Parse(moveStr);
     }
 
     public class TicTacToeState : IState
@@ -198,6 +166,27 @@ namespace Mozog.Search.Examples.Adversarial
 
     public class TicTacToeAction : IAction
     {
+        public static TicTacToeAction Parse(string moveStr)
+        {
+            int moveNumber = Int32.Parse(moveStr);
+            switch (moveNumber)
+            {
+                case 1: return new TicTacToeAction(0, 0);
+                case 2: return new TicTacToeAction(0, 1);
+                case 3: return new TicTacToeAction(0, 2);
+
+                case 4: return new TicTacToeAction(1, 0);
+                case 5: return new TicTacToeAction(1, 1);
+                case 6: return new TicTacToeAction(1, 2);
+
+                case 7: return new TicTacToeAction(2, 0);
+                case 8: return new TicTacToeAction(2, 1);
+                case 9: return new TicTacToeAction(2, 2);
+
+                default: throw new ArgumentException(nameof(moveStr));
+            }
+        }
+
         public TicTacToeAction(int row, int col)
         {
             Row = row;
