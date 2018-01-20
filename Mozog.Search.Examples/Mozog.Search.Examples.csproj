@@ -42,8 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adversarial\Hexapawn.cs" />
-    <Compile Include="Adversarial\TicTacToe.cs" />
+    <Compile Include="Games\Hexapawn\Hexapawn.cs" />
+    <Compile Include="Games\Hexapawn\HexapawnAction.cs" />
+    <Compile Include="Games\Hexapawn\HexapawnState.cs" />
+    <Compile Include="Games\TicTacToe\TicTacToe.cs" />
+    <Compile Include="Games\TicTacToe\TicTacToeMove.cs" />
+    <Compile Include="Games\TicTacToe\TicTacToeState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

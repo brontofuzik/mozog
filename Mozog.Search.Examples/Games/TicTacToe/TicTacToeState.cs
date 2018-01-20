@@ -1,43 +1,11 @@
-﻿using System.Linq;
+﻿using System;
 using System.Collections.Generic;
-using Mozog.Search.Adversarial;
-using System;
+using System.Linq;
 using System.Text;
+using Mozog.Search.Adversarial;
 
-namespace Mozog.Search.Examples.Adversarial
+namespace Mozog.Search.Examples.Games.TicTacToe
 {
-    public class TicTacToe : GameBase, IGame
-    {
-        public static void Play_Minimax()
-        {
-            var ticTacToe = new TicTacToe();
-            var engine = GameEngine.Minimax(ticTacToe);
-            engine.Play();
-        }
-
-        public static void Play_AlphaBeta()
-        {
-            var ticTacToe = new TicTacToe();
-            var engine = GameEngine.AlphaBeta(ticTacToe);
-            engine.Play();
-        }
-
-        public const string PlayerX = "X";
-        public const string PlayerO = "O";
-        public const string Empty = " ";
-
-        public override string[] Players { get; } = new string[] { PlayerX, PlayerO };
-
-        public override IState InitialState
-            => TicTacToeState.CreateInitial();
-
-        public override Objective GetObjective(string player)
-            => player == PlayerX ? Objective.Max : Objective.Min;
-
-        public override IAction ParseMove(string moveStr)
-            => TicTacToeAction.Parse(moveStr);
-    }
-
     public class TicTacToeState : IState
     {
         private string[,] board;
@@ -138,7 +106,7 @@ namespace Mozog.Search.Examples.Adversarial
         private string[] PrimaryDiagonal => new string[] { board[0, 0], board[1, 1], board[2, 2] };
 
         private string[] SecondaryDiagonal => new string[] { board[0, 2], board[1, 1], board[2, 0] };
-   
+
         private bool IsGameDrawn => board.Cast<string>().All(c => c != TicTacToe.Empty);
 
         public override string ToString()
@@ -158,43 +126,9 @@ namespace Mozog.Search.Examples.Adversarial
 
         public string Debug()
         {
-            return board[0,0] + board[0,1] + board[0,2] +
-                board[1,0] + board[1,1] + board[1,2] +
-                board[2,0] + board[2,1] + board[2,2];
+            return board[0, 0] + board[0, 1] + board[0, 2] +
+                board[1, 0] + board[1, 1] + board[1, 2] +
+                board[2, 0] + board[2, 1] + board[2, 2];
         }
-    }
-
-    public class TicTacToeAction : IAction
-    {
-        public static TicTacToeAction Parse(string moveStr)
-        {
-            int moveNumber = Int32.Parse(moveStr);
-            switch (moveNumber)
-            {
-                case 1: return new TicTacToeAction(0, 0);
-                case 2: return new TicTacToeAction(0, 1);
-                case 3: return new TicTacToeAction(0, 2);
-
-                case 4: return new TicTacToeAction(1, 0);
-                case 5: return new TicTacToeAction(1, 1);
-                case 6: return new TicTacToeAction(1, 2);
-
-                case 7: return new TicTacToeAction(2, 0);
-                case 8: return new TicTacToeAction(2, 1);
-                case 9: return new TicTacToeAction(2, 2);
-
-                default: throw new ArgumentException(nameof(moveStr));
-            }
-        }
-
-        public TicTacToeAction(int row, int col)
-        {
-            Row = row;
-            Col = col;
-        }
-
-        public int Row { get; }
-
-        public int Col { get; }
     }
 }
