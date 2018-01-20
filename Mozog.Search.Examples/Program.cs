@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mozog.Search.Examples
+﻿namespace Mozog.Search.Examples
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Adversarial.TicTacToe.Run();
+            Adversarial.TicTacToe.Play_Minimax();
+            //Adversarial.TicTacToe.Play_AlphaBeta();
         }
     }
 }

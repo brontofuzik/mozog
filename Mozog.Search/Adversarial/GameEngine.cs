@@ -10,12 +10,10 @@ namespace Mozog.Search.Adversarial
         private readonly string humanPlayer;
         private readonly string enginePlayer;
 
-        //private IState currentState;
-
-        public GameEngine(IGame game, bool humanBegins = true)
+        public GameEngine(IGame game, Func<IGame, IAdversarialSearch> search, bool humanBegins = true)
         {
             this.game = game;
-            this.search = new MinimaxSearch(game);
+            this.search = search(game);
 
             // Determine players.
             if (humanBegins)
@@ -30,7 +28,13 @@ namespace Mozog.Search.Adversarial
             }
         }
 
-        public void Run()
+        public static GameEngine Minimax(IGame game, bool humanBegins = true)
+            => new GameEngine(game, g => new MinimaxSearch(g), humanBegins);
+
+        public static GameEngine AlphaBeta(IGame game, bool humanBegins = true)
+            => new GameEngine(game, g => new AlphaBetaSearch(g), humanBegins);
+
+        public void Play()
         {
             var currentState = game.InitialState;
 
@@ -54,17 +58,19 @@ namespace Mozog.Search.Adversarial
         private IAction GetEngineMove(IState currentState)
         {
             var move = search.MakeDecision(currentState);
+            Console.WriteLine($"NodesExpanded_Move: {search.Metrics.Get<int>("NodesExpanded_Move")}");
             return move;
         }
 
         private void PrintResult(IState currentState)
         {
+            Console.WriteLine($"NodesExpanded_Game: {search.Metrics.Get<int>("NodesExpanded_Game")}");
             Console.WriteLine("Game over");
         }
     }
 
     public interface IGameEngine
     {
-        void Run();
+        void Play();
     }
 }

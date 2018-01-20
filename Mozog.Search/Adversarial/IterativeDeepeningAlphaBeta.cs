@@ -154,7 +154,7 @@ namespace Mozog.Search.Adversarial
         private void UpdateMetrics(int depth)
         {
             Metrics.IncrementInt(METRICS_NODES_EXPANDED);
-            Metrics.Set(METRICS_MAX_DEPTH, Math.Max(Metrics.GetInt(METRICS_MAX_DEPTH), depth));
+            Metrics.Set(METRICS_MAX_DEPTH, Math.Max(Metrics.Get<int>(METRICS_MAX_DEPTH), depth));
         }
 
         /**

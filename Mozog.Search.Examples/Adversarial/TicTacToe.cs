@@ -8,11 +8,18 @@ namespace Mozog.Search.Examples.Adversarial
 {
     public class TicTacToe : IGame
     {
-        public static void Run()
+        internal static void Play_Minimax()
         {
             var ticTacToe = new TicTacToe();
-            var engine = new GameEngine(ticTacToe);
-            engine.Run();
+            var engine = GameEngine.Minimax(ticTacToe);
+            engine.Play();
+        }
+
+        internal static void Play_AlphaBeta()
+        {
+            var ticTacToe = new TicTacToe();
+            var engine = GameEngine.AlphaBeta(ticTacToe);
+            engine.Play();
         }
 
         public const string PlayerX = "X";

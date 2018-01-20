@@ -39,7 +39,7 @@ namespace Mozog.Search.Uninformed
             {
                 var dls = new DepthLimitedSearch<S, A>(i, nodeExpander);
                 var result = dls.FindNode(problem);
-                //UpdateMetrics(dls.Metrics);
+                UpdateMetrics(dls.Metrics);
                 if (!dls.IsCutoffResult(result))
                     return result;
             }
@@ -59,8 +59,8 @@ namespace Mozog.Search.Uninformed
 
         private void UpdateMetrics(Metrics dlsMetrics)
         {
-            Metrics.Set(NodesExpanded, Metrics.GetInt(NodesExpanded) + dlsMetrics.GetInt(NodesExpanded));
-            Metrics.Set(PathCost, dlsMetrics.GetDouble(PathCost));
+            Metrics.Set(NodesExpanded, Metrics.Get<int>(NodesExpanded) + dlsMetrics.Get<int>(NodesExpanded));
+            Metrics.Set(PathCost, dlsMetrics.Get<double>(PathCost));
         }
 
         private void ClearMetrics()
