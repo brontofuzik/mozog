@@ -16,9 +16,8 @@ namespace Mozog.Search.Examples.Games.Hexapawn
             this.board = board;
         }
 
-        private int Rows => board.GetLength(0);
-
-        private int Cols => board.GetLength(1);
+        private string Opponent
+            => PlayerToMove == Hexapawn.PlayerW ? Hexapawn.PlayerB : Hexapawn.PlayerW;
 
         public static IState CreateInitial(int rows, int cols)
             => new HexapawnState(InitialBoard(rows, cols), Hexapawn.PlayerW);
@@ -31,57 +30,38 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         #region Move
 
         public override IEnumerable<IAction> GetLegalMoves()
-            => Squares.Where(s => s.square == PlayerToMove)
+            => board.Squares().Where(s => s.square == PlayerToMove)
                 .SelectMany(s => GetLegalMovesForPiece(s.row, s.col));
 
         private IEnumerable<IAction> GetLegalMovesForPiece(int row, int col)
         {
-            // Move forward
             int newRow = PlayerToMove == Hexapawn.PlayerW ? row + 1 : row - 1;
-            if (GetSquare(newRow, col) == Hexapawn.Empty)
-                yield return new HexapawnAction(null, IntToChar(col), newRow);
 
-            // Capture right
-            int newCol = PlayerToMove == Hexapawn.PlayerW ? col + 1 : col - 1;
-            if (GetSquare(newRow, newCol) == Opponent)
-                yield return new HexapawnAction(IntToChar(col), IntToChar(newCol), newRow);
+            var moveForward = new HexapawnSquare(col, newRow);
+            if (board.GetSquare(moveForward) == Hexapawn.Empty)
+                yield return new HexapawnAction(moveForward);
 
-            // Capture left
-            newCol = PlayerToMove == Hexapawn.PlayerW ? col - 1 : col + 1;
-            if (GetSquare(newRow, newCol) == Opponent)
-                yield return new HexapawnAction(IntToChar(col), IntToChar(newCol), newRow);
-        }
+            var current = new HexapawnSquare(col, row);
 
-        // Square or null if not within board.
-        private string GetSquare(int row, int col)
-            => IsWithinBoard(row, col) ? board[row, col] : null;
+            var captureRight = new HexapawnSquare(PlayerToMove == Hexapawn.PlayerW ? col + 1 : col - 1, newRow);
+            if (board.GetSquare(captureRight) == Opponent)
+                yield return new HexapawnAction(captureRight, current);
 
-        private bool IsWithinBoard(int row, int col)
-            => 0 <= row && row < Rows && 0 <= col && col < Cols;
-
-        private char IntToChar(int i) => (char)('a' + i);
-
-        private IEnumerable<(int row, int col, string square)> Squares
-        {
-            get
-            {
-                for (int r = 0; r < Rows; r++)
-                    for (int c = 0; c < Cols; c++)
-                        yield return (r, c, board[r, c]);
-            }
+            var captureLeft = new HexapawnSquare(PlayerToMove == Hexapawn.PlayerW ? col - 1 : col + 1, newRow);
+            if (board.GetSquare(captureLeft) == Opponent)
+                yield return new HexapawnAction(captureLeft, current);
         }
 
         public override IState MakeMove(IAction action)
             => new HexapawnState(NewBoard((HexapawnAction)action), Opponent);
 
-        // TODO
         private string[,] NewBoard(HexapawnAction action)
         {
-            throw new NotImplementedException();
+            var newBoard = (string[,])board.Clone();
+            newBoard.SetSquare(action.From, Hexapawn.Empty);
+            newBoard.SetSquare(action.To, PlayerToMove);
+            return newBoard;
         }
-
-        private string Opponent
-            => PlayerToMove == Hexapawn.PlayerW ? Hexapawn.PlayerB : Hexapawn.PlayerW;
 
         #endregion // Move
 
@@ -96,11 +76,11 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         }
 
         public bool WhiteWon
-            => Squares.Where(s => s.row == Rows - 1).Any(s => s.square == Hexapawn.PlayerW) // White has queened
+            => board.Squares().Where(s => s.row == board.Rows() - 1).Any(s => s.square == Hexapawn.PlayerW) // White has queened
             || PlayerToMove == Hexapawn.PlayerB && !GetLegalMoves().Any(); // Black has no legal moves
 
         public bool BlackWon
-            => Squares.Where(s => s.row == 0).Any(s => s.square == Hexapawn.PlayerB) // Black has queened
+            => board.Squares().Where(s => s.row == 0).Any(s => s.square == Hexapawn.PlayerB) // Black has queened
             || PlayerToMove == Hexapawn.PlayerW && !GetLegalMoves().Any(); // White has no legal moves
 
         #endregion // Evaluate
@@ -118,5 +98,51 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         }
 
         public override string Debug => String.Concat(board.Cast<string>());
+    }
+
+    internal static class BoardUtils
+    {
+        public static int Rows(this string[,] board) => board.GetLength(0);
+
+        public static int Cols(this string[,] board) => board.GetLength(1);
+
+        //// Current board by default
+        //public static string GetSquare(this string[,] board, char col, int row)
+        //    => board[row, CharToInt(col)];
+
+        // Current board by default
+        public static string GetSquare(this string[,] board, HexapawnSquare square)
+            => board.IsWithinBoard(square.Row, square.ColInt) ? board[square.Row, square.ColInt] : null;
+
+        //// Current board by default
+        //public static void SetSquare(this string[,] board, char col, int row, string value)
+        //    => board[row, CharToInt(col)] = value;
+
+        // Current board by default
+        public static void SetSquare(this string[,] board, HexapawnSquare square, string value)
+        {
+            if (board.IsWithinBoard(square.Row, square.ColInt))
+                board[square.Row, square.ColInt] = value;
+            else
+                throw new ArgumentException(nameof(square));
+        }
+
+        //// Square or null if not within board.
+        //public static string GetSquare(this string[,] board, int row, int col)
+        //    => board.IsWithinBoard(row, col) ? board[row, col] : null;
+
+        private static bool IsWithinBoard(this string[,] board, int row, int col)
+            => 0 <= row && row < board.Rows() && 0 <= col && col < board.Cols();
+
+        public static IEnumerable<(int row, int col, string square)> Squares(this string[,] board)
+        {
+            for (int r = 0; r < board.Rows(); r++)
+                for (int c = 0; c < board.Cols(); c++)
+                    yield return (r, c, board[r, c]);
+        }
+
+        public static char IntToChar(int i) => (char)('a' + i);
+
+        public static int CharToInt(char c) => c - 'a';
     }
 }
