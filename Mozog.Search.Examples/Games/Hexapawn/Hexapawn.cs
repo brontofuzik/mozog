@@ -11,6 +11,13 @@ namespace Mozog.Search.Examples.Games.Hexapawn
             engine.Play();
         }
 
+        internal static void Play_AlphaBeta()
+        {
+            var hexapawn = new Hexapawn(rows: 4, cols: 4);
+            var engine = GameEngine.AlphaBeta(hexapawn);
+            engine.Play();
+        }
+
         public const string PlayerW = "W";
         public const string PlayerB = "B";
         public const string Empty = " ";

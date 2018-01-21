@@ -84,18 +84,20 @@ namespace Mozog.Search.Examples.Games.Hexapawn
 
         #endregion // Evaluate
 
-        // 3x3 only
         public override string ToString()
         {
-            string PrintRow(int row) => $"│{board[row, 0]}│{board[row, 1]}│{board[row, 2]}│{Environment.NewLine}";
-            var Bar = $"───────{Environment.NewLine}";
+            var sb = new StringBuilder();
 
-            return new StringBuilder()
-                .Append(Bar)
-                .Append(PrintRow(2)).Append(Bar)
-                .Append(PrintRow(1)).Append(Bar)
-                .Append(PrintRow(0)).Append(Bar)
-                .ToString();
+            string PrintRow(int row)
+                => $"│{string.Join("│", Enumerable.Range(0, board.Cols()).Select(c => board[row, c]))}│{Environment.NewLine}";
+
+            var Bar = $"{new String('─', 2 * board.Cols() + 1)}{Environment.NewLine}";
+
+            sb.Append(Bar);
+            for (int r = board.Rows() - 1; r >= 0; r--)
+                sb.Append(PrintRow(r)).Append(Bar);
+
+            return sb.ToString();
         }
 
         public override string Debug => String.Concat(board.Cast<string>());
@@ -107,17 +109,9 @@ namespace Mozog.Search.Examples.Games.Hexapawn
 
         public static int Cols(this string[,] board) => board.GetLength(1);
 
-        //// Current board by default
-        //public static string GetSquare(this string[,] board, char col, int row)
-        //    => board[row, CharToInt(col)];
-
         // Current board by default
         public static string GetSquare(this string[,] board, HexapawnSquare square)
             => board.IsWithinBoard(square.Row, square.ColInt) ? board[square.Row, square.ColInt] : null;
-
-        //// Current board by default
-        //public static void SetSquare(this string[,] board, char col, int row, string value)
-        //    => board[row, CharToInt(col)] = value;
 
         // Current board by default
         public static void SetSquare(this string[,] board, HexapawnSquare square, string value)
@@ -127,10 +121,6 @@ namespace Mozog.Search.Examples.Games.Hexapawn
             else
                 throw new ArgumentException(nameof(square));
         }
-
-        //// Square or null if not within board.
-        //public static string GetSquare(this string[,] board, int row, int col)
-        //    => board.IsWithinBoard(row, col) ? board[row, col] : null;
 
         private static bool IsWithinBoard(this string[,] board, int row, int col)
             => 0 <= row && row < board.Rows() && 0 <= col && col < board.Cols();

@@ -21,48 +21,17 @@ namespace Mozog.Search.Adversarial
         {
             Metrics.Set(NodesExpanded_Move, 0);
 
-            var (utility, action) = AlphaBeta(state, Double.MinValue, Double.MaxValue);
+            var (action, _) = AlphaBeta(state, Double.MinValue, Double.MaxValue);
             return action;
         }
 
-        //private double Minimax(IState state, Objective objective, string player, double alpha, double beta)
-        //{
-        //    Metrics.IncrementInt(NodesExpanded_Game);
-        //    Metrics.IncrementInt(NodesExpanded_Move);
-
-        //    if (game.IsTerminal(state))
-        //        return game.GetUtility(state/*, player*/).Value;
-
-        //    bool maximizing = objective == Objective.Max;
-        //    double value = maximizing ? Double.MinValue : Double.MaxValue;
-        //    Func<double, double, double> optimize = maximizing ? (Func<double, double, double>)Math.Max : (Func<double, double, double>)Math.Min;
-        //    Objective opposite = maximizing ? Objective.Min : Objective.Max;
-
-        //    foreach (IAction action in game.GetActions(state))
-        //    {
-        //        value = optimize(value, Minimax(game.GetResult(state, action), opposite, player, alpha, beta));
-
-        //        // Prune search
-        //        if (maximizing && value >= beta || !maximizing && value <= alpha)
-        //            return value;
-
-        //        // Update bounds
-        //        if (maximizing)
-        //            alpha = Math.Max(alpha, value);
-        //        else
-        //            beta = Math.Min(beta, value);
-        //    }
-
-        //    return value;
-        //}
-
-        private (double utility, IAction action) AlphaBeta(IState state, double alpha, double beta)
+        private (IAction action, double utility) AlphaBeta(IState state, double alpha, double beta)
         {
             Metrics.IncrementInt(NodesExpanded_Game);
             Metrics.IncrementInt(NodesExpanded_Move);
 
             if (game.IsTerminal(state))
-                return (game.GetUtility(state).Value, null);
+                return (null, game.GetUtility(state).Value);
 
             // Maximizing or minimizing?
             string player = game.GetPlayer(state);
@@ -76,7 +45,7 @@ namespace Mozog.Search.Adversarial
             foreach (var action in game.GetActions(state))
             {
                 var newState = game.GetResult(state, action);
-                var (newUtility, _) = AlphaBeta(newState, alpha, beta);
+                var (_, newUtility) = AlphaBeta(newState, alpha, beta);
 
                 if (maximizing && newUtility > bestUtility || minimizing && newUtility < bestUtility)
                 {
@@ -86,7 +55,7 @@ namespace Mozog.Search.Adversarial
 
                 // Prune search
                 if (maximizing && newUtility >= beta || minimizing && newUtility <= alpha)
-                    return (newUtility, action);
+                    return (action, newUtility);
 
                 // Update bounds
                 if (maximizing)
@@ -95,7 +64,7 @@ namespace Mozog.Search.Adversarial
                     beta = Math.Min(beta, newUtility);
             }
 
-            return (bestUtility, bestAction);
+            return (bestAction, bestUtility);
         }
     }
 }

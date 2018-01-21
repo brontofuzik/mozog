@@ -9,7 +9,9 @@ namespace Mozog.Search.Examples
         {
             //TicTacToe.Play_Minimax();
             //TicTacToe.Play_AlphaBeta();
+
             Hexapawn.Play_Minimax();
+            //Hexapawn.Play_AlphaBeta();
         }
     }
 }

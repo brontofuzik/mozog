@@ -21,17 +21,17 @@ namespace Mozog.Search.Adversarial
         {
             Metrics.Set(NodesExpanded_Move, 0);
 
-            var (utility, action) = Minimax(state);
+            var (action, _) = Minimax(state);
             return action;
         }
 
-        private (double utility, IAction action) Minimax(IState state)
+        private (IAction action, double utility) Minimax(IState state)
         {
             Metrics.IncrementInt(NodesExpanded_Game);
             Metrics.IncrementInt(NodesExpanded_Move);
 
             if (game.IsTerminal(state))
-                return (game.GetUtility(state).Value, null);
+                return (null, game.GetUtility(state).Value);
 
             // Maximizing or minimizing?
             string player = game.GetPlayer(state);
@@ -45,7 +45,7 @@ namespace Mozog.Search.Adversarial
             foreach (var action in game.GetActions(state))
             {
                 var newState = game.GetResult(state, action);
-                var (newUtility, _) = Minimax(newState);
+                var (_, newUtility) = Minimax(newState);
 
                 if (maximizing && newUtility > bestUtility || minimizing && newUtility < bestUtility)
                 {
@@ -54,7 +54,7 @@ namespace Mozog.Search.Adversarial
                 }
             }
 
-            return (bestUtility, bestAction);
+            return (bestAction, bestUtility);
         }
     }
 }
