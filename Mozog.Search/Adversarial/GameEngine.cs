@@ -37,6 +37,7 @@ namespace Mozog.Search.Adversarial
         public void Play()
         {
             var currentState = game.InitialState;
+            Console.WriteLine(currentState);
 
             while (!game.IsTerminal(currentState))
             {
@@ -44,6 +45,7 @@ namespace Mozog.Search.Adversarial
                     ? GetHumanMove(currentState)
                     : GetEngineMove(currentState);
                 currentState = game.GetResult(currentState, move);
+                Console.WriteLine(currentState);
             }
 
             PrintResult(currentState);
@@ -51,21 +53,28 @@ namespace Mozog.Search.Adversarial
 
         private IAction GetHumanMove(IState currentState)
         {
-            Console.WriteLine(currentState.ToString());
-            return game.ParseMove(Console.ReadLine());
+            IAction move = null;
+            do
+            {
+                Console.WriteLine("Your move?");
+                move = game.ParseMove(Console.ReadLine(), currentState.PlayerToMove);
+            }
+            while (move == null || !game.IsLegalMove(currentState, move));
+            return move;
         }
 
         private IAction GetEngineMove(IState currentState)
         {
             var move = search.MakeDecision(currentState);
+            Console.WriteLine($"Machine's move: {move}");
             Console.WriteLine($"NodesExpanded_Move: {search.Metrics.Get<int>("NodesExpanded_Move")}");
             return move;
         }
 
         private void PrintResult(IState currentState)
         {
-            Console.WriteLine($"NodesExpanded_Game: {search.Metrics.Get<int>("NodesExpanded_Game")}");
             Console.WriteLine("Game over");
+            Console.WriteLine($"NodesExpanded_Game: {search.Metrics.Get<int>("NodesExpanded_Game")}");
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Mozog.Search.Adversarial
 {
@@ -19,6 +20,8 @@ namespace Mozog.Search.Adversarial
         // Minimax
         bool IsTerminal(IState state);
 
+        bool IsLegalMove(IState state, IAction move);
+
         // Minimax
         IState GetResult(IState state, IAction action);
 
@@ -26,10 +29,10 @@ namespace Mozog.Search.Adversarial
 
         string PrintState(IState state);
 
-        IAction ParseMove(string moveStr);
+        IAction ParseMove(string moveStr, string player);
     }
 
-    public interface IAction
+    public interface IAction : IEquatable<IAction>
     {
     }
 }

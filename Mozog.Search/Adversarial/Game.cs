@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Mozog.Search.Adversarial
 {
@@ -25,9 +26,12 @@ namespace Mozog.Search.Adversarial
         public virtual bool IsTerminal(IState state)
             => state.IsTerminal;
 
+        public virtual bool IsLegalMove(IState state, IAction move)
+            => state.IsLegalMove(move);
+
         public virtual string PrintState(IState state)
             => state.ToString();
 
-        public abstract IAction ParseMove(string moveStr);
+        public abstract IAction ParseMove(string moveStr, string player);
     }
 }

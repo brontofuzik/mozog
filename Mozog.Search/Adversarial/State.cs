@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Mozog.Search.Adversarial
 {
@@ -19,6 +21,9 @@ namespace Mozog.Search.Adversarial
         protected abstract double? Evaluate();
 
         public abstract IEnumerable<IAction> GetLegalMoves();
+
+        public virtual bool IsLegalMove(IAction move)
+            => GetLegalMoves().Contains(move);
 
         public abstract IState MakeMove(IAction action);
 

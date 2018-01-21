@@ -30,7 +30,7 @@ namespace Mozog.Search.Examples.Games.TicTacToe
         public override Objective GetObjective(string player)
             => player == PlayerX ? Objective.Max : Objective.Min;
 
-        public override IAction ParseMove(string moveStr)
-            => TicTacToeAction.Parse(moveStr);
+        public override IAction ParseMove(string moveStr, string player)
+            => TicTacToeMove.Parse(moveStr);
     }
 }

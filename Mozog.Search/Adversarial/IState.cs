@@ -12,6 +12,8 @@ namespace Mozog.Search.Adversarial
 
         IEnumerable<IAction> GetLegalMoves();
 
+        bool IsLegalMove(IAction move);
+
         IState MakeMove(IAction action);
 
         string Debug { get; }

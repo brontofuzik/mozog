@@ -27,7 +27,7 @@ namespace Mozog.Search.Examples.Games.TicTacToe
         public override IEnumerable<IAction> GetLegalMoves()
         {
             return Squares.Where(s => s.square == TicTacToe.Empty)
-                .Select(s => new TicTacToeAction(s.row, s.col));
+                .Select(s => new TicTacToeMove(s.row, s.col));
         }
 
         private IEnumerable<(int row, int col, string square)> Squares
@@ -41,9 +41,9 @@ namespace Mozog.Search.Examples.Games.TicTacToe
         }
 
         public override IState MakeMove(IAction action)
-            => new TicTacToeState(NewBoard(action as TicTacToeAction), Opponent);
+            => new TicTacToeState(NewBoard(action as TicTacToeMove), Opponent);
 
-        private string[,] NewBoard(TicTacToeAction action)
+        private string[,] NewBoard(TicTacToeMove action)
         {
             var newBoard = (string[,])board.Clone();
             newBoard[action.Row, action.Col] = PlayerToMove;
@@ -103,8 +103,8 @@ namespace Mozog.Search.Examples.Games.TicTacToe
 
         public override string ToString()
         {
-            string PrintRow(int row) => $"{board[row, 0]}|{board[row, 1]}|{board[row, 2]}{Environment.NewLine}";
-            var Bar = $"-----{Environment.NewLine}";
+            string PrintRow(int row) => $"{board[row, 0]}│{board[row, 1]}│{board[row, 2]}{Environment.NewLine}";
+            var Bar = $"─────{Environment.NewLine}";
 
             return new StringBuilder()
                 .Append(PrintRow(0)).Append(Bar)

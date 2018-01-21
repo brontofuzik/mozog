@@ -6,7 +6,7 @@ namespace Mozog.Search.Examples.Games.Hexapawn
     {
         public static void Play_Minimax()
         {
-            var hexapawn = new Hexapawn();
+            var hexapawn = new Hexapawn(rows: 3, cols: 3);
             var engine = GameEngine.Minimax(hexapawn);
             engine.Play();
         }
@@ -31,7 +31,7 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         public override Objective GetObjective(string player)
             => player == PlayerW ? Objective.Max : Objective.Min;
 
-        public override IAction ParseMove(string moveStr)
-            => HexapawnAction.Parse(moveStr);
+        public override IAction ParseMove(string moveStr, string player)
+            => HexapawnMove.Parse(moveStr, player);
     }
 }

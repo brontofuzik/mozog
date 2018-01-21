@@ -35,27 +35,26 @@ namespace Mozog.Search.Examples.Games.Hexapawn
 
         private IEnumerable<IAction> GetLegalMovesForPiece(int row, int col)
         {
+            var current = new HexapawnSquare(col, row);
             int newRow = PlayerToMove == Hexapawn.PlayerW ? row + 1 : row - 1;
 
             var moveForward = new HexapawnSquare(col, newRow);
             if (board.GetSquare(moveForward) == Hexapawn.Empty)
-                yield return new HexapawnAction(moveForward);
-
-            var current = new HexapawnSquare(col, row);
+                yield return new HexapawnMove(current, moveForward);
 
             var captureRight = new HexapawnSquare(PlayerToMove == Hexapawn.PlayerW ? col + 1 : col - 1, newRow);
             if (board.GetSquare(captureRight) == Opponent)
-                yield return new HexapawnAction(captureRight, current);
+                yield return new HexapawnMove(current, captureRight);
 
             var captureLeft = new HexapawnSquare(PlayerToMove == Hexapawn.PlayerW ? col - 1 : col + 1, newRow);
             if (board.GetSquare(captureLeft) == Opponent)
-                yield return new HexapawnAction(captureLeft, current);
+                yield return new HexapawnMove(current, captureLeft);
         }
 
         public override IState MakeMove(IAction action)
-            => new HexapawnState(NewBoard((HexapawnAction)action), Opponent);
+            => new HexapawnState(NewBoard((HexapawnMove)action), Opponent);
 
-        private string[,] NewBoard(HexapawnAction action)
+        private string[,] NewBoard(HexapawnMove action)
         {
             var newBoard = (string[,])board.Clone();
             newBoard.SetSquare(action.From, Hexapawn.Empty);
@@ -88,13 +87,15 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         // 3x3 only
         public override string ToString()
         {
-            string PrintRow(int row) => $"{board[row, 0]}|{board[row, 1]}|{board[row, 2]}{Environment.NewLine}";
-            var Bar = $"-----{Environment.NewLine}";
+            string PrintRow(int row) => $"│{board[row, 0]}│{board[row, 1]}│{board[row, 2]}│{Environment.NewLine}";
+            var Bar = $"───────{Environment.NewLine}";
 
             return new StringBuilder()
-                .Append(PrintRow(0)).Append(Bar)
+                .Append(Bar)
+                .Append(PrintRow(2)).Append(Bar)
                 .Append(PrintRow(1)).Append(Bar)
-                .Append(PrintRow(2)).ToString();
+                .Append(PrintRow(0)).Append(Bar)
+                .ToString();
         }
 
         public override string Debug => String.Concat(board.Cast<string>());

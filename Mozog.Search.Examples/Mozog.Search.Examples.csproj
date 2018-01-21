@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Games\Hexapawn\Hexapawn.cs" />
-    <Compile Include="Games\Hexapawn\HexapawnAction.cs" />
+    <Compile Include="Games\Hexapawn\HexapawnMove.cs" />
     <Compile Include="Games\Hexapawn\HexapawnState.cs" />
     <Compile Include="Games\TicTacToe\TicTacToe.cs" />
     <Compile Include="Games\TicTacToe\TicTacToeMove.cs" />

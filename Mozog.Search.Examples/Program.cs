@@ -7,7 +7,7 @@ namespace Mozog.Search.Examples
     {
         static void Main(string[] args)
         {
-            TicTacToe.Play_Minimax();
+            //TicTacToe.Play_Minimax();
             //TicTacToe.Play_AlphaBeta();
             Hexapawn.Play_Minimax();
         }
