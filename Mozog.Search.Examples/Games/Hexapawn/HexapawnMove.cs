@@ -55,14 +55,14 @@ namespace Mozog.Search.Examples.Games.Hexapawn
 
     public struct HexapawnSquare : IEquatable<HexapawnSquare>
     {
-        public HexapawnSquare(int col, int row)
+        public HexapawnSquare(int col, int row0)
         {
             ColInt = col;
-            Row = row;
+            Row0 = row0;
         }
 
-        public HexapawnSquare(char col, int row)
-            : this(BoardUtils.CharToInt(col), row)
+        public HexapawnSquare(char col, int row1)
+            : this(BoardUtils.CharToInt(col), row1 - 1)
         {
         }
 
@@ -70,11 +70,13 @@ namespace Mozog.Search.Examples.Games.Hexapawn
 
         public char ColChar => BoardUtils.IntToChar(ColInt);
 
-        public int Row { get; }
+        public int Row0 { get; }
+
+        public int Row1 => Row0 + 1;
 
         public bool Equals(HexapawnSquare other)
-            => ColInt == other.ColInt && Row == other.Row;
+            => ColInt == other.ColInt && Row0 == other.Row0;
 
-        public override string ToString() => $"{ColChar}{Row}";
+        public override string ToString() => $"{ColChar}{Row1}";
     }
 }

@@ -111,13 +111,13 @@ namespace Mozog.Search.Examples.Games.Hexapawn
 
         // Current board by default
         public static string GetSquare(this string[,] board, HexapawnSquare square)
-            => board.IsWithinBoard(square.Row, square.ColInt) ? board[square.Row, square.ColInt] : null;
+            => board.IsWithinBoard(square.Row0, square.ColInt) ? board[square.Row0, square.ColInt] : null;
 
         // Current board by default
         public static void SetSquare(this string[,] board, HexapawnSquare square, string value)
         {
-            if (board.IsWithinBoard(square.Row, square.ColInt))
-                board[square.Row, square.ColInt] = value;
+            if (board.IsWithinBoard(square.Row0, square.ColInt))
+                board[square.Row0, square.ColInt] = value;
             else
                 throw new ArgumentException(nameof(square));
         }
