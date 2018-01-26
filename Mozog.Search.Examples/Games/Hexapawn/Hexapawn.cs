@@ -13,7 +13,7 @@ namespace Mozog.Search.Examples.Games.Hexapawn
 
         internal static void Play_AlphaBeta()
         {
-            var hexapawn = new Hexapawn(rows: 4, cols: 4);
+            var hexapawn = new Hexapawn(rows: 5, cols: 5);
             var engine = GameEngine.AlphaBeta(hexapawn);
             engine.Play();
         }

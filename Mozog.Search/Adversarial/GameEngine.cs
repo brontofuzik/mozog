@@ -37,7 +37,7 @@ namespace Mozog.Search.Adversarial
         public void Play()
         {
             var currentState = game.InitialState;
-            Console.WriteLine(currentState);
+            PrintState(currentState);
 
             while (!game.IsTerminal(currentState))
             {
@@ -45,7 +45,7 @@ namespace Mozog.Search.Adversarial
                     ? GetHumanMove(currentState)
                     : GetEngineMove(currentState);
                 currentState = game.GetResult(currentState, move);
-                Console.WriteLine(currentState);
+                PrintState(currentState);
             }
 
             PrintResult(currentState);
@@ -64,11 +64,12 @@ namespace Mozog.Search.Adversarial
         }
 
         private IAction GetEngineMove(IState currentState)
+            => search.MakeDecision(currentState);
+
+        private void PrintState(IState state)
         {
-            var move = search.MakeDecision(currentState);
-            Console.WriteLine($"Machine's move: {move}");
-            Console.WriteLine($"NodesExpanded_Move: {search.Metrics.Get<int>("NodesExpanded_Move")}");
-            return move;
+            Console.Clear();
+            Console.WriteLine(state);
         }
 
         private void PrintResult(IState currentState)

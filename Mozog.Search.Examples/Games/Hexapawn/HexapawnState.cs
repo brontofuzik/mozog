@@ -9,18 +9,20 @@ namespace Mozog.Search.Examples.Games.Hexapawn
     public class HexapawnState : State, IState
     {
         private string[,] board;
+        private int movesPlayed;
 
-        public HexapawnState(string[,] board, string playerToMove)
+        public HexapawnState(string[,] board, string playerToMove, int movesPlayed)
             : base(playerToMove)
         {
             this.board = board;
+            this.movesPlayed = movesPlayed;
         }
 
         private string Opponent
             => PlayerToMove == Hexapawn.PlayerW ? Hexapawn.PlayerB : Hexapawn.PlayerW;
 
         public static IState CreateInitial(int rows, int cols)
-            => new HexapawnState(InitialBoard(rows, cols), Hexapawn.PlayerW);
+            => new HexapawnState(InitialBoard(rows, cols), Hexapawn.PlayerW, 0);
 
         private static string[,] InitialBoard(int rows, int cols)
             => new string[rows, cols].Initialize((r, c) => Utils.Switch(r, Hexapawn.Empty,
@@ -52,7 +54,7 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         }
 
         public override IState MakeMove(IAction action)
-            => new HexapawnState(NewBoard((HexapawnMove)action), Opponent);
+            => new HexapawnState(NewBoard((HexapawnMove)action), Opponent, movesPlayed + 1);
 
         private string[,] NewBoard(HexapawnMove action)
         {
@@ -69,8 +71,8 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         // No draws?
         protected override double? Evaluate()
         {
-            if (WhiteWon) return +1.0;
-            else if (BlackWon) return -1.0;
+            if (WhiteWon) return +1.0 + (1.0 / movesPlayed);
+            else if (BlackWon) return -1.0 - (1.0 / movesPlayed);
             else return null;
         }
 
