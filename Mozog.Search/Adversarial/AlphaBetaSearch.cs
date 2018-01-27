@@ -2,6 +2,7 @@
 
 namespace Mozog.Search.Adversarial
 {
+    /*
     public class AlphaBetaSearch : IAdversarialSearch
     {
         private const string NodesExpanded_Game = "NodesExpanded_Game";
@@ -67,4 +68,5 @@ namespace Mozog.Search.Adversarial
             return (bestAction, bestUtility);
         }
     }
+    */
 }

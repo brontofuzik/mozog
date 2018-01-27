@@ -1,8 +1,10 @@
 ﻿using Mozog.Search.Adversarial;
+using Mozog.Utils;
+using Mozog.Utils.Math;
 
 namespace Mozog.Search.Examples.Games.Hexapawn
 {
-    public class Hexapawn : Game, IGame
+    public class Hexapawn : Game
     {
         public static void Play_Minimax()
         {
@@ -25,15 +27,22 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         private readonly int rows;
         private readonly int cols;
 
+        // Transposition table
+        internal int[,] Table { get; }
+
         public Hexapawn(int rows = 3, int cols = 3)
         {
             this.rows = rows;
             this.cols = cols;
+
+            // Transposition table
+            Table = new int[cols * rows, 2];
+            Table.Initialize2D((i1, i2) => StaticRandom.Int());
         }
 
-        public override string[] Players { get; } = new string[] { PlayerW, PlayerB };
+        public override string[] Players { get; } = { PlayerW, PlayerB };
 
-        public override IState InitialState => HexapawnState.CreateInitial(rows, cols);
+        public override IState InitialState => HexapawnState.CreateInitial(rows, cols, this);
 
         public override Objective GetObjective(string player)
             => player == PlayerW ? Objective.Max : Objective.Min;

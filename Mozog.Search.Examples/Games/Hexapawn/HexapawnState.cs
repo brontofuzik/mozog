@@ -3,29 +3,32 @@ using System.Linq;
 using System.Text;
 using System.Collections.Generic;
 using Mozog.Search.Adversarial;
+using Mozog.Utils;
 
 namespace Mozog.Search.Examples.Games.Hexapawn
 {
-    public class HexapawnState : State, IState
+    public class HexapawnState : State
     {
-        private string[,] board;
-        private int movesPlayed;
+        private readonly string[,] board;
+        private readonly int movesPlayed;
+        private readonly Hexapawn game;
 
-        public HexapawnState(string[,] board, string playerToMove, int movesPlayed)
+        public HexapawnState(string[,] board, string playerToMove, int movesPlayed, Hexapawn game)
             : base(playerToMove)
         {
             this.board = board;
             this.movesPlayed = movesPlayed;
+            this.game = game;
         }
 
         private string Opponent
             => PlayerToMove == Hexapawn.PlayerW ? Hexapawn.PlayerB : Hexapawn.PlayerW;
 
-        public static IState CreateInitial(int rows, int cols)
-            => new HexapawnState(InitialBoard(rows, cols), Hexapawn.PlayerW, 0);
+        public static IState CreateInitial(int rows, int cols, Hexapawn game)
+            => new HexapawnState(InitialBoard(rows, cols), Hexapawn.PlayerW, 0, game);
 
         private static string[,] InitialBoard(int rows, int cols)
-            => new string[rows, cols].Initialize((r, c) => Utils.Switch(r, Hexapawn.Empty,
+            => new string[rows, cols].Initialize2D((r, c) => Fn.Switch(r, Hexapawn.Empty,
                 (r1 => r1 == 0, Hexapawn.PlayerW),
                 (r2 => r2 == rows - 1, Hexapawn.PlayerB)));
 
@@ -54,7 +57,7 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         }
 
         public override IState MakeMove(IAction action)
-            => new HexapawnState(NewBoard((HexapawnMove)action), Opponent, movesPlayed + 1);
+            => new HexapawnState(NewBoard((HexapawnMove)action), Opponent, movesPlayed + 1, game);
 
         private string[,] NewBoard(HexapawnMove action)
         {
@@ -85,6 +88,20 @@ namespace Mozog.Search.Examples.Games.Hexapawn
             || PlayerToMove == Hexapawn.PlayerW && !GetLegalMoves().Any(); // White has no legal moves
 
         #endregion // Evaluate
+
+        #region // Transposition table
+
+        private int? hash;
+        public override int Hash => hash ?? (hash = CalculateHash()) ?? 0;
+
+        // Zobrist hashing
+        private int CalculateHash()
+        {
+            return board.Select2D().Where(s => s.value != Hexapawn.Empty)
+                .Aggregate(0, (h, s) => h ^ game.Table[s.i1 * s.i2, s.value == Hexapawn.PlayerW ? 0 : 1]);
+        }
+
+        #endregion // // Transposition table
 
         public override string ToString()
         {

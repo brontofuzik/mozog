@@ -8,9 +8,10 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Mozog.Search.Examples</RootNamespace>
     <AssemblyName>Mozog.Search.Examples</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -62,6 +63,10 @@
     <ProjectReference Include="..\Mozog.Search\Mozog.Search.csproj">
       <Project>{b332b8eb-8f1e-41bc-a706-624123516a21}</Project>
       <Name>Mozog.Search</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mozog.Utils\Mozog.Utils.csproj">
+      <Project>{47cb5c11-3dce-4768-ab1f-ffc1cfd55167}</Project>
+      <Name>Mozog.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

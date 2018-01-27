@@ -10,7 +10,7 @@ namespace Mozog.Search.Adversarial
             PlayerToMove = playerToMove;
         }
 
-        public string PlayerToMove { get; private set; }
+        public string PlayerToMove { get; }
 
         public bool IsTerminal => Evaluation.HasValue;
 
@@ -26,6 +26,27 @@ namespace Mozog.Search.Adversarial
 
         public abstract IState MakeMove(IAction action);
 
+        public virtual int Hash => 0;
+
         public abstract string Debug { get; }
+    }
+
+    public interface IState
+    {
+        bool IsTerminal { get; }
+
+        string PlayerToMove { get; }
+
+        double? Evaluation { get; }
+
+        IEnumerable<IAction> GetLegalMoves();
+
+        bool IsLegalMove(IAction move);
+
+        IState MakeMove(IAction action);
+
+        int Hash { get; }
+
+        string Debug { get; }
     }
 }

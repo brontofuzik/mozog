@@ -1,22 +1,10 @@
 ﻿using System;
 using System.Linq;
 
-namespace Mozog.Search
+namespace Mozog.Utils
 {
-    public static class Utils
+    public static class Fn
     {
-        public static T[,] Initialize<T>(this T[,] array, Func<int, int, T> initializer)
-        {
-            for (var r = 0; r < array.GetLength(0); r++)
-            {
-                for (var c = 0; c < array.GetLength(1); c++)
-                {
-                    array[r, c] = initializer(r, c);
-                }
-            }
-            return array;
-        }
-
         public static TOut Switch<TIn, TOut>(TIn x, Func<TIn, TOut> @default, params (Predicate<TIn> condition, Func<TIn, TOut> value)[] cases)
         {
             foreach (var @case in cases)

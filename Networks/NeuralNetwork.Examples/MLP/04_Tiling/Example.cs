@@ -88,6 +88,6 @@ namespace NeuralNetwork.Examples.MLP.Tiling
         }
 
         private static int CountUniqueTiles(Bitmap[,] tiles)
-            => Misc.FlattenArray(tiles).Distinct(new TileEqualityComparer()).Count();
+            => tiles.Flatten2D().Distinct(new TileEqualityComparer()).Count();
     }
 }

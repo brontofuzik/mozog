@@ -29,10 +29,10 @@ namespace Mozog.Search.Adversarial
         }
 
         public static GameEngine Minimax(IGame game, bool humanBegins = true)
-            => new GameEngine(game, g => new MinimaxSearch(g), humanBegins);
+            => new GameEngine(game, MinimaxSearch.Default, humanBegins);
 
         public static GameEngine AlphaBeta(IGame game, bool humanBegins = true)
-            => new GameEngine(game, g => new AlphaBetaSearch(g), humanBegins);
+            => new GameEngine(game, MinimaxSearch.AlphaBeta, humanBegins);
 
         public void Play()
         {

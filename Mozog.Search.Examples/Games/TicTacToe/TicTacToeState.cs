@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mozog.Search.Adversarial;
+using Mozog.Utils;
 
 namespace Mozog.Search.Examples.Games.TicTacToe
 {
-    public class TicTacToeState : State, IState
+    public class TicTacToeState : State
     {
         private string[,] board;
 
@@ -20,7 +21,7 @@ namespace Mozog.Search.Examples.Games.TicTacToe
             => new TicTacToeState(InitialBoard, TicTacToe.PlayerX);
 
         private static string[,] InitialBoard
-            => new string[3, 3].Initialize((r, c) => TicTacToe.Empty);
+            => new string[3, 3].Initialize2D((r, c) => TicTacToe.Empty);
 
         #region Move
 

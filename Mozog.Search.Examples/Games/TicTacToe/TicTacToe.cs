@@ -2,7 +2,7 @@
 
 namespace Mozog.Search.Examples.Games.TicTacToe
 {
-    public class TicTacToe : Game, IGame
+    public class TicTacToe : Game
     {
         public static void Play_Minimax()
         {
@@ -22,7 +22,7 @@ namespace Mozog.Search.Examples.Games.TicTacToe
         public const string PlayerO = "O";
         public const string Empty = " ";
 
-        public override string[] Players { get; } = new string[] { PlayerX, PlayerO };
+        public override string[] Players { get; } = { PlayerX, PlayerO };
 
         public override IState InitialState
             => TicTacToeState.CreateInitial();

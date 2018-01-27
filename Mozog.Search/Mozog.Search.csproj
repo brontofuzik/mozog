@@ -8,9 +8,10 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Mozog.Search</RootNamespace>
     <AssemblyName>Mozog.Search</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -50,12 +51,12 @@
   <ItemGroup>
     <Compile Include="Adversarial\AlphaBetaSearch.cs" />
     <Compile Include="Adversarial\Game.cs" />
-    <Compile Include="Adversarial\IState.cs" />
     <Compile Include="Adversarial\IterativeDeepeningAlphaBeta.cs" />
     <Compile Include="Adversarial\GameEngine.cs" />
+    <Compile Include="Adversarial\Pruner.cs" />
     <Compile Include="Adversarial\State.cs" />
+    <Compile Include="Adversarial\TranspositionTable.cs" />
     <Compile Include="Uninformed\DepthLimitedSearch.cs" />
-    <Compile Include="Adversarial\IGame.cs" />
     <Compile Include="Problem\IOnlineSearchProblem.cs" />
     <Compile Include="Adversarial\IAdversarialSearch.cs" />
     <Compile Include="ISearchAlgo.cs" />
@@ -66,12 +67,16 @@
     <Compile Include="Node.cs" />
     <Compile Include="NodeExpander.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Mozog.Utils\Mozog.Utils.csproj">
+      <Project>{47cb5c11-3dce-4768-ab1f-ffc1cfd55167}</Project>
+      <Name>Mozog.Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
