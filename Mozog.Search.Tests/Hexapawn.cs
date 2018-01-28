@@ -26,6 +26,46 @@ namespace Mozog.Search.Tests
             minimax_tt = MinimaxSearch.AlphaBeta(game, tt: true);
         }
 
+        // 1. b2 (b3/d3)
+        [Test]
+        public void Check_difference_between_wtt_and_wott1()
+        {
+            var state = new HexapawnState(new[,]
+            {
+                { HexapawnGame.White, HexapawnGame.Empty, HexapawnGame.White, HexapawnGame.White },
+                { HexapawnGame.Empty, HexapawnGame.White, HexapawnGame.Empty, HexapawnGame.Empty },
+                { HexapawnGame.Empty, HexapawnGame.Empty, HexapawnGame.Empty, HexapawnGame.Empty },
+                { HexapawnGame.Black, HexapawnGame.Black, HexapawnGame.Black, HexapawnGame.Black }
+            }, HexapawnGame.Black, 0, game);
+
+            var (move, eval, nodes) = minimax.MakeDecision_DEBUG(state);
+            var (move_tt, eval_tt, nodes_tt) = minimax_tt.MakeDecision_DEBUG(state);
+
+            Assert.That(move.ToString() == move_tt.ToString(), $"W/o tt: {move}\nWith tt: {move_tt}");
+            Assert.That(Math.Sign(eval) == Math.Sign(eval_tt));
+            Assert.That(nodes >= nodes_tt);
+        }
+
+        // 1. d2 a3 2. c2 (a2/d3)
+        [Test]
+        public void Check_difference_between_wtt_and_wott2()
+        {
+            var state = new HexapawnState(new [,]
+            {
+                { HexapawnGame.White, HexapawnGame.White, HexapawnGame.Empty, HexapawnGame.Empty },
+                { HexapawnGame.Empty, HexapawnGame.Empty, HexapawnGame.White, HexapawnGame.White },
+                { HexapawnGame.Black, HexapawnGame.Empty, HexapawnGame.Empty, HexapawnGame.Empty },
+                { HexapawnGame.Empty, HexapawnGame.Black, HexapawnGame.Black, HexapawnGame.Black }
+            }, HexapawnGame.Black, 0, game);
+
+            var (move, eval, nodes) = minimax.MakeDecision_DEBUG(state);
+            var (move_tt, eval_tt, nodes_tt) = minimax_tt.MakeDecision_DEBUG(state);
+
+            Assert.That(move.ToString() == move_tt.ToString(), $"W/o tt: {move}\nWith tt: {move_tt}");
+            Assert.That(Math.Sign(eval) == Math.Sign(eval_tt));
+            Assert.That(nodes >= nodes_tt);
+        }
+
         [Test]
         public void Find_differences_between_wtt_and_wott()
         {
