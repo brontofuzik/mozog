@@ -17,26 +17,7 @@ namespace Mozog.Search.Tests
         public Hexapawn()
         {
             StaticRandom.Seed = 42;
-            game = new HexapawnGame(3, 3);
-        }
-
-        [Test]
-        public void Two_states_should_have_different_hash()
-        {
-            var s1 = new HexapawnState(new [,]
-            {
-                { HexapawnGame.Empty, HexapawnGame.Empty, HexapawnGame.Empty },
-                { HexapawnGame.Empty, HexapawnGame.Empty, HexapawnGame.Empty }, 
-                { HexapawnGame.Empty, HexapawnGame.White, HexapawnGame.Empty }
-            }, HexapawnGame.White, 0, game);
-            var s2 = new HexapawnState(new [,]
-            {
-                { HexapawnGame.Empty, HexapawnGame.Empty, HexapawnGame.Empty },
-                { HexapawnGame.Empty, HexapawnGame.Empty, HexapawnGame.White },
-                { HexapawnGame.Empty, HexapawnGame.Empty, HexapawnGame.Empty }
-            }, HexapawnGame.White, 0, game);
-
-            Assert.That(s1.Hash != s2.Hash);
+            game = new HexapawnGame(5, 5);
         }
 
         [Test]
@@ -55,11 +36,11 @@ namespace Mozog.Search.Tests
         }
 
         private IEnumerable<IState> GenerateAllStates()
-            => GenerateAllStatesRecursive(new string[3, 3], 0);
+            => GenerateAllStatesRecursive(new string[5, 5], 0);
 
         private IEnumerable<IState> GenerateAllStatesRecursive(string [,] board, int index)
         {
-            if (index == 9)
+            if (index == 25)
             {
                 yield return new HexapawnState(board, HexapawnGame.White, 0, game);
                 yield return new HexapawnState(board, HexapawnGame.Black, 0, game);

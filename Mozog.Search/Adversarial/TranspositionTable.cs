@@ -4,7 +4,7 @@ namespace Mozog.Search.Adversarial
 {
     public class TranspositionTable : ITranspositionTable
     {
-        private readonly Dictionary<int, double> table = new Dictionary<int, double>();
+        private readonly Dictionary<long, double> table = new Dictionary<long, double>();
 
         public double StoreEvaluation(IState state, double eval)
             => table[state.Hash] = eval;

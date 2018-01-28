@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using MathNet.Numerics.Random;
 
 namespace Mozog.Utils.Math
 {
@@ -14,6 +15,8 @@ namespace Mozog.Utils.Math
         public static int Seed { set => testSeed = value; }
 
         public static int Int() => random.Value.Next();
+
+        public static long Int64() => random.Value.NextInt64();
 
         public static int Int(int max) => random.Value.Next(max);
 

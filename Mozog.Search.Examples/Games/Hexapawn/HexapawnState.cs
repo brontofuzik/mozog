@@ -96,8 +96,8 @@ namespace Mozog.Search.Examples.Games.Hexapawn
 
         #region // Transposition table
 
-        private int? hash;
-        public override int Hash => hash ?? (hash = CalculateHash()) ?? 0;
+        private long? hash;
+        public override long Hash => hash ?? (hash = CalculateHash()) ?? 0;
 
         //// Zobrist hashing
         //private int CalculateHash()
@@ -114,13 +114,13 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         //}
 
         // Zobrist hashing (new)
-        private int CalculateHash()
+        private long CalculateHash()
         {
-            int SquareHash(HexapawnSquare square)
+            long SquareHash(HexapawnSquare square)
                 => game.Table[board.SquareToIndex(square), board.GetSquare(square) == Hexapawn.White ? 0 : 1];
 
             var boardHash = board.Squares().Where(s => board.GetSquare(s) != Hexapawn.Empty) // Non-empty squares
-                .Aggregate(0, (h, s) => h ^ SquareHash(s));
+                .Aggregate(0l, (h, s) => h ^ SquareHash(s));
 
             var playerHash = WhiteToMove ? game.Table_WhiteToMove : game.Table_BlackToMove;
 

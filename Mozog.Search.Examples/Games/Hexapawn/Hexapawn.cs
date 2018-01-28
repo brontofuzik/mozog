@@ -6,17 +6,17 @@ namespace Mozog.Search.Examples.Games.Hexapawn
 {
     public class Hexapawn : Game
     {
-        public static void Play_Minimax()
+        public static void Play_Minimax(int cols, int rows, bool tt)
         {
-            var hexapawn = new Hexapawn(rows: 3, cols: 3);
-            var engine = GameEngine.Minimax(hexapawn);
+            var hexapawn = new Hexapawn(rows: rows, cols: cols);
+            var engine = GameEngine.Minimax(hexapawn, tt: tt);
             engine.Play();
         }
 
-        public static void Play_AlphaBeta()
+        public static void Play_AlphaBeta(int cols, int rows, bool tt)
         {
-            var hexapawn = new Hexapawn(rows: 5, cols: 5);
-            var engine = GameEngine.AlphaBeta(hexapawn);
+            var hexapawn = new Hexapawn(rows: rows, cols: cols);
+            var engine = GameEngine.AlphaBeta(hexapawn, tt: tt);
             engine.Play();
         }
 
@@ -28,9 +28,9 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         private readonly int cols;
 
         // Transposition table
-        internal int[,] Table { get; private set; }
-        internal int Table_WhiteToMove { get; private set; }
-        internal int Table_BlackToMove { get; private set; }
+        internal long[,] Table { get; private set; }
+        internal long Table_WhiteToMove { get; private set; }
+        internal long Table_BlackToMove { get; private set; }
 
         public Hexapawn(int rows = 3, int cols = 3)
         {
@@ -42,10 +42,10 @@ namespace Mozog.Search.Examples.Games.Hexapawn
 
         private void InitializeTranspositionTable()
         {
-            Table = new int[rows * cols, 2];
-            Table.Initialize2D((i1, i2) => StaticRandom.Int());
-            Table_WhiteToMove = StaticRandom.Int();
-            Table_BlackToMove = StaticRandom.Int();
+            Table = new long[rows * cols, 2];
+            Table.Initialize2D((i1, i2) => StaticRandom.Int64());
+            Table_WhiteToMove = StaticRandom.Int64();
+            Table_BlackToMove = StaticRandom.Int64();
         }
 
         public override string[] Players { get; } = { White, Black };

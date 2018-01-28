@@ -26,7 +26,7 @@ namespace Mozog.Search.Adversarial
 
         public abstract IState MakeMove(IAction action);
 
-        public virtual int Hash => 0;
+        public virtual long Hash => 0l;
 
         public abstract string Debug { get; }
     }
@@ -45,7 +45,7 @@ namespace Mozog.Search.Adversarial
 
         IState MakeMove(IAction action);
 
-        int Hash { get; }
+        long Hash { get; }
 
         string Debug { get; }
     }

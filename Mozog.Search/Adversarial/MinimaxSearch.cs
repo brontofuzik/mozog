@@ -7,26 +7,26 @@ namespace Mozog.Search.Adversarial
         public const string NodesExpanded_Game = "NodesExpanded_Game";
         public const string NodesExpanded_Move = "NodesExpanded_Move";
 
-        public static MinimaxSearch<object> Default(IGame game)
-            => new MinimaxSearch<object>(game, new NoPruner());
+        public static MinimaxSearch<object> Default(IGame game, bool tt)
+            => new MinimaxSearch<object>(game, new NoPruner(), tt);
 
-        public static MinimaxSearch<(double alpha, double beta)> AlphaBeta(IGame game)
-            => new MinimaxSearch<(double alpha, double beta)>(game, new AlphaBetaPruner());
+        public static MinimaxSearch<(double alpha, double beta)> AlphaBeta(IGame game, bool tt)
+            => new MinimaxSearch<(double alpha, double beta)>(game, new AlphaBetaPruner(), tt);
     }
 
     public class MinimaxSearch<TPrunerArgs> : IAdversarialSearch
     {
         private readonly IGame game;
         private readonly IPruner<TPrunerArgs> pruner;
-
-        private readonly ITranspositionTable transTable = new TranspositionTable();
+        private readonly ITranspositionTable transTable;
 
         public Metrics Metrics { get; } = new Metrics();
 
-        public MinimaxSearch(IGame game, IPruner<TPrunerArgs> pruner = null)
+        public MinimaxSearch(IGame game, IPruner<TPrunerArgs> pruner = null, bool tt = true)
         {
             this.game = game;
             this.pruner = pruner;
+            transTable = tt ? new TranspositionTable() : null;
 
             Metrics.Set(MinimaxSearch.NodesExpanded_Game, 0);
             Metrics.Set(MinimaxSearch.NodesExpanded_Move, 0);
@@ -36,11 +36,11 @@ namespace Mozog.Search.Adversarial
         {
             Metrics.Set(MinimaxSearch.NodesExpanded_Move, 0);
 
-            var (action, _) = Minimax_NEW(state, pruner.InitArgs);
+            var (action, _) = Minimax(state, pruner.InitArgs);
             return action;
         }
 
-        private (IAction action, double utility) Minimax_NEW(IState state, TPrunerArgs prunerArgs)
+        private (IAction action, double utility) Minimax(IState state, TPrunerArgs prunerArgs)
         {
             Metrics.IncrementInt(MinimaxSearch.NodesExpanded_Game);
             Metrics.IncrementInt(MinimaxSearch.NodesExpanded_Move);
@@ -55,11 +55,12 @@ namespace Mozog.Search.Adversarial
             IAction bestAction = null;
             var bestUtility = objective.Max() ? Double.MinValue : Double.MaxValue;
 
-            foreach (var (action, newState) in game.GetActionsAndResults(state))
+            var moves = game.GetActionsAndResults(state);
+            foreach (var (action, newState) in moves)
             {
                 double newUtility;
-                //if (transTable != null)
-                //{
+                if (transTable != null)
+                {
                     var tmp1 = transTable.RetrieveEvaluation(newState);
                     if (tmp1.HasValue)
                     {
@@ -67,13 +68,13 @@ namespace Mozog.Search.Adversarial
                     }
                     else
                     {
-                        var tmp2 = Minimax_NEW(newState, prunerArgs).utility;
+                        var tmp2 = Minimax(newState, prunerArgs).utility;
                         transTable.StoreEvaluation(newState, tmp2);
                         newUtility = tmp2;
                     }
-                //}
-                //else
-                //    newUtility = Minimax_NEW(newState, prunerArgs).utility;
+                }
+                else
+                    newUtility = Minimax(newState, prunerArgs).utility;
 
                 // New best move
                 if (objective.Max() && newUtility > bestUtility || objective.Min() && newUtility < bestUtility)
