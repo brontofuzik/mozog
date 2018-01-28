@@ -8,7 +8,7 @@ namespace Mozog.Search.Examples
     {
         static void Main(string[] args)
         {
-            StaticRandom.Seed = 42;
+            //StaticRandom.Seed = 42;
 
             //TicTacToe.Play_Minimax();
             //TicTacToe.Play_AlphaBeta();

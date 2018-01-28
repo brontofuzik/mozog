@@ -28,9 +28,9 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         private readonly int cols;
 
         // Transposition table
-        internal long[,] Table { get; private set; }
-        internal long Table_WhiteToMove { get; private set; }
-        internal long Table_BlackToMove { get; private set; }
+        internal int[,] Table { get; private set; }
+        internal int Table_WhiteToMove { get; private set; }
+        internal int Table_BlackToMove { get; private set; }
 
         public Hexapawn(int rows = 3, int cols = 3)
         {
@@ -42,10 +42,10 @@ namespace Mozog.Search.Examples.Games.Hexapawn
 
         private void InitializeTranspositionTable()
         {
-            Table = new long[rows * cols, 2];
-            Table.Initialize2D((i1, i2) => StaticRandom.Int64());
-            Table_WhiteToMove = StaticRandom.Int64();
-            Table_BlackToMove = StaticRandom.Int64();
+            Table = new int[rows * cols, 2];
+            Table.Initialize2D((i1, i2) => StaticRandom.Int());
+            Table_WhiteToMove = StaticRandom.Int();
+            Table_BlackToMove = StaticRandom.Int();
         }
 
         public override string[] Players { get; } = { White, Black };

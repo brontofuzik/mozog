@@ -94,40 +94,37 @@ namespace Mozog.Search.Examples.Games.Hexapawn
 
         #endregion // Evaluate
 
-        #region // Transposition table
+        #region Transposition table
 
-        private long? hash;
-        public override long Hash => hash ?? (hash = CalculateHash()) ?? 0;
+        private int? hash;
+        public override int Hash => hash ?? (hash = CalculateHash()) ?? 0;
 
-        //// Zobrist hashing
+        //// Simple hashing
         //private int CalculateHash()
         //{
-        //    int SquareHash(int row, int col)
-        //        => game.Table[row * board.Cols() + col, board[row, col] == Hexapawn.White ? 0 : 1];
+        //    const int prime = 31;
 
-        //    var boardHash = board.Select2D().Where(s => s.value != Hexapawn.Empty) // Non-empty squares
-        //        .Aggregate(0, (h, s) => h ^ SquareHash(s.i1, s.i2));
-
-        //    var playerHash = WhiteToMove ? game.Table_WhiteToMove : game.Table_BlackToMove;
-
-        //    return boardHash ^ playerHash;
+        //    int h = 1;
+        //    foreach (var square in board)
+        //        h = h * prime + square.GetHashCode();
+        //    return h * prime + PlayerToMove.GetHashCode();
         //}
 
         // Zobrist hashing (new)
-        private long CalculateHash()
+        private int CalculateHash()
         {
-            long SquareHash(HexapawnSquare square)
+            int SquareHash(HexapawnSquare square)
                 => game.Table[board.SquareToIndex(square), board.GetSquare(square) == Hexapawn.White ? 0 : 1];
 
             var boardHash = board.Squares().Where(s => board.GetSquare(s) != Hexapawn.Empty) // Non-empty squares
-                .Aggregate(0l, (h, s) => h ^ SquareHash(s));
+                .Aggregate(0, (h, s) => h ^ SquareHash(s));
 
             var playerHash = WhiteToMove ? game.Table_WhiteToMove : game.Table_BlackToMove;
 
             return boardHash ^ playerHash;
         }
 
-        #endregion // // Transposition table
+        #endregion // Transposition table
 
         public override string ToString()
         {
@@ -171,13 +168,6 @@ namespace Mozog.Search.Examples.Games.Hexapawn
 
         private static bool IsWithinBoard(this string[,] board, int row, int col)
             => 0 <= row && row < board.Rows() && 0 <= col && col < board.Cols();
-
-        //public static IEnumerable<(int row, int col, string square)> Squares(this string[,] board)
-        //{
-        //    for (int r = 0; r < board.Rows(); r++)
-        //    for (int c = 0; c < board.Cols(); c++)
-        //        yield return (r, c, board[r, c]);
-        //}
 
         public static IEnumerable<HexapawnSquare> Squares(this string[,] board)
         {

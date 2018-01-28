@@ -16,8 +16,8 @@ namespace Mozog.Search.Tests
 
         public Hexapawn()
         {
-            StaticRandom.Seed = 42;
-            game = new HexapawnGame(5, 5);
+            //StaticRandom.Seed = 42;
+            game = new HexapawnGame(4, 4);
         }
 
         [Test]
@@ -36,11 +36,11 @@ namespace Mozog.Search.Tests
         }
 
         private IEnumerable<IState> GenerateAllStates()
-            => GenerateAllStatesRecursive(new string[5, 5], 0);
+            => GenerateAllStatesRecursive(new string[4, 4], 0);
 
         private IEnumerable<IState> GenerateAllStatesRecursive(string [,] board, int index)
         {
-            if (index == 25)
+            if (index == board.Length)
             {
                 yield return new HexapawnState(board, HexapawnGame.White, 0, game);
                 yield return new HexapawnState(board, HexapawnGame.Black, 0, game);
