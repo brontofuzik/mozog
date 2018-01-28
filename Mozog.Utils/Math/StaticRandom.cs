@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using MathNet.Numerics.Random;
@@ -66,5 +67,7 @@ namespace Mozog.Utils.Math
             }
             return array;
         }
+
+        public static T Pick<T>(IList<T> items) => items[Int(items.Count)];
     }
 }

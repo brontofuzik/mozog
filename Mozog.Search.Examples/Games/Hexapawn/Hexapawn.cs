@@ -48,6 +48,10 @@ namespace Mozog.Search.Examples.Games.Hexapawn
             Table_BlackToMove = StaticRandom.Int();
         }
 
+        internal int Rows_DEBUG => rows;
+
+        internal int Cols_DEBUG => cols;
+
         public override string[] Players { get; } = { White, Black };
 
         public override IState InitialState => HexapawnState.CreateInitial(rows, cols, this);

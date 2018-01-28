@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Mozog.Search.Adversarial;
 using Mozog.Search.Examples.Games.Hexapawn;
 using HexapawnGame = Mozog.Search.Examples.Games.Hexapawn.Hexapawn;
 using Mozog.Utils;
 using Mozog.Utils.Math;
 using NUnit.Framework;
+using Math = System.Math;
 
 namespace Mozog.Search.Tests
 {
@@ -13,11 +15,51 @@ namespace Mozog.Search.Tests
     public class Hexapawn
     {
         private readonly HexapawnGame game;
+        private readonly MinimaxSearch<(double alpha, double beta)> minimax;
+        private readonly MinimaxSearch<(double alpha, double beta)> minimax_tt;
 
         public Hexapawn()
         {
             //StaticRandom.Seed = 42;
-            game = new HexapawnGame(4, 4);
+            game = new HexapawnGame(cols: 4, rows: 4);
+            minimax = MinimaxSearch.AlphaBeta(game, tt: false);
+            minimax_tt = MinimaxSearch.AlphaBeta(game, tt: true);
+        }
+
+        [Test]
+        public void Find_differences_between_wtt_and_wott()
+        {
+            const string enginePlayer = HexapawnGame.Black;
+
+            var record = new GameRecord();
+            
+            var state = game.InitialState;
+            while (!state.IsTerminal)
+            {
+                var move = game.GetPlayer(state) == enginePlayer
+                    ? GetEngineMove(state, record)
+                    : GetRandomMove(state);
+                state = game.GetResult(state, move);
+                record.AddMove(move);
+            }
+        }
+
+        private IAction GetEngineMove(IState state, GameRecord record)
+        {
+            var (move, eval, nodes) = minimax.MakeDecision_DEBUG(state);
+            var (move_tt, eval_tt, nodes_tt) = minimax_tt.MakeDecision_DEBUG(state);
+
+            Assert.That(move.ToString() == move_tt.ToString(), $"{record}\n{state}\nW/o tt: {move}\nWith tt: {move_tt}");
+            Assert.That(Math.Sign(eval) == Math.Sign(eval_tt));
+            Assert.That(nodes >= nodes_tt);
+
+            return move;
+        }
+
+        private IAction GetRandomMove(IState state)
+        {
+            var moves = game.GetActions(state);
+            return StaticRandom.Pick(moves.ToList());
         }
 
         [Test]
@@ -36,7 +78,7 @@ namespace Mozog.Search.Tests
         }
 
         private IEnumerable<IState> GenerateAllStates()
-            => GenerateAllStatesRecursive(new string[4, 4], 0);
+            => GenerateAllStatesRecursive(new string[game.Rows_DEBUG, game.Cols_DEBUG], 0);
 
         private IEnumerable<IState> GenerateAllStatesRecursive(string [,] board, int index)
         {
@@ -62,6 +104,32 @@ namespace Mozog.Search.Tests
                 foreach (var s in empty.Concat(white).Concat(black))
                     yield return s;
             }
+        }
+    }
+
+    internal class GameRecord
+    {
+        private readonly IList<IAction> moves = new List<IAction>();
+
+        public void AddMove(IAction move)
+        {
+            moves.Add(move);
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            for (int i = 0; i < moves.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    sb.Append($" {i/2 + 1}.");
+                }
+                sb.Append($" {moves[i]}");
+            }
+
+            return sb.ToString();
         }
     }
 }

@@ -11,6 +11,8 @@ namespace Mozog.Search.Adversarial
 
         public double? RetrieveEvaluation(IState state)
             => table.ContainsKey(state.Hash) ? table[state.Hash] : (double?) null;
+
+        public void Clear_DEBUG() => table.Clear();
     }
 
     public interface ITranspositionTable
@@ -18,5 +20,7 @@ namespace Mozog.Search.Adversarial
         double StoreEvaluation(IState state, double eval);
 
         double? RetrieveEvaluation(IState state);
+
+        void Clear_DEBUG();
     }
 }

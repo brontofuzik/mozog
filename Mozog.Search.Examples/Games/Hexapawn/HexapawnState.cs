@@ -116,7 +116,7 @@ namespace Mozog.Search.Examples.Games.Hexapawn
             int SquareHash(HexapawnSquare square)
                 => game.Table[board.SquareToIndex(square), board.GetSquare(square) == Hexapawn.White ? 0 : 1];
 
-            var boardHash = board.Squares().Where(s => board.GetSquare(s) != Hexapawn.Empty) // Non-empty squares
+            var boardHash = board.Squares().Where(s => board.GetSquare(s) != Hexapawn.Empty)
                 .Aggregate(0, (h, s) => h ^ SquareHash(s));
 
             var playerHash = WhiteToMove ? game.Table_WhiteToMove : game.Table_BlackToMove;

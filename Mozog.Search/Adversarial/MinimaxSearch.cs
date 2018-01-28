@@ -36,8 +36,19 @@ namespace Mozog.Search.Adversarial
         {
             Metrics.Set(MinimaxSearch.NodesExpanded_Move, 0);
 
+            transTable?.Clear_DEBUG();
+
             var (action, _) = Minimax(state, pruner.InitArgs);
             return action;
+        }
+
+        public (IAction move, double eval, int nodes) MakeDecision_DEBUG(IState state)
+        {
+            Metrics.Set(MinimaxSearch.NodesExpanded_Move, 0);
+
+            var r = Minimax(state, pruner.InitArgs);
+
+            return (r.action, r.utility, Metrics.Get<int>(MinimaxSearch.NodesExpanded_Move));
         }
 
         private (IAction action, double utility) Minimax(IState state, TPrunerArgs prunerArgs)
