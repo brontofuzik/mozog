@@ -70,12 +70,13 @@ namespace Mozog.Search.Adversarial
         {
             Console.Clear();
             Console.WriteLine(state);
+            Console.WriteLine($"{nameof(MinimaxSearch.NodesExpanded_Move)}: {search.Metrics.Get<int>(MinimaxSearch.NodesExpanded_Move)}");
         }
 
         private void PrintResult(IState currentState)
         {
             Console.WriteLine("Game over");
-            Console.WriteLine($"NodesExpanded_Game: {search.Metrics.Get<int>("NodesExpanded_Game")}");
+            Console.WriteLine($"{nameof(MinimaxSearch.NodesExpanded_Game)}: {search.Metrics.Get<int>(MinimaxSearch.NodesExpanded_Game)}");
         }
     }
 

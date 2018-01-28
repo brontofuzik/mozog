@@ -9,7 +9,7 @@ namespace Mozog.Search.Examples.Games.TicTacToe
 {
     public class TicTacToeState : State
     {
-        private string[,] board;
+        private readonly string[,] board;
 
         public TicTacToeState(string[,] board, string playerToMove)
             : base(playerToMove)

@@ -13,39 +13,47 @@ namespace Mozog.Search.Examples.Games.Hexapawn
             engine.Play();
         }
 
-        internal static void Play_AlphaBeta()
+        public static void Play_AlphaBeta()
         {
             var hexapawn = new Hexapawn(rows: 5, cols: 5);
             var engine = GameEngine.AlphaBeta(hexapawn);
             engine.Play();
         }
 
-        public const string PlayerW = "W";
-        public const string PlayerB = "B";
+        public const string White = "W";
+        public const string Black = "B";
         public const string Empty = " ";
 
         private readonly int rows;
         private readonly int cols;
 
         // Transposition table
-        internal int[,] Table { get; }
+        internal int[,] Table { get; private set; }
+        internal int Table_WhiteToMove { get; private set; }
+        internal int Table_BlackToMove { get; private set; }
 
         public Hexapawn(int rows = 3, int cols = 3)
         {
             this.rows = rows;
             this.cols = cols;
 
-            // Transposition table
-            Table = new int[cols * rows, 2];
-            Table.Initialize2D((i1, i2) => StaticRandom.Int());
+            InitializeTranspositionTable();
         }
 
-        public override string[] Players { get; } = { PlayerW, PlayerB };
+        private void InitializeTranspositionTable()
+        {
+            Table = new int[rows * cols, 2];
+            Table.Initialize2D((i1, i2) => StaticRandom.Int());
+            Table_WhiteToMove = StaticRandom.Int();
+            Table_BlackToMove = StaticRandom.Int();
+        }
+
+        public override string[] Players { get; } = { White, Black };
 
         public override IState InitialState => HexapawnState.CreateInitial(rows, cols, this);
 
         public override Objective GetObjective(string player)
-            => player == PlayerW ? Objective.Max : Objective.Min;
+            => player == White ? Objective.Max : Objective.Min;
 
         public override IAction ParseMove(string moveStr, string player)
             => HexapawnMove.Parse(moveStr, player);

@@ -6,9 +6,12 @@ namespace Mozog.Utils.Math
 {
     public class StaticRandom
     {
-        static int seed = Environment.TickCount;
+        static int trueSeed = Environment.TickCount;
+        private static int? testSeed = null;
 
-        private static readonly ThreadLocal<Random> random = new ThreadLocal<Random>(() => new Random(Interlocked.Increment(ref seed)));
+        private static readonly ThreadLocal<Random> random = new ThreadLocal<Random>(() => new Random(testSeed ?? Interlocked.Increment(ref trueSeed)));
+
+        public static int Seed { set => testSeed = value; }
 
         public static int Int() => random.Value.Next();
 

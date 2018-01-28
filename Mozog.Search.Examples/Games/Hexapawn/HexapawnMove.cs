@@ -12,14 +12,14 @@ namespace Mozog.Search.Examples.Games.Hexapawn
             {
                 // Normal move
                 var toRow = (int)Char.GetNumericValue(moveStr[1]);
-                var fromRow = player == Hexapawn.PlayerW ? toRow - 1 : toRow + 1;
+                var fromRow = player == Hexapawn.White ? toRow - 1 : toRow + 1;
                 return new HexapawnMove(moveStr[0], fromRow, moveStr[0], toRow);
             }
             else if (moveStr.Length == 4)
             {
                 // Capture move
                 var toRow = (int)Char.GetNumericValue(moveStr[3]);
-                var fromRow = player == Hexapawn.PlayerW ? toRow - 1 : toRow + 1;
+                var fromRow = player == Hexapawn.White ? toRow - 1 : toRow + 1;
                 return new HexapawnMove(moveStr[0], fromRow, moveStr[2], toRow);
             }
             else

@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B332B8EB-8F1E-41BC-A706-624123516A21}</ProjectGuid>
+    <ProjectGuid>{FDEAF661-FDBB-4F7E-993F-F71BA72139C4}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Mozog.Search</RootNamespace>
-    <AssemblyName>Mozog.Search</AssemblyName>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Mozog.Search.Tests</RootNamespace>
+    <AssemblyName>Mozog.Search.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,15 +29,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework, Version=3.9.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.9.0\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,29 +43,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adversarial\Game.cs" />
-    <Compile Include="Adversarial\IterativeDeepeningAlphaBeta.cs" />
-    <Compile Include="Adversarial\GameEngine.cs" />
-    <Compile Include="Adversarial\Pruner.cs" />
-    <Compile Include="Adversarial\State.cs" />
-    <Compile Include="Adversarial\TranspositionTable.cs" />
-    <Compile Include="Uninformed\DepthLimitedSearch.cs" />
-    <Compile Include="Problem\IOnlineSearchProblem.cs" />
-    <Compile Include="Adversarial\IAdversarialSearch.cs" />
-    <Compile Include="ISearchAlgo.cs" />
-    <Compile Include="Problem\ISearchProblem.cs" />
-    <Compile Include="Uninformed\IterativeDeepeningSearch.cs" />
-    <Compile Include="Metrics.cs" />
-    <Compile Include="Adversarial\MinimaxSearch.cs" />
-    <Compile Include="Node.cs" />
-    <Compile Include="NodeExpander.cs" />
+    <Compile Include="Hexapawn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mozog.Search.Examples\Mozog.Search.Examples.csproj">
+      <Project>{5366826e-48ba-4b10-a95f-2a7a7332fcb0}</Project>
+      <Name>Mozog.Search.Examples</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mozog.Search\Mozog.Search.csproj">
+      <Project>{b332b8eb-8f1e-41bc-a706-624123516a21}</Project>
+      <Name>Mozog.Search</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mozog.Utils\Mozog.Utils.csproj">
       <Project>{47cb5c11-3dce-4768-ab1f-ffc1cfd55167}</Project>
       <Name>Mozog.Utils</Name>

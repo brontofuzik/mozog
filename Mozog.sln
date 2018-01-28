@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Networks", "Networks", "{0D96491B-CBF8-403A-9AE5-2A259A554ECD}"
 EndProject
@@ -50,6 +50,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mozog.Search", "Mozog.Search\Mozog.Search.csproj", "{B332B8EB-8F1E-41BC-A706-624123516A21}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mozog.Search.Examples", "Mozog.Search.Examples\Mozog.Search.Examples.csproj", "{5366826E-48BA-4B10-A95F-2A7A7332FCB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mozog.Search.Tests", "Mozog.Search.Tests\Mozog.Search.Tests.csproj", "{FDEAF661-FDBB-4F7E-993F-F71BA72139C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,6 +143,10 @@ Global
 		{5366826E-48BA-4B10-A95F-2A7A7332FCB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5366826E-48BA-4B10-A95F-2A7A7332FCB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5366826E-48BA-4B10-A95F-2A7A7332FCB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDEAF661-FDBB-4F7E-993F-F71BA72139C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDEAF661-FDBB-4F7E-993F-F71BA72139C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDEAF661-FDBB-4F7E-993F-F71BA72139C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDEAF661-FDBB-4F7E-993F-F71BA72139C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -162,5 +168,8 @@ Global
 		{F73F103B-AFD7-40CE-9829-673276A6843C} = {0D96491B-CBF8-403A-9AE5-2A259A554ECD}
 		{FD7FA0D4-F366-4C80-8015-FB6E898EA46A} = {255529A0-91B4-4FFA-9908-8C849104A796}
 		{B61C22E8-9395-4BB9-99BC-68A4220CD758} = {255529A0-91B4-4FFA-9908-8C849104A796}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F0AE664F-ADC8-46B7-A075-0AB282787190}
 	EndGlobalSection
 EndGlobal

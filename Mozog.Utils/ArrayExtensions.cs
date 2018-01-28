@@ -51,6 +51,20 @@ namespace Mozog.Utils
         }
 
         // 2D
+        public static T Get<T>(this T[,] array, int index)
+        {
+            var cols = array.GetLength(1);
+            return array[index / cols, index % cols];
+        }
+
+        // 2D
+        public static void Set<T>(this T[,] array, int index, T value)
+        {
+            var cols = array.GetLength(1);
+            array[index / cols, index % cols] = value;
+        }
+
+        // 2D
         public static T[] Flatten2D<T>(this T[,] array)
         {
             var flattened = new T[array.GetLength(0) * array.GetLength(1)];

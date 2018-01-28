@@ -9,6 +9,13 @@ namespace Mozog.Search.Adversarial
         bool Prune(Objective objective, double utility, ref TPrunerArgs args);
     }
 
+    public class NoPruner : IPruner<object>
+    {
+        public object InitArgs => new object();
+
+        public bool Prune(Objective objective, double utility, ref object args) => false;
+    }
+
     public class AlphaBetaPruner : IPruner<(double alpha, double beta)>
     {
         public (double alpha, double beta) InitArgs => (Double.MinValue, Double.MaxValue);
