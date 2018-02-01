@@ -51,6 +51,23 @@ namespace Mozog.Search.Adversarial
             PrintResult(currentState);
         }
 
+        public void Play_DEBUG(IState initialState)
+        {
+            var currentState = initialState;
+            PrintState(currentState);
+
+            while (!game.IsTerminal(currentState))
+            {
+                var move = game.GetPlayer(currentState) == humanPlayer
+                    ? GetHumanMove(currentState)
+                    : GetEngineMove(currentState);
+                currentState = game.GetResult(currentState, move);
+                PrintState(currentState);
+            }
+
+            PrintResult(currentState);
+        }
+
         private IAction GetHumanMove(IState currentState)
         {
             IAction move = null;

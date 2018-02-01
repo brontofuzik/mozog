@@ -13,11 +13,35 @@ namespace Mozog.Search.Examples.Games.Hexapawn
             engine.Play();
         }
 
+        public static void Play_Minimax_DEBUG(int cols, int rows, bool tt, IState initialState)
+        {
+            var hexapawn = new Hexapawn(rows: rows, cols: cols);
+            var engine = GameEngine.Minimax(hexapawn, tt: tt);
+
+            // DEBUG
+            if (initialState is HexapawnState state)
+                state.Game_DEBUG = hexapawn;
+
+            engine.Play_DEBUG(initialState);
+        }
+
         public static void Play_AlphaBeta(int cols, int rows, bool tt)
         {
             var hexapawn = new Hexapawn(rows: rows, cols: cols);
             var engine = GameEngine.AlphaBeta(hexapawn, tt: tt);
             engine.Play();
+        }
+
+        public static void Play_AlphaBeta_DEBUG(int cols, int rows, bool tt, IState initialState)
+        {
+            var hexapawn = new Hexapawn(rows: rows, cols: cols);
+            var engine = GameEngine.AlphaBeta(hexapawn, tt: tt);
+
+            // DEBUG
+            if (initialState is HexapawnState state)
+                state.Game_DEBUG = hexapawn;
+
+            engine.Play_DEBUG(initialState);
         }
 
         public const string White = "W";

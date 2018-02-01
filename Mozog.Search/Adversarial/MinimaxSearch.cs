@@ -53,6 +53,10 @@ namespace Mozog.Search.Adversarial
 
         private (IAction action, double utility) Minimax(IState state, TPrunerArgs prunerArgs)
         {
+            // Transposition table
+            var cached = transTable?.RetrieveEvalAndMove(state);
+            if (cached != null) return (cached.Value.action, cached.Value.eval);
+
             Metrics.IncrementInt(MinimaxSearch.NodesExpanded_Game);
             Metrics.IncrementInt(MinimaxSearch.NodesExpanded_Move);
 
@@ -69,23 +73,7 @@ namespace Mozog.Search.Adversarial
             var moves = game.GetActionsAndResults(state);
             foreach (var (action, newState) in moves)
             {
-                double newUtility;
-                if (transTable != null)
-                {
-                    var tmp1 = transTable.RetrieveEvaluation(newState);
-                    if (tmp1.HasValue)
-                    {
-                        newUtility = tmp1.Value;
-                    }
-                    else
-                    {
-                        var tmp2 = Minimax(newState, prunerArgs).utility;
-                        transTable.StoreEvaluation(newState, tmp2);
-                        newUtility = tmp2;
-                    }
-                }
-                else
-                    newUtility = Minimax(newState, prunerArgs).utility;
+                double newUtility = Minimax(newState, prunerArgs).utility;
 
                 // New best move
                 if (objective.Max() && newUtility > bestUtility || objective.Min() && newUtility < bestUtility)
@@ -98,6 +86,9 @@ namespace Mozog.Search.Adversarial
                 if (pruner.Prune(objective, newUtility, ref prunerArgs))
                     return (action, newUtility);
             }
+
+            // Transposition table
+            transTable?.StoreEvalAndMove(state, bestUtility, bestAction);
 
             return (bestAction, bestUtility);
         }

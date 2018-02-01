@@ -11,7 +11,7 @@ namespace Mozog.Search.Examples.Games.Hexapawn
     {
         private readonly string[,] board;
         private readonly int movesPlayed;
-        private readonly Hexapawn game;
+        private /*readonly*/ Hexapawn game; // TODO Make readonly
 
         public HexapawnState(string[,] board, string playerToMove, int movesPlayed, Hexapawn game)
             : base(playerToMove)
@@ -20,6 +20,8 @@ namespace Mozog.Search.Examples.Games.Hexapawn
             this.movesPlayed = movesPlayed;
             this.game = game;
         }
+
+        internal Hexapawn Game_DEBUG { set => game = value; }
 
         private bool WhiteToMove => PlayerToMove == Hexapawn.White;
 
@@ -141,7 +143,7 @@ namespace Mozog.Search.Examples.Games.Hexapawn
             return sb.ToString();
         }
 
-        public override string Debug => String.Concat(board.Cast<string>());
+        public override string Debug => $"{string.Concat(board.Cast<string>())}|{PlayerToMove}";
     }
 
     internal static class BoardUtils

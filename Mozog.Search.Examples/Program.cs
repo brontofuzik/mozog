@@ -13,12 +13,15 @@ namespace Mozog.Search.Examples
             //TicTacToe.Play_Minimax();
             //TicTacToe.Play_AlphaBeta();
 
+            // 3 cols
             //Hexapawn.Play_Minimax(cols: 3, rows: 3, tt: true); // Black wins
             //Hexapawn.Play_Minimax(cols: 3, rows: 4, tt: true); // Black wins
 
+            // 4 cols
             //Hexapawn.Play_AlphaBeta(cols: 4, rows: 4, tt: true); // White wins
-            Hexapawn.Play_AlphaBeta(cols: 4, rows: 5, tt: true); // Black wins
+            Hexapawn.Play_AlphaBeta(cols: 4, rows: 5, tt: false); // Black wins
 
+            // 5 cols
             //Hexapawn.Play_AlphaBeta(cols: 5, rows: 5, tt: true); // White wins
         }
     }

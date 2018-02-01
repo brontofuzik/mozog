@@ -1,10 +1,18 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Mozog.Utils
 {
-    public class Misc
+    public static class Misc
     {
+        public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key)
+            => dict.ContainsKey(key) ? dict[key] : default(TValue);
+
+        public static TValue? GetOrDefaultNullable<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key) where TValue : struct
+            => dict.ContainsKey(key) ? dict[key] : (TValue?)null;
+
         public static void Swap<T>(ref T var1, ref T var2)
         {
             T temp = var1;

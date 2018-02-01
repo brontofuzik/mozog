@@ -1,25 +1,41 @@
 ﻿using System.Collections.Generic;
+using Mozog.Utils;
 
 namespace Mozog.Search.Adversarial
 {
     public class TranspositionTable : ITranspositionTable
     {
-        private readonly Dictionary<long, double> table = new Dictionary<long, double>();
+        private readonly Dictionary<long, double> tableWithEvals = new Dictionary<long, double>();
+        private readonly IDictionary<long, (double, IAction)> tableWithMoves = new Dictionary<long, (double, IAction)>();
 
-        public double StoreEvaluation(IState state, double eval)
-            => table[state.Hash] = eval;
+        public double StoreEval(IState state, double eval)
+            => tableWithEvals[state.Hash] = eval;
 
-        public double? RetrieveEvaluation(IState state)
-            => table.ContainsKey(state.Hash) ? table[state.Hash] : (double?) null;
+        public void StoreEvalAndMove(IState state, double eval, IAction move)
+            => tableWithMoves[state.Hash] = (eval, move);
 
-        public void Clear_DEBUG() => table.Clear();
+        public double? RetrieveEval(IState state)
+            => tableWithEvals.GetOrDefaultNullable(state.Hash);
+
+        public (double eval, IAction action)? RetrieveEvalAndMove(IState state)
+            => tableWithMoves.GetOrDefaultNullable(state.Hash);
+
+        public void Clear_DEBUG()
+        {
+            tableWithEvals.Clear();
+            tableWithMoves.Clear();
+        }
     }
 
     public interface ITranspositionTable
     {
-        double StoreEvaluation(IState state, double eval);
+        double StoreEval(IState state, double eval);
 
-        double? RetrieveEvaluation(IState state);
+        void StoreEvalAndMove(IState state, double eval, IAction move);
+
+        double? RetrieveEval(IState state);
+
+        (double eval, IAction action)? RetrieveEvalAndMove(IState state);
 
         void Clear_DEBUG();
     }
