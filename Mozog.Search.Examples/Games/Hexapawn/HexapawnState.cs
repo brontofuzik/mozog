@@ -135,11 +135,19 @@ namespace Mozog.Search.Examples.Games.Hexapawn
 
             var Bar = $"{new String('─', 2 * board.Cols() + 1)}";
 
+            // Board
             var sb = new StringBuilder();
-            sb.Append(Bar);
+            sb.Append(Bar).Append(Environment.NewLine);
             for (int r = board.Rows() - 1; r >= 0; r--)
-                sb.Append(Environment.NewLine).Append(PrintRow(r))
-                    .Append(Environment.NewLine).Append(Bar);
+                sb.Append(PrintRow(r)).Append(Environment.NewLine)
+                    .Append(Bar).Append(Environment.NewLine);
+
+            // Player to move
+            var player = PlayerToMove == Hexapawn.White ? "White" : "Black";
+            sb.Append($"{player} to move").Append(Environment.NewLine);
+
+            sb.Append(Bar);
+
             return sb.ToString();
         }
 

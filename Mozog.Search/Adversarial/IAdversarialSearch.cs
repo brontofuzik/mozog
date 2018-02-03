@@ -2,9 +2,11 @@
 {
     public interface IAdversarialSearch
     {
+        Metrics Metrics { get; }
+
         IAction MakeDecision(IState state);
 
-        Metrics Metrics { get; }
+        (IAction move, double eval, int nodes) MakeDecision_DEBUG(IState state);
     }
 
     public enum Objective

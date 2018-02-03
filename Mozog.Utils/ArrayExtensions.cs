@@ -79,6 +79,53 @@ namespace Mozog.Utils
             return flattened;
         }
 
+        // 2D
+        public static T[][] ToJaggedArray<T>(this T[,] multidimArray)
+        {
+            int rowsFirstIndex = multidimArray.GetLowerBound(0);
+            int rowsLastIndex = multidimArray.GetUpperBound(0);
+            int rows = rowsLastIndex - rowsFirstIndex + 1;
+
+            int columnsFirstIndex = multidimArray.GetLowerBound(1);
+            int columnsLastIndex = multidimArray.GetUpperBound(1);
+            int cols = columnsLastIndex - columnsFirstIndex + 1;
+
+            T[][] jaggedArray = new T[rows][];
+            for (int r = 0; r < rows; r++)
+            {
+                jaggedArray[r] = new T[cols];
+
+                for (int c = 0; c < cols; c++)
+                {
+                    jaggedArray[r][c] = multidimArray[r + rowsFirstIndex, c + columnsFirstIndex];
+                }
+            }
+            return jaggedArray;
+        }
+
+        // 2D
+        public static T[,] ToMultidimArray<T>(this T[][] jaggedArray)
+        {
+            try
+            {
+                int rows = jaggedArray.Length;
+
+                // Throws InvalidOperationException if source is not rectangular.
+                int cols = jaggedArray.GroupBy(row => row.Length).Single().Key;
+
+                var multidimArray = new T[rows, cols];
+                for (int r = 0; r < rows; r++)
+                for (int c = 0; c < cols; c++)
+                    multidimArray[r, c] = jaggedArray[r][c];
+
+                return multidimArray;
+            }
+            catch (InvalidOperationException)
+            {
+                throw new InvalidOperationException("The given jagged array is not rectangular.");
+            }
+        }
+
         public static string ToString<T>(T[] vector)
         {
             Require.IsNotNull(vector, nameof(vector));

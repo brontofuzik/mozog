@@ -34,38 +34,33 @@ namespace Mozog.Search.Adversarial
         public static GameEngine AlphaBeta(IGame game, bool humanBegins = true, bool tt = true)
             => new GameEngine(game, MinimaxSearch.AlphaBeta, humanBegins, tt: tt);
 
-        public void Play()
+        public void Play(IState initialState = null)
         {
-            var currentState = game.InitialState;
-            PrintState(currentState);
-
+            var currentState = initialState ?? game.InitialState;
             while (!game.IsTerminal(currentState))
             {
+                PrintState(currentState);
                 var move = game.GetPlayer(currentState) == humanPlayer
                     ? GetHumanMove(currentState)
                     : GetEngineMove(currentState);
                 currentState = game.GetResult(currentState, move);
-                PrintState(currentState);
             }
 
             PrintResult(currentState);
         }
 
-        public void Play_DEBUG(IState initialState)
+        public void Analyze(IState initialState = null)
         {
-            var currentState = initialState;
-            PrintState(currentState);
-
+            var currentState = initialState ?? game.InitialState;
             while (!game.IsTerminal(currentState))
             {
-                var move = game.GetPlayer(currentState) == humanPlayer
-                    ? GetHumanMove(currentState)
-                    : GetEngineMove(currentState);
-                currentState = game.GetResult(currentState, move);
                 PrintState(currentState);
-            }
+                var engineMove = GetEngineMove_DEBUG(currentState);
+                PrintMove(engineMove.move, engineMove.eval, engineMove.nodes);
 
-            PrintResult(currentState);
+                var humanMove = GetHumanMove(currentState);
+                currentState = game.GetResult(currentState, humanMove);
+            }
         }
 
         private IAction GetHumanMove(IState currentState)
@@ -83,22 +78,37 @@ namespace Mozog.Search.Adversarial
         private IAction GetEngineMove(IState currentState)
             => search.MakeDecision(currentState);
 
+        private (IAction move, double eval, int nodes) GetEngineMove_DEBUG(IState currentState)
+            => search.MakeDecision_DEBUG(currentState);
+
+        #region Printing
+
         private void PrintState(IState state)
         {
             Console.Clear();
             Console.WriteLine(state);
-            Console.WriteLine($"{nameof(MinimaxSearch.NodesExpanded_Move)}: {search.Metrics.Get<int>(MinimaxSearch.NodesExpanded_Move)}");
+            //Console.WriteLine($"{nameof(MinimaxSearch.NodesExpanded_Move)}: {search.Metrics.Get<int>(MinimaxSearch.NodesExpanded_Move)}");
         }
 
-        private void PrintResult(IState currentState)
+        private void PrintResult(IState state)
         {
+            PrintState(state);
             Console.WriteLine("Game over");
-            Console.WriteLine($"{nameof(MinimaxSearch.NodesExpanded_Game)}: {search.Metrics.Get<int>(MinimaxSearch.NodesExpanded_Game)}");
+            //Console.WriteLine($"{nameof(MinimaxSearch.NodesExpanded_Game)}: {search.Metrics.Get<int>(MinimaxSearch.NodesExpanded_Game)}");
         }
+
+        private void PrintMove(IAction move, double eval, int nodes)
+        {
+            Console.WriteLine($"{move}: {eval} ({nodes})");
+        }
+
+        #endregion // Printing
     }
 
     public interface IGameEngine
     {
-        void Play();
+        void Play(IState initialState = null);
+
+        void Analyze(IState initialState = null);
     }
 }

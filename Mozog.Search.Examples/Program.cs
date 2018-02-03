@@ -19,7 +19,8 @@ namespace Mozog.Search.Examples
 
             // 4 cols
             //Hexapawn.Play_AlphaBeta(cols: 4, rows: 4, tt: true); // White wins
-            Hexapawn.Play_AlphaBeta(cols: 4, rows: 5, tt: false); // Black wins
+            //Hexapawn.Play_AlphaBeta(cols: 4, rows: 5, tt: true); // Black wins
+            Hexapawn.Analyze_AlphaBeta(cols: 4, rows: 5, tt: true); // Black wins
 
             // 5 cols
             //Hexapawn.Play_AlphaBeta(cols: 5, rows: 5, tt: true); // White wins

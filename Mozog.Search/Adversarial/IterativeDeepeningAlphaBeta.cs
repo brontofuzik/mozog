@@ -66,6 +66,11 @@ namespace Mozog.Search.Adversarial
             return candidateActions[0];
         }
 
+        public (IAction move, double eval, int nodes) MakeDecision_DEBUG(IState state)
+        {
+            throw new NotImplementedException();
+        }
+
         private double Minimax(Objective objective, IState state, string player, double alpha, double beta, int depth)
         {
             UpdateMetrics(depth);
