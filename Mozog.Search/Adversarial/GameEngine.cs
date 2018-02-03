@@ -10,10 +10,10 @@ namespace Mozog.Search.Adversarial
         private readonly string humanPlayer;
         private readonly string enginePlayer;
 
-        public GameEngine(IGame game, Func<IGame, bool, IAdversarialSearch> searchFactory, bool humanBegins = true, bool tt = true)
+        public GameEngine(IGame game, bool humanBegins = true, bool prune = true, bool tt = true)
         {
             this.game = game;
-            this.search = searchFactory(game, tt);
+            this.search = new MinimaxSearch(game, prune, tt);
 
             // Determine players.
             if (humanBegins)
@@ -28,11 +28,11 @@ namespace Mozog.Search.Adversarial
             }
         }
 
-        public static GameEngine Minimax(IGame game, bool humanBegins = true, bool tt = true)
-            => new GameEngine(game, MinimaxSearch.Default, humanBegins, tt: tt);
+        public static GameEngine Minimax(IGame game, bool humanBegins = true, bool prune = true, bool tt = true)
+            => new GameEngine(game, humanBegins, prune: prune, tt: tt);
 
-        public static GameEngine AlphaBeta(IGame game, bool humanBegins = true, bool tt = true)
-            => new GameEngine(game, MinimaxSearch.AlphaBeta, humanBegins, tt: tt);
+        public static GameEngine AlphaBeta(IGame game, bool humanBegins = true, bool prune = true, bool tt = true)
+            => new GameEngine(game, humanBegins, prune: prune, tt: tt);
 
         public void Play(IState initialState = null)
         {

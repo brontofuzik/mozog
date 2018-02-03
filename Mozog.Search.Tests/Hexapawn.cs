@@ -19,19 +19,19 @@ namespace Mozog.Search.Tests
         private const string B = HexapawnGame.Black;
 
         private readonly HexapawnGame game;
-        private readonly MinimaxSearch<object> minimax;
-        private readonly MinimaxSearch<object> minimax_tt;
-        private readonly MinimaxSearch<(double alpha, double beta)> alphabeta;
-        private readonly MinimaxSearch<(double alpha, double beta)> alphabeta_tt;
+        private readonly MinimaxSearch minimax;
+        private readonly MinimaxSearch minimax_tt;
+        private readonly MinimaxSearch alphabeta;
+        private readonly MinimaxSearch alphabeta_tt;
 
         public Hexapawn()
         {
             StaticRandom.Seed = 42;
             game = new HexapawnGame(cols: 4, rows: 5);
-            minimax = MinimaxSearch.Default(game, tt: false);
-            minimax_tt = MinimaxSearch.Default(game, tt: true);
-            alphabeta = MinimaxSearch.AlphaBeta(game, tt: false);
-            alphabeta_tt = MinimaxSearch.AlphaBeta(game, tt: true);
+            minimax = new MinimaxSearch(game, prune: false, tt: false);
+            minimax_tt = new MinimaxSearch(game, prune: false, tt: true);;
+            alphabeta = new MinimaxSearch(game, prune: true, tt: false);
+            alphabeta_tt = new MinimaxSearch(game, prune: true, tt: true);
         }
 
         [Test]
@@ -106,10 +106,10 @@ namespace Mozog.Search.Tests
             var allReachableStates = GenerateAllReachableStates();
             foreach (var state in allReachableStates)
             {
-                var eval = transTable.RetrieveEval(state);
+                var eval = transTable.Retrieve(state);
                 Assert.That(eval, Is.Null);
 
-                transTable.StoreEval(state, 0.0);
+                transTable.Store(state, 0.0, null, 0);
             }
         }
 

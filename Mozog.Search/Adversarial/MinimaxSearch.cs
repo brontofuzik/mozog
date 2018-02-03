@@ -2,67 +2,76 @@
 
 namespace Mozog.Search.Adversarial
 {
-    public static class MinimaxSearch
+    public class MinimaxSearch : IAdversarialSearch
     {
         public const string NodesExpanded_Game = "NodesExpanded_Game";
         public const string NodesExpanded_Move = "NodesExpanded_Move";
 
-        public static MinimaxSearch<object> Default(IGame game, bool tt)
-            => new MinimaxSearch<object>(game, new NoPruner(), tt);
-
-        public static MinimaxSearch<(double alpha, double beta)> AlphaBeta(IGame game, bool tt)
-            => new MinimaxSearch<(double alpha, double beta)>(game, new AlphaBetaPruner(), tt);
-    }
-
-    public class MinimaxSearch<TPrunerArgs> : IAdversarialSearch
-    {
         private readonly IGame game;
-        private readonly IPruner<TPrunerArgs> pruner;
+        private readonly bool prune;
         private readonly ITranspositionTable transTable;
 
         public Metrics Metrics { get; } = new Metrics();
 
-        public MinimaxSearch(IGame game, IPruner<TPrunerArgs> pruner = null, bool tt = true)
+        public MinimaxSearch(IGame game, bool prune = true, bool tt = true)
         {
             this.game = game;
-            this.pruner = pruner;
+            this.prune = prune;
             transTable = tt ? new TranspositionTable() : null;
 
-            Metrics.Set(MinimaxSearch.NodesExpanded_Game, 0);
-            Metrics.Set(MinimaxSearch.NodesExpanded_Move, 0);
+            Metrics.Set(NodesExpanded_Game, 0);
+            Metrics.Set(NodesExpanded_Move, 0);
         }
 
         public IAction MakeDecision(IState state)
         {
-            Metrics.Set(MinimaxSearch.NodesExpanded_Move, 0);
+            Metrics.Set(NodesExpanded_Move, 0);
             transTable?.Clear_DEBUG();
 
-            var (action, _) = Minimax(state, pruner.InitArgs);
-            return action;
+            var alpha = prune ? Double.MinValue : 0.0;
+            var beta = prune ? Double.MaxValue : 0.0;
+
+            return Minimax(state, prune, alpha, beta).action;
         }
 
         // DEBUG: With nodes expanded per move
         public (IAction move, double eval, int nodes) MakeDecision_DEBUG(IState state)
         {
-            Metrics.Set(MinimaxSearch.NodesExpanded_Move, 0);
+            Metrics.Set(NodesExpanded_Move, 0);
             transTable?.Clear_DEBUG();
 
-            var r = Minimax(state, pruner.InitArgs);
+            var alpha = prune ? Double.MinValue : 0.0;
+            var beta = prune ? Double.MaxValue : 0.0;
+            var r = Minimax(state, prune, alpha, beta);
 
-            return (r.action, r.utility, Metrics.Get<int>(MinimaxSearch.NodesExpanded_Move));
+            return (r.action, r.utility, Metrics.Get<int>(NodesExpanded_Move));
         }
 
-        private (IAction action, double utility) Minimax(IState state, TPrunerArgs prunerArgs)
+        private (double utility, IAction action) Minimax(IState state, bool prune, double alpha, double beta)
         {
             // Transposition table
-            var cached = transTable?.RetrieveEvalAndMove(state);
-            if (cached != null) return (cached.Value.action, cached.Value.eval);
+            var cached = transTable?.Retrieve(state);
+            if (cached != null)
+            {
+                if (cached.Value.situation == 2)
+                    return (cached.Value.eval, cached.Value.action);
+                else if (cached.Value.situation == 1)
+                {
+                    // Improve beta
+                    beta = Math.Min(beta, cached.Value.eval);
+                }
+                else if (cached.Value.situation == 3)
+                {
+                    // Improve alpha
+                    alpha = Math.Max(alpha, cached.Value.eval);
+                }
+            }
 
-            Metrics.IncrementInt(MinimaxSearch.NodesExpanded_Game);
-            Metrics.IncrementInt(MinimaxSearch.NodesExpanded_Move);
+            Metrics.IncrementInt(NodesExpanded_Game);
+            Metrics.IncrementInt(NodesExpanded_Move);
 
             if (game.IsTerminal(state))
-                return (null, game.GetUtility(state).Value);
+                return (game.GetUtility(state).Value, null);
 
             // Maximizing or minimizing?
             string player = game.GetPlayer(state);
@@ -70,28 +79,48 @@ namespace Mozog.Search.Adversarial
 
             IAction bestAction = null;
             var bestUtility = objective.Max() ? Double.MinValue : Double.MaxValue;
+            int situation = 2; // Default
 
             var moves = game.GetActionsAndResults(state);
             foreach (var (action, newState) in moves)
             {
-                double newUtility = Minimax(newState, prunerArgs).utility;
+                double utility = Minimax(newState, prune, alpha, beta).utility;
 
                 // New best move
-                if (objective.Max() && newUtility > bestUtility || objective.Min() && newUtility < bestUtility)
+                if (Update(objective, utility, bestUtility))
                 {
                     bestAction = action;
-                    bestUtility = newUtility;
+                    bestUtility = utility;
                 }
 
-                // Prune
-                if (pruner.Prune(objective, newUtility, ref prunerArgs))
-                    return (action, newUtility);
+                if (prune && Prune(objective, bestUtility, ref alpha, ref beta))
+                {
+                    situation = objective.Min() ? 1 : 3;
+                    break;
+                }
             }
 
             // Transposition table
-            transTable?.StoreEvalAndMove(state, bestUtility, bestAction);
+            transTable?.Store(state, bestUtility, bestAction, situation);
 
-            return (bestAction, bestUtility);
+            return (bestUtility, bestAction);
+        }
+
+        private static bool Update(Objective objective, double utility, double bestUtility)
+            => objective.Max() && utility > bestUtility || objective.Min() && utility < bestUtility;
+
+        public bool Prune(Objective objective, double bestUtility, ref double alpha, ref double beta)
+        {
+            if (objective.Max())
+            {
+                alpha = Math.Max(alpha, bestUtility);
+            }
+            else // if (objective.Min())
+            {
+                beta = Math.Min(beta, bestUtility);
+            }
+
+            return alpha >= beta;
         }
     }
 }
