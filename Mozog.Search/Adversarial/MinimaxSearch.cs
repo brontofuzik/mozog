@@ -26,7 +26,7 @@ namespace Mozog.Search.Adversarial
         public (IAction move, double eval) MakeDecision(IState state)
         {
             Metrics.Set(NodesExpanded_Move, 0);
-            transTable?.Clear_DEBUG();
+            transTable?.Clear();
 
             var alpha = prune ? Double.MinValue : 0.0;
             var beta = prune ? Double.MaxValue : 0.0;
@@ -51,9 +51,9 @@ namespace Mozog.Search.Adversarial
             var cached = transTable?.Lookup(state);
             if (cached.HasValue)
             {
-                if (cached.Value.flag == TTFlag.Exact) // TODO What flag?
-                    return (cached.Value.eval, cached.Value.action);
-                ImproveBounds(objective, cached.Value.eval, ref alpha, ref beta);
+                if (cached.Value.Flag == TTFlag.Exact) // TODO What flag?
+                    return (cached.Value.Eval, cached.Value.Action);
+                ImproveBounds(objective, cached.Value.Eval, ref alpha, ref beta);
             }
 
             Metrics.IncrementInt(NodesExpanded_Game);
@@ -87,7 +87,8 @@ namespace Mozog.Search.Adversarial
             }
 
             // Transposition table
-            transTable?.Store(state, bestUtility, bestAction, TTFlag.Exact); // TODO What flag?
+            var entry = new TTEntry { Eval = bestUtility, Action = bestAction, Flag = TTFlag.Exact }; // TODO What flag?
+            transTable?.Store(state, entry); 
 
             return (bestUtility, bestAction);
         }

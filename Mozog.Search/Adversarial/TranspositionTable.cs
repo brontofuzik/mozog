@@ -5,15 +5,15 @@ namespace Mozog.Search.Adversarial
 {
     public class TranspositionTable : ITranspositionTable
     {
-        private readonly IDictionary<long, (double, IAction, TTFlag)> tableWithMoves = new Dictionary<long, (double, IAction, TTFlag)>();
+        private readonly IDictionary<long, TTEntry> tableWithMoves = new Dictionary<long, TTEntry>();
 
-        public void Store(IState state, double eval, IAction move, TTFlag flag)
-            => tableWithMoves[state.Hash] = (eval, move, flag);
+        public void Store(IState state, TTEntry entry)
+            => tableWithMoves[state.Hash] = entry;
 
-        public (double eval, IAction action, TTFlag flag)? Lookup(IState state)
+        public TTEntry? Lookup(IState state)
             => tableWithMoves.GetOrDefaultNullable(state.Hash);
 
-        public void Clear_DEBUG()
+        public void Clear()
         {
             tableWithMoves.Clear();
         }
@@ -21,11 +21,11 @@ namespace Mozog.Search.Adversarial
 
     public interface ITranspositionTable
     {
-        void Store(IState state, double eval, IAction move, TTFlag flag);
+        void Store(IState state, TTEntry entry);
 
-        (double eval, IAction action, TTFlag flag)? Lookup(IState state);
+        TTEntry? Lookup(IState state);
 
-        void Clear_DEBUG();
+        void Clear();
     }
 
     public struct TTEntry

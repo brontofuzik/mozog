@@ -109,7 +109,8 @@ namespace Mozog.Search.Tests
                 var eval = transTable.Lookup(state);
                 Assert.That(eval, Is.Null);
 
-                transTable.Store(state, 0.0, null, TTFlag.Exact); // TODO What flag?
+                var entry = new TTEntry { Eval = 0.0, Action = null, Flag = TTFlag.Exact };
+                transTable.Store(state, entry);
             }
         }
 

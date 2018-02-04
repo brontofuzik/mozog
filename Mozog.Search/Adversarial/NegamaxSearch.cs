@@ -30,7 +30,7 @@ namespace Mozog.Search.Adversarial
         public (IAction move, double eval) MakeDecision(IState state)
         {
             Metrics.Set(NodesExpanded_Move, 0);
-            transTable?.Clear_DEBUG();
+            transTable?.Clear();
 
             var objective = game.GetObjective(state.PlayerToMove);
             var color = objective.Max() ? 1 : -1;
@@ -125,20 +125,20 @@ namespace Mozog.Search.Adversarial
             var ttEntry = transTable?.Lookup(state);
             if (ttEntry.HasValue)
             {
-                switch (ttEntry.Value.flag)
+                switch (ttEntry.Value.Flag)
                 {
                     case TTFlag.Exact:
-                        return (ttEntry.Value.eval, ttEntry.Value.action); // Correct action?
+                        return (ttEntry.Value.Eval, ttEntry.Value.Action); // Correct action?
                     case TTFlag.LowerBound:
-                        alpha = Math.Max(alpha, ttEntry.Value.eval);
+                        alpha = Math.Max(alpha, ttEntry.Value.Eval);
                         break;
                     case TTFlag.UpperBound:
-                        beta = Math.Min(beta, ttEntry.Value.eval);
+                        beta = Math.Min(beta, ttEntry.Value.Eval);
                         break;
                 }
 
                 if (alpha >= beta)
-                    return (ttEntry.Value.eval, ttEntry.Value.action); // Correct action?
+                    return (ttEntry.Value.Eval, ttEntry.Value.Action); // Correct action?
             }
 
             Metrics.IncrementInt(NodesExpanded_Game);
@@ -176,7 +176,8 @@ namespace Mozog.Search.Adversarial
                 flag = TTFlag.LowerBound;
             else
                 flag = TTFlag.Exact;
-            transTable?.Store(state, bestEval, bestAction, flag);
+            var entry = new TTEntry { Eval = bestEval, Action = bestAction, Flag = flag };
+            transTable?.Store(state, entry);
 
             return (bestEval, bestAction);
         }
