@@ -19,23 +19,35 @@ namespace Mozog.Search.Tests
         private const string B = HexapawnGame.Black;
 
         private readonly HexapawnGame game;
+
+        // Minimax
         private readonly MinimaxSearch minimax;
         private readonly MinimaxSearch minimax_tt;
-        private readonly MinimaxSearch alphabeta;
-        private readonly MinimaxSearch alphabeta_tt;
+        private readonly MinimaxSearch minimax_ab;
+        private readonly MinimaxSearch minimax_ab_tt;
+
+        // Negamax
+        private readonly NegamaxSearch negamax;
+        private readonly NegamaxSearch negamax_ab;
+        private readonly NegamaxSearch negamax_ab_tt;
 
         public Hexapawn()
         {
             StaticRandom.Seed = 42;
             game = new HexapawnGame(cols: 4, rows: 5);
+
             minimax = new MinimaxSearch(game, prune: false, tt: false);
             minimax_tt = new MinimaxSearch(game, prune: false, tt: true);;
-            alphabeta = new MinimaxSearch(game, prune: true, tt: false);
-            alphabeta_tt = new MinimaxSearch(game, prune: true, tt: true);
+            minimax_ab = new MinimaxSearch(game, prune: true, tt: false);
+            minimax_ab_tt = new MinimaxSearch(game, prune: true, tt: true);
+
+            negamax = new NegamaxSearch(game, prune: false, tt: false);
+            negamax_ab = new NegamaxSearch(game, prune: true, tt: false);
+            negamax_ab_tt = new NegamaxSearch(game, prune: true, tt: true);
         }
 
         [Test]
-        public void Check_difference_between_nott_and_tt()
+        public void Minimax_check_difference()
         {
             var state = CreateState(HexapawnGame.White, new[,]
             {
@@ -48,12 +60,33 @@ namespace Mozog.Search.Tests
 
             var mm = minimax.MakeDecision_DEBUG(state);
             var mm_tt = minimax_tt.MakeDecision_DEBUG(state);
-            var ab = alphabeta.MakeDecision_DEBUG(state);
-            var ab_tt = alphabeta_tt.MakeDecision_DEBUG(state);
+            var mm_ab = minimax_ab.MakeDecision_DEBUG(state);
+            var mm_ab_tt = minimax_ab_tt.MakeDecision_DEBUG(state);
 
-            //Assert.That(move.ToString() == move_tt.ToString(), $"W/o tt: {move}\nWith tt: {move_tt}");
-            //Assert.That(Math.Sign(eval) == Math.Sign(eval_tt));
-            //Assert.That(nodes >= nodes_tt);
+            Assert.That(mm_ab.move.ToString() == mm_ab_tt.move.ToString(), $"W/o tt: {mm_ab.move}\nWith tt: {mm_ab_tt.move}");
+            Assert.That(Math.Sign(mm_ab.eval) == Math.Sign(mm_ab_tt.eval));
+            Assert.That(mm_ab.nodes >= mm_ab_tt.nodes);
+        }
+
+        [Test]
+        public void Negamax_check_difference()
+        {
+            var state = CreateState(HexapawnGame.White, new[,]
+            {
+                { _, B, _, B },
+                { _, _, B, _ },
+                { W, _, _, _ },
+                { W, _, _, _ },
+                { _, _, W, W }
+            });
+
+            var nm = negamax.MakeDecision_DEBUG(state);
+            var nm_ab = negamax_ab.MakeDecision_DEBUG(state);
+            var nm_ab_tt = negamax_ab_tt.MakeDecision_DEBUG(state);
+
+            Assert.That(nm_ab.move.ToString() == nm_ab_tt.move.ToString(), $"W/o tt: {nm_ab.move}\nWith tt: {nm_ab_tt.move}");
+            Assert.That(Math.Sign(nm_ab.eval) == Math.Sign(nm_ab_tt.eval));
+            Assert.That(nm_ab.nodes >= nm_ab_tt.nodes);
         }
 
         private HexapawnState CreateState(string playerToMove, string[,] board)
@@ -82,8 +115,8 @@ namespace Mozog.Search.Tests
 
         private IAction GetEngineMove(IState state, GameRecord record)
         {
-            var (move, eval, nodes) = alphabeta.MakeDecision_DEBUG(state);
-            var (move_tt, eval_tt, nodes_tt) = alphabeta_tt.MakeDecision_DEBUG(state);
+            var (move, eval, nodes) = minimax_ab.MakeDecision_DEBUG(state);
+            var (move_tt, eval_tt, nodes_tt) = minimax_ab_tt.MakeDecision_DEBUG(state);
 
             Assert.That(move.ToString() == move_tt.ToString(), $"{record}\n{state}\nW/o tt: {move}\nWith tt: {move_tt}");
             Assert.That(Math.Sign(eval) == Math.Sign(eval_tt));

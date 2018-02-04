@@ -100,7 +100,7 @@ namespace Mozog.Search.Adversarial
             var moves = game.GetActionsAndResults(state);
             foreach (var (action, newState) in moves)
             {
-                double eval = NegamaxWithPruning(newState, -color, -beta, -alpha).eval;
+                double eval = -NegamaxWithPruning(newState, -color, -beta, -alpha).eval;
 
                 // New best move found
                 if (eval > bestEval)
@@ -154,7 +154,7 @@ namespace Mozog.Search.Adversarial
             var moves = game.GetActionsAndResults(state);
             foreach (var (action, newState) in moves)
             {
-                double eval = NegamaxWithPruning(newState, -color, -beta, -alpha).eval;
+                double eval = -NegamaxWithPruning(newState, -color, -beta, -alpha).eval;
 
                 // New best move found
                 if (eval > bestEval)
