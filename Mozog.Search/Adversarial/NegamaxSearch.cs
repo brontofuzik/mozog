@@ -1,4 +1,5 @@
 ﻿using System;
+using Mozog.Utils;
 
 namespace Mozog.Search.Adversarial
 {
@@ -80,7 +81,7 @@ namespace Mozog.Search.Adversarial
             }
 
             if (transTable != null)
-                TranspositionStore(state, beta, bestEval, alphaOrig, bestAction);
+                TranspositionStore(state, bestEval, alphaOrig, beta, bestAction);
 
             return (bestEval, bestAction);
         }
@@ -116,7 +117,7 @@ namespace Mozog.Search.Adversarial
             return false;
         }
 
-        private void TranspositionStore(IState state, double beta, double bestEval, double alphaOrig, IAction bestAction)
+        private void TranspositionStore(IState state, double bestEval, double alphaOrig, double beta, IAction bestAction)
         {
             TTFlag flag;
             if (bestEval <= alphaOrig)

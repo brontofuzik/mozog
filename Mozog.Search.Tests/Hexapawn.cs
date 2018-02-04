@@ -37,7 +37,7 @@ namespace Mozog.Search.Tests
             game = new HexapawnGame(cols: 4, rows: 5);
 
             minimax = new MinimaxSearch(game, prune: false, tt: false);
-            minimax_tt = new MinimaxSearch(game, prune: false, tt: true);;
+            //minimax_tt = new MinimaxSearch(game, prune: false, tt: true);;
             minimax_ab = new MinimaxSearch(game, prune: true, tt: false);
             minimax_ab_tt = new MinimaxSearch(game, prune: true, tt: true);
 
@@ -59,7 +59,7 @@ namespace Mozog.Search.Tests
             });
 
             var mm = minimax.MakeDecision_DEBUG(state);
-            var mm_tt = minimax_tt.MakeDecision_DEBUG(state);
+            //var mm_tt = minimax_tt.MakeDecision_DEBUG(state);
             var mm_ab = minimax_ab.MakeDecision_DEBUG(state);
             var mm_ab_tt = minimax_ab_tt.MakeDecision_DEBUG(state);
 

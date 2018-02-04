@@ -43,18 +43,12 @@ namespace Mozog.Search.Adversarial
 
         private (double utility, IAction action) Minimax(IState state, bool prune, double alpha, double beta)
         {
-            // Maximizing or minimizing?
-            string player = game.GetPlayer(state);
-            var objective = game.GetObjective(player);
+            var alphaOrig = alpha;
+            var betaOrig = beta;
 
             // Transposition table
-            var cached = transTable?.Lookup(state);
-            if (cached.HasValue)
-            {
-                if (cached.Value.Flag == TTFlag.Exact) // TODO What flag?
-                    return (cached.Value.Eval, cached.Value.Action);
-                ImproveBounds(objective, cached.Value.Eval, ref alpha, ref beta);
-            }
+            if (transTable != null && TranspositionLookup(state, ref alpha, ref beta, out var cached))
+                return cached;
 
             Metrics.IncrementInt(NodesExpanded_Game);
             Metrics.IncrementInt(NodesExpanded_Move);
@@ -62,9 +56,11 @@ namespace Mozog.Search.Adversarial
             if (game.IsTerminal(state))
                 return (game.GetUtility(state).Value, null);
 
-            var bestUtility = objective.Max() ? Double.MinValue : Double.MaxValue;
+            // Maximizing or minimizing?
+            string player = game.GetPlayer(state);
+            var objective = game.GetObjective(player);
+            var bestEval = objective.Max() ? Double.MinValue : Double.MaxValue;
             IAction bestAction = null;
-            bool exact = true;
 
             var moves = game.GetActionsAndResults(state);
             foreach (var (action, newState) in moves)
@@ -72,46 +68,75 @@ namespace Mozog.Search.Adversarial
                 double utility = Minimax(newState, prune, alpha, beta).utility;
 
                 // New best move found
-                if (Update(objective, utility, bestUtility))
+                if (Update(objective, utility, bestEval))
                 {
-                    bestUtility = utility;
+                    bestEval = utility;
                     bestAction = action;
                 }
 
                 // Alpha-beta pruning
-                if (prune && Prune(objective, bestUtility, ref alpha, ref beta))
+                if (prune)
                 {
-                    exact = false;
-                    break;
+                    if (objective.Max())
+                        alpha = Math.Max(alpha, bestEval);
+                    else // if (objective.Min())
+                        beta = Math.Min(beta, bestEval);
+                    if (alpha >= beta) break;
                 }
             }
 
-            // Transposition table
-            var entry = new TTEntry { Eval = bestUtility, Action = bestAction, Flag = TTFlag.Exact }; // TODO What flag?
-            transTable?.Store(state, entry); 
+            if (transTable != null)
+                TranspositionStore(state, bestEval, alphaOrig, betaOrig, bestAction);
 
-            return (bestUtility, bestAction);
+            return (bestEval, bestAction);
         }
 
-        private static bool Update(Objective objective, double utility, double bestUtility)
-            => objective.Max() && utility > bestUtility || objective.Min() && utility < bestUtility;
+        private static bool Update(Objective objective, double eval, double bestEval)
+            => objective.Max() && eval > bestEval || objective.Min() && eval < bestEval;
 
-        private static bool Prune(Objective objective, double bestUtility, ref double alpha, ref double beta)
+        private bool TranspositionLookup(IState state, ref double alpha, ref double beta, out (double eval, IAction move) cached)
         {
-            ImproveBounds(objective, bestUtility, ref alpha, ref beta);
-            return alpha >= beta;
+            var ttEntry = transTable.Lookup(state);
+            if (ttEntry.HasValue)
+            {
+                switch (ttEntry.Value.Flag)
+                {
+                    case TTFlag.Exact:
+                    {
+                        cached = (ttEntry.Value.Eval, ttEntry.Value.Action);
+                        return true;
+                    }
+                    case TTFlag.LowerBound:
+                        alpha = Math.Max(alpha, ttEntry.Value.Eval);
+                        break;
+                    case TTFlag.UpperBound:
+                        beta = Math.Min(beta, ttEntry.Value.Eval);
+                        break;
+                }
+
+                if (alpha >= beta)
+                {
+                    cached = (ttEntry.Value.Eval, ttEntry.Value.Action);
+                    return true;
+                }
+            }
+
+            cached = (0.0, null);
+            return false;
         }
 
-        private static void ImproveBounds(Objective objective, double eval, ref double alpha, ref double beta)
+        private void TranspositionStore(IState state, double bestEval, double alphaOrig, double betaOrig, IAction bestAction)
         {
-            if (objective.Max())
-            {
-                alpha = Math.Max(alpha, eval);
-            }
-            else // if (objective.Min())
-            {
-                beta = Math.Min(beta, eval);
-            }
+            TTFlag flag;
+            if (bestEval <= alphaOrig)
+                flag = TTFlag.UpperBound;
+            else if (bestEval >= betaOrig)
+                flag = TTFlag.LowerBound;
+            else
+                flag = TTFlag.Exact;
+
+            var entry = new TTEntry { Eval = bestEval, Action = bestAction, Flag = flag };
+            transTable.Store(state, entry);
         }
     }
 }
