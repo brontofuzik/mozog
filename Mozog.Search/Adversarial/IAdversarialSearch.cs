@@ -4,7 +4,7 @@
     {
         Metrics Metrics { get; }
 
-        IAction MakeDecision(IState state);
+        (IAction move, double eval) MakeDecision(IState state);
 
         (IAction move, double eval, int nodes) MakeDecision_DEBUG(IState state);
     }

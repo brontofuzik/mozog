@@ -106,10 +106,10 @@ namespace Mozog.Search.Tests
             var allReachableStates = GenerateAllReachableStates();
             foreach (var state in allReachableStates)
             {
-                var eval = transTable.Retrieve(state);
+                var eval = transTable.Lookup(state);
                 Assert.That(eval, Is.Null);
 
-                transTable.Store(state, 0.0, null, true);
+                transTable.Store(state, 0.0, null, TTFlag.Exact); // TODO What flag?
             }
         }
 

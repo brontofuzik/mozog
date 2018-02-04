@@ -29,7 +29,7 @@ namespace Mozog.Search.Adversarial
             this.timer = new Timer(timeout);
         }
 
-        public IAction MakeDecision(IState state)
+        public (IAction move, double eval) MakeDecision(IState state)
         {
             Metrics = new Metrics();
             timer.Start();
@@ -63,7 +63,7 @@ namespace Mozog.Search.Adversarial
             }
             while (!timer.TimedOut && heuristicEvaluationUsed);
 
-            return candidateActions[0];
+            return (candidateActions[0], 0.0); // TODO What eval to return?
         }
 
         public (IAction move, double eval, int nodes) MakeDecision_DEBUG(IState state)

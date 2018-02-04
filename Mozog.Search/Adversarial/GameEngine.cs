@@ -76,7 +76,7 @@ namespace Mozog.Search.Adversarial
         }
 
         private IAction GetEngineMove(IState currentState)
-            => search.MakeDecision(currentState);
+            => search.MakeDecision(currentState).move;
 
         private (IAction move, double eval, int nodes) GetEngineMove_DEBUG(IState currentState)
             => search.MakeDecision_DEBUG(currentState);

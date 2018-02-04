@@ -23,28 +23,22 @@ namespace Mozog.Search.Adversarial
             Metrics.Set(NodesExpanded_Move, 0);
         }
 
-        public IAction MakeDecision(IState state)
+        public (IAction move, double eval) MakeDecision(IState state)
         {
             Metrics.Set(NodesExpanded_Move, 0);
             transTable?.Clear_DEBUG();
 
             var alpha = prune ? Double.MinValue : 0.0;
             var beta = prune ? Double.MaxValue : 0.0;
+            var result = Minimax(state, prune, alpha, beta);
 
-            return Minimax(state, prune, alpha, beta).action;
+            return (result.action, result.utility);
         }
 
-        // DEBUG: With nodes expanded per move
         public (IAction move, double eval, int nodes) MakeDecision_DEBUG(IState state)
         {
-            Metrics.Set(NodesExpanded_Move, 0);
-            transTable?.Clear_DEBUG();
-
-            var alpha = prune ? Double.MinValue : 0.0;
-            var beta = prune ? Double.MaxValue : 0.0;
-            var r = Minimax(state, prune, alpha, beta);
-
-            return (r.action, r.utility, Metrics.Get<int>(NodesExpanded_Move));
+            var result = MakeDecision(state);
+            return (result.move, result.eval, Metrics.Get<int>(NodesExpanded_Move));
         }
 
         private (double utility, IAction action) Minimax(IState state, bool prune, double alpha, double beta)
@@ -54,10 +48,10 @@ namespace Mozog.Search.Adversarial
             var objective = game.GetObjective(player);
 
             // Transposition table
-            var cached = transTable?.Retrieve(state);
+            var cached = transTable?.Lookup(state);
             if (cached.HasValue)
             {
-                if (cached.Value.exact)
+                if (cached.Value.flag == TTFlag.Exact) // TODO What flag?
                     return (cached.Value.eval, cached.Value.action);
                 ImproveBounds(objective, cached.Value.eval, ref alpha, ref beta);
             }
@@ -68,8 +62,8 @@ namespace Mozog.Search.Adversarial
             if (game.IsTerminal(state))
                 return (game.GetUtility(state).Value, null);
 
-            IAction bestAction = null;
             var bestUtility = objective.Max() ? Double.MinValue : Double.MaxValue;
+            IAction bestAction = null;
             bool exact = true;
 
             var moves = game.GetActionsAndResults(state);
@@ -80,8 +74,8 @@ namespace Mozog.Search.Adversarial
                 // New best move found
                 if (Update(objective, utility, bestUtility))
                 {
-                    bestAction = action;
                     bestUtility = utility;
+                    bestAction = action;
                 }
 
                 // Alpha-beta pruning
@@ -93,7 +87,7 @@ namespace Mozog.Search.Adversarial
             }
 
             // Transposition table
-            transTable?.Store(state, bestUtility, bestAction, exact);
+            transTable?.Store(state, bestUtility, bestAction, TTFlag.Exact); // TODO What flag?
 
             return (bestUtility, bestAction);
         }
