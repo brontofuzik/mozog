@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mozog.Search.Adversarial
 {
@@ -35,19 +31,7 @@ namespace Mozog.Search.Adversarial
             var objective = game.GetObjective(state.PlayerToMove);
             var color = objective.Max() ? 1 : -1;
 
-            (double eval, IAction move) result;
-            if (!prune)
-            {
-                result = Negamax(state, color);
-            }
-            else if (prune && transTable == null)
-            {
-                result = NegamaxWithPruning(state, color, Double.MinValue, Double.MaxValue);
-            }
-            else
-            {
-                result = NegamaxWithPruningAndTransposition(state, color, Double.MinValue, Double.MaxValue);
-            }
+            (double eval, IAction move) result = Negamax(state, color, prune, Double.MinValue, Double.MaxValue);
 
             return (result.move, result.eval);
         }
@@ -58,35 +42,13 @@ namespace Mozog.Search.Adversarial
             return (result.move, result.eval, Metrics.Get<int>(NodesExpanded_Move));
         }
 
-        private (double eval, IAction move) Negamax(IState state, int color)
+        private (double eval, IAction move) Negamax(IState state, int color, bool prune, double alpha, double beta)
         {
-            Metrics.IncrementInt(NodesExpanded_Game);
-            Metrics.IncrementInt(NodesExpanded_Move);
+            var alphaOrig = alpha;
 
-            if (game.IsTerminal(state))
-                return (color * game.GetUtility(state).Value, null);
+            if (transTable != null && TranspositionLookup(state, ref alpha, ref beta, out var cached))
+                return cached;
 
-            var bestEval = Double.MinValue;
-            IAction bestAction = null;
-
-            var moves = game.GetActionsAndResults(state);
-            foreach (var (action, newState) in moves)
-            {
-                var eval = -Negamax(newState, -color).eval;
-
-                // New best move found
-                if (eval > bestEval)
-                {
-                    bestEval = eval;
-                    bestAction = action;
-                }
-            }
-
-            return (bestEval, bestAction);
-        }
-
-        private (double eval, IAction move) NegamaxWithPruning(IState state, int color, double alpha, double beta)
-        {
             Metrics.IncrementInt(NodesExpanded_Game);
             Metrics.IncrementInt(NodesExpanded_Move);
 
@@ -100,7 +62,7 @@ namespace Mozog.Search.Adversarial
             var moves = game.GetActionsAndResults(state);
             foreach (var (action, newState) in moves)
             {
-                double eval = -NegamaxWithPruning(newState, -color, -beta, -alpha).eval;
+                double eval = -Negamax(newState, -color, prune, -beta, -alpha).eval;
 
                 // New best move found
                 if (eval > bestEval)
@@ -110,25 +72,31 @@ namespace Mozog.Search.Adversarial
                 }
 
                 // Alpha-beta pruning
-                alpha = Math.Max(alpha, eval);
-                if (alpha >= beta) break;
+                if (prune)
+                {
+                    alpha = Math.Max(alpha, eval);
+                    if (alpha >= beta) break;
+                }
             }
+
+            if (transTable != null)
+                TranspositionStore(state, beta, bestEval, alphaOrig, bestAction);
 
             return (bestEval, bestAction);
         }
 
-        private (double eval, IAction move) NegamaxWithPruningAndTransposition(IState state, int color, double alpha, double beta)
+        private bool TranspositionLookup(IState state, ref double alpha, ref double beta, out (double eval, IAction move) cached)
         {
-            var alphaOrig = alpha;
-
-            // Transposition table lookup
-            var ttEntry = transTable?.Lookup(state);
+            var ttEntry = transTable.Lookup(state);
             if (ttEntry.HasValue)
             {
                 switch (ttEntry.Value.Flag)
                 {
                     case TTFlag.Exact:
-                        return (ttEntry.Value.Eval, ttEntry.Value.Action); // Correct action?
+                    {
+                        cached = (ttEntry.Value.Eval, ttEntry.Value.Action);
+                        return true;
+                    }
                     case TTFlag.LowerBound:
                         alpha = Math.Max(alpha, ttEntry.Value.Eval);
                         break;
@@ -138,37 +106,18 @@ namespace Mozog.Search.Adversarial
                 }
 
                 if (alpha >= beta)
-                    return (ttEntry.Value.Eval, ttEntry.Value.Action); // Correct action?
-            }
-
-            Metrics.IncrementInt(NodesExpanded_Game);
-            Metrics.IncrementInt(NodesExpanded_Move);
-
-            // Terminal?
-            if (game.IsTerminal(state))
-                return (color * game.GetUtility(state).Value, null);
-
-            var bestEval = Double.MinValue;
-            IAction bestAction = null;
-
-            var moves = game.GetActionsAndResults(state);
-            foreach (var (action, newState) in moves)
-            {
-                double eval = -NegamaxWithPruning(newState, -color, -beta, -alpha).eval;
-
-                // New best move found
-                if (eval > bestEval)
                 {
-                    bestEval = eval;
-                    bestAction = action;
+                    cached = (ttEntry.Value.Eval, ttEntry.Value.Action);
+                    return true;
                 }
-
-                // Alpha-beta pruning
-                alpha = Math.Max(alpha, eval);
-                if (alpha >= beta) break;
             }
 
-            // Transposition table store
+            cached = (0.0, null);
+            return false;
+        }
+
+        private void TranspositionStore(IState state, double beta, double bestEval, double alphaOrig, IAction bestAction)
+        {
             TTFlag flag;
             if (bestEval <= alphaOrig)
                 flag = TTFlag.UpperBound;
@@ -177,9 +126,7 @@ namespace Mozog.Search.Adversarial
             else
                 flag = TTFlag.Exact;
             var entry = new TTEntry { Eval = bestEval, Action = bestAction, Flag = flag };
-            transTable?.Store(state, entry);
-
-            return (bestEval, bestAction);
+            transTable.Store(state, entry);
         }
     }
 }
