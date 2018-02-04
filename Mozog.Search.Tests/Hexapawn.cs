@@ -109,7 +109,7 @@ namespace Mozog.Search.Tests
                 var eval = transTable.Retrieve(state);
                 Assert.That(eval, Is.Null);
 
-                transTable.Store(state, 0.0, null, 0);
+                transTable.Store(state, 0.0, null, true);
             }
         }
 

@@ -49,22 +49,17 @@ namespace Mozog.Search.Adversarial
 
         private (double utility, IAction action) Minimax(IState state, bool prune, double alpha, double beta)
         {
+            // Maximizing or minimizing?
+            string player = game.GetPlayer(state);
+            var objective = game.GetObjective(player);
+
             // Transposition table
             var cached = transTable?.Retrieve(state);
-            if (cached != null)
+            if (cached.HasValue)
             {
-                if (cached.Value.situation == 2)
+                if (cached.Value.exact)
                     return (cached.Value.eval, cached.Value.action);
-                else if (cached.Value.situation == 1)
-                {
-                    // Improve beta
-                    beta = Math.Min(beta, cached.Value.eval);
-                }
-                else if (cached.Value.situation == 3)
-                {
-                    // Improve alpha
-                    alpha = Math.Max(alpha, cached.Value.eval);
-                }
+                ImproveBounds(objective, cached.Value.eval, ref alpha, ref beta);
             }
 
             Metrics.IncrementInt(NodesExpanded_Game);
@@ -73,35 +68,32 @@ namespace Mozog.Search.Adversarial
             if (game.IsTerminal(state))
                 return (game.GetUtility(state).Value, null);
 
-            // Maximizing or minimizing?
-            string player = game.GetPlayer(state);
-            var objective = game.GetObjective(player);
-
             IAction bestAction = null;
             var bestUtility = objective.Max() ? Double.MinValue : Double.MaxValue;
-            int situation = 2; // Default
+            bool exact = true;
 
             var moves = game.GetActionsAndResults(state);
             foreach (var (action, newState) in moves)
             {
                 double utility = Minimax(newState, prune, alpha, beta).utility;
 
-                // New best move
+                // New best move found
                 if (Update(objective, utility, bestUtility))
                 {
                     bestAction = action;
                     bestUtility = utility;
                 }
 
+                // Alpha-beta pruning
                 if (prune && Prune(objective, bestUtility, ref alpha, ref beta))
                 {
-                    situation = objective.Min() ? 1 : 3;
+                    exact = false;
                     break;
                 }
             }
 
             // Transposition table
-            transTable?.Store(state, bestUtility, bestAction, situation);
+            transTable?.Store(state, bestUtility, bestAction, exact);
 
             return (bestUtility, bestAction);
         }
@@ -109,18 +101,22 @@ namespace Mozog.Search.Adversarial
         private static bool Update(Objective objective, double utility, double bestUtility)
             => objective.Max() && utility > bestUtility || objective.Min() && utility < bestUtility;
 
-        public bool Prune(Objective objective, double bestUtility, ref double alpha, ref double beta)
+        private static bool Prune(Objective objective, double bestUtility, ref double alpha, ref double beta)
+        {
+            ImproveBounds(objective, bestUtility, ref alpha, ref beta);
+            return alpha >= beta;
+        }
+
+        private static void ImproveBounds(Objective objective, double eval, ref double alpha, ref double beta)
         {
             if (objective.Max())
             {
-                alpha = Math.Max(alpha, bestUtility);
+                alpha = Math.Max(alpha, eval);
             }
             else // if (objective.Min())
             {
-                beta = Math.Min(beta, bestUtility);
+                beta = Math.Min(beta, eval);
             }
-
-            return alpha >= beta;
         }
     }
 }
