@@ -7,18 +7,18 @@ namespace Mozog.Search.Examples.Games.Hexapawn
     public class Hexapawn : Game
     {
         // Example
-        public static void Play_Minimax(int cols, int rows, bool tt)
+        public static void Play_Minimax(int cols, int rows, bool prune = true, bool tt = true)
         {
             var hexapawn = new Hexapawn(rows: rows, cols: cols);
-            var engine = GameEngine.Minimax(hexapawn, tt: tt);
+            var engine = new GameEngine(hexapawn, humanBegins: true, prune: prune, tt: tt);
             engine.Play();
         }
 
         // Example
-        public static void Play_Minimax_DEBUG(int cols, int rows, bool tt, IState initialState)
+        public static void Play_Minimax_DEBUG(int cols, int rows, IState initialState = null, bool prune = true, bool tt = true)
         {
             var hexapawn = new Hexapawn(rows: rows, cols: cols);
-            var engine = GameEngine.Minimax(hexapawn, tt: tt);
+            var engine = new GameEngine(hexapawn, humanBegins:true, prune: prune, tt: tt);
 
             // DEBUG
             if (initialState is HexapawnState state)
@@ -28,31 +28,10 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         }
 
         // Example
-        public static void Play_AlphaBeta(int cols, int rows, bool tt)
+        public static void Analyze_Minimax(int cols, int rows, bool prune, bool tt)
         {
             var hexapawn = new Hexapawn(rows: rows, cols: cols);
-            var engine = GameEngine.AlphaBeta(hexapawn, tt: tt);
-            engine.Play();
-        }
-
-        // Example
-        public static void Play_AlphaBeta_DEBUG(int cols, int rows, bool tt, IState initialState)
-        {
-            var hexapawn = new Hexapawn(rows: rows, cols: cols);
-            var engine = GameEngine.AlphaBeta(hexapawn, tt: tt);
-
-            // DEBUG
-            if (initialState is HexapawnState state)
-                state.Game_DEBUG = hexapawn;
-
-            engine.Play(initialState);
-        }
-
-        // Example
-        public static void Analyze_AlphaBeta(int cols, int rows, bool tt)
-        {
-            var hexapawn = new Hexapawn(rows: rows, cols: cols);
-            var engine = GameEngine.AlphaBeta(hexapawn, tt: tt);
+            var engine = new GameEngine(hexapawn, humanBegins: true, prune: prune, tt: tt);
             engine.Analyze();
         }
 

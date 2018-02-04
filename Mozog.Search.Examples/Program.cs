@@ -10,20 +10,29 @@ namespace Mozog.Search.Examples
         {
             StaticRandom.Seed = 42;
 
-            //TicTacToe.Play_Minimax();
-            //TicTacToe.Play_AlphaBeta();
+            //PlayTicTacToe();
+            PlayHexapawn();
+        }
 
+        private static void PlayTicTacToe()
+        {
+            TicTacToe.Play_Minimax(prune: false);
+            TicTacToe.Play_Minimax(prune: true);
+        }
+
+        private static void PlayHexapawn()
+        {
             // 3 cols
-            //Hexapawn.Play_Minimax(cols: 3, rows: 3, tt: true); // Black wins
-            //Hexapawn.Play_Minimax(cols: 3, rows: 4, tt: true); // Black wins
+            Hexapawn.Play_Minimax(cols: 3, rows: 3); // Black wins
+            Hexapawn.Play_Minimax(cols: 3, rows: 4); // Black wins
 
             // 4 cols
-            //Hexapawn.Play_AlphaBeta(cols: 4, rows: 4, tt: true); // White wins
-            //Hexapawn.Play_AlphaBeta(cols: 4, rows: 5, tt: true); // Black wins
-            Hexapawn.Analyze_AlphaBeta(cols: 4, rows: 5, tt: true); // Black wins
+            Hexapawn.Play_Minimax(cols: 4, rows: 4); // White wins
+            Hexapawn.Play_Minimax(cols: 4, rows: 5); // Black wins
+            Hexapawn.Play_Minimax(cols: 4, rows: 5); // Black wins
 
             // 5 cols
-            //Hexapawn.Play_AlphaBeta(cols: 5, rows: 5, tt: true); // White wins
+            Hexapawn.Play_Minimax(cols: 5, rows: 5); // White wins
         }
     }
 }

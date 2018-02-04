@@ -28,12 +28,6 @@ namespace Mozog.Search.Adversarial
             }
         }
 
-        public static GameEngine Minimax(IGame game, bool humanBegins = true, bool prune = true, bool tt = true)
-            => new GameEngine(game, humanBegins, prune: prune, tt: tt);
-
-        public static GameEngine AlphaBeta(IGame game, bool humanBegins = true, bool prune = true, bool tt = true)
-            => new GameEngine(game, humanBegins, prune: prune, tt: tt);
-
         public void Play(IState initialState = null)
         {
             var currentState = initialState ?? game.InitialState;
