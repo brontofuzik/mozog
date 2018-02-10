@@ -52,6 +52,8 @@
     <Compile Include="Adversarial\Game.cs" />
     <Compile Include="Adversarial\IterativeDeepeningAlphaBeta.cs" />
     <Compile Include="Adversarial\GameEngine.cs" />
+    <Compile Include="Adversarial\IterativeDeepeningSearch.cs" />
+    <Compile Include="Adversarial\DepthLimitedMinimaxSearch.cs" />
     <Compile Include="Adversarial\NegamaxSearch.cs" />
     <Compile Include="Adversarial\State.cs" />
     <Compile Include="Adversarial\TranspositionTable.cs" />

@@ -10,10 +10,12 @@ namespace Mozog.Search.Adversarial
         private readonly string humanPlayer;
         private readonly string enginePlayer;
 
-        public GameEngine(IGame game, bool humanBegins = true, bool prune = true, bool tt = true)
+        public GameEngine(IGame game, bool humanBegins = true, bool iterativeDeepening = true, bool prune = true, bool tt = true)
         {
             this.game = game;
-            this.search = new MinimaxSearch(game, prune, tt);
+            this.search = iterativeDeepening
+                ? IterativeDeepeningSearch.New(game, prune, tt)
+                : new MinimaxSearch(game, prune, tt);
 
             // Determine players.
             if (humanBegins)

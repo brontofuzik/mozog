@@ -4,10 +4,10 @@ namespace Mozog.Search.Examples.Games.TicTacToe
 {
     public class TicTacToe : Game
     {
-        public static void Play_Minimax(bool prune = false)
+        public static void Play_Minimax()
         {
             var ticTacToe = new TicTacToe();
-            var engine = new GameEngine(ticTacToe, humanBegins: true, prune: prune, tt: false);
+            var engine = new GameEngine(ticTacToe, humanBegins: true, iterativeDeepening: false, prune: false, tt: false);
             engine.Play();
         }
 

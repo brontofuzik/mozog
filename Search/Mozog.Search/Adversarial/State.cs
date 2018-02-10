@@ -1,23 +1,31 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace Mozog.Search.Adversarial
 {
     public abstract class State : IState
     {
+        private readonly Lazy<GameResult> result;
+
+        // Null evaluation means the state hasn't been evaluated yet.
+        private double? evaluation;
+
         protected State(string playerToMove)
         {
             PlayerToMove = playerToMove;
+            result = new Lazy<GameResult>(GetResult);
         }
 
-        public string PlayerToMove { get; }
+        public virtual string PlayerToMove { get; }
 
-        public bool IsTerminal => Evaluation.HasValue;
+        protected GameResult Result => result.Value;
 
-        private double? evaluation = null;
-        public virtual double? Evaluation => evaluation ?? (evaluation = Evaluate());
+        public virtual bool IsTerminal => Result != GameResult.InProgress;
 
-        protected abstract double? Evaluate();
+        public virtual double? Evaluation => evaluation ?? (evaluation = EvaluateTerminal());
+
+        public virtual double Evaluation_NEW => evaluation ?? (evaluation = Evaluate()).Value;
 
         public abstract IEnumerable<IAction> GetLegalMoves();
 
@@ -26,6 +34,15 @@ namespace Mozog.Search.Adversarial
 
         public abstract IState MakeMove(IAction action);
 
+        // Guaranteed to be called once
+        protected abstract GameResult GetResult();
+
+        // Guaranteed to be called once
+        protected abstract double? EvaluateTerminal();
+
+        // Guaranteed to be called once
+        protected abstract double Evaluate();
+
         public virtual int Hash => 0;
 
         public abstract string Debug { get; }
@@ -33,11 +50,13 @@ namespace Mozog.Search.Adversarial
 
     public interface IState
     {
-        bool IsTerminal { get; }
-
         string PlayerToMove { get; }
 
+        bool IsTerminal { get; }
+
         double? Evaluation { get; }
+
+        double Evaluation_NEW { get; }
 
         IEnumerable<IAction> GetLegalMoves();
 

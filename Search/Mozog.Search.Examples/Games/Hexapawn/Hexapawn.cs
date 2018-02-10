@@ -7,18 +7,20 @@ namespace Mozog.Search.Examples.Games.Hexapawn
     public class Hexapawn : Game
     {
         // Example
-        public static void Play_Minimax(int cols, int rows, bool prune = true, bool tt = true)
+        public static void Play_Minimax(int cols, int rows,
+            bool iterativeDeepening = true, bool prune = true, bool tt = true)
         {
             var hexapawn = new Hexapawn(rows: rows, cols: cols);
-            var engine = new GameEngine(hexapawn, humanBegins: true, prune: prune, tt: tt);
+            var engine = new GameEngine(hexapawn, humanBegins: true, iterativeDeepening: iterativeDeepening, prune: prune, tt: tt);
             engine.Play();
         }
 
         // Example
-        public static void Play_Minimax_DEBUG(int cols, int rows, IState initialState = null, bool prune = true, bool tt = true)
+        public static void Play_Minimax_DEBUG(int cols, int rows, IState initialState = null,
+            bool iterativeDeepening = true, bool prune = true, bool tt = true)
         {
             var hexapawn = new Hexapawn(rows: rows, cols: cols);
-            var engine = new GameEngine(hexapawn, humanBegins:true, prune: prune, tt: tt);
+            var engine = new GameEngine(hexapawn, humanBegins: true, iterativeDeepening: iterativeDeepening, prune: prune, tt: tt);
 
             // DEBUG
             if (initialState is HexapawnState state)
@@ -28,10 +30,11 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         }
 
         // Example
-        public static void Analyze_Minimax(int cols, int rows, bool prune, bool tt)
+        public static void Analyze_Minimax(int cols, int rows,
+            bool iterativeDeepening = true, bool prune = true, bool tt = true)
         {
             var hexapawn = new Hexapawn(rows: rows, cols: cols);
-            var engine = new GameEngine(hexapawn, humanBegins: true, prune: prune, tt: tt);
+            var engine = new GameEngine(hexapawn, humanBegins: true, iterativeDeepening: iterativeDeepening, prune: prune, tt: tt);
             engine.Analyze();
         }
 

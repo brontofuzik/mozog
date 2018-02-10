@@ -29,7 +29,7 @@ namespace Mozog.Search.Adversarial
             this.timer = new Timer(timeout);
         }
 
-        public (IAction move, double eval) MakeDecision(IState state)
+        public (IAction move, double eval) MakeDecision(IState state, int maxDepth = Int32.MaxValue)
         {
             Metrics = new Metrics();
             timer.Start();
@@ -66,7 +66,7 @@ namespace Mozog.Search.Adversarial
             return (candidateActions[0], 0.0); // TODO What eval to return?
         }
 
-        public (IAction move, double eval, int nodes) MakeDecision_DEBUG(IState state)
+        public (IAction move, double eval, int nodes) MakeDecision_DEBUG(IState state, int maxDepth = Int32.MaxValue)
         {
             throw new NotImplementedException();
         }
@@ -189,7 +189,7 @@ namespace Mozog.Search.Adversarial
         {
             if (game.IsTerminal(state))
             {
-                return game.GetUtility(state/*, player.ToString()*/).Value;
+                return game.EvaluateTerminalState(state).Value;
             }
             else
             {

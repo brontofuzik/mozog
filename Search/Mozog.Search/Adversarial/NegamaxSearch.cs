@@ -24,7 +24,7 @@ namespace Mozog.Search.Adversarial
             Metrics.Set(NodesExpanded_Move, 0);
         }
 
-        public (IAction move, double eval) MakeDecision(IState state)
+        public (IAction move, double eval) MakeDecision(IState state, int maxDepth = Int32.MaxValue)
         {
             Metrics.Set(NodesExpanded_Move, 0);
             transTable?.Clear();
@@ -37,7 +37,7 @@ namespace Mozog.Search.Adversarial
             return (result.move, result.eval);
         }
 
-        public (IAction move, double eval, int nodes) MakeDecision_DEBUG(IState state)
+        public (IAction move, double eval, int nodes) MakeDecision_DEBUG(IState state, int maxDepth = Int32.MaxValue)
         {
             var result = MakeDecision(state);
             return (result.move, result.eval, Metrics.Get<int>(NodesExpanded_Move));
@@ -55,7 +55,7 @@ namespace Mozog.Search.Adversarial
 
             // Terminal?
             if (game.IsTerminal(state))
-                return (color * game.GetUtility(state).Value, null);
+                return (color * game.EvaluateTerminalState(state).Value, null);
 
             var bestEval = Double.MinValue;
             IAction bestAction = null;

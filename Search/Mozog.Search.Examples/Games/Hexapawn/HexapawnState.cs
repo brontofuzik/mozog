@@ -40,7 +40,7 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         #region Move
 
         public override IEnumerable<IAction> GetLegalMoves()
-            => board.Squares().Where(s => board.GetSquare(s) == PlayerToMove)
+            => board.Squares().Where(s => s.Piece == PlayerToMove)
                 .SelectMany(s => GetLegalMovesForPiece(s.Row0, s.ColInt));
 
         private IEnumerable<IAction> GetLegalMovesForPiece(int row, int col)
@@ -76,22 +76,42 @@ namespace Mozog.Search.Examples.Games.Hexapawn
 
         #region Evaluate
 
-        // No draws?
-        protected override double? Evaluate()
+        // No draws
+        protected override GameResult GetResult()
         {
-            if (WhiteWon) return +1.0 + (1.0 / movesPlayed);
-            if (BlackWon) return -1.0 - (1.0 / movesPlayed);
-            return null;
+            if (WhiteWon) return GameResult.Win1;
+            if (BlackWon) return GameResult.Win2;
+            return GameResult.InProgress;
+        }
+
+        protected override double? EvaluateTerminal()
+        {
+            switch (Result)
+            {
+                case GameResult.Win1: return +10.0 + (10.0 / movesPlayed);
+                case GameResult.Win2: return -10.0 - (10.0 / movesPlayed);
+                default: return null; // GameResult.InProgress
+            }
+        }
+
+        protected override double Evaluate() => EvaluateTerminal() ?? EvaluateNonTerminal();
+
+        private double EvaluateNonTerminal()
+        {
+            // Pawn balance
+            int whitePawns = board.Squares().Count(s => s.Piece == Hexapawn.White);
+            int blackPawns = board.Squares().Count(s => s.Piece == Hexapawn.Black);
+            return whitePawns - blackPawns;
         }
 
         // Either White has queened or Black has no legal moves
         public bool WhiteWon
-            => board.Squares().Where(s => s.Row0 == board.Rows() - 1).Any(s => board.GetSquare(s) == Hexapawn.White)
+            => board.Squares().Where(s => s.Row0 == board.Rows() - 1).Any(s => s.Piece == Hexapawn.White)
             || BlackToMove && GetLegalMoves().None();
 
         // Either Black has queened or White has no legal moves
         public bool BlackWon
-            => board.Squares().Where(s => s.Row0 == 0).Any(s => board.GetSquare(s) == Hexapawn.Black)
+            => board.Squares().Where(s => s.Row0 == 0).Any(s => s.Piece == Hexapawn.Black)
             || WhiteToMove && GetLegalMoves().None();
 
         #endregion // Evaluate
@@ -118,7 +138,7 @@ namespace Mozog.Search.Examples.Games.Hexapawn
             int SquareHash(HexapawnSquare square)
                 => game.Table[board.SquareToIndex(square), board.GetSquare(square) == Hexapawn.White ? 0 : 1];
 
-            var boardHash = board.Squares().Where(s => board.GetSquare(s) != Hexapawn.Empty)
+            var boardHash = board.Squares().Where(s => s.Piece != Hexapawn.Empty)
                 .Aggregate(0, (h, s) => h ^ SquareHash(s));
 
             var playerHash = WhiteToMove ? game.Table_WhiteToMove : game.Table_BlackToMove;
@@ -183,7 +203,7 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         {
             for (int r = 0; r < board.Rows(); r++)
             for (int c = 0; c < board.Cols(); c++)
-                yield return new HexapawnSquare(col: c, row0: r);
+                yield return new HexapawnSquare(col: c, row0: r, piece: board[r, c]);
         }
 
         public static char IntToChar(int i) => (char)('a' + i);

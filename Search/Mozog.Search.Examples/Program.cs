@@ -16,8 +16,7 @@ namespace Mozog.Search.Examples
 
         private static void PlayTicTacToe()
         {
-            TicTacToe.Play_Minimax(prune: false);
-            TicTacToe.Play_Minimax(prune: true);
+            TicTacToe.Play_Minimax();
         }
 
         private static void PlayHexapawn()

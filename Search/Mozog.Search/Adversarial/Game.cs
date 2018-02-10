@@ -30,8 +30,11 @@ namespace Mozog.Search.Adversarial
         public virtual bool IsLegalMove(IState state, IAction move)
             => state.IsLegalMove(move);
 
-        public virtual double? GetUtility(IState state)
+        public virtual double? EvaluateTerminalState(IState state)
             => state.Evaluation;
+
+        public virtual double EvaluateState(IState state)
+            => state.Evaluation_NEW;
 
         public virtual string PrintState(IState state)
             => state.ToString();
@@ -59,7 +62,9 @@ namespace Mozog.Search.Adversarial
 
         bool IsTerminal(IState state);
 
-        double? GetUtility(IState state);
+        double? EvaluateTerminalState(IState state);
+
+        double EvaluateState(IState state);
 
         #region UI
 
@@ -72,5 +77,13 @@ namespace Mozog.Search.Adversarial
 
     public interface IAction : IEquatable<IAction>
     {
+    }
+
+    public enum GameResult
+    {
+        InProgress,
+        Win1,
+        Win2,
+        Draw
     }
 }

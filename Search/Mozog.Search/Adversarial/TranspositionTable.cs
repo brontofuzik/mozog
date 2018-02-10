@@ -30,6 +30,8 @@ namespace Mozog.Search.Adversarial
 
     public struct TTEntry
     {
+        public int Depth;
+
         public double Eval;
 
         public IAction Action;

@@ -1,12 +1,14 @@
-﻿namespace Mozog.Search.Adversarial
+﻿using System;
+
+namespace Mozog.Search.Adversarial
 {
     public interface IAdversarialSearch
     {
         Metrics Metrics { get; }
 
-        (IAction move, double eval) MakeDecision(IState state);
+        (IAction move, double eval) MakeDecision(IState state, int depth = Int32.MaxValue);
 
-        (IAction move, double eval, int nodes) MakeDecision_DEBUG(IState state);
+        (IAction move, double eval, int nodes) MakeDecision_DEBUG(IState state, int depth = Int32.MaxValue);
     }
 
     public enum Objective

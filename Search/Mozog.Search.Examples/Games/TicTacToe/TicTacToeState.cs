@@ -58,13 +58,32 @@ namespace Mozog.Search.Examples.Games.TicTacToe
 
         #region Evaluate
 
-        protected override double? Evaluate()
+        protected override GameResult GetResult()
         {
-            if (IsGameWon(TicTacToe.PlayerX)) return +1.0;
-            else if (IsGameWon(TicTacToe.PlayerO)) return -1.0;
-            else if (IsGameDrawn) return 0.0;
-            else return null;
+            if (IsGameWon(TicTacToe.PlayerX))
+                return GameResult.Win1;
+            if (IsGameWon(TicTacToe.PlayerO))
+                return GameResult.Win2;
+            if (IsGameDrawn)
+                return GameResult.Draw;
+            return GameResult.InProgress;
         }
+
+        protected override double? EvaluateTerminal()
+        {
+            switch (Result)
+            {
+                case GameResult.Win1: return +1.0;
+                case GameResult.Win2: return -1.0;
+                case GameResult.Draw: return 0.0;
+                default: return null; // GameResult.InProgress
+            }
+        }
+
+        protected override double Evaluate() => EvaluateTerminal() ?? EvaluateNonTerminal();
+
+        // Not needed for tic-tac-toe.
+        private double EvaluateNonTerminal() => throw new NotImplementedException();
 
         private bool IsGameWon(string player)
             => IsAnyRowComplete(player) || IsAnyColComplete(player) || IsAnyDiagonalComplete(player);
