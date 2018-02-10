@@ -72,7 +72,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mozog.Utils\Mozog.Utils.csproj">
+    <ProjectReference Include="..\..\Mozog.Utils\Mozog.Utils.csproj">
       <Project>{47cb5c11-3dce-4768-ab1f-ffc1cfd55167}</Project>
       <Name>Mozog.Utils</Name>
     </ProjectReference>

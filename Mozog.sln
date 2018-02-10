@@ -47,11 +47,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QLearning", "Learning\QLear
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QLearning.Examples", "Learning\QLearning.Examples\QLearning.Examples.csproj", "{B61C22E8-9395-4BB9-99BC-68A4220CD758}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mozog.Search", "Mozog.Search\Mozog.Search.csproj", "{B332B8EB-8F1E-41BC-A706-624123516A21}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Search", "Search", "{20255822-D1D8-4EBF-A88F-F2F4E5A7FB6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mozog.Search.Examples", "Mozog.Search.Examples\Mozog.Search.Examples.csproj", "{5366826E-48BA-4B10-A95F-2A7A7332FCB0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mozog.Search", "Search\Mozog.Search\Mozog.Search.csproj", "{B332B8EB-8F1E-41BC-A706-624123516A21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mozog.Search.Tests", "Mozog.Search.Tests\Mozog.Search.Tests.csproj", "{FDEAF661-FDBB-4F7E-993F-F71BA72139C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mozog.Search.Examples", "Search\Mozog.Search.Examples\Mozog.Search.Examples.csproj", "{5366826E-48BA-4B10-A95F-2A7A7332FCB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mozog.Search.Tests", "Search\Mozog.Search.Tests\Mozog.Search.Tests.csproj", "{FDEAF661-FDBB-4F7E-993F-F71BA72139C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -168,6 +170,9 @@ Global
 		{F73F103B-AFD7-40CE-9829-673276A6843C} = {0D96491B-CBF8-403A-9AE5-2A259A554ECD}
 		{FD7FA0D4-F366-4C80-8015-FB6E898EA46A} = {255529A0-91B4-4FFA-9908-8C849104A796}
 		{B61C22E8-9395-4BB9-99BC-68A4220CD758} = {255529A0-91B4-4FFA-9908-8C849104A796}
+		{B332B8EB-8F1E-41BC-A706-624123516A21} = {20255822-D1D8-4EBF-A88F-F2F4E5A7FB6F}
+		{5366826E-48BA-4B10-A95F-2A7A7332FCB0} = {20255822-D1D8-4EBF-A88F-F2F4E5A7FB6F}
+		{FDEAF661-FDBB-4F7E-993F-F71BA72139C4} = {20255822-D1D8-4EBF-A88F-F2F4E5A7FB6F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F0AE664F-ADC8-46B7-A075-0AB282787190}
