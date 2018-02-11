@@ -75,7 +75,7 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         public override Objective GetObjective(string player)
             => player == White ? Objective.Max : Objective.Min;
 
-        public override IAction ParseMove(string moveStr, string player)
-            => HexapawnMove.Parse(moveStr, player);
+        public override IAction ParseMove(string moveStr, IState currentState)
+            => HexapawnMove.Parse(moveStr, (HexapawnState)currentState);
     }
 }

@@ -61,13 +61,13 @@ namespace Mozog.Search.Adversarial
 
         private IAction GetHumanMove(IState currentState)
         {
-            IAction move = null;
+            IAction move;
             do
             {
                 Console.WriteLine("Your move?");
-                move = game.ParseMove(Console.ReadLine(), currentState.PlayerToMove);
+                move = game.ParseMove(Console.ReadLine(), currentState);
             }
-            while (move == null || !game.IsLegalMove(currentState, move));
+            while (move == null);
             return move;
         }
 

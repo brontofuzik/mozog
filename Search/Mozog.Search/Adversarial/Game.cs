@@ -39,7 +39,7 @@ namespace Mozog.Search.Adversarial
         public virtual string PrintState(IState state)
             => state.ToString();
 
-        public abstract IAction ParseMove(string moveStr, string player);
+        public abstract IAction ParseMove(string moveStr, IState state);
     }
 
     public interface IGame
@@ -70,7 +70,7 @@ namespace Mozog.Search.Adversarial
 
         string PrintState(IState state);
 
-        IAction ParseMove(string moveStr, string player);
+        IAction ParseMove(string moveStr, IState currentState);
 
         #endregion // UI
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Mozog.Search.Adversarial;
 
 namespace Mozog.Search.Examples.Games.Hexapawn
@@ -6,24 +7,11 @@ namespace Mozog.Search.Examples.Games.Hexapawn
     public class HexapawnMove : IAction
     {
         // "b2" or "axb2"
-        public static HexapawnMove Parse(string moveStr, string player)
+        public static IAction Parse(string moveStr, HexapawnState currentState)
         {
-            if (moveStr.Length == 2)
-            {
-                // Normal move
-                var toRow = (int)Char.GetNumericValue(moveStr[1]);
-                var fromRow = player == Hexapawn.White ? toRow - 1 : toRow + 1;
-                return new HexapawnMove(moveStr[0], fromRow, moveStr[0], toRow);
-            }
-            else if (moveStr.Length == 4)
-            {
-                // Capture move
-                var toRow = (int)Char.GetNumericValue(moveStr[3]);
-                var fromRow = player == Hexapawn.White ? toRow - 1 : toRow + 1;
-                return new HexapawnMove(moveStr[0], fromRow, moveStr[2], toRow);
-            }
-            else
-                return null;
+            var legalMoves = currentState.GetLegalMoves().ToDictionary(m => m.ToString());
+            legalMoves.TryGetValue(moveStr, out var move);
+            return move;
         }
 
         public HexapawnMove(Square from, Square to)
@@ -41,7 +29,7 @@ namespace Mozog.Search.Examples.Games.Hexapawn
 
         public Square To { get; }
 
-        private bool IsCapture => From.ColInt != To.ColInt;
+        private bool IsCapture => From.Col0 != To.Col0;
 
         public bool Equals(IAction other)
         {
@@ -50,6 +38,6 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         }
 
         public override string ToString()
-            => IsCapture ? $"{From.ColChar}x{To.ToString()}" : To.ToString();
+            => IsCapture ? $"{From.ColChar}x{To}" : To.ToString();
     }
 }

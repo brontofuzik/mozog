@@ -1,4 +1,5 @@
-﻿using Mozog.Search.Examples.Games.Hexapawn;
+﻿using System;
+using Mozog.Search.Examples.Games.Hexapawn;
 using Mozog.Search.Examples.Games.TicTacToe;
 using Mozog.Utils.Math;
 
@@ -8,7 +9,7 @@ namespace Mozog.Search.Examples
     {
         static void Main(string[] args)
         {
-            StaticRandom.Seed = 42;
+            //StaticRandom.Seed = 42;
 
             //PlayTicTacToe();
             PlayHexapawn();
@@ -22,13 +23,13 @@ namespace Mozog.Search.Examples
         private static void PlayHexapawn()
         {
             // 3 cols
-            //Hexapawn.Play_Minimax(cols: 3, rows: 3); // Black wins
+            Hexapawn.Play_Minimax(cols: 3, rows: 3); // Black wins
             //Hexapawn.Play_Minimax(cols: 3, rows: 4); // Black wins
 
             // 4 cols
             //Hexapawn.Play_Minimax(cols: 4, rows: 4); // White wins
             //Hexapawn.Play_Minimax(cols: 4, rows: 5); // Black wins
-            Hexapawn.Play_Minimax(cols: 4, rows: 5); // Black wins
+            //Hexapawn.Play_Minimax(cols: 4, rows: 5); // Black wins
 
             // 5 cols
             //Hexapawn.Play_Minimax(cols: 5, rows: 5); // White wins

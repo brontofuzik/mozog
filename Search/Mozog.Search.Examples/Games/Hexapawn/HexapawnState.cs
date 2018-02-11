@@ -38,18 +38,18 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         public static IState CreateInitial(int rows, int cols, Hexapawn game)
             => new HexapawnState(InitialBoard(rows, cols), Hexapawn.White, 0, game);
 
-        private static string[,] InitialBoard(int rows, int cols)
-            => new string[rows, cols].Initialize2D((r, c) => Fn.Switch(r, Hexapawn.Empty,
-                (r1 => r1 == 0, Hexapawn.White),
-                (r2 => r2 == rows - 1, Hexapawn.Black)));
+        private static Board InitialBoard(int rows, int cols)
+            => new Board(rows, cols).Initialize(square => square.Switch(Hexapawn.Empty,
+                (s => s.Row1 == 1, Hexapawn.White),
+                (s => s.Row1 == rows, Hexapawn.Black)));
 
         #region Move
 
         public override IEnumerable<IAction> GetLegalMoves()
             => board.Squares.Where(s => s.Piece == PlayerToMove)
-                .SelectMany(s => GetLegalMovesForPiece(s.Row0, s.ColInt));
+                .SelectMany(s => GetLegalMovesForPawn(s.Row0, s.Col0));
 
-        private IEnumerable<IAction> GetLegalMovesForPiece(int row, int col)
+        private IEnumerable<IAction> GetLegalMovesForPawn(int row, int col)
         {
             var current = new Square(col, row);
             int newRow = WhiteToMove ? row + 1 : row - 1;
@@ -70,13 +70,10 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         public override IState MakeMove(IAction action)
             => new HexapawnState(NewBoard((HexapawnMove)action), Opponent, movesPlayed + 1, game);
 
-        private Board NewBoard(HexapawnMove action)
-        {
-            var newBoard = board.Clone();
-            newBoard.SetSquare(action.From, Hexapawn.Empty);
-            newBoard.SetSquare(action.To, PlayerToMove);
-            return newBoard;
-        }
+        private Board NewBoard(HexapawnMove move)
+            => board.Clone()
+                .SetSquare(move.From, Hexapawn.Empty)
+                .SetSquare(move.To, PlayerToMove);
 
         #endregion // Move
 
@@ -90,6 +87,16 @@ namespace Mozog.Search.Examples.Games.Hexapawn
             return GameResult.InProgress;
         }
 
+        // Either White has queened or Black has no legal moves
+        private bool WhiteWon
+            => board.Squares.Where(s => s.Row1 == board.Rows).Any(s => s.Piece == Hexapawn.White)
+               || BlackToMove && GetLegalMoves().None();
+
+        // Either Black has queened or White has no legal moves
+        private bool BlackWon
+            => board.Squares.Where(s => s.Row1 == 1).Any(s => s.Piece == Hexapawn.Black)
+               || WhiteToMove && GetLegalMoves().None();
+
         protected override double? EvaluateTerminal()
         {
             switch (Result)
@@ -100,9 +107,7 @@ namespace Mozog.Search.Examples.Games.Hexapawn
             }
         }
 
-        protected override double Evaluate() => EvaluateTerminal() ?? EvaluateNonTerminal();
-
-        private double EvaluateNonTerminal()
+        protected override double EvaluateNonTerminal()
         {
             // Pawn balance
             int whitePawns = board.Squares.Count(s => s.Piece == Hexapawn.White);
@@ -110,25 +115,12 @@ namespace Mozog.Search.Examples.Games.Hexapawn
             return whitePawns - blackPawns;
         }
 
-        // Either White has queened or Black has no legal moves
-        public bool WhiteWon
-            => board.Squares.Where(s => s.Row0 == board.Rows - 1).Any(s => s.Piece == Hexapawn.White)
-            || BlackToMove && GetLegalMoves().None();
-
-        // Either Black has queened or White has no legal moves
-        public bool BlackWon
-            => board.Squares.Where(s => s.Row0 == 0).Any(s => s.Piece == Hexapawn.Black)
-            || WhiteToMove && GetLegalMoves().None();
-
         #endregion // Evaluate
 
-        #region Transposition table
-
-        private int? hash;
-        public override int Hash => hash ?? (hash = CalculateHash()) ?? 0;
+        #region Hashing
 
         //// Simple hashing
-        //private int CalculateHash()
+        //protected override int CalculateHash()
         //{
         //    const int prime = 31;
 
@@ -138,11 +130,13 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         //    return h * prime + PlayerToMove.GetHashCode();
         //}
 
-        // Zobrist hashing (new)
-        private int CalculateHash()
+        // Zobrist hashing
+        protected override int CalculateHash()
         {
+            int PieceToIndex(string piece) => piece == Hexapawn.White ? 0 : 1;
+
             int SquareHash(Square square)
-                => game.Table[board.SquareToIndex(square), board.GetSquare(square) == Hexapawn.White ? 0 : 1];
+                => game.Table[board.SquareToIndex(square), PieceToIndex(board.GetSquare(square))];
 
             var boardHash = board.Squares.Where(s => s.Piece != Hexapawn.Empty)
                 .Aggregate(0, (h, s) => h ^ SquareHash(s));
@@ -152,7 +146,7 @@ namespace Mozog.Search.Examples.Games.Hexapawn
             return boardHash ^ playerHash;
         }
 
-        #endregion // Transposition table
+        #endregion // Hashing
 
         public override string ToString()
         {

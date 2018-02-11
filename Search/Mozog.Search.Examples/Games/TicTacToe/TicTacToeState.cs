@@ -36,8 +36,8 @@ namespace Mozog.Search.Examples.Games.TicTacToe
             get
             {
                 for (int r = 0; r < 3; r++)
-                    for (int c = 0; c < 3; c++)
-                        yield return (r, c, board[r, c]);
+                for (int c = 0; c < 3; c++)
+                    yield return (r, c, board[r, c]);
             }
         }
 
@@ -69,22 +69,6 @@ namespace Mozog.Search.Examples.Games.TicTacToe
             return GameResult.InProgress;
         }
 
-        protected override double? EvaluateTerminal()
-        {
-            switch (Result)
-            {
-                case GameResult.Win1: return +1.0;
-                case GameResult.Win2: return -1.0;
-                case GameResult.Draw: return 0.0;
-                default: return null; // GameResult.InProgress
-            }
-        }
-
-        protected override double Evaluate() => EvaluateTerminal() ?? EvaluateNonTerminal();
-
-        // Not needed for tic-tac-toe.
-        private double EvaluateNonTerminal() => throw new NotImplementedException();
-
         private bool IsGameWon(string player)
             => IsAnyRowComplete(player) || IsAnyColComplete(player) || IsAnyDiagonalComplete(player);
 
@@ -97,7 +81,7 @@ namespace Mozog.Search.Examples.Games.TicTacToe
             return false;
         }
 
-        private string[] Row(int r) => new string[] { board[r, 0], board[r, 1], board[r, 2] };
+        private string[] Row(int r) => new[] { board[r, 0], board[r, 1], board[r, 2] };
 
         private bool IsAnyColComplete(string player)
         {
@@ -108,16 +92,30 @@ namespace Mozog.Search.Examples.Games.TicTacToe
             return false;
         }
 
-        private string[] Col(int c) => new string[] { board[0, c], board[1, c], board[2, c] };
+        private string[] Col(int c) => new[] { board[0, c], board[1, c], board[2, c] };
 
         private bool IsAnyDiagonalComplete(string player)
             => PrimaryDiagonal.All(p => p == player) || SecondaryDiagonal.All(p => p == player);
 
-        private string[] PrimaryDiagonal => new string[] { board[0, 0], board[1, 1], board[2, 2] };
+        private string[] PrimaryDiagonal => new[] { board[0, 0], board[1, 1], board[2, 2] };
 
-        private string[] SecondaryDiagonal => new string[] { board[0, 2], board[1, 1], board[2, 0] };
+        private string[] SecondaryDiagonal => new[] { board[0, 2], board[1, 1], board[2, 0] };
 
         private bool IsGameDrawn => board.Cast<string>().All(c => c != TicTacToe.Empty);
+
+        protected override double? EvaluateTerminal()
+        {
+            switch (Result)
+            {
+                case GameResult.Win1: return +1.0;
+                case GameResult.Win2: return -1.0;
+                case GameResult.Draw: return 0.0;
+                default: return null; // GameResult.InProgress
+            }
+        }
+
+        // Not needed for tic-tac-toe.
+        protected override double EvaluateNonTerminal() => throw new NotImplementedException();
 
         #endregion // Evaluate
 

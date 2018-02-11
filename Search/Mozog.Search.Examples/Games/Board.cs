@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mozog.Utils;
 
 namespace Mozog.Search.Examples.Games
 {
@@ -8,6 +9,13 @@ namespace Mozog.Search.Examples.Games
     {
         private readonly string[,] board;
 
+        // New board
+        public Board(int rows, int cols)
+        {
+            this.board = new string[rows, cols];
+        }
+
+        // Existing board
         public Board(string[,] board)
         {
             this.board = board;
@@ -31,19 +39,26 @@ namespace Mozog.Search.Examples.Games
 
         public string this[int row, int col] => board[row, col];
 
-        public string GetSquare(Square square)
-            => IsWithinBoard(square.Row0, square.ColInt) ? board[square.Row0, square.ColInt] : null;
-
-        public void SetSquare(Square square, string value)
+        public Board Initialize(Func<Square, string> initializer)
         {
-            if (IsWithinBoard(square.Row0, square.ColInt))
-                board[square.Row0, square.ColInt] = value;
+            board.Initialize2D((r, c) => initializer(new Square(col: c, row0: r)));
+            return this;
+        }
+
+        public string GetSquare(Square square)
+            => IsWithinBoard(square.Row0, square.Col0) ? board[square.Row0, square.Col0] : null;
+
+        public Board SetSquare(Square square, string value)
+        {
+            if (IsWithinBoard(square.Row0, square.Col0))
+                board[square.Row0, square.Col0] = value;
             else
                 throw new ArgumentException(nameof(square));
+            return this;
         }
 
         public int SquareToIndex(Square square)
-            => square.Row0 * Cols + square.ColInt;
+            => square.Row0 * Cols + square.Col0;
 
         private bool IsWithinBoard(int row, int col)
             => 0 <= row && row < Rows && 0 <= col && col < Cols;
@@ -59,7 +74,7 @@ namespace Mozog.Search.Examples.Games
     {
         public Square(int col, int row0, string piece = null)
         {
-            ColInt = col;
+            Col0 = col;
             Row0 = row0;
             Piece = piece;
         }
@@ -69,18 +84,34 @@ namespace Mozog.Search.Examples.Games
         {
         }
 
-        public int ColInt { get; }
+        public static Square Parse(string squareStr)
+        {
+            if (squareStr.Length != 2)
+                throw new ArgumentException(nameof(squareStr));
+            return new Square(squareStr[0], (int)Char.GetNumericValue(squareStr[1]));
+        }
 
-        public char ColChar => Board.IntToChar(ColInt);
+        public int Col0 { get; }
+
+        public char ColChar => Board.IntToChar(Col0);
 
         public int Row0 { get; }
 
         public int Row1 => Row0 + 1;
 
+        public char RowChar => Row1.ToString()[0];
+
         public string Piece { get; }
 
         public bool Equals(Square other)
-            => ColInt == other.ColInt && Row0 == other.Row0;
+            => Col0 == other.Col0 && Row0 == other.Row0;
+
+        public bool Is(string pattern)
+        {
+            bool colMatch = pattern[0] == '*' || pattern[0] == ColChar;
+            bool rowMatch = pattern[1] == '*' || pattern[1] == RowChar;
+            return colMatch && rowMatch;
+        }
 
         public override string ToString() => $"{ColChar}{Row1}";
     }

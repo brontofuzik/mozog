@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Mozog.Search.Adversarial;
+﻿using Mozog.Search.Adversarial;
 using Mozog.Utils;
 using Mozog.Utils.Math;
 
@@ -27,14 +22,18 @@ namespace Mozog.Search.Examples.Games.PawnChess
             engine.Analyze();
         }
 
-        private const int rows = 8;
-        private const int cols = 8;
+        public const int Rows = 8;
+        public const int Cols = 8;
 
         // Players
         public const string White = "W";
         public const string Black = "B";
 
         // Pieces
+        public const char King = 'K';
+        public const char Pawn = 'P';
+
+        // Board
         public const string WhitePawn = "P";
         public const string WhiteKing = "K";
         public const string BlackPawn = "p";
@@ -48,7 +47,7 @@ namespace Mozog.Search.Examples.Games.PawnChess
 
         private void InitializeTranspositionTable()
         {
-            Table = new int[rows * cols, 4]; // Wp, Wk, Bp, Bk 
+            Table = new int[Rows * Cols, 4]; // P, K, p, k 
             Table.Initialize2D((i1, i2) => StaticRandom.Int());
             Table_WhiteToMove = StaticRandom.Int();
             Table_BlackToMove = StaticRandom.Int();
@@ -66,7 +65,7 @@ namespace Mozog.Search.Examples.Games.PawnChess
         public override Objective GetObjective(string player)
             => player == White ? Objective.Max : Objective.Min;
 
-        public override IAction ParseMove(string moveStr, string player)
-            => PawnChessMove.Parse(moveStr, player);
+        public override IAction ParseMove(string moveStr, IState currentState)
+            => PawnChessMove.Parse(moveStr, (PawnChessState)currentState);
     }
 }

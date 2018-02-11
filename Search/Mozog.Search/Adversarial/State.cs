@@ -27,6 +27,9 @@ namespace Mozog.Search.Adversarial
 
         public virtual double Evaluation_NEW => evaluation ?? (evaluation = Evaluate()).Value;
 
+        private int? hash;
+        public virtual int Hash => hash ?? (int)(hash = CalculateHash());
+
         public abstract IEnumerable<IAction> GetLegalMoves();
 
         public virtual bool IsLegalMove(IAction move)
@@ -38,12 +41,15 @@ namespace Mozog.Search.Adversarial
         protected abstract GameResult GetResult();
 
         // Guaranteed to be called once
-        protected abstract double? EvaluateTerminal();
+        protected virtual double Evaluate() => EvaluateTerminal() ?? EvaluateNonTerminal();
 
         // Guaranteed to be called once
-        protected abstract double Evaluate();
+        protected abstract double? EvaluateTerminal();
 
-        public virtual int Hash => 0;
+        protected abstract double EvaluateNonTerminal();
+
+        // Guaranteed to be called once
+        protected virtual int CalculateHash() => 0;
 
         public abstract string Debug { get; }
     }
