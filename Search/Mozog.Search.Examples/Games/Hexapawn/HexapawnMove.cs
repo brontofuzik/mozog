@@ -26,20 +26,20 @@ namespace Mozog.Search.Examples.Games.Hexapawn
                 return null;
         }
 
-        public HexapawnMove(HexapawnSquare from, HexapawnSquare to)
+        public HexapawnMove(Square from, Square to)
         {
             From = from;
             To = to;
         }
 
         public HexapawnMove(char fromCol, int fromRow, char toCol, int toRow)
-            : this(new HexapawnSquare(fromCol, fromRow), new HexapawnSquare(toCol, toRow))
+            : this(new Square(fromCol, fromRow), new Square(toCol, toRow))
         {
         }
 
-        public HexapawnSquare From { get; }
+        public Square From { get; }
 
-        public HexapawnSquare To { get; }
+        public Square To { get; }
 
         private bool IsCapture => From.ColInt != To.ColInt;
 
@@ -51,35 +51,5 @@ namespace Mozog.Search.Examples.Games.Hexapawn
 
         public override string ToString()
             => IsCapture ? $"{From.ColChar}x{To.ToString()}" : To.ToString();
-    }
-
-    public struct HexapawnSquare : IEquatable<HexapawnSquare>
-    {
-        public HexapawnSquare(int col, int row0, string piece = null)
-        {
-            ColInt = col;
-            Row0 = row0;
-            Piece = piece;
-        }
-
-        public HexapawnSquare(char col, int row1, string piece = null)
-            : this(BoardUtils.CharToInt(col), row1 - 1, piece)
-        {
-        }
-
-        public int ColInt { get; }
-
-        public char ColChar => BoardUtils.IntToChar(ColInt);
-
-        public int Row0 { get; }
-
-        public int Row1 => Row0 + 1;
-
-        public string Piece { get; }
-
-        public bool Equals(HexapawnSquare other)
-            => ColInt == other.ColInt && Row0 == other.Row0;
-
-        public override string ToString() => $"{ColChar}{Row1}";
     }
 }

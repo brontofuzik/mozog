@@ -35,6 +35,7 @@ namespace Mozog.Search.Examples.Games.Hexapawn
             engine.Analyze();
         }
 
+        // Players & pieces
         public const string White = "W";
         public const string Black = "B";
         public const string Empty = " ";
