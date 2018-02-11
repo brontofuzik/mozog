@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Mozog.Search.Adversarial;
@@ -45,38 +46,100 @@ namespace Mozog.Search.Examples.Games.PawnChess
 
         #region Move
 
-        // TODO
         public override IEnumerable<IAction> GetLegalMoves()
         {
-            throw new NotImplementedException();
+            var pawnMoves = GetLegalPawnMoves();
+            var kingMoves = GetLegalKingMoves();
+            var allMoves = pawnMoves.Concat(kingMoves);
+            var legalMoves = allMoves.Where(m => !KingChecked(PlayerToMove, board.MakeMove((IChessboardMove)m)));
+            return legalMoves;
         }
 
-        public override IState MakeMove(IAction action)
-            => new PawnChessState(NewBoard((PawnChessMove)action), Opponent, movesPlayed + 1, game);
+        private IEnumerable<IAction> GetLegalPawnMoves()
+            => board.FindPieces(PlayersPawn(PlayerToMove)).SelectMany(GetLegalPawnMoves);
 
-        private Board NewBoard(PawnChessMove move)
-            => board.Clone()
-                .SetSquare(move.From, PawnChess.Empty)
-                .SetSquare(move.To, PlayerToMove);
+        // TODO
+        private IEnumerable<IAction> GetLegalPawnMoves(Square pawn)
+        {
+            return null;
+        }
+
+        // TODO
+        private IEnumerable<IAction> GetLegalKingMoves()
+        {
+            var kingSquare = board.FindPiece(PlayersKing(PlayerToMove)).Value;
+            return null;
+        }
+
+        public override IState MakeMove(IAction move)
+            => new PawnChessState(board.MakeMove((IChessboardMove)move), Opponent, movesPlayed + 1, game);
 
         #endregion // Move
 
+        #region Result
+
         protected override GameResult GetResult()
         {
-            if (WhiteWon) return GameResult.Win1;
-            if (BlackWon) return GameResult.Win2;
+            // Only check for White win if it's Black's turn
+            if (BlackToMove && WhiteWon) return GameResult.Win1;
+
+            // Only check for Black win if it's White's turn
+            if (WhiteToMove && BlackWon) return GameResult.Win2;
+
             if (Drawn) return GameResult.Draw;
+
             return GameResult.InProgress;
         }
 
-        // TODO
-        private bool WhiteWon { get; }
+        private bool WhiteWon => PawnPromoted(PawnChess.White) || KingMated(PawnChess.Black);
 
-        // TODO
-        private bool BlackWon { get; }
+        private bool BlackWon => PawnPromoted(PawnChess.Black) || KingMated(PawnChess.White);
 
-        // TODO
-        private bool Drawn { get; }
+        private bool Drawn => !KingChecked(PlayerToMove) && GetLegalMoves().None();
+
+        private bool PawnPromoted(string player)
+            => player == PawnChess.WhitePawn
+                ? board.Squares.Where(s => s.Row1 == board.Rows).Any(s => s.Piece == PawnChess.WhitePawn)
+                : board.Squares.Where(s => s.Row1 == 1).Any(s => s.Piece == PawnChess.BlackPawn);
+
+        private bool KingMated(string player) => KingChecked(player) && GetLegalMoves().None();
+
+        private bool KingChecked(string player, Board newBoard = null)
+        {
+            var kingSquare = (newBoard ?? board).FindPiece(PlayersKing(player)).Value; // A king is always on the board
+            var threatenedSqaures = (newBoard ?? board).FindPieces(PlayersPawn(player)).SelectMany(s => GetThreatenedSquares(s, player));
+            return threatenedSqaures.Contains(kingSquare);
+        }
+
+        private IEnumerable<Square> GetThreatenedSquares(Square pawn, string player)
+        {
+            if (player == PawnChess.White)
+            {
+                if (board.IsWithinBoard(row: pawn.Row0 + 1, col: pawn.Col0 - 1))
+                    yield return new Square(row0: pawn.Row0 + 1, col0: pawn.Col0 - 1);
+
+                if (board.IsWithinBoard(row: pawn.Row0 + 1, col: pawn.Col0 + 1))
+                    yield return new Square( row0: pawn.Row0 + 1, col0: pawn.Col0 + 1);
+            }
+            else
+            {
+                if (board.IsWithinBoard(row: pawn.Row0 - 1, col: pawn.Col0 - 1))
+                    yield return new Square(row0: pawn.Row0 - 1, col0: pawn.Col0 - 1);
+
+                if (board.IsWithinBoard(row: pawn.Row0 - 1, col: pawn.Col0 + 1))
+                    yield return new Square(row0: pawn.Row0 - 1, col0: pawn.Col0 + 1);
+            }
+        }
+
+        private static string PlayersKing(string player)
+            => player == PawnChess.White ? PawnChess.WhiteKing : PawnChess.BlackKing;
+
+        private static string PlayersPawn(string player)
+            => player == PawnChess.White ? PawnChess.WhitePawn : PawnChess.BlackPawn;
+
+        #endregion // Result
+
+        #region Evaluate
 
         protected override double? EvaluateTerminal()
         {
@@ -89,11 +152,20 @@ namespace Mozog.Search.Examples.Games.PawnChess
             }
         }
 
-        // TODO
+        // TODO Add more features.
         protected override double EvaluateNonTerminal()
         {
-            throw new NotImplementedException();
+            return MaterialBalance();
         }
+
+        private double MaterialBalance()
+        {
+            int whitePawns = board.FindPieces(PawnChess.WhitePawn).Count();
+            int blackPawns = board.FindPieces(PawnChess.BlackPawn).Count();
+            return whitePawns - blackPawns;
+        }
+
+        #endregion // Evaluate
 
         #region Hashing
 

@@ -4,7 +4,7 @@ using Mozog.Search.Adversarial;
 
 namespace Mozog.Search.Examples.Games.PawnChess
 {
-    public class PawnChessMove : IAction
+    public class PawnChessMove : IChessboardMove
     {
         // TODO Add check and mate symbols.
         // Pawn: "b2", "axb2"
@@ -25,6 +25,8 @@ namespace Mozog.Search.Examples.Games.PawnChess
         }
 
         public char Piece { get; }
+
+        public string Empty => PawnChess.Empty;
 
         public Square From { get; }
 

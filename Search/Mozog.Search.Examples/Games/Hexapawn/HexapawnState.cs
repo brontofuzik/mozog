@@ -77,13 +77,17 @@ namespace Mozog.Search.Examples.Games.Hexapawn
 
         #endregion // Move
 
-        #region Evaluate
+        #region Result
 
         // No draws
         protected override GameResult GetResult()
         {
-            if (WhiteWon) return GameResult.Win1;
-            if (BlackWon) return GameResult.Win2;
+            // Only check for White win if it's Black's turn
+            if (BlackToMove && WhiteWon) return GameResult.Win1;
+
+            // Only check for Black win if it's White's turn
+            if (WhiteToMove && BlackWon) return GameResult.Win2;
+
             return GameResult.InProgress;
         }
 
@@ -96,6 +100,10 @@ namespace Mozog.Search.Examples.Games.Hexapawn
         private bool BlackWon
             => board.Squares.Where(s => s.Row1 == 1).Any(s => s.Piece == Hexapawn.Black)
                || WhiteToMove && GetLegalMoves().None();
+
+        #endregion // Result
+
+        #region Evaluate
 
         protected override double? EvaluateTerminal()
         {

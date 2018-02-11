@@ -4,7 +4,7 @@ using Mozog.Search.Adversarial;
 
 namespace Mozog.Search.Examples.Games.Hexapawn
 {
-    public class HexapawnMove : IAction
+    public class HexapawnMove : IChessboardMove
     {
         // "b2" or "axb2"
         public static IAction Parse(string moveStr, HexapawnState currentState)
@@ -24,6 +24,10 @@ namespace Mozog.Search.Examples.Games.Hexapawn
             : this(new Square(fromCol, fromRow), new Square(toCol, toRow))
         {
         }
+
+        public char Piece => throw new NotImplementedException();
+
+        public string Empty => Hexapawn.Empty;
 
         public Square From { get; }
 
