@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Mozog.Search.Adversarial;
+using Mozog.Search.Examples.Games.Hexapawn;
 using Mozog.Utils;
 
 namespace Mozog.Search.Examples.Games.PawnChess
@@ -48,28 +50,68 @@ namespace Mozog.Search.Examples.Games.PawnChess
 
         public override IEnumerable<IAction> GetLegalMoves()
         {
-            var pawnMoves = GetLegalPawnMoves();
-            var kingMoves = GetLegalKingMoves();
-            var allMoves = pawnMoves.Concat(kingMoves);
-            var legalMoves = allMoves.Where(m => !KingChecked(PlayerToMove, board.MakeMove((IChessboardMove)m)));
-            return legalMoves;
+            var pawnMoves = board.FindPieces(PlayersPawn(PlayerToMove)).SelectMany(GetPawnMoves);
+            var kingMoves = GetKingMoves(board.FindPiece(PlayersKing(PlayerToMove)).Value);
+            return pawnMoves.Concat(kingMoves);
         }
 
-        private IEnumerable<IAction> GetLegalPawnMoves()
-            => board.FindPieces(PlayersPawn(PlayerToMove)).SelectMany(GetLegalPawnMoves);
-
-        // TODO
-        private IEnumerable<IAction> GetLegalPawnMoves(Square pawn)
+        private IEnumerable<IAction> GetPawnMoves(Square pawn)
         {
-            return null;
+            int newRow = PlayerToMove == PawnChess.White ? pawn.Row0 + 1 : pawn.Row0 - 1;
+
+            // Move forward
+            var to = new Square(row0: newRow, col0: pawn.Col0);
+            if (CanMoveToSquare(pawn, to))
+            {
+                var move = PawnChessMove.Pawn(pawn, to, isCapture: false);
+                if (!KingChecked(PlayerToMove, board.MakeMove(move)))
+                    yield return move;
+            }
+
+            // Capture left
+            to = new Square(row0: newRow, col0: pawn.Col0 - 1);
+            if (CanMoveToSquare(pawn, to) && PlayerFromSquare(board[to]) == Opponent)
+            {
+                var move = PawnChessMove.Pawn(pawn, to, isCapture: true);
+                if (!KingChecked(PlayerToMove, board.MakeMove(move)))
+                    yield return move;
+            }
+
+            // Capture right
+            to = new Square(row0: newRow, col0: pawn.Col0 + 1);
+            if (CanMoveToSquare(pawn, to) && PlayerFromSquare(board[to]) == Opponent)
+            {
+                var move = PawnChessMove.Pawn(pawn, to, isCapture: true);
+                if (!KingChecked(PlayerToMove, board.MakeMove(move)))
+                    yield return move;
+            }
         }
 
-        // TODO
-        private IEnumerable<IAction> GetLegalKingMoves()
+        private IEnumerable<IAction> GetKingMoves(Square king)
         {
-            var kingSquare = board.FindPiece(PlayersKing(PlayerToMove)).Value;
-            return null;
+            var toSquares = new List<Square>
+            {
+                new Square(row0: king.Row0 + 1, col0: king.Col0 - 1), // Up & left
+                new Square(row0: king.Row0 + 1, col0: king.Col0    ), // Up
+                new Square(row0: king.Row0 + 1, col0: king.Col0 + 1), // Up & right
+                new Square(row0: king.Row0,     col0: king.Col0 + 1), // Right
+                new Square(row0: king.Row0 - 1, col0: king.Col0 + 1), // Down & right
+                new Square(row0: king.Row0 - 1, col0: king.Col0    ), // Down
+                new Square(row0: king.Row0 - 1, col0: king.Col0 - 1), // Down & left
+                new Square(row0: king.Row0,     col0: king.Col0 - 1)  // Left
+            };
+
+            return toSquares.Where(s => CanMoveToSquare(king, s))
+                .Select(s => PawnChessMove.King(king, s, isCapture: PlayerFromSquare(board[s]) == Opponent))
+                .Where(IsLegalMove);
         }
+
+        // Target square is within board and doesn't contain own piece
+        private bool CanMoveToSquare(Square from, Square to)
+            => board.IsWithinBoard(row: to.Row0, col: to.Col0) && PlayerFromSquare(board[to.Row0, to.Col0]) != PlayerFromSquare(from.Piece);
+
+        private bool IsLegalMove(PawnChessMove move)
+            => !KingChecked(PlayerToMove, board.MakeMove(move));
 
         public override IState MakeMove(IAction move)
             => new PawnChessState(board.MakeMove((IChessboardMove)move), Opponent, movesPlayed + 1, game);
@@ -131,11 +173,29 @@ namespace Mozog.Search.Examples.Games.PawnChess
             }
         }
 
+        // Colour to piece
         private static string PlayersKing(string player)
             => player == PawnChess.White ? PawnChess.WhiteKing : PawnChess.BlackKing;
 
+        // Colour to piece
         private static string PlayersPawn(string player)
             => player == PawnChess.White ? PawnChess.WhitePawn : PawnChess.BlackPawn;
+
+        // Piece to colour
+        private static string PlayerFromSquare(string piece)
+        {
+            switch (piece)
+            {
+                case PawnChess.WhiteKing:
+                case PawnChess.WhitePawn:
+                    return PawnChess.White;
+                case PawnChess.BlackKing:
+                case PawnChess.BlackPawn:
+                    return PawnChess.Black;
+                default:
+                    return null;
+            }
+        }
 
         #endregion // Result
 

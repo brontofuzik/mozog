@@ -16,6 +16,12 @@ namespace Mozog.Search.Examples.Games.PawnChess
             return move;
         }
 
+        public static PawnChessMove King(Square from, Square to, bool isCapture)
+            => new PawnChessMove(PawnChess.King, from, to, isCapture);
+
+        public static PawnChessMove Pawn(Square from, Square to, bool isCapture)
+            => new PawnChessMove(PawnChess.Pawn, from, to, isCapture);
+
         public PawnChessMove(char piece, Square from, Square to, bool isCapture)
         {
             Piece = piece;

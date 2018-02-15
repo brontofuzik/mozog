@@ -40,6 +40,8 @@ namespace Mozog.Search.Examples.Games
 
         public string this[int row, int col] => board[row, col];
 
+        public string this[Square square] => board[square.Row0, square.Col0];
+
         public Board Initialize(Func<Square, string> initializer)
         {
             board.Initialize2D((r, c) => initializer(new Square(col0: c, row0: r)));
