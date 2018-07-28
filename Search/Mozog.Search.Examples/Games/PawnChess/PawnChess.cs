@@ -7,7 +7,7 @@ namespace Mozog.Search.Examples.Games.PawnChess
     public class PawnChess : Game
     {
         // Example
-        public static void Play_PawnChess(bool iterativeDeepening = true)
+        public static void Play(bool iterativeDeepening = true)
         {
             var pawnChess = new PawnChess();
             var engine = new GameEngine(pawnChess, humanBegins: true, iterativeDeepening: iterativeDeepening, prune: true, tt: true);
@@ -15,7 +15,7 @@ namespace Mozog.Search.Examples.Games.PawnChess
         }
 
         // Example
-        public static void Analyze_PawnChess(bool iterativeDeepening = true)
+        public static void Analyze(bool iterativeDeepening = true)
         {
             var pawnChess = new PawnChess();
             var engine = new GameEngine(pawnChess, humanBegins: true, iterativeDeepening: iterativeDeepening, prune: true, tt: true);

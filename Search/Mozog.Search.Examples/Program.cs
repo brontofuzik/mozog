@@ -1,5 +1,6 @@
 ﻿using System;
 using Mozog.Search.Examples.Games.Hexapawn;
+using Mozog.Search.Examples.Games.PawnChess;
 using Mozog.Search.Examples.Games.TicTacToe;
 using Mozog.Utils.Math;
 
@@ -12,7 +13,8 @@ namespace Mozog.Search.Examples
             //StaticRandom.Seed = 42;
 
             //PlayTicTacToe();
-            PlayHexapawn();
+            //PlayHexapawn();
+            PlayPawnChess();
         }
 
         private static void PlayTicTacToe()
@@ -33,6 +35,11 @@ namespace Mozog.Search.Examples
 
             // 5 cols
             //Hexapawn.Play_Minimax(cols: 5, rows: 5); // White wins
+        }
+
+        private static void PlayPawnChess()
+        {
+            PawnChess.Play(iterativeDeepening: true);
         }
     }
 }

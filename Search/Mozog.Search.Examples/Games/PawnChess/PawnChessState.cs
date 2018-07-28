@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using Mozog.Search.Adversarial;
-using Mozog.Search.Examples.Games.Hexapawn;
 using Mozog.Utils;
 
 namespace Mozog.Search.Examples.Games.PawnChess
@@ -14,7 +11,7 @@ namespace Mozog.Search.Examples.Games.PawnChess
     {
         private readonly Board board;
         private readonly int movesPlayed;
-        private /*readonly*/ PawnChess game; // TODO Make readonly
+        private readonly PawnChess game;
 
         public PawnChessState(Board board, string playerToMove, int movesPlayed, PawnChess game)
             : base(playerToMove)

@@ -11,7 +11,7 @@ namespace Mozog.Search.Examples.Games.Hexapawn
     {
         private readonly Board board;
         private readonly int movesPlayed;
-        private /*readonly*/ Hexapawn game; // TODO Make readonly
+        private /*readonly*/ Hexapawn game;
 
         public HexapawnState(Board board, string playerToMove, int movesPlayed, Hexapawn game)
             : base(playerToMove)
